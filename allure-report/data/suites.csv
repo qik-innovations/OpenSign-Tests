@@ -1,0 +1,6 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"failed","Thu May 16 17:04:03 IST 2024","Thu May 16 17:04:18 IST 2024","14908","chromium","CreateNewUser.spec.js","","","","Verify that user able to sign up with free subscription plan",""
+"passed","Thu May 16 17:04:19 IST 2024","Thu May 16 17:04:25 IST 2024","5688","chromium","CreateNewUser.spec.js","","","","Verify that user unable to signup using an already-registered email address.",""
+"failed","Thu May 16 17:04:03 IST 2024","Thu May 16 17:04:18 IST 2024","14933","chromium","CreateNewUser.spec.js","","","","Verify that user able to sign up with Paid subscription plan",""
+"broken","Thu May 16 17:04:25 IST 2024","Thu May 16 17:05:25 IST 2024","60172","chromium","SignYourSelf.spec.js","","","","Verify that user can perform the sign yourself",""
+"failed","Thu May 16 17:04:19 IST 2024","Thu May 16 17:04:30 IST 2024","11128","chromium","SignYourSelf.spec.js","","","","Verify that new user can perform the sign yourself",""
