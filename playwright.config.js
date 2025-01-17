@@ -1,7 +1,7 @@
 // @ts-check
 const { defineConfig, devices } = require('@playwright/test');
 module.exports = defineConfig({
-  reporter: [['html', { outputFolder: 'playwright-report' }]],
+  reporter: [["line"], ["allure-playwright"]],
 });
 /**
  * Read environment variables from file.
