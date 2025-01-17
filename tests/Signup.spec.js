@@ -106,6 +106,6 @@ test('Verify that users cannot sign up with an already registered email address.
     expect(dialog.message()).toBe('User already exists with this username!');
     await dialog.accept();
   });
-/wait
+//wait
   await page.locator(locators.registerButton).click();
 });
