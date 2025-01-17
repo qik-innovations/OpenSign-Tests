@@ -46,7 +46,7 @@ jobs:
           name: playwright-report
           path: playwright-report/
 
-  test:
+  publish:
     permissions:
       contents: write
     name: Generate Allure Report
