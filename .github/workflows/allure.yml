@@ -10,6 +10,8 @@ on:
 
 jobs:
   allure:
+    permissions:
+      contents: write
     name: Generate Allure Report
     runs-on: ubuntu-latest
     steps:
