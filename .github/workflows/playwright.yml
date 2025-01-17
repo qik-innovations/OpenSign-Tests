@@ -46,14 +46,6 @@ jobs:
           name: playwright-report
           path: playwright-report/
 
-  publish:
-    permissions:
-      contents: write
-    name: Generate Allure Report
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
       - name: Get Allure history
         uses: actions/checkout@v2
         if: always()
