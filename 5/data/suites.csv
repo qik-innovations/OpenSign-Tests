@@ -1,6 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","60172","Verify that user can perform the sign yourself","chromium","Thu May 16 11:34:25 GMT 2024","broken","Thu May 16 11:35:25 GMT 2024","","SignYourSelf.spec.js","",""
-"","14933","Verify that user able to sign up with Paid subscription plan","chromium","Thu May 16 11:34:03 GMT 2024","failed","Thu May 16 11:34:18 GMT 2024","","CreateNewUser.spec.js","",""
-"","5688","Verify that user unable to signup using an already-registered email address.","chromium","Thu May 16 11:34:19 GMT 2024","passed","Thu May 16 11:34:25 GMT 2024","","CreateNewUser.spec.js","",""
-"","14908","Verify that user able to sign up with free subscription plan","chromium","Thu May 16 11:34:03 GMT 2024","failed","Thu May 16 11:34:18 GMT 2024","","CreateNewUser.spec.js","",""
-"","11128","Verify that new user can perform the sign yourself","chromium","Thu May 16 11:34:19 GMT 2024","failed","Thu May 16 11:34:30 GMT 2024","","SignYourSelf.spec.js","",""
