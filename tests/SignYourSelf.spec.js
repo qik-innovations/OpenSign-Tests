@@ -202,8 +202,7 @@ await page.locator("//div[@class='flex items-center mr-1']//child::span[text()='
   //await page.getByRole('button', { name: 'Download' }).first().click();
  // const page1 = await page1Promise;
   await page.getByPlaceholder('Add the email addresses').fill('pravin@nxglabs.in');
-  await page.locator("//i[@class='fa fa-plus']").first().click();
-  await page.locator("//button[text()='Send']").click();*/
 
-});
+
+});*/
   
