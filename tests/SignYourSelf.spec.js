@@ -125,7 +125,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   await page.waitForTimeout(5000);
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled();
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForTimeout(10000);
+  await page.waitForTimeout(5000);
 //  await expect(page.locator('div', { hasText: /^name$/ }).nth(3)).toBeVisible();
 await page.locator('//span[normalize-space()="signature"]').hover();
 await page.mouse.down();
@@ -133,13 +133,9 @@ await page.waitForTimeout(1000);
 await page.mouse.move(600, 300)
 //page.locator("//*[@id=\"container\"]/div[2]/div").click();
 await page.mouse.up();
-
-// Wait for the drop action to complete or any post-action delay
-await page.waitForTimeout(10000);
-
 // Optionally save changes
-await page.locator("//button[text()='Save']").click();
-/*
+await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
+
   // Wait for the element with text 'name' to appear
 await page.waitForSelector("//span[text()='name']");
 test.setTimeout(60 * 1000);
