@@ -126,84 +126,89 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled();
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForTimeout(5000);
-//  await expect(page.locator('div', { hasText: /^name$/ }).nth(3)).toBeVisible();
+await expect(page.locator('//span[normalize-space()="signature"]')).toBeVisible();
 await page.locator('//span[normalize-space()="signature"]').hover();
 await page.mouse.down();
 await page.waitForTimeout(1000);
 await page.mouse.move(600, 300)
-//page.locator("//*[@id=\"container\"]/div[2]/div").click();
 await page.mouse.up();
 // Optionally save changes
 await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
 
-  // Wait for the element with text 'name' to appear
-await page.waitForSelector("//span[text()='name']");
+await page.locator('//span[normalize-space()="stamp"]').hover();
+await page.mouse.down();
+await page.waitForTimeout(1000);
+await page.mouse.move(600, 360)
+await page.mouse.up();
+const fileChooserPromise1 = page.waitForEvent('filechooser');
+await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
+const fileChooser1 = await fileChooserPromise1;
+await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
+await page.locator("//button[normalize-space()='Save']").click();
+await page.locator('//span[normalize-space()="initials"]').hover();
+await page.mouse.down();
+await page.waitForTimeout(1000);
+await page.mouse.move(600, 420)
+await page.mouse.up();
+await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
+await page.locator('//span[normalize-space()="name"]').hover();
+await page.mouse.down();
+await page.waitForTimeout(1000);
+await page.mouse.move(600, 470)
+await page.mouse.up();
+await page.locator('//span[normalize-space()="job title"]').hover();
+await page.mouse.down();
+await page.waitForTimeout(1000);
+await page.mouse.move(600, 480)
+await page.mouse.up();
+await page.locator('//span[normalize-space()="company"]').hover();
+await page.mouse.down();
+await page.waitForTimeout(1000);
+await page.mouse.move(600, 520)
+await page.mouse.up();
+
+await page.locator('//span[normalize-space()="date"]').hover();
+await page.mouse.down();
+await page.waitForTimeout(1000);
+await page.mouse.move(600, 550)
+await page.mouse.up();
+/*
+await page.locator('//span[normalize-space()="text"]').hover();
+await page.mouse.down();
+await page.waitForTimeout(1000);
+await page.mouse.move(600, 590)//textarea[@placeholder='text']
+await page.mouse.up();
+await page.locator('//textarea[@placeholder=\'text\']').fill('20 wood street sanfransisco');
+*/
+await page.locator('//span[normalize-space()="checkbox"]').hover();
+await page.mouse.down();
+await page.waitForTimeout(1000);
+await page.mouse.move(600, 640)
+await page.mouse.up();
+page.locator("//button[@type='submit' and text()='Save']").click();
 test.setTimeout(60 * 1000);
-await page.locator("//span[text()='name']").dragTo(page.locator('#container > .react-pdf__Document'));
-// Wait for the element with text 'job title' to appear
-await page.waitForSelector("//span[text()='job title']");
-await page.locator("//span[text()='job title']").dragTo(page.locator('#container > .react-pdf__Document'));
-/* await page.waitForSelector("//div[@class='flex items-center mr-1']//child::span[text()='date']",{ timeout: 90000 });
- await page.locator("//div[@class='flex items-center mr-1']//child::span[text()='date']").dragTo(page.locator('#container > .react-pdf__Document'));
- await page.waitForSelector("//span[text()='text']",{ timeout: 90000 });*/
- // await page.locator("//span[text()='text']").dragTo(page.locator('#container > .react-pdf__Document'));
-//  await page.locator("//*[@placeholder ='Enter text' and @class='labelTextArea labelWidthDesktop']").fill("Sunil Patil");
-  /*await page.locator("//div[@class='signLayoutContainer1']").click();
-   await page.waitForSelector("//div[@class='flex items-center mr-1']//child::span[text()='signature']", { timeout: 90000 });
-   await page.locator("//div[@class='flex items-center mr-1']//child::span[text()='signature']").hover();
-   await page.mouse.down();
-   await page.locator("page.locator('div.react-pdf__Page canvas').nth(0)']").hover();
-   await page.mouse.up();
-   await page.waitForSelector('.signatureCanvas', { timeout: 5000 });
-   await page.locator(".signatureCanvas").dblclick();
-   await page.waitForSelector("//button[normalize-space()='Save']");
-   await page.locator("//button[normalize-space()='Save']").click();
-   await page.locator("//div[@class='signLayoutContainer1']").click();
-await page.locator("//body//div[@id='root']//div[@class='showPages']//div//div//div//div[2]//div[1]//div[1]//canvas[1]").click();
-await page.locator("//div[@class='flex items-center mr-1']//child::span[text()='initials']").hover();
- await page.mouse.down();
- await page.locator("page.locator('div.react-pdf__Page canvas').nth(0)").hover();
- await page.mouse.up();
-  await page.locator("//canvas[@class='intialSignatureCanvas']").dblclick();
-  await page.waitForSelector("//button[normalize-space()='Save']");
-  await page.locator("//button[normalize-space()='Save']").click();
-  await page.locator("//div[@class='signLayoutContainer1']").click();
-  await page.waitForSelector("//div[@class='flex items-center mr-1']//child::span[text()='company']");
-   await page.locator("//span[text()='company']").hover();
-   await page.mouse.down();
-   await page.locator("div[id='container'] canvas[class='react-pdf__Page__canvas']").hover();
-   await page.mouse.up();
-   await page.locator("//div[@class='signLayoutContainer1']").click();
-   await page.waitForSelector("//span[text()='email']");
-   await page.locator("//span[text()='email']").hover();
-   await page.mouse.down();
-   await page.locator("div[id='container'] canvas[class='react-pdf__Page__canvas']").hover();
-   await page.mouse.up();
-   await page.locator("//div[@class='signLayoutContainer1']").click();
-  await page.waitForSelector("//span[text()='checkbox']",{ timeout: 5000 });
-  await page.locator("//span[text()='checkbox']").dragTo(page.locator('canvas.react-pdf__Page__canvas'));
-  await page.locator("//button[@type='submit']").click();
-  await page.locator("//div[3]//div[1]//div[1]//canvas[1]").click();
-  await page.locator("//div[@class='signLayoutContainer1']").click();
-  await page.waitForSelector("//span[text()='image']");
-   await page.locator("//span[text()='image']").hover();
-   await page.mouse.down();
-   await page.locator("div[id='container'] canvas[class='react-pdf__Page__canvas']").hover();
-   await page.mouse.up();
-   //await page.locator("//div[@class='uploadImg'and text()='Upload']").click();
-   await page.locator("xpath=//input[@type='file']").setInputFiles(path.join(__dirname, '/TestData/Images/image002.png'));
-  await page.locator("//button[text()='Save']").click();
-    //await page.getByText('Next').click();
-    //await page.getByLabel('Close').click();
-    await page.getByRole('button', { name: 'Finish' }).click();
-    await page.getByText('Successfully signed!').click();
-    //await page.getByRole('button', { name: 'Print' }).first().click();
- // const page1Promise = page.waitForEvent('popup');
-  //await page.getByRole('button', { name: 'Download' }).first().click();
- // const page1 = await page1Promise;
-  await page.getByPlaceholder('Add the email addresses').fill('pravin@nxglabs.in');
-  await page.locator("//i[@class='fa fa-plus']").first().click();
-  await page.locator("//button[text()='Send']").click();*/
+await page.locator('//span[normalize-space()="image"]').hover();
+await page.mouse.down();
+await page.waitForTimeout(1000);
+await page.mouse.move(600, 550)
+await page.mouse.up();
+const fileChooserPromise2 = page.waitForEvent('filechooser');
+test.setTimeout(90 * 1000);
+await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
+const fileChooser2 = await fileChooserPromise2;
+await fileChooser2.setFiles(path.join(__dirname, '/TestData/Images/DesignerImage.png'));
+test.setTimeout(120 * 1000);
+await page.locator("//button[normalize-space()='Save']").click();
+await page.locator('//span[normalize-space()="email"]').hover();
+await page.mouse.down();
+await page.waitForTimeout(1000);
+await page.mouse.move(600, 580)
+await page.mouse.up();
+await page.locator("//button[normalize-space()='Finish']").click();
+await page.getByText('Successfully signed!').click();
+  await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
+  await page.locator("//i[@class='fa-light fa-plus']").first().click();
+  await page.locator("//button[normalize-space()='Send']").click();
 
 });
   
