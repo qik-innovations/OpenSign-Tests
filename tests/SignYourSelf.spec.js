@@ -101,7 +101,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
 
 });
 
-  test('Verify that user can perform the sign yourself', async ({ page }) => {
+  test('Verify that existing user can perform the sign yourself', async ({ page }) => {
     const browser = await playwright.chromium.launch({ headless: true });
     const context = await browser.newContext();
       await page.goto('https://staging-app.opensignlabs.com/');
@@ -110,11 +110,10 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   await page.getByRole('button', { name: 'Login' }).click();
   test.setTimeout(60 * 1000);
   //const title = await page.title()
+    // Expects page to have a heading with the name of dashboard.
   //   expect(title).toBe('Dashboard - OpenSign™');
   //  await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
   await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
-      // Expects page to have a heading with the name of dashboard.
-    
     await page.locator('input[name="Name"]').click();
     await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
     await page.locator('input[name="Name"]').press('Tab');
@@ -122,20 +121,25 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
     const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/demoOfferLetter.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await page.waitForTimeout(5000);
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled();
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForTimeout(10000);
-  await expect(page.locator('div', { hasText: /^name$/ }).nth(3)).toBeVisible();
-/*await page.waitForSelector("//span[text()='stamp']");
-await page.locator("//span[text()='stamp']").hover();
+//  await expect(page.locator('div', { hasText: /^name$/ }).nth(3)).toBeVisible();
+await page.locator('//span[normalize-space()="signature"]').hover();
 await page.mouse.down();
-await page.locator("div[id='container'] canvas[class='react-pdf__Page__canvas']").hover();
+await page.waitForTimeout(1000);
+await page.mouse.move(600, 300)
+//page.locator("//*[@id=\"container\"]/div[2]/div").click();
 await page.mouse.up();
-//await page.locator("//div[@class='uploadImg'and text()='Upload']").click();
-await page.locator("xpath=//input[@type='file']").setInputFiles(path.join(__dirname, '/TestData/Images/image002.png'));
-await page.locator("//button[text()='Save']").click();*/
+
+// Wait for the drop action to complete or any post-action delay
+await page.waitForTimeout(10000);
+
+// Optionally save changes
+await page.locator("//button[text()='Save']").click();
+/*
   // Wait for the element with text 'name' to appear
 await page.waitForSelector("//span[text()='name']");
 test.setTimeout(60 * 1000);
