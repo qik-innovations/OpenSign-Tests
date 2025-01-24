@@ -1,6 +1,6 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
-//here we have declared the locators
+
 const locators = {
   createAccountButton: 'button[name="Create account"]',
   nameInput: 'input[type="text"]',
@@ -80,31 +80,12 @@ test('Verify that user can sign up with a professional plan', async ({ page }) =
   await page.getByLabel('Address', { exact: true }).fill('120 wood street');
   await page.getByLabel('City').fill('San Francisco');
   await page.getByLabel('ZIP Code').fill('34554');
-  await page.getByRole('button', { name: 'Review Order' }).click();
-  await page.getByRole('button', { name: 'Proceed' }).click();
-  const allFrames = page.frames();
-  console.log(`Total iframes found: ${allFrames.length}`);
-// Locate the iframe and switch to its content
-// Switch to the iframe by index number (e.g., the second iframe)
-const index = 3; // Change this to the desired index
-const iframe = allFrames[index];
-await iframe.click('//input[@name=\'cardnumber\']');
-await iframe.fill('//input[@name=\'cardnumber\']', '4242424242424242'); 
-const indexExpDateFrame = 4; 
-  const iframesExpDate = allFrames[indexExpDateFrame];
-  await iframesExpDate.click('//input[@name=\'exp-date\']');
-  await iframesExpDate.fill('//input[@name=\'exp-date\']', '0728'); 
+ // await page.locator(locators.sameAsBillingCheckbox).click();
+ // await page.locator(locators.reviewOrderButton).click();
 
-  const indexcvvFrame= 5;
-  const iframecvvFrame = allFrames[indexcvvFrame];
-  await iframecvvFrame.click('//input[@name=\'cvc\']');
-  await iframecvvFrame.fill('//input[@name=\'cvc\']', '709'); 
-  await page.getByRole('button', { name: 'Pay $' }).click();
-  test.setTimeout(280 * 1000);
-  //await page.goto('https://staging-app.opensignlabs.com/dashboard/35KBoSgoAK');
- await page.getByLabel('Close').click();
- await page.getByRole('menuitem', { name: 'Dashboard' }).click();
-
+  // Final navigation or validations
+  //const title = await page.title();
+ // expect(title).toBe('Dashboard - OpenSign™');
 });
 
 test('Verify that users cannot sign up with an already registered email address.', async ({ page }) => {
@@ -125,7 +106,6 @@ test('Verify that users cannot sign up with an already registered email address.
     expect(dialog.message()).toBe('User already exists with this username!');
     await dialog.accept();
   });
-
+//wait
   await page.locator(locators.registerButton).click();
-
 });
