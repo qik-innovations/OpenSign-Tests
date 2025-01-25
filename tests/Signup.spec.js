@@ -51,9 +51,10 @@ test('Verify that user can sign up with a free subscription', async ({ page }) =
   await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible();
   await page.locator(locators.freePlanButton).click();
   await page.getByLabel('Close').click();
-
+  await page.locator('//div[@id=\'profile-menu\']//parent::button[text()=\'Upgrade now\']').isVisible();
   const title = await page.title();
   expect(title).toBe('Dashboard - OpenSign™');
+  
 });
 
 test('Verify that user can sign up with a professional plan', async ({ page }) => {
@@ -101,9 +102,9 @@ const indexExpDateFrame = 4;
   await iframecvvFrame.fill('//input[@name=\'cvc\']', '709'); 
   await page.getByRole('button', { name: 'Pay $' }).click();
   test.setTimeout(280 * 1000);
-  //await page.goto('https://staging-app.opensignlabs.com/dashboard/35KBoSgoAK');
+
  await page.getByLabel('Close').click();
- await page.getByRole('menuitem', { name: 'Dashboard' }).click();
+ await page.locator('//div[@id=\'profile-menu\']//parent::div[text()=\'PRO\']').isVisible();
 
 });
 
