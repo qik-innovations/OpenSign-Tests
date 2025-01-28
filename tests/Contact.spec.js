@@ -1,5 +1,8 @@
+
+const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const path = require('path');
+const CommonSteps = require('./utils/CommonSteps');
 
 const locators = {
   createAccountButton: 'button[name="Create account"]',
@@ -32,11 +35,10 @@ const fillSignupForm = async (page, { name, email, phone, company, jobTitle, pas
 };
 
 test('Verify that user can add a new contact', async ({ page }) => {
-  await page.goto('https://staging-app.opensignlabs.com/');
-
-  await page.locator('#email').fill('pravin@nxglabs.in');
-  await page.locator('#password').fill('Nxglabs@123');
-  await page.getByRole('button', { name: 'Login' }).click();
+  const commonSteps = new CommonSteps(page);
+  // Step 1: Navigate to Base URL and log in
+  await commonSteps.navigateToBaseUrl();
+  await commonSteps.login();
 
   test.setTimeout(60 * 1000);
   await page.getByRole('button', { name: ' Reports' }).click();
@@ -50,6 +52,7 @@ test('Verify that user can add a new contact', async ({ page }) => {
   }
 
   await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
+  await page.waitForTimeout(2000);
   await page.getByLabel('Name *').fill('Pravin Ssss');
   await page.getByLabel('Email *').fill('pravin+8878@nxglabs.in');
   await page.getByPlaceholder('optional').fill('0924820934');
@@ -64,11 +67,11 @@ test('Verify that user can add a new contact', async ({ page }) => {
 });
 
 test('Verify that user cannot add a new contact with existing email address', async ({ page }) => {
-  await page.goto('https://staging-app.opensignlabs.com/');
+  const commonSteps = new CommonSteps(page);
 
-  await page.locator('#email').fill('pravin@nxglabs.in');
-  await page.locator('#password').fill('Nxglabs@123');
-  await page.getByRole('button', { name: 'Login' }).click();
+  // Step 1: Navigate to Base URL and log in
+  await commonSteps.navigateToBaseUrl();
+  await commonSteps.login();
 
   test.setTimeout(60 * 1000);
   await page.getByRole('button', { name: ' Reports' }).click();
@@ -94,15 +97,16 @@ test('Verify that user cannot add a new contact with existing email address', as
     }
     await dialog.accept();
   });
+  await page.getByRole('row', { name: 'Pravin Ssss pravin+8878@' }).getByRole('button').click();
+  await page.getByRole('button', { name: 'Yes' }).click();
 });
 
 test('Verify that user can import contacts from an Excel file', async ({ page }) => {
-  await page.goto('https://staging-app.opensignlabs.com/');
+  const commonSteps = new CommonSteps(page);
 
-  // Login
-  await page.locator(locators.emailInput).fill('pravin@nxglabs.in');
-  await page.locator(locators.passwordInput).fill('Nxglabs@123');
-  await page.getByRole('button', { name: 'Login' }).click();
+  // Step 1: Navigate to Base URL and log in
+  await commonSteps.navigateToBaseUrl();
+  await commonSteps.login();
   test.setTimeout(60 * 1000);
 
   // Navigate to Contactbook

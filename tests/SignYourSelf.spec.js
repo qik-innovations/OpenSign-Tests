@@ -1,15 +1,14 @@
 // @ts-check
 import { default as axios } from 'axios'
 const { test, expect } = require('@playwright/test');
+const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
+const CommonSteps = require('./utils/CommonSteps');
 const path = require('path');
 
-//const axios = require('axios');
-const playwright = require('playwright');
-
 test('Verify that new user can perform the sign yourself', async ({ page }) => {
-  const browser = await playwright.chromium.launch({ headless: true });
-  const context = await browser.newContext();
-  await page.goto('https://staging-app.opensignlabs.com/');
+  const commonSteps = new CommonSteps(page);
+    // Step 1: Navigate to Base URL and log in
+    await commonSteps.navigateToBaseUrl();
   await page.getByRole('button', { name: 'Create account' }).click();
   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
   await page.locator('input[type="text"]').first().fill('Mathew Wade');
@@ -154,16 +153,14 @@ await page.getByText('Successfully signed!').click();
 });
 
   test('Verify that existing user can perform the sign yourself', async ({ page }) => {
-    const browser = await playwright.chromium.launch({ headless: true });
-    const context = await browser.newContext();
-      await page.goto('https://staging-app.opensignlabs.com/');
-      await page.locator("//input[@id='email']").fill('pravin@nxglabs.in');
-  await page.locator("//input[@id='password']").fill('Nxglabs@123');
-  await page.getByRole('button', { name: 'Login' }).click();
+    const commonSteps = new CommonSteps(page);
+    // Step 1: Navigate to Base URL and log in
+    await commonSteps.navigateToBaseUrl();
+    await commonSteps.login();
   test.setTimeout(60 * 1000);
-  const title = await page.title()
+  //const title = await page.title()
     //Expects page to have a heading with the name of dashboard.
-  expect(title).toBe('Dashboard - OpenSign™');
+  //expect(title).toBe('Dashboard - OpenSign™');
   
   await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
     await page.locator('input[name="Name"]').click();

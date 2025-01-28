@@ -1,5 +1,8 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
+const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
+const CommonSteps = require('./utils/CommonSteps');
+
 //here we have declared the locators
 const locators = {
   createAccountButton: 'button[name="Create account"]',
@@ -33,7 +36,9 @@ const fillSignupForm = async (page, { name, email, phone, company, jobTitle, pas
 };
 
 test('Verify that user can sign up with a free subscription', async ({ page }) => {
-  await page.goto('https://staging-app.opensignlabs.com/');
+  const commonSteps = new CommonSteps(page);
+  // Step 1: Navigate to Base URL and log in
+  await commonSteps.navigateToBaseUrl();
   await page.getByRole('button', { name: 'Create account' }).click();
   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
 
@@ -58,7 +63,9 @@ test('Verify that user can sign up with a free subscription', async ({ page }) =
 });
 
 test('Verify that user can sign up with a professional plan', async ({ page }) => {
-  await page.goto('https://staging-app.opensignlabs.com/');
+  const commonSteps = new CommonSteps(page);
+  // Step 1: Navigate to Base URL and log in
+  await commonSteps.navigateToBaseUrl();
   await page.getByRole('button', { name: 'Create account' }).click();
   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
 
@@ -109,7 +116,10 @@ const indexExpDateFrame = 4;
 });
 
 test('Verify that users cannot sign up with an already registered email address.', async ({ page }) => {
-  await page.goto('https://staging-app.opensignlabs.com/');
+  const commonSteps = new CommonSteps(page);
+  // Step 1: Navigate to Base URL and log in
+  await commonSteps.navigateToBaseUrl();
+ 
   await page.getByRole('button', { name: 'Create account' }).click();
   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
 
