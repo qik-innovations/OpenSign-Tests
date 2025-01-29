@@ -82,7 +82,7 @@ test('Verify that user cannot add a new contact with existing email address', as
   await page.getByLabel('Email *').fill('pravin+8878@nxglabs.in');
   await page.getByPlaceholder('optional').fill('0924820934');
   await page.getByRole('button', { name: 'Submit' }).click();
-
+  await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
   await page.getByLabel('Name *').fill('ANdrews wade');
   await page.getByLabel('Email *').fill('pravin+8878@nxglabs.in');
   await page.getByPlaceholder('optional').fill('0924820934');
@@ -97,6 +97,8 @@ test('Verify that user cannot add a new contact with existing email address', as
     }
     await dialog.accept();
   });
+  await page.locator('//button[@class=\'op-btn op-btn-sm op-btn-circle op-btn-ghost text-base-content absolute right-2 top-2\' and text()=\'✕\']').click()
+  
   await page.getByRole('row', { name: 'Pravin Ssss pravin+8878@' }).getByRole('button').click();
   await page.getByRole('button', { name: 'Yes' }).click();
 });
