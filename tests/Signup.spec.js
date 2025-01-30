@@ -35,7 +35,7 @@ const fillSignupForm = async (page, { name, email, phone, company, jobTitle, pas
   await page.locator(locators.termsCheckbox).click();
 };
 
-test('Verify that user can sign up with a free subscription', async ({ page }) => {
+test('Verify that user can sign up with a free subscription plan.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
@@ -43,13 +43,15 @@ test('Verify that user can sign up with a free subscription', async ({ page }) =
   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
 
   const email = `pravin+${Math.random()}@nxglabs.in`;
+  loginCredentials.FreeplanUsername = email;
+  loginCredentials.FreePlanpassword = 'Nxglabs@123';
   await fillSignupForm(page, {
     name: 'Mathew Wade',
     email,
     phone: '8238988998',
     company: 'qikAi.com',
     jobTitle: 'HrExecative',
-    password: 'Nxglabs@123',
+    password: loginCredentials.FreePlanpassword,
   });
 
   await page.locator(locators.registerButton).click();
