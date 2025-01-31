@@ -3,6 +3,11 @@ const { defineConfig, devices } = require('@playwright/test');
 module.exports = defineConfig({
   reporter: "allure-playwright",
 });
+
+export default defineConfig({
+  globalSetup: './GlobalVar/global-setup.js',
+  
+});
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv

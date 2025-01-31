@@ -41,9 +41,7 @@ test('Verify that user can add a new contact', async ({ page }) => {
   await commonSteps.login();
 
   test.setTimeout(60 * 1000);
-  await page.getByRole('button', { name: ' Reports' }).click();
   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
-
   const title = await page.title();
   if (title === 'Contactbook - OpenSign™') {
     console.log('Page title is correct: Contactbook - OpenSign™');
@@ -74,9 +72,7 @@ test('Verify that user cannot add a new contact with existing email address', as
   await commonSteps.login();
 
   test.setTimeout(60 * 1000);
-  await page.getByRole('button', { name: ' Reports' }).click();
   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
-  
   await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
   await page.getByLabel('Name *').fill('Pravin Ssss');
   await page.getByLabel('Email *').fill('pravin+8878@nxglabs.in');
@@ -112,9 +108,7 @@ test('Verify that user can import contacts from an Excel file', async ({ page })
   test.setTimeout(60 * 1000);
 
   // Navigate to Contactbook
-  await page.getByRole('button', { name: ' Reports' }).click();
   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
-
   // Trigger Import
   await page.locator('div:nth-child(2) > div > .fa-light').first().click();
   await page.getByRole('button', { name: 'Import' }).click();
