@@ -56,6 +56,7 @@ class CommonSteps {
   //  then it will redirected to sign up page to sign up with free plan
   //if global variable FreeplanUsername has value then new user will redirected only to login page
   async NewUserlogin() {
+    
     if (!loginCredentials.FreeplanUsername) {
       console.log('FreeplanUsername is empty. Running signup test...');
       await this.signupTestFreeUser(this.page);

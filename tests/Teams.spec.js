@@ -22,3 +22,5 @@ test('Verify that a new free user cannot add teams and is prompted to upgrade to
   await page.getByText('Unlock the full power of').click();
   await expect(page.locator('#renderList').getByRole('button', { name: 'Upgrade now' })).toBeVisible();
   await page.locator('//button[@class=\'op-btn op-btn-accent\' and text()=\'Upgrade now\']').click();});
+
+  

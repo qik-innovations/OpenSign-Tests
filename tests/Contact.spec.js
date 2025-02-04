@@ -59,8 +59,7 @@ test('Verify that user can add a new contact', async ({ page }) => {
   await expect(page.locator('tbody')).toContainText('Pravin Ssss');
   await expect(page.locator('tbody')).toContainText('pravin+8878@nxglabs.in');
   await expect(page.locator('tbody')).toContainText('0924820934');
-
-  await page.getByRole('row', { name: 'Pravin Ssss pravin+8878@' }).getByRole('button').click();
+  await page.getByRole('row', { name: 'Pravin Ssss pravin+8878@' }).getByRole('button').nth(1).click();
   await page.getByRole('button', { name: 'Yes' }).click();
 });
 
@@ -95,7 +94,7 @@ test('Verify that user cannot add a new contact with existing email address', as
   });
   await page.locator('//button[@class=\'op-btn op-btn-sm op-btn-circle op-btn-ghost text-base-content absolute right-2 top-2\' and text()=\'✕\']').click()
   
-  await page.getByRole('row', { name: 'Pravin Ssss pravin+8878@' }).getByRole('button').click();
+  await page.getByRole('row', { name: 'Pravin Ssss pravin+8878@' }).getByRole('button').nth(1).click();
   await page.getByRole('button', { name: 'Yes' }).click();
 });
 
@@ -126,14 +125,14 @@ test('Verify that user can import contacts from an Excel file', async ({ page })
  await expect(page.getByRole('cell', { name: 'tonys@nxglabs.in' })).toBeVisible();
  await expect(page.getByRole('cell', { name: '233343434' })).toBeVisible();
  //Delete the imported contact
- await page.getByRole('row', { name: 'Tony Stark tonys@nxglabs.' }).getByRole('button').click();
+ await page.getByRole('row', { name: 'Tony Stark tonys@nxglabs.' }).getByRole('button').nth(1).click();
  await page.getByRole('button', { name: 'Yes' }).click();
  //Verify the imported second contact
  await expect(page.getByRole('cell', { name: 'Andy amaya' })).toBeVisible();
  await expect(page.getByRole('cell', { name: 'andyamaya@nxglabs.' })).toBeVisible();
  await expect(page.getByRole('cell', { name: '3367546546' })).toBeVisible();
   //Delete the second imported contact
- await page.getByRole('row', { name: 'Andy amaya andyamaya@nxglabs.' }).getByRole('button').click();
+ await page.getByRole('row', { name: 'Andy amaya andyamaya@nxglabs.' }).getByRole('button').nth(1).click();
  await page.getByRole('button', { name: 'Yes' }).click();
  
 });

@@ -2,7 +2,7 @@ const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const path = require('path');
 const CommonSteps = require('./utils/CommonSteps');
-test.describe('WebHook', () => {
+test.describe('Preferences', () => {
 test('Verify that New free user can save the general preferences.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -11,7 +11,7 @@ test('Verify that New free user can save the general preferences.', async ({ pag
     test.setTimeout(60 * 1000);
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'Preferences' }).click();
-
+    await page.waitForTimeout(5000);
     const title = await page.title();
     if (title === 'Preferences - OpenSign™') {
       console.log('Page title is correct: Preferences - OpenSign™');
@@ -43,7 +43,8 @@ test('Verify that New free user can save the general preferences.', async ({ pag
   await page.getByRole('button', { name: 'Save' }).click();
   await page.getByText('Saved successfully.').click();
 });
-test('Verify that New free user can save the email preferences it will ask to upgrade.', async ({ page }) => {
+
+test('Verify that a new free user cannot save email preferences is prompted to upgrade', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
@@ -51,7 +52,7 @@ test('Verify that New free user can save the email preferences it will ask to up
     test.setTimeout(60 * 1000);
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'Preferences' }).click();
-
+    await page.waitForTimeout(5000);
     const title = await page.title();
     if (title === 'Preferences - OpenSign™') {
       console.log('Page title is correct: Preferences - OpenSign™');
