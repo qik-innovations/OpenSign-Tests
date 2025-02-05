@@ -83,6 +83,7 @@ module.exports = defineConfig({
 
 
 module.exports = defineConfig({
+  reporter: "allure-playwright",
   timeout: 60000, // Set global timeout for each test (in ms)
   use: {
     actionTimeout: 60000, // Timeout for individual actions
