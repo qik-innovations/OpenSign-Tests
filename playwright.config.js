@@ -1,6 +1,17 @@
-
 // @ts-check
 const { defineConfig, devices } = require('@playwright/test');
+module.exports = defineConfig({
+  reporter: "allure-playwright",
+});
+
+export default defineConfig({
+  globalSetup: './GlobalVar/global-setup.js',
+  timeout: 90000, // Set global timeout for each test (in ms)
+  use: {
+    actionTimeout: 90000, // Set global timeout for Playwright actions
+    navigationTimeout: 90000, // Set global timeout for page navigation
+  },
+});
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -11,18 +22,9 @@ const { defineConfig, devices } = require('@playwright/test');
  * @see https://playwright.dev/docs/test-configuration
  */
 module.exports = defineConfig({
-  globalSetup: './GlobalVar/global-setup.js',
-  timeout: 60000, // Set global timeout for each test (in ms)
-  use: {
-    actionTimeout: 60000, // Timeout for individual actions
-    navigationTimeout: 60000, // Timeout for page navigation
-     /* Base URL to use in actions like await page.goto('/'). */
-    // baseURL: 'http://127.0.0.1:3000',
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on',
-  },
   testDir: './tests',
+  
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -33,12 +35,25 @@ module.exports = defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'allure-playwright',
+  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  use: {
+    timeout: 90000, // Set global timeout for each test (in ms)
+  use: {
+    actionTimeout: 90000, // Set global timeout for Playwright actions
+    navigationTimeout: 90000, // Set global timeout for page navigation
+  },
+
+    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    trace: 'on',
+  },
+
   /* Configure projects for major browsers */
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'],
             headless: true},
+            
     },
 /*
     {
@@ -79,17 +94,5 @@ module.exports = defineConfig({
   //   reuseExistingServer: !process.env.CI,
   // },
 
-});
-
-
-module.exports = defineConfig({
-  reporter: "allure-playwright",
-  timeout: 60000, // Set global timeout for each test (in ms)
-  use: {
-    actionTimeout: 60000, // Timeout for individual actions
-    navigationTimeout: 60000, // Timeout for page navigation
-     /* Base URL to use in actions like await page.goto('/'). */
-    // baseURL: 'http://127.0.0.1:3000',
-   
-  },
+  
 });
