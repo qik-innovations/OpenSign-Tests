@@ -61,7 +61,7 @@ test('Verify admin user can add the team user if user has teams plan.', async ({
   // Logout from admin user
   await page.getByRole('button', { name: '' }).nth(1).click();
   await page.getByText('Log Out').click();
-
+  test.setTimeout(90000); //override the global timeout
   // Step 4: Log in as the newly created user
   //const userPage = await browser.newPage(); // Ensure a new page instance
  //await userPage.goto('https://staging-app.opensignlabs.com', { waitUntil: 'networkidle', timeout: 10000 });
@@ -70,8 +70,9 @@ await page.waitForSelector('input[name="email"]'); // Ensures login page is read
   await page.focus('input[name="password"]'); // Focus on password field
   await page.keyboard.press('Control+V'); // Assuming password was copied before
   await page.getByRole('button', { name: 'Login' }).click();
+
   // Step 5: Verify successful login
- page.setDefaultTimeout(60000); 
+ 
  await expect(page.getByText('Sign yourselfUse this option')).toBeVisible();
 });
 
@@ -80,7 +81,6 @@ test('Verify that a new free user cannot add a team user and is prompted to upgr
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
   await commonSteps.NewUserlogin();
-  await page.waitForTimeout(5000);
   await page.getByRole('button', { name: ' Settings' }).click();
   await page.getByRole('menuitem', { name: 'Users' }).click();
 
@@ -100,10 +100,8 @@ test('Verify that pagination is functioning correctly in the Teams user table.',
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
   await commonSteps.login();
-  await page.waitForTimeout(5000);
   await page.getByRole('button', { name: ' Settings' }).click();
   await page.getByRole('menuitem', { name: 'Users' }).click();
-  await page.waitForTimeout(5000);
   const title = await page.title();
   if (title === 'Users - OpenSign™') {
     console.log('Users - OpenSign™');
@@ -116,7 +114,6 @@ test('Verify that pagination is functioning correctly in the Teams user table.',
   //expect(isPaginationVisible).toBeTruthy();
   const isPaginationVisiblePrev = await page.getByRole('button', { name: 'Prev' }).isVisible();
   //expect(isPaginationVisiblePrev).toBeTruthy();
-  await page.waitForTimeout(5000);
   const page1Data = await page.locator('table tbody tr').allTextContents();
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState('domcontentloaded');

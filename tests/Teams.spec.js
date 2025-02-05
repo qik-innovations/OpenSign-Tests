@@ -7,8 +7,6 @@ test('Verify that a new free user cannot add team and is prompted to upgrade to 
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-  
-    test.setTimeout(60 * 1000);
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'Teams' }).click();
 
