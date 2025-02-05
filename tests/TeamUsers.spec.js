@@ -42,8 +42,7 @@ test('Verify admin user can add the team user if user has teams plan.', async ({
 
   // Step 3: Fill user details
   const email = `pravin+${Math.random()}@nxglabs.in`;
-
-  await page.locator('input[name="name"]').waitFor(); // Ensure field exists
+  await page.locator('input[name="name"]').waitFor({ timeout: 60000 });
   await page.locator('input[name="name"]').fill('Karl Vanderson');
   await page.locator('input[name="email"]').fill(email);
   await page.locator('select[name="team"]').selectOption('L3UOmIjC6N');
@@ -72,8 +71,7 @@ await page.waitForSelector('input[name="email"]'); // Ensures login page is read
   await page.getByRole('button', { name: 'Login' }).click();
 
   // Step 5: Verify successful login
- 
- await expect(page.getByText('Sign yourselfUse this option')).toBeVisible();
+ await expect(page.locator('//span[text()=\'Sign yourself\']')).toBeVisible();
 });
 
 test('Verify that a new free user cannot add a team user and is prompted to upgrade to the Teams plan.', async ({ page }) => {

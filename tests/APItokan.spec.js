@@ -8,7 +8,6 @@ test('Verify that free user cannot generate the live api token.', async ({ page 
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-    test.setTimeout(60 * 1000);
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'API token' }).click();
 
@@ -34,8 +33,6 @@ test('Verify that free user can generate the sanbox test token.', async ({ page 
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-  
-    test.setTimeout(60 * 1000);
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'API token' }).click();
 
@@ -47,4 +44,5 @@ test('Verify that free user can generate the sanbox test token.', async ({ page 
     }
     await page.getByRole('button', { name: 'Generate test token' }).click();
     await expect(page.locator("//span[@class='cursor-pointer' and contains(text(),'test.')]")).toBeVisible();
+    
 });});
