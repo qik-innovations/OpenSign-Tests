@@ -8,8 +8,6 @@ test('Verify that free user cannot add the live webhook.', async ({ page }) => {
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-  
-    test.setTimeout(60 * 1000);
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'Webhook' }).click();
 
@@ -30,8 +28,6 @@ test('Verify that free user can add the sandbox webhook.', async ({ page }) => {
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-  
-    test.setTimeout(60 * 1000);
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'API token' }).click();
 

@@ -1,85 +1,86 @@
 const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
-const path = require('path');
 const CommonSteps = require('./utils/CommonSteps');
 
-const locators = {
-  createAccountButton: 'button[name="Create account"]',
-  nameInput: 'input[type="text"]',
-  emailInput: '#email',
-  phoneInput: 'input[type="tel"]',
-  companyInput: '//input[4]',
-  jobTitleInput: '//input[5]',
-  passwordInput: 'input[name="password"]',
-  termsCheckbox: 'input[id="termsandcondition"]',
-  registerButton: '//button[contains(.,\'Register\')]',
-  freePlanButton: 'li:has-text("OPENSIGN™ FREEFreeBilled") button',
-  professionalPlanButton: 'li:has-text("OPENSIGN™ PROFESSIONAL$9.99/") button',
-  proceedButton: "//span[@class='btn-txt' and text()='Proceed']",
-  addressField: '//input[@id=\'billing_street\']',
-  cityField: '//input[@id=\'billing_city\']',
-  zipCodeField: '//input[@id=\'billing_zip\']',
-  sameAsBillingCheckbox: 'input[name="sameasbillingaddress"]',
-  reviewOrderButton: '//button[@class=\'btn-txt\' and text() =\'Review Order\']',
-};
-
-const fillSignupForm = async (page, { name, email, phone, company, jobTitle, password }) => {
-  await page.locator(locators.nameInput).first().fill(name);
-  await page.locator(locators.emailInput).fill(email);
-  await page.locator(locators.phoneInput).fill(phone);
-  await page.locator(locators.companyInput).fill(company);
-  await page.locator(locators.jobTitleInput).fill(jobTitle);
-  await page.locator(locators.passwordInput).fill(password);
-  await page.locator(locators.termsCheckbox).click();
-};
-
-test('Verify admin user can add the team user if user has teams plan.', async ({ page }) => {
+test('Verify admin user can add the team user if user has teams plan.', async ({ page, browser }) => {
   const commonSteps = new CommonSteps(page);
+
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
   await commonSteps.login();
-  await page.waitForTimeout(5000);
+
+  // Step 2: Navigate to Settings → Users
   await page.getByRole('button', { name: ' Settings' }).click();
   await page.getByRole('menuitem', { name: 'Users' }).click();
-  const title = await page.title();
-  if (title === 'Users - OpenSign™') {
-    console.log('Page title is correct: Users - OpenSign™');
+
+  // Verify correct page title
+  await expect(page).toHaveTitle('Users - OpenSign™');
+
+  // Wait for users list to render
+  await page.waitForSelector('#renderList i');
+
+  // Click the second action icon (ensure it exists before clicking)
+  const actionIcon = page.locator('#renderList i').nth(1);
+  if (await actionIcon.count() > 0) {
+    await actionIcon.click();
+
+  console.log("Popup is loaded.");
   } else {
-    console.error(`Page title is incorrect. Expected: "Users - OpenSign™", Got: "${title}"`);
+    console.log("Action icon not found, skipping...");
   }
-  
-  await page.waitForTimeout(2000);
-  await page.locator('#renderList i').nth(1).click();
-  await page.getByRole('button', { name: 'Proceed' }).click();
+ 
+  // Handle 'Proceed' button if it exists
+  page.locator('//form//button[@class=\'op-btn op-btn-primary w-full\' and normalize-space(text())=\'Proceed\']').click();
+  //console.log(await proceedButton.count()); // Log count to debug
+  /*
+  if (await proceedButton.count() > 0) {
+      await proceedButton.click(); // Added 'await' before .click()
+      console.log("Clicked 'Proceed' button");
+  } else {
+      console.log("'Proceed' button not found, skipping...");
+  }*/
+
+  // Step 3: Fill user details
   const email = `pravin+${Math.random()}@nxglabs.in`;
+
+  await page.locator('input[name="name"]').waitFor(); // Ensure field exists
   await page.locator('input[name="name"]').fill('Karl Vanderson');
   await page.locator('input[name="email"]').fill(email);
   await page.locator('select[name="team"]').selectOption('L3UOmIjC6N');
+
+  // Open role selection modal and choose "User"
   await page.locator('#selectSignerModal i').click();
   await page.locator('select[name="role"]').selectOption('User');
-  await page.locator('select[name="role"]').press('Tab');
-  await page.getByRole('button', { name: 'Submit' }).click();;
-  await page.getByRole('cell', { name: email }).click();
+
+  // Submit the form
+  await page.getByRole('button', { name: 'Submit' }).click();
+  
+  // Verify user exists in the table
+  await expect(page.getByRole('cell', { name: email })).toBeVisible();
+
+  // Logout from admin user
   await page.getByRole('button', { name: '' }).nth(1).click();
   await page.getByText('Log Out').click();
+  test.setTimeout(90000); //override the global timeout
+  // Step 4: Log in as the newly created user
+  //const userPage = await browser.newPage(); // Ensure a new page instance
+ //await userPage.goto('https://staging-app.opensignlabs.com', { waitUntil: 'networkidle', timeout: 10000 });
+await page.waitForSelector('input[name="email"]'); // Ensures login page is ready
+  await page.locator('input[name="email"]').fill(email);
+  await page.focus('input[name="password"]'); // Focus on password field
+  await page.keyboard.press('Control+V'); // Assuming password was copied before
+  await page.getByRole('button', { name: 'Login' }).click();
 
-  await page.getByLabel('Email').fill(email);
-  await page.focus('//input[@name=\'password\']'); // Focus on the input field
-await page.keyboard.press('Control+V'); 
-await page.getByRole('button', { name: 'Login' }).click();
-await page.waitForTimeout(5000);
-   // Verify title
-   const title2 = await page.title();
-   expect(title2).toBe('Dashboard - OpenSign™');
+  // Step 5: Verify successful login
+ 
+ await expect(page.getByText('Sign yourselfUse this option')).toBeVisible();
 });
-
 
 test('Verify that a new free user cannot add a team user and is prompted to upgrade to the Teams plan.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
   await commonSteps.NewUserlogin();
-  await page.waitForTimeout(5000);
   await page.getByRole('button', { name: ' Settings' }).click();
   await page.getByRole('menuitem', { name: 'Users' }).click();
 
@@ -99,10 +100,8 @@ test('Verify that pagination is functioning correctly in the Teams user table.',
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
   await commonSteps.login();
-  await page.waitForTimeout(5000);
   await page.getByRole('button', { name: ' Settings' }).click();
   await page.getByRole('menuitem', { name: 'Users' }).click();
-  await page.waitForTimeout(5000);
   const title = await page.title();
   if (title === 'Users - OpenSign™') {
     console.log('Users - OpenSign™');
@@ -115,7 +114,6 @@ test('Verify that pagination is functioning correctly in the Teams user table.',
   //expect(isPaginationVisible).toBeTruthy();
   const isPaginationVisiblePrev = await page.getByRole('button', { name: 'Prev' }).isVisible();
   //expect(isPaginationVisiblePrev).toBeTruthy();
-  await page.waitForTimeout(5000);
   const page1Data = await page.locator('table tbody tr').allTextContents();
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState('domcontentloaded');

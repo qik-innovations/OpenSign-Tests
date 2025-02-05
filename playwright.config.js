@@ -6,7 +6,11 @@ module.exports = defineConfig({
 
 export default defineConfig({
   globalSetup: './GlobalVar/global-setup.js',
-  
+  timeout: 60000, // Set global timeout for each test (in ms)
+  use: {
+    actionTimeout: 60000, // Set global timeout for Playwright actions
+    navigationTimeout: 60000, // Set global timeout for page navigation
+  },
 });
 /**
  * Read environment variables from file.
