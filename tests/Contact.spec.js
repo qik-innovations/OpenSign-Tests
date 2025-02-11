@@ -39,8 +39,6 @@ test('Verify that user can add a new contact', async ({ page }) => {
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
   await commonSteps.login();
-
-  test.setTimeout(60 * 1000);
   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
   const title = await page.title();
   if (title === 'Contactbook - OpenSign™') {
@@ -69,8 +67,6 @@ test('Verify that user cannot add a new contact with existing email address', as
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
   await commonSteps.login();
-
-  test.setTimeout(60 * 1000);
   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
   await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
   await page.getByLabel('Name *').fill('Pravin Ssss');
@@ -104,8 +100,6 @@ test('Verify that user can import contacts from an Excel file', async ({ page })
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
   await commonSteps.login();
-  test.setTimeout(60 * 1000);
-
   // Navigate to Contactbook
   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
   // Trigger Import

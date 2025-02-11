@@ -44,8 +44,7 @@ class CommonSteps {
   }
 
   async navigateToBaseUrl() {
-    await this.page.goto(BASEURL);
-    await this.page.setDefaultTimeout(60000); 
+    await this.page.goto(BASEURL,{ timeout: 90000 });
   }
 
   async login() {
