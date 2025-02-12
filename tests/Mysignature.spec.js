@@ -8,7 +8,6 @@ test('Verify that New user can draw and save the signature on the my signature p
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-    test.setTimeout(60 * 1000);
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'My signature' }).click();
 
@@ -40,7 +39,6 @@ await page.waitForTimeout(1000);
 await page.mouse.move(98, 120)
 await page.mouse.up();
 await page.locator('//button[@class=\'op-btn op-btn-primary\' and text()= \'Save\']').click();
- test.setTimeout(60 * 1000);
 await expect(page.getByText('Signature saved successfully.')).toBeVisible();
 });
 test('Verify that New user can upload and save the signature on the my signature page.', async ({ page }) => {
@@ -48,7 +46,6 @@ test('Verify that New user can upload and save the signature on the my signature
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-    test.setTimeout(60 * 1000);
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'My signature' }).click();
 
@@ -67,7 +64,6 @@ test('Verify that New user can upload and save the signature on the my signature
     const fileChooser2 = await fileChooserPromise2;
      await fileChooser2.setFiles(path.join(__dirname, '/TestData/Images/initial.png'));
 await page.locator('//button[@class=\'op-btn op-btn-primary\' and text()= \'Save\']').click();
- test.setTimeout(60 * 1000);
 await expect(page.getByText('Signature saved successfully.')).toBeVisible();
 });
 });

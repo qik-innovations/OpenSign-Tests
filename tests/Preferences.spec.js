@@ -8,7 +8,6 @@ test('Verify that New free user can save the general preferences.', async ({ pag
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-    test.setTimeout(60 * 1000);
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'Preferences' }).click();
     await page.waitForTimeout(5000);
@@ -49,7 +48,6 @@ test('Verify that a new free user cannot save email preferences is prompted to u
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-    test.setTimeout(60 * 1000);
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'Preferences' }).click();
     await page.waitForTimeout(5000);

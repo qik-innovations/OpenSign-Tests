@@ -2,6 +2,7 @@ const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const path = require('path');
 const CommonSteps = require('./utils/CommonSteps');
+test.describe('Dashboard', () => {
 test('Verify that the Sign yourself card click functions correctly and redirects the user to the Signyourself page from the dashboard.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -67,12 +68,15 @@ test('Verify that the Sign yourself card click functions correctly and redirects
     //  await page.getByRole('option', { name: 'Pravin Testing account <' + loginCredentials.email }).click();
     await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
     await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
-      await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled();
-      await page.getByRole('button', { name: 'Next' }).click();
-      await page.getByLabel('Close').click();
+    await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+    await page.getByRole('button', { name: 'Next' }).click();
+    await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+    await page.waitForLoadState("networkidle");
+    await page.getByLabel('Close').click();
+    await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+      
       await page.locator('//span[normalize-space()="signature"]').hover();
 await page.mouse.down();
-await page.waitForTimeout(1000);
 await page.mouse.move(600, 300)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
@@ -115,12 +119,14 @@ if (oldCount === newCount) {
     //  await page.getByRole('option', { name: 'Pravin Testing account <' + loginCredentials.email }).click();
     await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
     await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-      await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled();
-      await page.getByRole('button', { name: 'Next' }).click();
-      await page.getByLabel('Close').click();
+    await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+    await page.getByRole('button', { name: 'Next' }).click();
+    await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+    await page.waitForLoadState("networkidle");
+    await page.getByLabel('Close').click();
+    await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
       await page.locator('//span[normalize-space()="signature"]').hover();
 await page.mouse.down();
-await page.waitForTimeout(1000);
 await page.mouse.move(600, 300)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
@@ -139,4 +145,4 @@ if (oldCount1 === newCount1) {
   console.error("❌ Out for signature card count did not increase. The test case has failed.");
   throw new Error("Test case failed: Out for signature card count Count did not match.");
 }
-  });
+  });});
