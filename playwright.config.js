@@ -2,15 +2,11 @@
 const { defineConfig, devices } = require('@playwright/test');
 module.exports = defineConfig({
   reporter: "allure-playwright",
+  
 });
 
 export default defineConfig({
   globalSetup: './GlobalVar/global-setup.js',
-  timeout: 90000, // Set global timeout for each test (in ms)
-  use: {
-    actionTimeout: 90000, // Set global timeout for Playwright actions
-    navigationTimeout: 90000, // Set global timeout for page navigation
-  },
 });
 /**
  * Read environment variables from file.
@@ -22,7 +18,7 @@ export default defineConfig({
  * @see https://playwright.dev/docs/test-configuration
  */
 module.exports = defineConfig({
-
+  timeout: 90000,
   testDir: './tests',
   
   /* Run tests in files in parallel */

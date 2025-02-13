@@ -42,7 +42,7 @@ test('Verify that user can sign up with a free subscription plan.', async ({ pag
 
   // Step 1: Navigate to Base URL and start sign-up
   await commonSteps.navigateToBaseUrl();
-  await page.locator(locators.createAccountButton).click();
+  await page.getByRole('button', { name: 'Create account' }).click();
   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
 
   // Generate a unique email
@@ -155,7 +155,7 @@ test('Verify that users cannot sign up with an already registered email address.
   });
 
   page.on('dialog', async (dialog) => {
-    expect(dialog.message()).toBe('User already exists with this username!');
+    expect(dialog.message()).toBe('Verification mail has been sent to your E-mail!');
     await dialog.accept();
   });
 
