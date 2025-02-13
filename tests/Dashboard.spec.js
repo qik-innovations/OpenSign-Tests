@@ -54,7 +54,9 @@ test('Verify that the Sign yourself card click functions correctly and redirects
     await expect(page.locator('#root')).toContainText('TEAM');
     await expect(page.locator('#renderList')).toContainText('Need your signature');
     await expect(page.locator('#renderList')).toContainText('Drafts');
+    await page.waitForLoadState("networkidle");
     const countNeedYourSign = await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
+    console.log("Count need your sign " + countNeedYourSign);
     await page.getByRole('menuitem', { name: 'Request signatures' }).click();
      await page.locator('input[name="Name"]').click();
         await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
@@ -72,7 +74,6 @@ test('Verify that the Sign yourself card click functions correctly and redirects
     await page.getByRole('button', { name: 'Next' }).click();
     await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
     await page.waitForLoadState("networkidle");
-    await page.getByLabel('Close').click();
     await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
       
       await page.locator('//span[normalize-space()="signature"]').hover();
@@ -84,12 +85,15 @@ await page.getByRole('button', { name: 'Send' }).click();
 await page.getByRole('button', { name: 'No' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 await expect(page.locator('#renderList')).toContainText('Drafts');
+await page.waitForLoadState("networkidle");
 const newCountNeedYourSign = await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
 
 // Convert to numbers for comparison
-const oldCount = Number(countNeedYourSign.trim()) + 1;
+const IncrementedCount = Number(countNeedYourSign.trim()) + 1;
+console.log("Count need your sign incremnt by 1 " + IncrementedCount);
 const newCount = Number(newCountNeedYourSign);
-if (oldCount === newCount) {
+console.log("new count " + newCount);
+if (IncrementedCount === newCount) {
     console.log("Need Your Signature card count increased by one, which is correct.");
 } else {
     console.log("Need Your Signature card count did not increase. The test case has failed.");
@@ -97,7 +101,7 @@ if (oldCount === newCount) {
 }
   });
 
-  test('Verify that the Out for count on the card increases when a new document sent for request signature.', async ({ page }) => {
+  test('Verify that the Out for signature count on the card increases when a new document sent for request signature.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
@@ -105,6 +109,7 @@ if (oldCount === newCount) {
     await expect(page.locator('#root')).toContainText('TEAM');
     await expect(page.locator('#renderList')).toContainText('Need your signature');
     await expect(page.locator('#renderList')).toContainText('Drafts');
+    await page.waitForLoadState("networkidle");
     const countOutforSign = await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
     await page.getByRole('menuitem', { name: 'Request signatures' }).click();
      await page.locator('input[name="Name"]').click();
@@ -123,7 +128,6 @@ if (oldCount === newCount) {
     await page.getByRole('button', { name: 'Next' }).click();
     await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
     await page.waitForLoadState("networkidle");
-    await page.getByLabel('Close').click();
     await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
       await page.locator('//span[normalize-space()="signature"]').hover();
 await page.mouse.down();
@@ -134,12 +138,13 @@ await page.getByRole('button', { name: 'Send' }).click();
 await page.getByRole('button', { name: 'Close' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 await expect(page.locator('#renderList')).toContainText('Drafts');
+await page.waitForLoadState("networkidle");
 const newCountOutforSign = await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
 
 // Convert to numbers for comparison
-const oldCount1 = Number(countOutforSign.trim()) + 1;
+const oldincrementedcount1 = Number(countOutforSign.trim()) + 1;
 const newCount1 = Number(newCountOutforSign);
-if (oldCount1 === newCount1) {
+if (oldincrementedcount1 === newCount1) {
   console.log("✅ Out for signature card count increased by one, which is correct.");
 } else {
   console.error("❌ Out for signature card count did not increase. The test case has failed.");

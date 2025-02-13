@@ -48,12 +48,10 @@ test('Verify that user can add a new contact', async ({ page }) => {
   }
 
   await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
-  await page.waitForTimeout(2000);
   await page.getByLabel('Name *').fill('Pravin Ssss');
   await page.getByLabel('Email *').fill('pravin+8878@nxglabs.in');
   await page.getByPlaceholder('optional').fill('0924820934');
   await page.getByRole('button', { name: 'Submit' }).click();
-
   await expect(page.locator('tbody')).toContainText('Pravin Ssss');
   await expect(page.locator('tbody')).toContainText('pravin+8878@nxglabs.in');
   await expect(page.locator('tbody')).toContainText('0924820934');
@@ -122,11 +120,11 @@ test('Verify that user can import contacts from an Excel file', async ({ page })
  await page.getByRole('row', { name: 'Tony Stark tonys@nxglabs.' }).getByRole('button').nth(1).click();
  await page.getByRole('button', { name: 'Yes' }).click();
  //Verify the imported second contact
- await expect(page.getByRole('cell', { name: 'Andy amaya' })).toBeVisible();
- await expect(page.getByRole('cell', { name: 'andyamaya@nxglabs.' })).toBeVisible();
- await expect(page.getByRole('cell', { name: '3367546546' })).toBeVisible();
+ await expect(page.getByRole('cell', { name: 'Steve Head' })).toBeVisible();
+ await expect(page.getByRole('cell', { name: 'stevehead@nxglabs.' })).toBeVisible();
+ await page.waitForLoadState("networkidle");
   //Delete the second imported contact
- await page.getByRole('row', { name: 'Andy amaya andyamaya@nxglabs.' }).getByRole('button').nth(1).click();
+ await page.getByRole('row', { name: 'Steve Head stevehead@nxglabs.' }).getByRole('button').nth(1).click();
  await page.getByRole('button', { name: 'Yes' }).click();
  
 });

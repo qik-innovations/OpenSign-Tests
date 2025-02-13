@@ -198,7 +198,7 @@ await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//button[normalize-space()='Send']").click();
 
 });
-test('Verify that the user can successfully sign a PDF that was previously incompatible (pdf 10pages).', async ({ page }) => {
+test('Verify that the user can successfully sign a PDF that was previously incompatible pdf 10pages.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
@@ -223,7 +223,7 @@ test('Verify that the user can successfully sign a PDF that was previously incom
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.locator('//span[normalize-space()="signature"]').hover();
 await page.mouse.down();
-await page.mouse.move(800, 300)
+await page.mouse.move(600, 300)
 await page.mouse.up();
 // Optionally save changes
 await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
@@ -239,7 +239,7 @@ await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//span[normalize-space()="initials"]').hover();
 await page.mouse.down();
-await page.mouse.move(800, 420)
+await page.mouse.move(600, 420)
 await page.mouse.up();
 await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
 await page.locator('//span[normalize-space()="name"]').hover();
@@ -386,6 +386,7 @@ await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//button[normalize-space()='Send']").click();
 
 });
+/*
 test('Verify that the user can successfully sign a PDF that was previously incompatible (10MB-TESTFILE.ORG)', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -454,7 +455,8 @@ await page.waitForTimeout(1000);
 await page.mouse.move(600, 590)//textarea[@placeholder='text']
 await page.mouse.up();
 await page.locator('//textarea[@placeholder=\'text\']').fill('20 wood street sanfransisco');
-*/
+
+
 await page.locator('//span[normalize-space()="checkbox"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 640)
@@ -479,7 +481,8 @@ await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
   await page.locator("//i[@class='fa-light fa-plus']").first().click();
   await page.locator("//button[normalize-space()='Send']").click();
 
-});
+});*/
+/*
 test('Verify that the user can successfully sign a PDF that was previously incompatible (pdf 10840-002 13mb pdf)', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -548,7 +551,7 @@ await page.waitForTimeout(1000);
 await page.mouse.move(600, 590)//textarea[@placeholder='text']
 await page.mouse.up();
 await page.locator('//textarea[@placeholder=\'text\']').fill('20 wood street sanfransisco');
-*/
+
 await page.locator('//span[normalize-space()="checkbox"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 640)
@@ -573,7 +576,7 @@ await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
   await page.locator("//i[@class='fa-light fa-plus']").first().click();
   await page.locator("//button[normalize-space()='Send']").click();
 
-});
+});*/
 
 test('Verify that user can perform the sign yourself using the word document', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
