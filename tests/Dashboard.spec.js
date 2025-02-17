@@ -55,6 +55,7 @@ test('Verify that the Sign yourself card click functions correctly and redirects
     await expect(page.locator('#renderList')).toContainText('Need your signature');
     await expect(page.locator('#renderList')).toContainText('Drafts');
     await page.waitForLoadState("networkidle");
+    await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
     const countNeedYourSign = await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
     console.log("Count need your sign " + countNeedYourSign);
     await page.getByRole('menuitem', { name: 'Request signatures' }).click();
@@ -86,6 +87,7 @@ await page.getByRole('button', { name: 'No' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 await expect(page.locator('#renderList')).toContainText('Drafts');
 await page.waitForLoadState("networkidle");
+await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
 const newCountNeedYourSign = await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
 
 // Convert to numbers for comparison
@@ -110,6 +112,7 @@ if (IncrementedCount === newCount) {
     await expect(page.locator('#renderList')).toContainText('Need your signature');
     await expect(page.locator('#renderList')).toContainText('Drafts');
     await page.waitForLoadState("networkidle");
+    await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
     const countOutforSign = await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
     await page.getByRole('menuitem', { name: 'Request signatures' }).click();
      await page.locator('input[name="Name"]').click();
@@ -139,6 +142,7 @@ await page.getByRole('button', { name: 'Close' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 await expect(page.locator('#renderList')).toContainText('Drafts');
 await page.waitForLoadState("networkidle");
+await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
 const newCountOutforSign = await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
 
 // Convert to numbers for comparison
