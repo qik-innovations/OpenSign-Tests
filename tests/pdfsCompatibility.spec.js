@@ -221,6 +221,7 @@ test('Verify that the user can successfully sign a PDF that was previously incom
   await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
   await page.waitForLoadState("networkidle");
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)

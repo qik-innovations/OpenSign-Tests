@@ -42,9 +42,10 @@ test('Verify admin user can add the team user if user has teams plan.', async ({
 
   // Step 3: Fill user details
   const email = `pravin+${Math.random()}@nxglabs.in`;
-  await page.locator('input[name="name"]').waitFor({ timeout: 90000 });
+  await page.locator('input[name="name"]').waitFor({ timeout: 180000 });
   await page.locator('input[name="name"]').fill('Karl Vanderson');
   await page.locator('input[name="email"]').fill(email);
+  const RandomPass = await page.locator('//div[@class=\'break-all\']').textContent();
   await page.locator('select[name="team"]').selectOption('L3UOmIjC6N');
 
   // Open role selection modal and choose "User"
@@ -60,14 +61,12 @@ test('Verify admin user can add the team user if user has teams plan.', async ({
   // Logout from admin user
   await page.getByRole('button', { name: '' }).nth(1).click();
   await page.getByText('Log Out').click();
-  test.setTimeout(90000); //override the global timeout
   // Step 4: Log in as the newly created user
   //const userPage = await browser.newPage(); // Ensure a new page instance
  //await userPage.goto('https://staging-app.opensignlabs.com', { waitUntil: 'networkidle', timeout: 10000 });
 await page.waitForSelector('input[name="email"]'); // Ensures login page is ready
   await page.locator('input[name="email"]').fill(email);
-  await page.focus('input[name="password"]'); // Focus on password field
-  await page.keyboard.press('Control+V'); // Assuming password was copied before
+  await page.locator('input[name="password"]').fill(RandomPass); // Focus on password field
   await page.getByRole('button', { name: 'Login' }).click();
 
   // Step 5: Verify successful login

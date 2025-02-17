@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
 const CommonSteps = require('./utils/CommonSteps');
 const path = require('path');
-
+import { chromium } from 'playwright';
 test('Verify that new user can create and send the document for request signature.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -39,8 +39,6 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   await page.getByLabel('Email *').fill('karlmark1954@gmail.com');
   await page.getByPlaceholder('optional').fill('768768768766');
   await page.getByRole('button', { name: 'Submit' }).click();
- 
-
     await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
   await page.locator('svg > rect:nth-child(3)').click();
@@ -49,12 +47,9 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.locator('//span[normalize-space()=\'signature\']').hover();
-
 await page.mouse.down();
-
 await page.mouse.move(600, 300)
 await page.mouse.up();
-
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 360)
@@ -386,7 +381,7 @@ await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails S
 await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
 await expect(page.locator('#selectSignerModal')).toContainText('You have successfully sent email to Pravin Testing account. Subsequent signers will get email(s) once Pravin Testing account signs the document');
   await page.getByRole('button', { name: 'Yes' }).click();
-  await page.getByRole('checkbox').check();
+  await page.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
   await page.getByRole('button', { name: 'Agree & Continue' }).click();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
@@ -457,12 +452,9 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.locator('//span[normalize-space()=\'signature\']').hover();
-
 await page.mouse.down();
-
 await page.mouse.move(600, 300)
 await page.mouse.up();
-
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 360)
@@ -473,12 +465,10 @@ await page.mouse.move(600, 420)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'name\']').hover();
 await page.mouse.down();
-
 await page.mouse.move(600, 470)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'job title\']').hover();
 await page.mouse.down();
-
 await page.mouse.move(600, 500)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'company\']').hover();
@@ -521,16 +511,25 @@ await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
 
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
-await page.locator('//span[contains(@class,\'hidden md:block ml-1\')]').click();
-// Paste the URL
-await page.keyboard.press('Control+V');
-await page.context().grantPermissions(['clipboard-read']);
-// Get the copied URL from the clipboard
-const copiedUrl = await page.evaluate(() => navigator.clipboard.readText());
-// Open a new tab and navigate to the copied URL
-const page1 = await page.context().newPage();
+//on the click of this loactor the url get copy in the urlcopy variable
+await page.locator('//span[@class=\' hidden md:block ml-1 \' and text()=\'Copy link\']').click();
+await page.getByRole('button', { name: '✕' }).click();
+  await page.getByRole('button', { name: 'View' }).click();
+await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  await page.locator('input[name="Name"]').click();
+  await page.keyboard.press('Control+V');
+    // Retrieve the pasted text from the temporary input
+    const copiedUrl = await page.evaluate(() => {
+      const input = document.querySelector('input[name="Name"]');
+      return input ? input.value : '';
+  });
+await page.context().browser().close();
+//relaunch the browser
+let browser = await chromium.launch({ headless: false });
+let context = await browser.newContext();
+let page1 = await context.newPage();
 await page1.goto(copiedUrl);
-await page1.getByRole('checkbox').check();
+await page1.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
 await page1.getByRole('button', { name: 'Agree & Continue' }).click();
 await page1.waitForLoadState("networkidle");
 await page1.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 

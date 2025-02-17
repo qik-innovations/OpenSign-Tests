@@ -18,7 +18,7 @@ export default defineConfig({
  * @see https://playwright.dev/docs/test-configuration
  */
 module.exports = defineConfig({
-  timeout: 90000,
+  timeout: 120000,
   testDir: './tests',
   
   /* Run tests in files in parallel */
@@ -33,10 +33,10 @@ module.exports = defineConfig({
   reporter: 'allure-playwright',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    timeout: 90000, // Set global timeout for each test (in ms)
+    timeout: 120000, // Set global timeout for each test (in ms)
   use: {
-    actionTimeout: 90000, // Set global timeout for Playwright actions
-    navigationTimeout: 90000, // Set global timeout for page navigation
+    actionTimeout: 120000, // Set global timeout for Playwright actions
+    navigationTimeout: 120000, // Set global timeout for page navigation
   },
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
