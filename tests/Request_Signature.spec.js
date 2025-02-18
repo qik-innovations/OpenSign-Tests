@@ -45,6 +45,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   await page.getByLabel('Close').click();
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+   await page.waitForLoadState("networkidle");
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.locator('//span[normalize-space()=\'signature\']').hover();
 await page.mouse.down();
@@ -381,7 +382,7 @@ await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails S
 await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
 await expect(page.locator('#selectSignerModal')).toContainText('You have successfully sent email to Pravin Testing account. Subsequent signers will get email(s) once Pravin Testing account signs the document');
   await page.getByRole('button', { name: 'Yes' }).click();
-  await page.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
+  await page.locator('//div[@class="flex flex-row items-center"]//input[@type="checkbox" and @data-tut="IsAgree"]').click();
   await page.getByRole('button', { name: 'Agree & Continue' }).click();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
@@ -513,19 +514,15 @@ await page.getByRole('button', { name: 'Next' }).click();
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 //on the click of this loactor the url get copy in the urlcopy variable
 await page.locator('//span[@class=\' hidden md:block ml-1 \' and text()=\'Copy link\']').click();
+const copiedUrl = await page.locator('//span[@class=" hidden md:block ml-1 " and text()="Copy link"]').getAttribute('data-url');
+console.log("Extracted URL:", copiedUrl);
 await page.getByRole('button', { name: '✕' }).click();
   await page.getByRole('button', { name: 'View' }).click();
 await page.getByRole('menuitem', { name: 'Request signatures' }).click();
   await page.locator('input[name="Name"]').click();
-  await page.keyboard.press('Control+V');
-    // Retrieve the pasted text from the temporary input
-    const copiedUrl = await page.evaluate(() => {
-      const input = document.querySelector('input[name="Name"]');
-      return input ? input.value : '';
-  });
 await page.context().browser().close();
 //relaunch the browser
-let browser = await chromium.launch({ headless: false });
+let browser = await chromium.launch({ headless: true });
 let context = await browser.newContext();
 let page1 = await context.newPage();
 await page1.goto(copiedUrl);
