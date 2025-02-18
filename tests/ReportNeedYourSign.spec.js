@@ -237,7 +237,6 @@ await expect(page.locator('thead')).toContainText('Title');
   await expect(page.locator('thead')).toContainText('Note');
   await expect(page.locator('thead')).toContainText('Folder');
   await expect(page.locator('thead')).toContainText('File');
-  await expect(page.locator('thead')).toContainText('File');
   await expect(page.locator('thead')).toContainText('Owner');
   await expect(page.locator('thead')).toContainText('Signers');
   await expect(page.locator('.p-2 > .font-semibold').first()).toContainText('Sample-joining-letter');

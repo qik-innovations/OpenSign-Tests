@@ -46,8 +46,8 @@ test('Verify admin user can add the team user if user has teams plan.', async ({
   await page.locator('input[name="name"]').fill('Karl Vanderson');
   await page.locator('input[name="email"]').fill(email);
   const RandomPass = await page.locator('//div[@class=\'break-all\']').textContent();
+  console.log(RandomPass);
   await page.locator('select[name="team"]').selectOption('L3UOmIjC6N');
-
   // Open role selection modal and choose "User"
   await page.locator('#selectSignerModal i').click();
   await page.locator('select[name="role"]').selectOption('User');
@@ -66,7 +66,7 @@ test('Verify admin user can add the team user if user has teams plan.', async ({
  //await userPage.goto('https://staging-app.opensignlabs.com', { waitUntil: 'networkidle', timeout: 10000 });
 await page.waitForSelector('input[name="email"]'); // Ensures login page is ready
   await page.locator('input[name="email"]').fill(email);
-  await page.locator('input[name="password"]').fill(RandomPass); // Focus on password field
+  await page.locator('input[name="password"]').fill(RandomPass); 
   await page.getByRole('button', { name: 'Login' }).click();
 
   // Step 5: Verify successful login

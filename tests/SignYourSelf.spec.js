@@ -42,8 +42,10 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   await page.locator('svg > rect:nth-child(3)').click();
   await page.getByLabel('Close').click();
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  await page.waitForLoadState("networkidle");
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()=\'signature\']').hover();
 
 await page.mouse.down();
@@ -161,7 +163,9 @@ await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  await page.waitForLoadState("networkidle");
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
@@ -261,7 +265,9 @@ await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
