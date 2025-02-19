@@ -51,21 +51,25 @@ test('Verify that user can add a new contact', async ({ page }) => {
 
     if (await rowLocator.isVisible()) {
         await rowLocator.click();
-    } else {
+    } 
+    else {
         console.log("Element not found, moving to the next step.");
+        
+        await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
+        await page.getByLabel('Name *').fill('Pravin Ssss');
+        await page.getByLabel('Email *').fill('pravin+8878@nxglabs.in');
+        await page.getByPlaceholder('optional').fill('0924820934');
+        await page.getByRole('button', { name: 'Submit' }).click();
+        await expect(page.locator('tbody')).toContainText('Pravin Ssss');
+        await expect(page.locator('tbody')).toContainText('pravin+8878@nxglabs.in');
+        await expect(page.locator('tbody')).toContainText('0924820934');
+        await page.getByRole('row', { name: 'Pravin Ssss pravin+8878@' }).getByRole('button').nth(1).click();
+        await page.getByRole('button', { name: 'Yes' }).click();
     }
-} catch (error) {
+}
+ catch (error) {
     console.log("Element not found or not interactable, continuing execution.");
-    await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
-  await page.getByLabel('Name *').fill('Pravin Ssss');
-  await page.getByLabel('Email *').fill('pravin+8878@nxglabs.in');
-  await page.getByPlaceholder('optional').fill('0924820934');
-  await page.getByRole('button', { name: 'Submit' }).click();
-  await expect(page.locator('tbody')).toContainText('Pravin Ssss');
-  await expect(page.locator('tbody')).toContainText('pravin+8878@nxglabs.in');
-  await expect(page.locator('tbody')).toContainText('0924820934');
-  await page.getByRole('row', { name: 'Pravin Ssss pravin+8878@' }).getByRole('button').nth(1).click();
-  await page.getByRole('button', { name: 'Yes' }).click();
+   
 }
   
 });
@@ -84,9 +88,7 @@ test('Verify that user cannot add a new contact with existing email address', as
         await rowLocator.click();
     } else {
         console.log("Element not found, moving to the next step.");
-    }
-} catch (error) {
-  await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
+        await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
   await page.getByLabel('Name *').fill('Pravin Ssss');
   await page.getByLabel('Email *').fill('pravin+8878@nxglabs.in');
   await page.getByPlaceholder('optional').fill('0924820934');
@@ -110,6 +112,9 @@ test('Verify that user cannot add a new contact with existing email address', as
   
   await page.getByRole('row', { name: 'Pravin Ssss pravin+8878@' }).getByRole('button').nth(1).click();
   await page.getByRole('button', { name: 'Yes' }).click();
+    }
+} catch (error) {
+  
 }
 });
 
@@ -145,7 +150,7 @@ test('Verify that user can import contacts from an Excel file', async ({ page })
  await expect(page.getByRole('cell', { name: 'stevehead@nxglabs.' })).toBeVisible();
  await page.waitForLoadState("networkidle");
   //Delete the second imported contact
- await page.getByRole('row', { name: 'Steve Head stevehead@nxglabs.' }).getByRole('button').nth(1).click();
+ await page.getByRole('row', { name: 'Steve Head stevehead@nxglabs.in' }).getByRole('button').nth(1).click();
  await page.getByRole('button', { name: 'Yes' }).click();
  
 });
