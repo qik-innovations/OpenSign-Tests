@@ -51,10 +51,11 @@ test('Verify that user can add a new contact', async ({ page }) => {
 
     if (await rowLocator.isVisible()) {
         await rowLocator.click();
+        await page.getByRole('button', { name: 'Yes' }).click();
     } 
     else {
         console.log("Element not found, moving to the next step.");
-        
+
         await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
         await page.getByLabel('Name *').fill('Pravin Ssss');
         await page.getByLabel('Email *').fill('pravin+8878@nxglabs.in');
@@ -86,6 +87,7 @@ test('Verify that user cannot add a new contact with existing email address', as
 
     if (await rowLocator.isVisible()) {
         await rowLocator.click();
+        await page.getByRole('button', { name: 'Yes' }).click();
     } else {
         console.log("Element not found, moving to the next step.");
         await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();

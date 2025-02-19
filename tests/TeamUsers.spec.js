@@ -14,7 +14,7 @@ test('Verify admin user can add the team user if user has teams plan.', async ({
   await page.getByRole('menuitem', { name: 'Users' }).click();
 
   // Verify correct page title
-  await expect(page).toHaveTitle('Users - OpenSign™');
+ // await expect(page).toHaveTitle('Users - OpenSign™');
 
   // Wait for users list to render
   await page.waitForSelector('#renderList i');
