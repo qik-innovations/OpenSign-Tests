@@ -1,3 +1,0 @@
-Dialog message: Expected text on the dialog box
-Dialog message: Contact already exist! Please select it from ‘Signers’ dropdown
-Dialog text matches the expected text.
