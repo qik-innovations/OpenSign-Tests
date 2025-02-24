@@ -59,10 +59,9 @@ test('Verify admin user can add the team user if user has teams plan.', async ({
   await expect(page.getByRole('cell', { name: email })).toBeVisible();
 
   // Logout from admin user
-  await page.getByRole('button', { name: '' }).nth(1).click();
+  await page.locator('//div[@id="profile-menu" and @class="op-dropdown op-dropdown-open op-dropdown-end"]').click();
   await page.getByText('Log Out').click();
   // Step 4: Log in as the newly created user
-  //const userPage = await browser.newPage(); // Ensure a new page instance
  //await userPage.goto('https://staging-app.opensignlabs.com', { waitUntil: 'networkidle', timeout: 10000 });
 await page.waitForSelector('input[name="email"]'); // Ensures login page is ready
   await page.locator('input[name="email"]').fill(email);

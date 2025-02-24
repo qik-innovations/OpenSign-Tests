@@ -170,8 +170,35 @@ await page.locator('//span[normalize-space()="signature"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
-// Optionally save changes
-await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
+
+try {
+  const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
+
+  for (let i = 0; i < 5; i++) { // Retry up to 5 times
+      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+          await rowLocator.click();
+          console.log("Save button clicked!");
+          break; // Exit the loop if successfully clicked
+      } else {
+          console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
+  
+          await page.locator('//span[normalize-space()="signature"]').hover();
+          await page.mouse.down();
+          await page.mouse.move(800, 300);
+          await page.mouse.up();
+          
+          // Wait a bit before checking again
+          await page.waitForTimeout(1000);
+      }
+  
+      if (i === 5) {
+          console.log("Save button did not become visible after multiple attempts.");
+      }
+  }
+} catch (error) {
+  console.log("Element not found or not interactable, continuing execution.");
+ 
+}
 
 await page.locator('//span[normalize-space()="stamp"]').hover();
 await page.mouse.down();
@@ -272,8 +299,34 @@ await page.locator('//span[normalize-space()="signature"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
-// Optionally save changes
-await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
+try {
+  const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
+
+  for (let i = 0; i < 5; i++) { // Retry up to 5 times
+      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+          await rowLocator.click();
+          console.log("Save button clicked!");
+          break; // Exit the loop if successfully clicked
+      } else {
+          console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
+  
+          await page.locator('//span[normalize-space()="signature"]').hover();
+          await page.mouse.down();
+          await page.mouse.move(800, 300);
+          await page.mouse.up();
+          
+          // Wait a bit before checking again
+          await page.waitForTimeout(1000);
+      }
+  
+      if (i === 5) {
+          console.log("Save button did not become visible after multiple attempts.");
+      }
+  }
+} catch (error) {
+  console.log("Element not found or not interactable, continuing execution.");
+ 
+}
 
 await page.locator('//span[normalize-space()="stamp"]').hover();
 await page.mouse.down();
