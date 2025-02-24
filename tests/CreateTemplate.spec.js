@@ -206,5 +206,7 @@ await page.getByRole('button', { name: 'Next' }).click();
   await page.locator('#selectSignerModal div').filter({ hasText: /^manager$/ }).getByPlaceholder('Enter Email...').click();
   await page.locator('#selectSignerModal div').filter({ hasText: /^manager$/ }).getByPlaceholder('Enter Email...').fill('pravin+689@nxglabs.in');
   await page.getByRole('button', { name: ' Send' }).click();
- 
+  await expect(page.locator('#selectSignerModal')).toContainText('Please upgrade to Professional or Team plan to use bulk send.');
+  await expect(page.locator('#selectSignerModal')).toContainText('Upgrade now');
+  await page.locator('#selectSignerModal').getByRole('button', { name: 'Upgrade now' }).click();
 });
