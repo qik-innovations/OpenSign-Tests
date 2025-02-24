@@ -1,0 +1,6 @@
+✅ Updated Global Credentials: {
+  email: 'pravin+testaccount@nxglabs.in',
+  password: 'Nxglabs@123',
+  FreeplanUsername: 'pravin+of9he6@nxglabs.in',
+  FreePlanpassword: 'Nxglabs@123'
+}
