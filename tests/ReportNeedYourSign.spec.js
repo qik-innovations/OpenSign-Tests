@@ -241,7 +241,7 @@ await expect(page.locator('thead')).toContainText('Title');
   await expect(page.locator('thead')).toContainText('Signers');
   await expect(page.locator('.p-2 > .font-semibold').first()).toContainText('Sample-joining-letter');
  await expect(page.locator('td:nth-child(2)').first()).toContainText('Please review and sign this document');
- await expect(page.locator('td:nth-child(3)').first()).toContainText('OpenSign™ drive'); 
+ await expect(page.locator('td:nth-child(3)').first()).toContainText('OpenSign™ Drive'); 
  await expect(page.locator('td:nth-child(4)').first()).toContainText('Download');
  await expect(page.locator('td:nth-child(5)').first()).toContainText('Pravin Testing account');  
  await expect(page.locator('td:nth-child(6)').first()).toContainText('SENT'); 
