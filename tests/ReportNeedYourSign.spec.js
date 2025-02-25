@@ -100,19 +100,20 @@ await expect(page.locator('#renderList')).toContainText('Need your sign');
   await page.getByRole('button', { name: 'Agree & Continue' }).click();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-  await page.getByText('Pravin Testing accountsignature').click();
+  await page.locator('//div[contains(text(),"signature")]').click();
   await page.mouse.down();
   await page.mouse.move(120, 122)
   await page.mouse.up();
   // Optionally save changes
 await page.locator("//button[normalize-space()='Save']").click();
-await page.getByText('Pravin Testing accountstamp').click();
+//div[contains(text(),'signature')]
+await page.locator('//div[contains(text(),"stamp")]').click();
 const fileChooserPromise1 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser1 = await fileChooserPromise1;
 await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
 await page.locator("//button[normalize-space()='Save']").click();
-await page.getByText('Pravin Testing accountinitials').click();
+await page.locator('//div[contains(text(),"initials")]').click();
 await page.mouse.move(650, 350)
 await page.mouse.down();
 await page.mouse.move(700, 380)
