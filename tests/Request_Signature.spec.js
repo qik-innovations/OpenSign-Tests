@@ -47,6 +47,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
    await page.waitForLoadState("networkidle");
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()=\'signature\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
@@ -131,8 +132,10 @@ await expect(page.locator('#renderList')).toContainText('In-progress documents')
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  await page.waitForLoadState("networkidle");
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()=\'signature\']').hover();
 
 await page.mouse.down();
@@ -220,15 +223,14 @@ test('Verify that user can create a document of type image and send it for a sig
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  await page.waitForLoadState("networkidle");
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()=\'signature\']').hover();
-
 await page.mouse.down();
-
 await page.mouse.move(600, 300)
 await page.mouse.up();
-
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 360)
@@ -239,19 +241,16 @@ await page.mouse.move(600, 420)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'name\']').hover();
 await page.mouse.down();
-
 await page.mouse.move(600, 470)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'job title\']').hover();
 await page.mouse.down();
-
 await page.mouse.move(600, 480)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'company\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 520)
 await page.mouse.up();
-
 await page.locator('//span[normalize-space()=\'date\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 550)
@@ -271,14 +270,11 @@ await page.mouse.move(600, 550)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
-
 await page.mouse.move(600, 580)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
-
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 await page.getByRole('button', { name: 'Send' }).click();
-
 await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
 await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
 await page.getByRole('button', { name: 'Close' }).click();
@@ -309,8 +305,10 @@ test('Verify that an existing user can create a document and sign it when added 
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  await page.waitForLoadState("networkidle");
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()=\'signature\']').hover();
 
 await page.mouse.down();
@@ -386,19 +384,19 @@ await expect(page.locator('#selectSignerModal')).toContainText('You have success
   await page.getByRole('button', { name: 'Agree & Continue' }).click();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-  await page.getByText('Pravin Testing accountsignature').click();
+  await page.locator('//div[contains(text(),"signature")]').click();
   await page.mouse.down();
   await page.mouse.move(120, 122)
   await page.mouse.up();
   // Optionally save changes
 await page.locator("//button[normalize-space()='Save']").click();
-await page.getByText('Pravin Testing accountstamp').click();
+await page.locator('//div[contains(text(),"stamp")]').click();
 const fileChooserPromise1 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser1 = await fileChooserPromise1;
 await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
 await page.locator("//button[normalize-space()='Save']").click();
-await page.getByText('Pravin Testing accountinitials').click();
+await page.locator('//div[contains(text(),"itials")]').click();
 await page.mouse.move(650, 350)
 await page.mouse.down();
 await page.mouse.move(700, 380)
@@ -413,7 +411,7 @@ await page.getByPlaceholder('name').fill('Mark Anderson');
   await page.locator('#myDropdown').selectOption('option-2');
  await page.getByRole('radio', { name: 'option-1' }).check();
   await page.getByRole('checkbox', { name: 'option-1' }).check();
-  await page.getByText('Pravin Testing accountimage').click();
+  await page.locator('//div[contains(text(),"image")]').click();
   const fileChooserPromise2 = page.waitForEvent('filechooser');
   await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
   const fileChooser2 = await fileChooserPromise2;
@@ -530,19 +528,19 @@ await page1.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click()
 await page1.getByRole('button', { name: 'Agree & Continue' }).click();
 await page1.waitForLoadState("networkidle");
 await page1.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page1.getByText('Andy amayasignature').click();
+await page.locator('//div[contains(text(),"signature")]').click();
 await page1.mouse.down();
 await page1.mouse.move(120, 122)
 await page1.mouse.up();
 // Optionally save changes
 await page1.locator("//button[normalize-space()='Save']").click();
-await page1.getByText('Andy amayastamp').click();
+await page.locator('//div[contains(text(),"stamp")]').click();
 const fileChooserPromise1 = page1.waitForEvent('filechooser');
 await page1.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser1 = await fileChooserPromise1;
 await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
 await page1.locator("//button[normalize-space()='Save']").click();
-await page1.getByText('Andy amayainitials').click();
+await page.locator('//div[contains(text(),"initials")]').click();
 await page1.mouse.move(650, 350)
 await page1.mouse.down();
 await page1.mouse.move(700, 380)
@@ -557,7 +555,7 @@ await page1.getByPlaceholder('text').fill('120 wood street sanfransisco');
 await page1.locator('#myDropdown').selectOption('option-2');
 await page1.getByRole('radio', { name: 'option-1' }).check();
 await page1.getByRole('checkbox', { name: 'option-1' }).check();
-await page1.getByText('Andy amayaimage').click();
+await page.locator('//div[contains(text(),"image")]').click();
 const fileChooserPromise2 = page1.waitForEvent('filechooser');
 await page1.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser2 = await fileChooserPromise2;
@@ -582,4 +580,70 @@ await page1.getByRole('button', { name: 'Download' }).click();
   const download2 = await download2Promise;
   const download3Promise = page1.waitForEvent('download');
 await page1.getByRole('button', { name: '✕' }).click();*/
+});
+
+test('Verify that a new free user cannot access the paid features on the request signature page.', async ({ page }) => {
+  const commonSteps = new CommonSteps(page);
+    // Step 1: Navigate to Base URL and log in
+    await commonSteps.navigateToBaseUrl();
+    await commonSteps.NewUserlogin();
+  //const title = await page.title()
+    //Expects page to have a heading with the name of dashboard.
+  //expect(title).toBe('Dashboard - OpenSign™');
+  
+  await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+    await page.locator('input[name="Name"]').click();
+    await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+    await page.locator('input[name="Note"]').click();
+    const fileChooserPromise = page.waitForEvent('filechooser');
+  await page.locator('input[type="file"]').click();
+  const fileChooser = await fileChooserPromise;
+  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  await page.locator('.text-xs > div > .cursor-pointer').first().click();
+  await page.getByLabel('Add yourself').check();
+  await page.getByRole('button', { name: 'Submit' }).click();
+  await page.getByText('Advanced options').click();
+  const checkbox = page.locator('//input[@type="checkbox" and @class="op-toggle transition-all checked:[--tglbg:#3368ff] checked:bg-white"]');
+const isDisabled = await checkbox.isDisabled();
+console.log("Checkbox disabled:", isDisabled);
+const radioButton = page.locator('//input[@type="radio" and @name="IsEnableOTP" and @value="true"]');
+const EnableotpisDisabled = await radioButton.isDisabled();
+console.log("Radio button disabled:", EnableotpisDisabled);
+const radioButtonNo = page.locator('//input[@type="radio" and @name="IsEnableOTP" and @value="false"]');
+const EnableotpisDisabled_No = await radioButtonNo.isDisabled();
+console.log("Radio button disabled:", EnableotpisDisabled_No);
+
+const [popup] = await Promise.all([
+  page.waitForEvent('popup'),
+  page.locator('span').filter({ hasText: 'Auto reminder Upgrade now' }).locator('span').click()
+]);
+
+await popup.waitForLoadState();
+await popup.goto('https://staging-app.opensignlabs.com/subscription');
+await expect(popup.locator('#root')).toContainText('OPENSIGN™ FREE');
+await page.bringToFront();
+  
+  await page.locator('span').filter({ hasText: 'Enable OTP verification' }).locator('span').click();
+  const page2Promise = page.waitForEvent('popup');
+  const page2 = await page2Promise;
+  await expect(page2.locator('#root')).toContainText('OPENSIGN™ FREE');
+  await page.bringToFront();
+/*
+  await page.locator('label').filter({ hasText: 'Notify on signaturesUpgrade' }).locator('span').click();
+  const page3Promise = page.waitForEvent('popup');
+  const page3 = await page3Promise;
+  await expect(page3.locator('#root')).toContainText('OPENSIGN™ PROFESSIONAL');
+  await page.bringToFront();
+  await page.locator('label').filter({ hasText: 'Allow modificationsUpgrade now' }).locator('span').click();
+  const page4Promise = page.waitForEvent('popup');
+  const page4 = await page4Promise;
+  await page4.goto('https://staging-app.opensignlabs.com/subscription');
+  await expect(page4.locator('#root')).toContainText('OPENSIGN™ FREE');
+  // Switch back to the default page
+await page.bringToFront();  // Brings the default page to the foreground
+console.log("Switched back to the main page");*/
+  await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  await page.getByRole('button', { name: 'Next' }).click();
+  await page.waitForLoadState("networkidle");
+  await page.getByLabel('Close').click();
 });
