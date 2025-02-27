@@ -48,7 +48,10 @@ module.exports = defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'],
-            headless: true},
+            headless: true,
+            permissions: ["clipboard-read"],
+            userAgent: "some custom ua",
+          },
             
     },
 /*

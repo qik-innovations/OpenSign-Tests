@@ -1,7 +1,7 @@
-const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
+const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const path = require('path');
-const CommonSteps = require('./utils/CommonSteps');
+const CommonSteps = require('../utils/CommonSteps');
 test.describe('My signature', () => {
 test('Verify that New user can draw and save the signature on the my signature page.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
@@ -25,7 +25,6 @@ test('Verify that New user can draw and save the signature on the my signature p
         }
       });
       await page.mouse.down();
-await page.waitForTimeout(1000);
 await page.mouse.move(150, 105)
 await page.mouse.up();
       await page.locator('//canvas[@class=\'intialSignature rounded-box\']').click({
@@ -35,7 +34,6 @@ await page.mouse.up();
         }
       });
       await page.mouse.down();
-await page.waitForTimeout(1000);
 await page.mouse.move(98, 120)
 await page.mouse.up();
 await page.locator('//button[@class=\'op-btn op-btn-primary\' and text()= \'Save\']').click();

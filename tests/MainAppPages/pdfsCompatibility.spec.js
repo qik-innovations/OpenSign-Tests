@@ -1,8 +1,8 @@
 // @ts-check
 import { defineConfig } from '@playwright/test';
 const { test, expect } = require('@playwright/test');
-const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
-const CommonSteps = require('./utils/CommonSteps');
+const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+const CommonSteps = require('../utils/CommonSteps');
 const path = require('path');
 test.describe('Incompatible PDFs', () => {
 test('Verify that the user can successfully sign a PDF that was previously incompatible (ERR_PDF)', async ({ page }) => {

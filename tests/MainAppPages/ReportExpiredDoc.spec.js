@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
-const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
-const CommonSteps = require('./utils/CommonSteps');
+const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+const CommonSteps = require('../utils/CommonSteps');
 const path = require('path');
 test('Verify that expired document is available on the Expired documents report.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
@@ -67,5 +67,6 @@ await expect(page.locator('.p-2 > .font-semibold').first()).toContainText('Offer
     console.log("Document not found in the table, successfully Deleted!");
 }
   });
+  
   
   

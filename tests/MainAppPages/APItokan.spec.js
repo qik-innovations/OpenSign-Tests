@@ -1,7 +1,7 @@
-const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
+const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const path = require('path');
-const CommonSteps = require('./utils/CommonSteps');
+const CommonSteps = require('../utils/CommonSteps');
 test.describe('API Token', () => {
 test('Verify that free user cannot generate the live api token.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);

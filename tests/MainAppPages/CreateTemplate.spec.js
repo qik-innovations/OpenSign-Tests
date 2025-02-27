@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
-const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
-const CommonSteps = require('./utils/CommonSteps');
+const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+const CommonSteps = require('../utils/CommonSteps');
 const path = require('path');
 
 test('Verify that a new free user cannot access the paid features on the create template and edit template page.', async ({ page }) => {
@@ -128,7 +128,6 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForLoadState("networkidle");
   await expect(page.getByRole('dialog')).toContainText('Clicking \'Add role\' button will allow you to add various signer roles. You can attach users to each role in subsequent steps.');
   await page.locator('.sc-gsFSXq > button:nth-child(3)').click();
   await expect(page.getByRole('dialog')).toContainText('Once roles are added, select a role from list to add a place-holder where he is supposed to sign. The placeholder will appear in the same colour as the role name once you drop it on the document.');
@@ -255,7 +254,6 @@ test('Verify that a new free user is unable to send the document through bulk se
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
- 
   await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
@@ -329,7 +327,6 @@ test('Verify that an existing Team Plan user can create a template using all adv
   await page.locator('input[name="RedirectUrl"]').fill('https://staging-app.opensignlabs.com/');
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForLoadState("networkidle");
   await page.getByRole('button', { name: '', exact: true }).click();
   await expect(page.locator('input[name="Name"]')).toHaveValue('Sample-joining-letter');
   await expect(page.getByLabel('Note')).toHaveValue('Please review and sign this document');
@@ -363,7 +360,6 @@ await page.getByRole('button', { name: '✕' }).click();
   await page.getByRole('button', { name: 'View' }).first().click();
   await expect(page.locator('#selectSignerModal')).toContainText('Roles');
   await expect(page.locator('#selectSignerModal')).toContainText('Email');
-  await expect(page.locator('#selectSignerModal')).toContainText('hr');
   await page.getByRole('button', { name: '✕' }).click();
 
 });

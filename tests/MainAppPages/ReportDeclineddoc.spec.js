@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
-const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
-const CommonSteps = require('./utils/CommonSteps');
+const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+const CommonSteps = require('../utils/CommonSteps');
 const path = require('path');
 test('Verify that revoked document from the In Progress document is available on the declined documents report.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);

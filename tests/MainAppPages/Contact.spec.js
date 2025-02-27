@@ -1,8 +1,8 @@
 
-const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
+const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const path = require('path');
-const CommonSteps = require('./utils/CommonSteps');
+const CommonSteps = require('../utils/CommonSteps');
 
 const locators = {
   createAccountButton: 'button[name="Create account"]',

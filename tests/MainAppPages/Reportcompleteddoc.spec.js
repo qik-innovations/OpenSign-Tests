@@ -1,7 +1,7 @@
 
 const { test, expect } = require('@playwright/test');
-const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
-const CommonSteps = require('./utils/CommonSteps');
+const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+const CommonSteps = require('../utils/CommonSteps');
 const path = require('path');
 
 test('Verify that the document signed by SignYourSelf is available in the Completed Document Report and can be deleted.', async ({ page }) => {

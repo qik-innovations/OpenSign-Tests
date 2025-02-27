@@ -52,6 +52,12 @@ class CommonSteps {
     await this.page.locator('#password').fill(loginCredentials.password);
     await this.page.getByRole('button', { name: 'Login' }).click();
   }
+  //this functions is created only loging for the user is in profession plan
+  async ProfessionPlanUserlogin() {
+    await this.page.locator('#email').fill(loginCredentials.ProplanUsername);
+    await this.page.locator('#password').fill(loginCredentials.ProPlanpassword);
+    await this.page.getByRole('button', { name: 'Login' }).click();
+  }
   //Here we are allowing free plan new user if global variable FreeplanUsername is empty.
   //  then it will redirected to sign up page to sign up with free plan
   //if global variable FreeplanUsername has value then new user will redirected only to login page

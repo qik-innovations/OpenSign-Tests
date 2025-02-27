@@ -1,6 +1,6 @@
-const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
+const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
-const CommonSteps = require('./utils/CommonSteps');
+const CommonSteps = require('../utils/CommonSteps');
 
 test('Verify admin user can add the team user if user has teams plan.', async ({ page, browser }) => {
   const commonSteps = new CommonSteps(page);

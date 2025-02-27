@@ -1,7 +1,7 @@
-const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
+const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const path = require('path');
-const CommonSteps = require('./utils/CommonSteps');
+const CommonSteps = require('../utils/CommonSteps');
 test.describe('WebHook', () => {
 test('Verify that free user cannot add the live webhook.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);

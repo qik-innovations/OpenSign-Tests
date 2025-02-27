@@ -1,8 +1,9 @@
 const { test, expect } = require('@playwright/test');
-const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
-const CommonSteps = require('./utils/CommonSteps');
+const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+const CommonSteps = require('../utils/CommonSteps');
 const path = require('path');
-import { chromium } from 'playwright';
+
+
 test('Verify that new user can create and send the document for request signature.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -508,21 +509,23 @@ await page.mouse.down();
 await page.mouse.move(800, 400)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
-
+/*
+//span[@class=' hidden md:block ml-1 ' and text()='Copy link']
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 //on the click of this loactor the url get copy in the urlcopy variable
-await page.locator('//span[@class=\' hidden md:block ml-1 \' and text()=\'Copy link\']').click();
-const copiedUrl = await page.locator('//span[@class=" hidden md:block ml-1 " and text()="Copy link"]').getAttribute('data-url');
+//await page.locator('//span[@class="hidden md:block ml-1" and text()="Copy link"]').click();
+
+//const copiedUrlHandle = await page.evaluateHandle(() => navigator.clipboard.readText());
+//const copiedUrl = await copiedUrlHandle.jsonValue();
+//const clipboardy = require('clipboardy');
+//const copiedUrl = await clipboardy.default.read(); // Use `.default`
+await page.getByRole('button', { name: ' Copy link' }).click();
+const copiedUrl = 
 console.log("Extracted URL:", copiedUrl);
-await page.getByRole('button', { name: '✕' }).click();
-  await page.getByRole('button', { name: 'View' }).click();
-await page.getByRole('menuitem', { name: 'Request signatures' }).click();
-  await page.locator('input[name="Name"]').click();
-await page.context().browser().close();
 //relaunch the browser
-let browser = await chromium.launch({ headless: true });
-let context = await browser.newContext();
-let page1 = await context.newPage();
+//let browser = await chromium.launch({ headless: true });
+//let context = await browser.newContext();
+//let page1 = await context.newPage();
 await page1.goto(copiedUrl);
 await page1.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
 await page1.getByRole('button', { name: 'Agree & Continue' }).click();
@@ -644,6 +647,16 @@ await page.bringToFront();  // Brings the default page to the foreground
 console.log("Switched back to the main page");*/
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForLoadState("networkidle");
+  await page.locator('svg > rect:nth-child(3)').click();
   await page.getByLabel('Close').click();
+await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+await page.locator('//span[normalize-space()=\'signature\']').hover();
+await page.mouse.down();
+await page.mouse.move(600, 300)
+await page.mouse.up();
+await page.getByRole('button', { name: 'Next' }).click();
+//await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+await page.getByRole('button', { name: 'Send' }).click();
 });
