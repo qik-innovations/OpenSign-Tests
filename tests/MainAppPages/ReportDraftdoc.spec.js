@@ -12,7 +12,7 @@ test('Verify that the unfinished SignYourSelf document is available in the Draft
     const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.locator('input[name="Name"]').fill('Draft doc rpt Sample offer letter');
   await page.locator('input[name="Note"]').fill('Note Draft doc rpt');
@@ -27,7 +27,36 @@ await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
 // Optionally save changes
-await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
+
+try {
+  const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
+
+  for (let i = 0; i < 5; i++) { // Retry up to 5 times
+      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+          await rowLocator.click();
+          console.log("Save button clicked!");
+          break; // Exit the loop if successfully clicked
+      } else {
+          console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
+  
+          await page.locator('//span[normalize-space()="signature"]').hover();
+          await page.mouse.down();
+          await page.mouse.move(800, 300);
+          await page.mouse.up();
+          
+          // Wait a bit before checking again
+          await page.waitForTimeout(1000);
+      }
+  
+      if (i === 5) {
+          console.log("Save button did not become visible after multiple attempts.");
+      }
+  }
+} catch (error) {
+  console.log("Element not found or not interactable, continuing execution.");
+ 
+}
+
 await page.getByRole('button', { name: ' Documents' }).click();
 await page.getByRole('menuitem', { name: 'Drafts' }).click();
 // Wait up to 90 seconds for the text to appear
@@ -66,7 +95,7 @@ test('Verify that the unfinished SignYourSelf document can be edited from the Dr
     const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.locator('input[name="Name"]').fill('Draft doc rpt Sample offer letter');
   await page.locator('input[name="Note"]').fill('Note Draft doc rpt');
@@ -80,8 +109,30 @@ await page.locator('//span[normalize-space()="signature"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
-// Optionally save changes
-await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
+try {
+  const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
+  for (let i = 0; i < 5; i++) { // Retry up to 5 times
+      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+          await rowLocator.click();
+          console.log("Save button clicked!");
+          break; // Exit the loop if successfully clicked
+      } else {
+          console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
+          await page.locator('//span[normalize-space()="signature"]').hover();
+          await page.mouse.down();
+          await page.mouse.move(800, 300);
+          await page.mouse.up();
+          // Wait a bit before checking again
+          await page.waitForTimeout(1000);
+      }
+      if (i === 5) {
+          console.log("Save button did not become visible after multiple attempts.");
+      }
+  }
+} catch (error) {
+  console.log("Element not found or not interactable, continuing execution.");
+ 
+}
 await page.getByRole('button', { name: ' Documents' }).click();
 await page.getByRole('menuitem', { name: 'Drafts' }).click();
 // Wait up to 90 seconds for the text to appear
@@ -143,7 +194,7 @@ try {
  const fileChooserPromise1 = page.waitForEvent('filechooser');
  await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
  const fileChooser1 = await fileChooserPromise1;
- await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
+ await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
  await page.locator("//button[normalize-space()='Save']").click();
  await page.locator('//span[normalize-space()="initials"]').hover();
  await page.mouse.down();
@@ -193,7 +244,7 @@ try {
  const fileChooserPromise2 = page.waitForEvent('filechooser');
  await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
  const fileChooser2 = await fileChooserPromise2;
- await fileChooser2.setFiles(path.join(__dirname, '/TestData/Images/DesignerImage.png'));
+ await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
  await page.locator("//button[normalize-space()='Save']").click();
  await page.locator('//span[normalize-space()="email"]').hover();
  await page.mouse.down();

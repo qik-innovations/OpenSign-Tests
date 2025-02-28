@@ -136,7 +136,7 @@ test('Verify that user can import contacts from an Excel file', async ({ page })
   const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Contactbookready.xlsx'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Contactbookready.xlsx'));
 
   // Perform Import
  await page.getByRole('button', { name: 'Import' }).click();

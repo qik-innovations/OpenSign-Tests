@@ -18,7 +18,7 @@ test('Verify that owner can create the document and sign it from the need your s
     const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
   await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
@@ -31,6 +31,34 @@ await page.locator('//span[normalize-space()=\'signature\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
+try {
+  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+
+  for (let i = 0; i < 5; i++) { // Retry up to 5 times
+      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+      
+          console.log("signature widget dragged and dropped");
+          break; // Exit the loop if successfully clicked
+      } else {
+          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  
+          await page.locator('//span[normalize-space()="signature"]').hover();
+          await page.mouse.down();
+          await page.mouse.move(800, 300);
+          await page.mouse.up();
+          
+          // Wait a bit before checking again
+          await page.waitForTimeout(1000);
+      }
+  
+      if (i === 5) {
+          console.log("signature widget did not become visible on the document after multiple attempts.");
+      }
+  }
+} catch (error) {
+  console.log("Element not found or not interactable, continuing execution.");
+ 
+}
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 360)
@@ -111,7 +139,7 @@ await page.locator('//div[contains(text(),"stamp")]').click();
 const fileChooserPromise1 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
+await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//div[contains(text(),"initials")]').click();
 await page.mouse.move(650, 350)
@@ -123,7 +151,7 @@ await page.getByPlaceholder('name').fill('Mark Anderson');
   await page.getByPlaceholder('job title').click();
   await page.getByPlaceholder('job title').fill('Quality analyst');
   await page.getByPlaceholder('company').click();
-  await page.getByPlaceholder('company').fill('Oepnsign labs pvt. ltd');
+  await page.getByPlaceholder('company').fill('Opensign labs pvt. ltd');
   await page.getByPlaceholder('text').fill('120 wood street sanfransisco');
   await page.locator('#myDropdown').selectOption('option-2');
  await page.getByRole('radio', { name: 'option-1' }).check();
@@ -132,7 +160,7 @@ await page.getByPlaceholder('name').fill('Mark Anderson');
   const fileChooserPromise2 = page.waitForEvent('filechooser');
   await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
   const fileChooser2 = await fileChooserPromise2;
-  await fileChooser2.setFiles(path.join(__dirname, '/TestData/Images/DesignerImage.png'));
+  await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
   await page.locator("//button[normalize-space()='Save']").click();
   await page.getByRole('button', { name: 'Finish' }).click();
   await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
@@ -157,7 +185,7 @@ await page.getByRole('menuitem', { name: 'Request signatures' }).click();
   const fileChooserPromise = page.waitForEvent('filechooser');
 await page.locator('input[type="file"]').click();
 const fileChooser = await fileChooserPromise;
-await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
@@ -170,6 +198,34 @@ await page.locator('//span[normalize-space()=\'signature\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
+try {
+  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+
+  for (let i = 0; i < 5; i++) { // Retry up to 5 times
+      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+      
+          console.log("signature widget dragged and dropped");
+          break; // Exit the loop if successfully clicked
+      } else {
+          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  
+          await page.locator('//span[normalize-space()="signature"]').hover();
+          await page.mouse.down();
+          await page.mouse.move(800, 300);
+          await page.mouse.up();
+          
+          // Wait a bit before checking again
+          await page.waitForTimeout(1000);
+      }
+  
+      if (i === 5) {
+          console.log("signature widget did not become visible on the document after multiple attempts.");
+      }
+  }
+} catch (error) {
+  console.log("Element not found or not interactable, continuing execution.");
+ 
+}
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 360)

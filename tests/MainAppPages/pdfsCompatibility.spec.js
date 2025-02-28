@@ -1,11 +1,9 @@
-// @ts-check
-import { defineConfig } from '@playwright/test';
 const { test, expect } = require('@playwright/test');
 const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const CommonSteps = require('../utils/CommonSteps');
 const path = require('path');
-test.describe('Incompatible PDFs', () => {
-test('Verify that the user can successfully sign a PDF that was previously incompatible (ERR_PDF)', async ({ page }) => {
+
+test('Verify that the user can successfully sign a PDF that was previously incompatible ERR_PDF', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
@@ -13,7 +11,6 @@ test('Verify that the user can successfully sign a PDF that was previously incom
   //const title = await page.title()
     //Expects page to have a heading with the name of dashboard.
   //expect(title).toBe('Dashboard - OpenSign™');
-  
   await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
     await page.locator('input[name="Name"]').click();
     await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
@@ -21,8 +18,8 @@ test('Verify that the user can successfully sign a PDF that was previously incom
     await page.locator('input[name="Note"]').click();
     const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
-  const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/IncompatiblePDFs/errpdf.pdf'));
+const fileChooser = await fileChooserPromise;
+await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/IncompatiblePDFs/errpdf.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
@@ -32,7 +29,6 @@ await page.locator('//span[normalize-space()="signature"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
-// Optionally save changes
 try {
   const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
 
@@ -69,7 +65,7 @@ await page.mouse.up();
 const fileChooserPromise1 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
+await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//span[normalize-space()="initials"]').hover();
 await page.mouse.down();
@@ -116,7 +112,7 @@ await page.mouse.up();
 const fileChooserPromise2 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '/TestData/Images/DesignerImage.png'));
+await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//span[normalize-space()="email"]').hover();
 await page.mouse.down();
@@ -129,7 +125,7 @@ await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//button[normalize-space()='Send']").click();
 
 });
-test('Verify that the user can successfully sign a PDF that was previously incompatible (pdf Order Form)', async ({ page }) => {
+test('Verify that the user can successfully sign a PDF that was previously incompatible pdf Order Form', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
@@ -146,7 +142,7 @@ test('Verify that the user can successfully sign a PDF that was previously incom
     const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/IncompatiblePDFs/Order_Form.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/IncompatiblePDFs/Order_Form.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
@@ -156,7 +152,7 @@ await page.locator('//span[normalize-space()="signature"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
-// Optionally save changes
+
 try {
   const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
 
@@ -193,7 +189,7 @@ await page.mouse.up();
 const fileChooserPromise1 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
+await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//span[normalize-space()="initials"]').hover();
 await page.mouse.down();
@@ -237,7 +233,7 @@ await page.mouse.up();
 const fileChooserPromise2 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '/TestData/Images/DesignerImage.png'));
+await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
 const saveButton = page.locator("//button[normalize-space()='Save']");
 await saveButton.waitFor();
 await saveButton.click();
@@ -269,7 +265,7 @@ test('Verify that the user can successfully sign a PDF that was previously incom
     const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/IncompatiblePDFs/10pages.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/IncompatiblePDFs/10pages.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
@@ -280,7 +276,7 @@ await page.locator('//span[normalize-space()="signature"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
-// Optionally save changes
+
 try {
   const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
 
@@ -317,7 +313,7 @@ await page.mouse.up();
 const fileChooserPromise1 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
+await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//span[normalize-space()="initials"]').hover();
 await page.mouse.down();
@@ -361,7 +357,7 @@ await page.mouse.up();
 const fileChooserPromise2 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '/TestData/Images/DesignerImage.png'));
+await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//span[normalize-space()="email"]').hover();
 await page.mouse.down();
@@ -391,7 +387,7 @@ test('Verify that the user can successfully sign a PDF that was previously incom
     const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/IncompatiblePDFs/20pages.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/IncompatiblePDFs/20pages.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
@@ -438,7 +434,7 @@ await page.mouse.up();
 const fileChooserPromise1 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
+await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//span[normalize-space()="initials"]').hover();
 await page.mouse.down();
@@ -482,7 +478,7 @@ await page.mouse.up();
 const fileChooserPromise2 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '/TestData/Images/DesignerImage.png'));
+await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//span[normalize-space()="email"]').hover();
 await page.mouse.down();
@@ -704,7 +700,7 @@ test('Verify that user can perform the sign yourself using the word document', a
     const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample_Test_word_doc.docx'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_word_doc.docx'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
@@ -752,7 +748,7 @@ await page.mouse.up();
 const fileChooserPromise1 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
+await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//span[normalize-space()="initials"]').hover();
 await page.mouse.down();
@@ -796,7 +792,7 @@ await page.mouse.up();
 const fileChooserPromise2 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '/TestData/Images/DesignerImage.png'));
+await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//span[normalize-space()="email"]').hover();
 await page.mouse.down();
@@ -808,4 +804,4 @@ await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//i[@class='fa-light fa-plus']").first().click();
   await page.locator("//button[normalize-space()='Send']").click();
 
-});});
+});

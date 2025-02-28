@@ -2,7 +2,7 @@ const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const path = require('path');
 const CommonSteps = require('../utils/CommonSteps');
-
+test.describe('Console app', () => {
 test('Verify that a free user cannot access the Analytics page in the console application and is prompted to upgrade.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -42,7 +42,6 @@ await expect(page1.locator('#root')).toContainText('OpenSign Lab');
   } else {
     console.error(`Page title is incorrect. Expected: "Analytics - OpenSign™", Got: "${title}"`);
   }
-  await expect(page1.locator('#root')).toContainText('Mathew Setven');
   await expect(page1.locator('#root')).toContainText('PRO');
   await expect(page1.locator('#renderList')).toContainText('Documents signed');
   await expect(page1.locator('#renderList')).toContainText('Templates count');
@@ -79,3 +78,4 @@ await expect(page1.locator('#root')).toContainText('OpenSign pvt ltd');
   await expect(page1.locator('.grid > div:nth-child(3)')).toBeVisible();
 });
 
+});

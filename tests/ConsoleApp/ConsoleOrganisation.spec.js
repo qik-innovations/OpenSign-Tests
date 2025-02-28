@@ -2,7 +2,7 @@ const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const path = require('path');
 const CommonSteps = require('../utils/CommonSteps');
-
+test.describe('Console app', () => {
 test('Verify that a free user cannot access the Organisations page in the console application and is prompted to upgrade.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -48,4 +48,5 @@ await expect(page1.locator('#root')).toContainText('OpenSign Lab');
     }
     await expect(page1.locator('#renderList')).toContainText('Organizations');
     await expect(page1.locator('#renderList')).toContainText('Upgrade to team plan');
+});
 });

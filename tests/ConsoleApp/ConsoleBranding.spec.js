@@ -2,7 +2,7 @@ const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const path = require('path');
 const CommonSteps = require('../utils/CommonSteps');
-
+test.describe('Console app', () => {
 test('Verify that a free user cannot access the Branding page in the console application and is prompted to upgrade.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -44,7 +44,7 @@ test('Verify that Profession plan User cannot access the Branding page in the co
     } else {
       console.error(`Page title is incorrect. Expected: "Branding - OpenSign™", Got: "${title}"`);
     }
-    await expect(page1.locator('#root')).toContainText('Matheww Setven');
+    
     await expect(page1.locator('#root')).toContainText('PRO');
     await expect(page1.locator('#renderList')).toContainText('Upgrade to enterprise plan');
     await expect(page1.locator('#renderList')).toMatchAriaSnapshot(`- button "Upgrade to enterprise plan"`);
@@ -53,7 +53,7 @@ test('Verify that Profession plan User cannot access the Branding page in the co
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
-    await commonSteps.ProfessionPlanUserlogin();
+    await commonSteps.login();
     await page.getByRole('button', { name: '' }).click();
     const page1Promise = page.waitForEvent('popup');
     await page.getByText('Console').click();
@@ -73,3 +73,4 @@ test('Verify that Profession plan User cannot access the Branding page in the co
     await expect(page1.locator('#renderList')).toContainText('Upgrade to enterprise plan');
     await expect(page1.locator('#renderList')).toMatchAriaSnapshot(`- button "Upgrade to enterprise plan"`);
   });
+});

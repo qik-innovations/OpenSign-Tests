@@ -2,7 +2,7 @@ const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const path = require('path');
 const CommonSteps = require('../utils/CommonSteps');
-
+test.describe('Console app', () => {
 test('Verify that a free user cannot access the Signing certificate page in the console application and is prompted to upgrade.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -75,8 +75,9 @@ await expect(page1.locator('#root')).toContainText('OpenSign pvt ltd');
      const fileChooserPromise = page1.waitForEvent('filechooser');
       await page1.locator('input[type="file"]').click();
       const fileChooser = await fileChooserPromise;
-      await fileChooser.setFiles(path.join(__dirname, '/TestData/opensign.pfx'));
+      await fileChooser.setFiles(path.join(__dirname, '../TestData/opensign.pfx'));
     await page1.getByPlaceholder('Enter password of pfx file').fill('OpenSign');
     await page1.getByRole('button', { name: 'Save' }).click();
     await page1.getByRole('button', { name: 'Use default OpenSign™' }).click();
+});
 });

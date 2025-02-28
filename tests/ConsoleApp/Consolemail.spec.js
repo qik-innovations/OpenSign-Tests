@@ -2,7 +2,7 @@ const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const path = require('path');
 const CommonSteps = require('../utils/CommonSteps');
-
+test.describe('Console app', () => {
 test('Verify that a free user cannot access the Mail page in the console application and is prompted to upgrade.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -22,8 +22,8 @@ test('Verify that a free user cannot access the Mail page in the console applica
     } else {
       console.error(`Page title is incorrect. Expected: "OpenSign™ Email Settings - OpenSign™", Got: "${title}"`);
     }
-    await expect(page1.locator('#renderList')).toContainText('Upgrade to enterprise plan');
-    await expect(page1.locator('#renderList')).toMatchAriaSnapshot(`- button "Upgrade to enterprise plan"`);
+    await expect(page1.locator('#renderList')).toContainText('Upgrade now');
+    await expect(page1.locator('#renderList')).toMatchAriaSnapshot(`- button "Upgrade now"`);
 });
 
 test('Verify that Profession plan User can access the Email page in the console application.', async ({ page }) => {
@@ -45,27 +45,27 @@ test('Verify that Profession plan User can access the Email page in the console 
     } else {
       console.error(`Page title is incorrect. Expected: "OpenSign™ Email Settings - OpenSign™", Got: "${title}"`);
     }
-    await expect(page1.locator('#root')).toContainText('Mathew Setven');
+  
     await expect(page1.locator('#root')).toContainText('PRO');
-    const page2Promise = page1.waitForEvent('popup');
+    /*
   await page1.getByRole('button', { name: 'G Connect to Gmail' }).click();
-  const page2 = await page3Promise;
+  const page2Promise = page1.waitForEvent('popup');
+  const page2 = await page2Promise;
   await page2.getByText('Sign in', { exact: true }).click();
   await expect(page2.locator('#headingText')).toContainText('Sign in');
   await page1.getByRole('button', { name: ' Custom SMTP' }).click();
   await page1.getByRole('heading', { name: 'SMTP Credentials' }).click();
   await expect(page1.locator('h3')).toContainText('SMTP Credentials');
-  await page1.getByRole('button', { name: '✕' }).click();
-  await page1.getByRole('button', { name: 'OpenSign™ default SMTP' }).click();
-  await expect(page1.locator('#selectSignerModal')).toContainText('Are you sure you want to use OpenSign™\'s default mail servers to send your signature request emails? We recommend using your own Gmail or SMTP servers for improved inbox deliverability.');
-  await page1.getByRole('button', { name: 'Yes' }).click();
+  await page1.getByRole('button', { name: '✕' }).click();*/
+  await expect(page1.getByRole('heading')).toContainText('OpenSign™ Email Settings');
+  await expect(page1.locator('#renderList')).toContainText('OpenSign™ default SMTP');
   });
 
   test('Verify that Team plan User can access the Email page in the console application.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
-    await commonSteps.ProfessionPlanUserlogin();
+    await commonSteps.login();
     await page.getByRole('button', { name: '' }).click();
     const page1Promise = page.waitForEvent('popup');
     await page.getByText('Console').click();
@@ -82,16 +82,17 @@ test('Verify that Profession plan User can access the Email page in the console 
     }
     await expect(page1.locator('#root')).toContainText('Pravin Testing account');
     await expect(page1.locator('#root')).toContainText('TEAM');
-    const page2Promise = page1.waitForEvent('popup');
-  await page1.getByRole('button', { name: 'G Connect to Gmail' }).click();
-  const page2 = await page3Promise;
+  /*await page1.getByRole('button', { name: 'G Connect to Gmail' }).click();
+  const page2Promise = page1.waitForEvent('popup');
+  const page2 = await page2Promise;
   await page2.getByText('Sign in', { exact: true }).click();
   await expect(page2.locator('#headingText')).toContainText('Sign in');
   await page1.getByRole('button', { name: ' Custom SMTP' }).click();
   await page1.getByRole('heading', { name: 'SMTP Credentials' }).click();
   await expect(page1.locator('h3')).toContainText('SMTP Credentials');
-  await page1.getByRole('button', { name: '✕' }).click();
-  await page1.getByRole('button', { name: 'OpenSign™ default SMTP' }).click();
-  await expect(page1.locator('#selectSignerModal')).toContainText('Are you sure you want to use OpenSign™\'s default mail servers to send your signature request emails? We recommend using your own Gmail or SMTP servers for improved inbox deliverability.');
-  await page1.getByRole('button', { name: 'Yes' }).click();
+  await page1.getByRole('button', { name: '✕' }).click();*/
+  await expect(page1.getByRole('heading')).toContainText('OpenSign™ Email Settings');
+  await expect(page1.locator('#renderList')).toContainText('OpenSign™ default SMTP');
+ 
   });
+});

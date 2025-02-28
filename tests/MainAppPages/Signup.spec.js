@@ -40,23 +40,14 @@ const fillSignupForm = async (page, { name, email, phone, company, jobTitle, pas
 test.describe('SignupPage', () => {
 test('Verify that a user can sign up with a free subscription plan and validate the details in the user profile.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
-
   // Step 1: Navigate to Base URL and start sign-up
   await commonSteps.navigateToBaseUrl();
   await page.getByRole('button', { name: 'Create account' }).click();
   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
-
   // Generate a unique email
   const email = `pravin+${Math.random().toString(36).substring(2, 8)}@nxglabs.in`;
   loginCredentials.FreeplanUsername = email;
   loginCredentials.FreePlanpassword = 'Nxglabs@123';
-
-  // Save updated global credentials to a JSON file
-  const globalDataPath = path.join(__dirname, './TestData/GlobalVar/globalData.json');
-  fs.writeFileSync(globalDataPath, JSON.stringify(loginCredentials, null, 2));
-
-  console.log('✅ Updated Global Credentials:', loginCredentials);
-
   // Fill the signup form
   await fillSignupForm(page, {
     name: 'Mathew Wade',

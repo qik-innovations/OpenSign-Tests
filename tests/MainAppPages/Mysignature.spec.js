@@ -56,11 +56,11 @@ test('Verify that New user can upload and save the signature on the my signature
      const fileChooserPromise1 = page.waitForEvent('filechooser');
      await page.locator('//div[@class=\'op-link\' and text()=\'Upload\']').click();
      const fileChooser1 = await fileChooserPromise1;
-     await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/signature.png'));
+     await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/signature.png'));
      const fileChooserPromise2 = page.waitForEvent('filechooser');
     await page.locator('//div[@class=\'op-link text-sm md:text-base mr-1\' and text()=\'Upload\']').click();
     const fileChooser2 = await fileChooserPromise2;
-     await fileChooser2.setFiles(path.join(__dirname, '/TestData/Images/initial.png'));
+     await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/initial.png'));
 await page.locator('//button[@class=\'op-btn op-btn-primary\' and text()= \'Save\']').click();
 await expect(page.getByText('Signature saved successfully.')).toBeVisible();
 });

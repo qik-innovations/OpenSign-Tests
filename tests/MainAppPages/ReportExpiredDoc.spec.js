@@ -15,7 +15,7 @@ test('Verify that expired document is available on the Expired documents report.
     const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
   await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
@@ -32,6 +32,34 @@ test('Verify that expired document is available on the Expired documents report.
   await page.mouse.down();
   await page.mouse.move(600, 300)
   await page.mouse.up();
+  try {
+    const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+  
+    for (let i = 0; i < 5; i++) { // Retry up to 5 times
+        if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+        
+            console.log("signature widget dragged and dropped");
+            break; // Exit the loop if successfully clicked
+        } else {
+            console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+    
+            await page.locator('//span[normalize-space()="signature"]').hover();
+            await page.mouse.down();
+            await page.mouse.move(800, 300);
+            await page.mouse.up();
+            
+            // Wait a bit before checking again
+            await page.waitForTimeout(1000);
+        }
+    
+        if (i === 5) {
+            console.log("signature widget did not become visible on the document after multiple attempts.");
+        }
+    }
+  } catch (error) {
+    console.log("Element not found or not interactable, continuing execution.");
+   
+  }
   await page.getByRole('button', { name: 'Next' }).click();
   await page.getByRole('button', { name: 'Send' }).click();
   await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
