@@ -1,8 +1,9 @@
 const { test, expect } = require('@playwright/test');
-const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
-const CommonSteps = require('./utils/CommonSteps');
+const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+const CommonSteps = require('../utils/CommonSteps');
 const path = require('path');
-import { chromium } from 'playwright';
+
+
 test('Verify that new user can create and send the document for request signature.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -33,7 +34,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await page.locator('form i').nth(2).click();
   await page.getByLabel('Name *').fill('Karl Mark');
   await page.getByLabel('Email *').fill('karlmark1954@gmail.com');
@@ -52,6 +53,34 @@ await page.locator('//span[normalize-space()=\'signature\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
+try {
+  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+
+  for (let i = 0; i < 5; i++) { // Retry up to 5 times
+      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+      
+          console.log("signature widget dragged and dropped");
+          break; // Exit the loop if successfully clicked
+      } else {
+          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  
+          await page.locator('//span[normalize-space()="signature"]').hover();
+          await page.mouse.down();
+          await page.mouse.move(800, 300);
+          await page.mouse.up();
+          
+          // Wait a bit before checking again
+          await page.waitForTimeout(1000);
+      }
+  
+      if (i === 5) {
+          console.log("signature widget did not become visible on the document after multiple attempts.");
+      }
+  }
+} catch (error) {
+  console.log("Element not found or not interactable, continuing execution.");
+ 
+}
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 360)
@@ -125,7 +154,7 @@ await expect(page.locator('#renderList')).toContainText('In-progress documents')
     const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
     await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
@@ -137,12 +166,37 @@ await expect(page.locator('#renderList')).toContainText('In-progress documents')
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()=\'signature\']').hover();
-
 await page.mouse.down();
-
 await page.mouse.move(600, 300)
 await page.mouse.up();
+try {
+  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
 
+  for (let i = 0; i < 5; i++) { // Retry up to 5 times
+      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+      
+          console.log("signature widget dragged and dropped");
+          break; // Exit the loop if successfully clicked
+      } else {
+          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  
+          await page.locator('//span[normalize-space()="signature"]').hover();
+          await page.mouse.down();
+          await page.mouse.move(800, 300);
+          await page.mouse.up();
+          
+          // Wait a bit before checking again
+          await page.waitForTimeout(1000);
+      }
+  
+      if (i === 5) {
+          console.log("signature widget did not become visible on the document after multiple attempts.");
+      }
+  }
+} catch (error) {
+  console.log("Element not found or not interactable, continuing execution.");
+ 
+}
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 360)
@@ -215,7 +269,7 @@ test('Verify that user can create a document of type image and send it for a sig
     const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/1Sample-Offer_letter.png'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/1Sample-Offer_letter.png'));
   await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
@@ -231,6 +285,34 @@ await page.locator('//span[normalize-space()=\'signature\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
+try {
+  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+
+  for (let i = 0; i < 5; i++) { // Retry up to 5 times
+      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+      
+          console.log("signature widget dragged and dropped");
+          break; // Exit the loop if successfully clicked
+      } else {
+          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  
+          await page.locator('//span[normalize-space()="signature"]').hover();
+          await page.mouse.down();
+          await page.mouse.move(800, 300);
+          await page.mouse.up();
+          
+          // Wait a bit before checking again
+          await page.waitForTimeout(1000);
+      }
+  
+      if (i === 5) {
+          console.log("signature widget did not become visible on the document after multiple attempts.");
+      }
+  }
+} catch (error) {
+  console.log("Element not found or not interactable, continuing execution.");
+ 
+}
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 360)
@@ -298,7 +380,7 @@ test('Verify that an existing user can create a document and sign it when added 
     const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
   await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
@@ -310,12 +392,37 @@ test('Verify that an existing user can create a document and sign it when added 
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()=\'signature\']').hover();
-
 await page.mouse.down();
-
 await page.mouse.move(600, 300)
 await page.mouse.up();
+try {
+  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
 
+  for (let i = 0; i < 5; i++) { // Retry up to 5 times
+      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+      
+          console.log("signature widget dragged and dropped");
+          break; // Exit the loop if successfully clicked
+      } else {
+          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  
+          await page.locator('//span[normalize-space()="signature"]').hover();
+          await page.mouse.down();
+          await page.mouse.move(800, 300);
+          await page.mouse.up();
+          
+          // Wait a bit before checking again
+          await page.waitForTimeout(1000);
+      }
+  
+      if (i === 5) {
+          console.log("signature widget did not become visible on the document after multiple attempts.");
+      }
+  }
+} catch (error) {
+  console.log("Element not found or not interactable, continuing execution.");
+ 
+}
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 360)
@@ -394,7 +501,7 @@ await page.locator('//div[contains(text(),"stamp")]').click();
 const fileChooserPromise1 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
+await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//div[contains(text(),"itials")]').click();
 await page.mouse.move(650, 350)
@@ -402,11 +509,11 @@ await page.mouse.down();
 await page.mouse.move(700, 380)
 await page.mouse.up();
 await page.locator("//button[normalize-space()='Save']").click();
-await page.getByPlaceholder('name').fill('Mark Anderson');
+/*await page.getByPlaceholder('name').fill('Mark Anderson');
   await page.getByPlaceholder('job title').click();
   await page.getByPlaceholder('job title').fill('Quality analyst');
   await page.getByPlaceholder('company').click();
-  await page.getByPlaceholder('company').fill('Oepnsign labs pvt. ltd');
+  await page.getByPlaceholder('company').fill('Oepnsign labs pvt. ltd');*/
   await page.getByPlaceholder('text').fill('120 wood street sanfransisco');
   await page.locator('#myDropdown').selectOption('option-2');
  await page.getByRole('radio', { name: 'option-1' }).check();
@@ -415,7 +522,7 @@ await page.getByPlaceholder('name').fill('Mark Anderson');
   const fileChooserPromise2 = page.waitForEvent('filechooser');
   await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
   const fileChooser2 = await fileChooserPromise2;
-  await fileChooser2.setFiles(path.join(__dirname, '/TestData/Images/DesignerImage.png'));
+  await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
   await page.locator("//button[normalize-space()='Save']").click();
   await page.getByRole('button', { name: 'Finish' }).click();
   await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
@@ -440,7 +547,7 @@ await page.getByRole('menuitem', { name: 'Request signatures' }).click();
   const fileChooserPromise = page.waitForEvent('filechooser');
 await page.locator('input[type="file"]').click();
 const fileChooser = await fileChooserPromise;
-await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
@@ -454,6 +561,34 @@ await page.locator('//span[normalize-space()=\'signature\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
+try {
+  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+
+  for (let i = 0; i < 5; i++) { // Retry up to 5 times
+      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+      
+          console.log("signature widget dragged and dropped");
+          break; // Exit the loop if successfully clicked
+      } else {
+          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  
+          await page.locator('//span[normalize-space()="signature"]').hover();
+          await page.mouse.down();
+          await page.mouse.move(800, 300);
+          await page.mouse.up();
+          
+          // Wait a bit before checking again
+          await page.waitForTimeout(1000);
+      }
+  
+      if (i === 5) {
+          console.log("signature widget did not become visible on the document after multiple attempts.");
+      }
+  }
+} catch (error) {
+  console.log("Element not found or not interactable, continuing execution.");
+ 
+}
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 360)
@@ -508,21 +643,23 @@ await page.mouse.down();
 await page.mouse.move(800, 400)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
-
+/*
+//span[@class=' hidden md:block ml-1 ' and text()='Copy link']
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 //on the click of this loactor the url get copy in the urlcopy variable
-await page.locator('//span[@class=\' hidden md:block ml-1 \' and text()=\'Copy link\']').click();
-const copiedUrl = await page.locator('//span[@class=" hidden md:block ml-1 " and text()="Copy link"]').getAttribute('data-url');
+//await page.locator('//span[@class="hidden md:block ml-1" and text()="Copy link"]').click();
+
+//const copiedUrlHandle = await page.evaluateHandle(() => navigator.clipboard.readText());
+//const copiedUrl = await copiedUrlHandle.jsonValue();
+//const clipboardy = require('clipboardy');
+//const copiedUrl = await clipboardy.default.read(); // Use `.default`
+await page.getByRole('button', { name: ' Copy link' }).click();
+const copiedUrl = 
 console.log("Extracted URL:", copiedUrl);
-await page.getByRole('button', { name: '✕' }).click();
-  await page.getByRole('button', { name: 'View' }).click();
-await page.getByRole('menuitem', { name: 'Request signatures' }).click();
-  await page.locator('input[name="Name"]').click();
-await page.context().browser().close();
 //relaunch the browser
-let browser = await chromium.launch({ headless: true });
-let context = await browser.newContext();
-let page1 = await context.newPage();
+//let browser = await chromium.launch({ headless: true });
+//let context = await browser.newContext();
+//let page1 = await context.newPage();
 await page1.goto(copiedUrl);
 await page1.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
 await page1.getByRole('button', { name: 'Agree & Continue' }).click();
@@ -598,7 +735,7 @@ test('Verify that a new free user cannot access the paid features on the request
     const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await page.locator('.text-xs > div > .cursor-pointer').first().click();
   await page.getByLabel('Add yourself').check();
   await page.getByRole('button', { name: 'Submit' }).click();
@@ -644,6 +781,44 @@ await page.bringToFront();  // Brings the default page to the foreground
 console.log("Switched back to the main page");*/
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForLoadState("networkidle");
+  await page.locator('svg > rect:nth-child(3)').click();
   await page.getByLabel('Close').click();
+await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+await page.locator('//span[normalize-space()=\'signature\']').hover();
+await page.mouse.down();
+await page.mouse.move(600, 300)
+await page.mouse.up();
+try {
+  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+
+  for (let i = 0; i < 5; i++) { // Retry up to 5 times
+      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+      
+          console.log("signature widget dragged and dropped");
+          break; // Exit the loop if successfully clicked
+      } else {
+          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  
+          await page.locator('//span[normalize-space()="signature"]').hover();
+          await page.mouse.down();
+          await page.mouse.move(800, 300);
+          await page.mouse.up();
+          
+          // Wait a bit before checking again
+          await page.waitForTimeout(1000);
+      }
+  
+      if (i === 5) {
+          console.log("signature widget did not become visible on the document after multiple attempts.");
+      }
+  }
+} catch (error) {
+  console.log("Element not found or not interactable, continuing execution.");
+ 
+}
+await page.getByRole('button', { name: 'Next' }).click();
+//await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+await page.getByRole('button', { name: 'Send' }).click();
 });

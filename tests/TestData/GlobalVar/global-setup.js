@@ -1,12 +1,16 @@
 const fs = require('fs');
 const path = require('path');
 
-// Define login credentials
+// Define login credentials for free plan users
 const loginCredentials = {
-  email: process.env.LOGIN_EMAIL || 'pravin+testaccount@nxglabs.in',
-  password: process.env.LOGIN_PASSWORD || 'Nxglabs@123',
   FreeplanUsername: '',
   FreePlanpassword: '',
+  //global veriables user name and password for Pro-plan user
+  ProplanUsername: 'pravin+stevadwart@nxglabs.in',
+  ProPlanpassword: 'Nxglabs@123',
+    //global veriables user name and password for Teams-plan user
+  email: process.env.LOGIN_EMAIL || 'pravin+testaccount@nxglabs.in',
+  password: process.env.LOGIN_PASSWORD || 'Nxglabs@123',
 };
 
 // Ensure directory exists before writing the file

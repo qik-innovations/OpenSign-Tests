@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
-const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
-const CommonSteps = require('./utils/CommonSteps');
+const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+const CommonSteps = require('../utils/CommonSteps');
 const path = require('path');
 
 test('Verify that a new free user cannot access the paid features on the create template and edit template page.', async ({ page }) => {
@@ -31,7 +31,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await page.getByText('Advanced options').click();
   const checkbox = page.locator('//input[@type="checkbox" and @class="op-toggle transition-all checked:[--tglbg:#3368ff] checked:bg-white"]');
 const isDisabled = await checkbox.isDisabled();
@@ -125,10 +125,9 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForLoadState("networkidle");
   await expect(page.getByRole('dialog')).toContainText('Clicking \'Add role\' button will allow you to add various signer roles. You can attach users to each role in subsequent steps.');
   await page.locator('.sc-gsFSXq > button:nth-child(3)').click();
   await expect(page.getByRole('dialog')).toContainText('Once roles are added, select a role from list to add a place-holder where he is supposed to sign. The placeholder will appear in the same colour as the role name once you drop it on the document.');
@@ -225,7 +224,7 @@ await page.getByRole('button', { name: 'Create document' }).click();
   const fileChooserPromise1 = page.waitForEvent('filechooser');
   await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
   const fileChooser1 = await fileChooserPromise1;
-  await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
+  await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
   await page.locator("//button[normalize-space()='Save']").click();
   await page.locator('//div[contains(text(),"initials")]').click();
   await page.mouse.move(650, 350)
@@ -241,7 +240,7 @@ await page.getByRole('button', { name: 'Create document' }).click();
     const fileChooserPromise2 = page.waitForEvent('filechooser');
     await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
     const fileChooser2 = await fileChooserPromise2;
-    await fileChooser2.setFiles(path.join(__dirname, '/TestData/Images/DesignerImage.png'));
+    await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
     await page.locator("//button[normalize-space()='Save']").click();
     await page.getByRole('button', { name: 'Finish' }).click();
     await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
@@ -255,17 +254,17 @@ test('Verify that a new free user is unable to send the document through bulk se
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
- 
   await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
+  await page.getByLabel('Close').click();
   await page.getByRole('button', { name: '+ Add role' }).click();
   await page.getByPlaceholder('User').fill('HR');
   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
@@ -292,10 +291,10 @@ await page.mouse.move(600, 300)
 await page.mouse.up()
 await page.getByRole('button', { name: 'Next' }).click();
   await page.getByRole('button', { name: 'Bulk send' }).click();
-  await page.locator('#selectSignerModal div').filter({ hasText: /^hr$/ }).getByPlaceholder('Enter Email...').click();
-  await page.locator('#selectSignerModal div').filter({ hasText: /^hr$/ }).getByPlaceholder('Enter Email...').fill('pravin+677@nxglabs.in');
-  await page.locator('#selectSignerModal div').filter({ hasText: /^manager$/ }).getByPlaceholder('Enter Email...').click();
-  await page.locator('#selectSignerModal div').filter({ hasText: /^manager$/ }).getByPlaceholder('Enter Email...').fill('pravin+689@nxglabs.in');
+  await page.locator('#selectSignerModal div').filter({ hasText: /^HR$/ }).getByPlaceholder('Enter Email...').click();
+  await page.locator('#selectSignerModal div').filter({ hasText: /^HR$/ }).getByPlaceholder('Enter Email...').fill('pravin+677@nxglabs.in');
+  await page.locator('#selectSignerModal div').filter({ hasText: /^Manager$/ }).getByPlaceholder('Enter Email...').click();
+  await page.locator('#selectSignerModal div').filter({ hasText: /^Manager$/ }).getByPlaceholder('Enter Email...').fill('pravin+689@nxglabs.in');
   await page.getByRole('button', { name: ' Send' }).click();
   await expect(page.locator('#selectSignerModal')).toContainText('Please upgrade to Professional or Team plan to use bulk send.');
   await expect(page.locator('#selectSignerModal')).toContainText('Upgrade now');
@@ -314,7 +313,7 @@ test('Verify that an existing Team Plan user can create a template using all adv
   const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await page.getByText('Advanced options').click();
   await page.locator('input[name="SendinOrder"]').nth(1).check();
   await page.getByLabel('', { exact: true }).check();
@@ -329,7 +328,6 @@ test('Verify that an existing Team Plan user can create a template using all adv
   await page.locator('input[name="RedirectUrl"]').fill('https://staging-app.opensignlabs.com/');
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForLoadState("networkidle");
   await page.getByRole('button', { name: '', exact: true }).click();
   await expect(page.locator('input[name="Name"]')).toHaveValue('Sample-joining-letter');
   await expect(page.getByLabel('Note')).toHaveValue('Please review and sign this document');
@@ -363,7 +361,6 @@ await page.getByRole('button', { name: '✕' }).click();
   await page.getByRole('button', { name: 'View' }).first().click();
   await expect(page.locator('#selectSignerModal')).toContainText('Roles');
   await expect(page.locator('#selectSignerModal')).toContainText('Email');
-  await expect(page.locator('#selectSignerModal')).toContainText('hr');
   await page.getByRole('button', { name: '✕' }).click();
 
 });

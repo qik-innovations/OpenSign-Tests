@@ -1,7 +1,7 @@
-const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
+const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const path = require('path');
-const CommonSteps = require('./utils/CommonSteps');
+const CommonSteps = require('../utils/CommonSteps');
 test.describe('Dashboard', () => {
 test('Verify that the Sign yourself card click functions correctly and redirects the user to the Signyourself page from the dashboard.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
@@ -30,7 +30,8 @@ test('Verify that the Sign yourself card click functions correctly and redirects
     await commonSteps.login();
     await expect(page.locator('#renderList')).toContainText('Need your signature');
     await page.getByText('Need your signature').click();
-    await expect(page.locator('#renderList')).toContainText('Need your sign');
+    await expect(page.locator('//div[@class="font-light" and text()="Need your sign"]')).toContainText('Need your sign');
+    
   });
   test('Verify that clicking the Out for Signatures card functions correctly and redirects the user to the In-Progress report from the dashboard.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
@@ -39,7 +40,7 @@ test('Verify that the Sign yourself card click functions correctly and redirects
     await commonSteps.login();
     await expect(page.locator('#renderList')).toContainText('Out for signatures');
     await page.getByText('Out for signatures').click();
-    await expect(page.locator('#renderList')).toContainText('In-progress documents');
+    await expect(page.locator('//div[@class="font-light" and text()="In-progress documents"]')).toContainText('In-progress documents');
   });
 
   test('Verify that the Need Your Signature count on the card increases when a new document is created and the owner is added as a signer.', async ({ page }) => {
@@ -61,7 +62,7 @@ test('Verify that the Sign yourself card click functions correctly and redirects
         const fileChooserPromise = page.waitForEvent('filechooser');
       await page.locator('input[type="file"]').click();
       const fileChooser = await fileChooserPromise;
-      await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+      await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
     //  await page.type('//div[@class=\'css-n9qnu9\']', 'Pravin', { delay: 100 });
     //  await page.getByRole('option', { name: 'Pravin Testing account <' + loginCredentials.email }).click();
     await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
@@ -145,7 +146,7 @@ if (IncrementedCount === newCount) {
         const fileChooserPromise = page.waitForEvent('filechooser');
       await page.locator('input[type="file"]').click();
       const fileChooser = await fileChooserPromise;
-      await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+      await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
     //  await page.type('//div[@class=\'css-n9qnu9\']', 'Pravin', { delay: 100 });
     //  await page.getByRole('option', { name: 'Pravin Testing account <' + loginCredentials.email }).click();
     await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();

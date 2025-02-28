@@ -1,8 +1,7 @@
 // @ts-check
-import { default as axios } from 'axios'
 const { test, expect } = require('@playwright/test');
-const { loginCredentials } = require('./TestData/GlobalVar/global-setup');
-const CommonSteps = require('./utils/CommonSteps');
+const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+const CommonSteps = require('../utils/CommonSteps');
 const path = require('path');
 
 test('Verify that new user can perform the sign yourself', async ({ page }) => {
@@ -35,7 +34,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
@@ -74,7 +73,7 @@ await page.mouse.up();
 const fileChooserPromise1 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
+await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//span[normalize-space()=\'initials\']').hover();
 await page.mouse.down();
@@ -125,7 +124,7 @@ await page.mouse.up();
 const fileChooserPromise2 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '/TestData/Images/DesignerImage.png'));
+await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
 
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//span[normalize-space()=\'email\']').hover();
@@ -158,7 +157,7 @@ await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
     const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
@@ -207,7 +206,7 @@ await page.mouse.up();
 const fileChooserPromise1 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
+await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//span[normalize-space()="initials"]').hover();
 await page.mouse.down();
@@ -257,7 +256,7 @@ await page.mouse.up();
 const fileChooserPromise2 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '/TestData/Images/DesignerImage.png'));
+await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//span[normalize-space()="email"]').hover();
 await page.mouse.down();
@@ -287,7 +286,7 @@ await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
   const fileChooserPromise = page.waitForEvent('filechooser');
 await page.locator('input[type="file"]').click();
 const fileChooser = await fileChooserPromise;
-await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/1Sample-Offer_letter.png'));
+await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/1Sample-Offer_letter.png'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -335,7 +334,7 @@ await page.mouse.up();
 const fileChooserPromise1 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
+await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//span[normalize-space()="initials"]').hover();
 await page.mouse.down();
@@ -385,7 +384,7 @@ await page.mouse.up();
 const fileChooserPromise2 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '/TestData/Images/DesignerImage.png'));
+await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//span[normalize-space()="email"]').hover();
 await page.mouse.down();
