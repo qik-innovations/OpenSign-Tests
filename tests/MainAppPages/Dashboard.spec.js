@@ -8,28 +8,37 @@ test('Verify that the Sign yourself card click functions correctly and redirects
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-    await expect(page.locator('#renderList')).toContainText('Sign yourselfUse this option to sign the document yourself without adding others');
+    await expect(page.locator('//div[text()="Sign yourself"]//parent::div[@class="text-gray-500 text-xs mt-1"]'))
+  .toBeVisible({ timeout: 120000 });
+
+await expect(page.locator('//div[text()="Sign yourself"]//parent::div[@class="text-gray-500 text-xs mt-1"]'))
+  .toContainText('Use this option to sign the document yourself without adding others');
     await page.getByText('Sign yourselfUse this option').click();
     await expect(page.getByRole('heading')).toContainText('Sign yourself');
-    await expect(page.locator('form')).toContainText('Use this form to sign the document yourself without adding others');
+    await expect(page.locator('//div[@class="mb-[11px]"]//div[@class="text-gray-500 text-xs mt-1"]')).toContainText('Use this form to sign the document yourself without adding others');
   });
   test('Verify that the Request signature card click functions correctly and redirects the user to the Request signature page from the dashboard.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-    await expect(page.locator('#renderList')).toContainText('Request signaturesUse this option to request signatures from others and yourself together.');
+    await expect(page.locator('//div[text()="Request signatures"]//parent::div[@class="text-gray-500 text-xs mt-1"]'))
+  .toBeVisible({ timeout: 120000 });
+await expect(page.locator('//div[text()="Request signatures"]//parent::div[@class="text-gray-500 text-xs mt-1"]'))
+  .toContainText('Use this option to request signatures from others and yourself together.');
     await page.getByText('Request signaturesUse this').click();
     await expect(page.getByRole('heading')).toContainText('Request signatures');
-    await expect(page.locator('form')).toContainText('Use this form to request signatures from others and yourself together.');
+    await expect(page.locator('//div[@class="mb-[11px]"]//div[@class="text-gray-500 text-xs mt-1"]')).toContainText('Use this form to request signatures from others and yourself together.');
   });
   test('Verify that the Need your signature card click functions correctly and redirects the user to the Need your sign report from the dashboard.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
+    await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
     await expect(page.locator('#renderList')).toContainText('Need your signature');
-    await page.getByText('Need your signature').click();
+    await page.locator("//div[@class='text-base lg:text-lg' and text()='Need your signature']").click();
+    await expect(page.locator('//div[@class="font-light" and text()="Need your sign"]')).toBeVisible({ timeout: 120000 });
     await expect(page.locator('//div[@class="font-light" and text()="Need your sign"]')).toContainText('Need your sign');
     
   });
@@ -38,8 +47,9 @@ test('Verify that the Sign yourself card click functions correctly and redirects
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
+    await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
     await expect(page.locator('#renderList')).toContainText('Out for signatures');
-    await page.getByText('Out for signatures').click();
+    await page.locator("//div[@class='text-base lg:text-lg' and text()='Out for signatures']").click();
     await expect(page.locator('//div[@class="font-light" and text()="In-progress documents"]')).toContainText('In-progress documents');
   });
 
@@ -48,6 +58,7 @@ test('Verify that the Sign yourself card click functions correctly and redirects
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
+    await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
     await expect(page.locator('#renderList')).toContainText('Need your signature');
     await expect(page.locator('#renderList')).toContainText('Drafts');
     await page.waitForLoadState("networkidle");
@@ -109,6 +120,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.getByRole('button', { name: 'Send' }).click();
 await page.getByRole('button', { name: 'No' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
+await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
 await expect(page.locator('#renderList')).toContainText('Drafts');
 await page.waitForLoadState("networkidle");
 await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
@@ -132,7 +144,9 @@ if (IncrementedCount === newCount) {
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-    await expect(page.locator('#renderList')).toContainText('Need your signature');
+    await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
+await expect(page.locator('#renderList')).toContainText('Need your signature');
+
     await expect(page.locator('#renderList')).toContainText('Drafts');
     await page.waitForLoadState("networkidle");
     await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
@@ -192,6 +206,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.getByRole('button', { name: 'Send' }).click();
 await page.getByRole('button', { name: 'Close' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
+await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
 await expect(page.locator('#renderList')).toContainText('Drafts');
 await page.waitForLoadState("networkidle");
 await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
@@ -224,4 +239,130 @@ if (oldincrementedcount1 === newCount1) {
   console.error("❌ Out for signature card count did not increase. The test case has failed.");
 }
   });
+});
+
+
+test('Verify that the unfinished SignYourSelf document can be edited from the Dashboard draft document.', async ({ page }) => {
+  const commonSteps = new CommonSteps(page);
+  // Step 1: Navigate to Base URL and log in
+  await commonSteps.navigateToBaseUrl();
+  await commonSteps.login();
+await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+  const fileChooserPromise = page.waitForEvent('filechooser');
+await page.locator('input[type="file"]').click();
+const fileChooser = await fileChooserPromise;
+await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+await page.locator('input[name="Name"]').fill('Draft doc rpt Sample offer letter');
+await page.locator('input[name="Note"]').fill('Note Draft doc rpt');
+await page.getByRole('button', { name: 'Next' }).click();
+await page.waitForLoadState("networkidle");
+await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+await page.waitForLoadState("networkidle");
+await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await page.waitForLoadState("networkidle");
+await page.locator('//span[normalize-space()="signature"]').hover();
+await page.mouse.down();
+await page.mouse.move(600, 300)
+await page.mouse.up();
+try {
+const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
+for (let i = 0; i < 5; i++) { // Retry up to 5 times
+    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+        await rowLocator.click();
+        console.log("Save button clicked!");
+        break; // Exit the loop if successfully clicked
+    } else {
+        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
+        await page.locator('//span[normalize-space()="signature"]').hover();
+        await page.mouse.down();
+        await page.mouse.move(800, 300);
+        await page.mouse.up();
+        // Wait a bit before checking again
+        await page.waitForTimeout(1000);
+    }
+    if (i === 5) {
+        console.log("Save button did not become visible after multiple attempts.");
+    }
+}
+} catch (error) {
+console.log("Element not found or not interactable, continuing execution.");
+
+}
+await page.getByRole('menuitem', { name: 'Dashboard' }).click();
+// Wait up to 90 seconds for the text to appear
+await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+// Now assert the text
+await expect(page.locator('//div[@data-tut="tourreport3"]//div[text()="Drafts"]')).toBeVisible({ timeout: 12000 });
+await expect(page.locator('//div[@data-tut="tourreport3"]//th[1]')).toContainText('Title');
+await expect(page.locator('//div[@data-tut="tourreport3"]//th[2]')).toContainText('Note');
+await expect(page.locator('//div[@data-tut="tourreport3"]//th[3]')).toContainText('Folder');
+await expect(page.locator('//div[@data-tut="tourreport3"]//th[4]')).toContainText('File');
+await expect(page.locator('//div[@data-tut="tourreport3"]//th[5]')).toContainText('Owner');
+await expect(page.locator('//div[@data-tut="tourreport3"]//th[6]')).toContainText('Signers');
+await expect(page.locator('//div[@data-tut="tourreport3"]//div[@class="font-semibold"]').first()).toContainText('Draft doc rpt Sample offer letter');
+await expect(page.locator('//div[@data-tut="tourreport3"]//td[2]').first()).toContainText('Note Draft doc rpt');
+await expect(page.locator('//div[@data-tut="tourreport3"]//td[3]').first()).toContainText('OpenSign™ Drive'); 
+await expect(page.locator('//div[@data-tut="tourreport3"]//td[4]').first()).toContainText('Download');
+await expect(page.locator('//div[@data-tut="tourreport3"]//td[5]').first()).toContainText('Pravin Testing account');  
+await page.locator('//div[@data-tut="tourreport3"]//div[@role="button"and @title="Edit"]').first().click();
+await page.waitForSelector('#container > .react-pdf__Document', { timeout: 90000 }); 
+await page.waitForLoadState("networkidle");
+await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await page.waitForLoadState("networkidle");
+await page.locator('//span[normalize-space()="signature"]').hover();
+await page.mouse.down();
+await page.mouse.move(600, 300)
+await page.mouse.up();
+try {
+const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
+
+for (let i = 0; i < 5; i++) { // Retry up to 5 times
+    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+        await rowLocator.click();
+        console.log("Save button clicked!");
+        break; // Exit the loop if successfully clicked
+    } else {
+        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
+
+        await page.locator('//span[normalize-space()="signature"]').hover();
+        await page.mouse.down();
+        await page.mouse.move(800, 300);
+        await page.mouse.up();
+        
+        // Wait a bit before checking again
+        await page.waitForTimeout(1000);
+    }
+
+    if (i === 5) {
+        console.log("Save button did not become visible after multiple attempts.");
+    }
+}
+} catch (error) {
+console.log("Element not found or not interactable, continuing execution.");
+
+}
+await page.locator('//span[normalize-space()="stamp"]').hover();
+await page.mouse.down();
+await page.mouse.move(600, 360)
+await page.mouse.up();
+const fileChooserPromise1 = page.waitForEvent('filechooser');
+await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
+const fileChooser1 = await fileChooserPromise1;
+await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
+await page.locator("//button[normalize-space()='Save']").click();
+await page.locator('//span[normalize-space()="initials"]').hover();
+await page.mouse.down();
+await page.mouse.move(600, 420)
+await page.mouse.up();
+await page.locator("//button[normalize-space()='Save']").click();
+await page.locator('//span[normalize-space()="date"]').hover();
+await page.mouse.down();
+await page.mouse.move(600, 550)
+await page.mouse.up();
+await page.locator("//button[normalize-space()='Finish']").click();
+await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
+ await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
+ await page.locator("//i[@class='fa-light fa-plus']").first().click();
+ await page.locator("//button[normalize-space()='Send']").click();
 });

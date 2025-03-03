@@ -62,7 +62,7 @@ test('Verify that a user can sign up with a free subscription plan and validate 
   // Click register
   await page.locator(locators.registerButton).click();
 
-  // Wait for confirmation page
+  // Wait for the subscription page to visible
   await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible();
   await expect(page.locator('#root')).toContainText('FreeBilled YearlyFree Unlimited E-signatures, Forever.');
   await expect(page.locator('#root')).toContainText('Unlimited digital signaturesSign documents yourselfRequest signatures from othersUnlimited templates14 field typesAutomatic e-signaturesCompletion certificatesSend in orderOrganize docs in OpenSign™ DriveDocument templatesImport from DropboxContact bookDocument expiry supportDecline document supportEmail notificationsPublic profilesAnd much more');

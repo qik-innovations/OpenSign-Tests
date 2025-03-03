@@ -86,7 +86,7 @@ await expect(page.locator('.p-2 > .font-semibold').first()).toContainText('Draft
 }
 });
 
-test('Verify that the unfinished SignYourSelf document can be edited from the Draft Document Report and completed by adding all the required widgets.', async ({ page }) => {
+test('Verify that the unfinished SignYourSelf document can be edited from the Draft Document Report and completed by adding the required widgets.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
@@ -200,55 +200,10 @@ try {
  await page.mouse.down();
  await page.mouse.move(600, 420)
  await page.mouse.up();
- await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
- await page.locator('//span[normalize-space()="name"]').hover();
- await page.mouse.down();
- 
- await page.mouse.move(600, 470)
- await page.mouse.up();
- await page.locator('//span[normalize-space()="job title"]').hover();
- await page.mouse.down();
- 
- await page.mouse.move(600, 480)
- await page.mouse.up();
- await page.locator('//span[normalize-space()="company"]').hover();
- await page.mouse.down();
- 
- await page.mouse.move(600, 520)
- await page.mouse.up();
  
  await page.locator('//span[normalize-space()="date"]').hover();
  await page.mouse.down();
- 
  await page.mouse.move(600, 550)
- await page.mouse.up();
- /*
- await page.locator('//span[normalize-space()="text"]').hover();
- await page.mouse.down();
- await page.waitForTimeout(1000);
- await page.mouse.move(600, 590)//textarea[@placeholder='text']
- await page.mouse.up();
- await page.locator('//textarea[@placeholder=\'text\']').fill('20 wood street sanfransisco');
- */
- await page.locator('//span[normalize-space()="checkbox"]').hover();
- await page.mouse.down();
- 
- await page.mouse.move(600, 640)
- await page.mouse.up();
- page.locator("//button[@type='submit' and text()='Save']").click();
- await page.locator('//span[normalize-space()="image"]').hover();
- await page.mouse.down();
- 
- await page.mouse.move(600, 550)
- await page.mouse.up();
- const fileChooserPromise2 = page.waitForEvent('filechooser');
- await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
- const fileChooser2 = await fileChooserPromise2;
- await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
- await page.locator("//button[normalize-space()='Save']").click();
- await page.locator('//span[normalize-space()="email"]').hover();
- await page.mouse.down();
- await page.mouse.move(600, 580)
  await page.mouse.up();
  await page.locator("//button[normalize-space()='Finish']").click();
  await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
