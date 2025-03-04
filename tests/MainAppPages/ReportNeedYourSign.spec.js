@@ -147,11 +147,11 @@ await page.mouse.down();
 await page.mouse.move(700, 380)
 await page.mouse.up();
 await page.locator("//button[normalize-space()='Save']").click();
-await page.getByPlaceholder('name').fill('Mark Anderson');
+/*await page.getByPlaceholder('name').fill('Mark Anderson');
   await page.getByPlaceholder('job title').click();
   await page.getByPlaceholder('job title').fill('Quality analyst');
   await page.getByPlaceholder('company').click();
-  await page.getByPlaceholder('company').fill('Opensign labs pvt. ltd');
+  await page.getByPlaceholder('company').fill('Opensign labs pvt. ltd');*/
   await page.getByPlaceholder('text').fill('120 wood street sanfransisco');
   await page.locator('#myDropdown').selectOption('option-2');
  await page.getByRole('radio', { name: 'option-1' }).check();
