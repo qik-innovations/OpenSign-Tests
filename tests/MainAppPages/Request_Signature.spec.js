@@ -574,7 +574,7 @@ try {
   
           await page.locator('//span[normalize-space()="signature"]').hover();
           await page.mouse.down();
-          await page.mouse.move(800, 300);
+          await page.mouse.move(600, 300);
           await page.mouse.up();
           
           // Wait a bit before checking again
@@ -630,73 +630,59 @@ await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'radio button\']').hover();
 await page.mouse.down();
-await page.mouse.move(800, 350)
+await page.mouse.move(800, 400)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'image\']').hover();
 await page.mouse.down();
-await page.mouse.move(800, 400)
+await page.mouse.move(800, 500)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
-
-await page.mouse.move(800, 400)
+await page.mouse.move(800, 600)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
-/*
-//span[@class=' hidden md:block ml-1 ' and text()='Copy link']
-//await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
-//on the click of this loactor the url get copy in the urlcopy variable
-//await page.locator('//span[@class="hidden md:block ml-1" and text()="Copy link"]').click();
+await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 
-//const copiedUrlHandle = await page.evaluateHandle(() => navigator.clipboard.readText());
-//const copiedUrl = await copiedUrlHandle.jsonValue();
-//const clipboardy = require('clipboardy');
-//const copiedUrl = await clipboardy.default.read(); // Use `.default`
-await page.getByRole('button', { name: ' Copy link' }).click();
-const copiedUrl = 
-console.log("Extracted URL:", copiedUrl);
-//relaunch the browser
-//let browser = await chromium.launch({ headless: true });
-//let context = await browser.newContext();
-//let page1 = await context.newPage();
+await page.locator('//span[@class=" hidden md:block ml-1 " and text()="Copy link"]').click();
+const copiedUrl = await page.locator('//p[@id="copyUrl"]').evaluate(el => el.textContent.trim());
+const page1 = await page.context().newPage();
 await page1.goto(copiedUrl);
 await page1.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
 await page1.getByRole('button', { name: 'Agree & Continue' }).click();
 await page1.waitForLoadState("networkidle");
 await page1.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//div[contains(text(),"signature")]').click();
+await page1.locator('//div[@id="container"]//div[text()="signature"]').click();
 await page1.mouse.down();
 await page1.mouse.move(120, 122)
+await page1.mouse.move(130, 128)
 await page1.mouse.up();
 // Optionally save changes
 await page1.locator("//button[normalize-space()='Save']").click();
-await page.locator('//div[contains(text(),"stamp")]').click();
+await page1.locator('//div[@id="container"]//div[text()="stamp"]').click();
 const fileChooserPromise1 = page1.waitForEvent('filechooser');
 await page1.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
+await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
 await page1.locator("//button[normalize-space()='Save']").click();
-await page.locator('//div[contains(text(),"initials")]').click();
+await page1.locator('//div[@id="container"]//div[text()="initials"]').click();
 await page1.mouse.move(650, 350)
 await page1.mouse.down();
 await page1.mouse.move(700, 380)
 await page1.mouse.up();
 await page1.locator("//button[normalize-space()='Save']").click();
-await page1.getByPlaceholder('name').fill('Mark Anderson');
-await page1.getByPlaceholder('job title').click();
-await page1.getByPlaceholder('job title').fill('Quality analyst');
-await page1.getByPlaceholder('company').click();
-await page1.getByPlaceholder('company').fill('Oepnsign labs pvt. ltd');
+await page1.getByPlaceholder('Enter name').fill('Mark Anderson');
+await page1.getByPlaceholder('Enter job title').fill('Quality analyst');
+await page1.getByPlaceholder('Enter company').fill('Oepnsign labs pvt. ltd');
 await page1.getByPlaceholder('text').fill('120 wood street sanfransisco');
 await page1.locator('#myDropdown').selectOption('option-2');
 await page1.getByRole('radio', { name: 'option-1' }).check();
 await page1.getByRole('checkbox', { name: 'option-1' }).check();
-await page.locator('//div[contains(text(),"image")]').click();
+await page1.locator('//div[contains(text(),"image")]').click();
 const fileChooserPromise2 = page1.waitForEvent('filechooser');
 await page1.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '/TestData/Images/DesignerImage.png'));
+await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
 await page1.locator("//button[normalize-space()='Save']").click();
 await page1.getByPlaceholder('email').fill('anderson@oepnsignlabs.com');
 await page1.getByRole('button', { name: 'Finish' }).click();
@@ -1218,6 +1204,4 @@ await page.getByRole('button', { name: 'Next' }).click();
 
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 await page.getByRole('button', { name: 'Send' }).click();
-
-
 });
