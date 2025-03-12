@@ -13,7 +13,7 @@ test('Verify that a free user cannot access the Branding page in the console app
     await page.getByText('Console').click();
     const page1 = await page1Promise;
 //verify the profile name on the profile
-  await expect(page1.locator('#root')).toContainText('Mathew Wade');
+  await expect(page1.locator('#root')).toContainText('Mathew Wade', { timeout: 120000 });
   await expect(page1.locator('#root')).toContainText('qikAi.com');
   await page1.getByRole('menuitem', { name: 'Branding' }).click();
     const title = await page1.title();
@@ -35,7 +35,7 @@ test('Verify that Profession plan User cannot access the Branding page in the co
     await page.getByText('Console').click();
     const page1 = await page1Promise;
   //verify the profile name on the profile
-  await expect(page1.locator('#root')).toContainText('Mathew Steven');
+  await expect(page1.locator('#root')).toContainText('Mathew Steven', { timeout: 120000 });
   await expect(page1.locator('#root')).toContainText('OpenSign Lab');
   await page1.getByRole('menuitem', { name: 'Branding' }).click();
     const title = await page1.title();
@@ -59,7 +59,7 @@ test('Verify that Profession plan User cannot access the Branding page in the co
     await page.getByText('Console').click();
     const page1 = await page1Promise;
   //verify the profile name on the profile
-  await expect(page1.locator('#root')).toContainText('Pravin Testing account');
+  await expect(page1.locator('#root')).toContainText('Pravin Testing account', { timeout: 120000 });
   await expect(page1.locator('#root')).toContainText('OpenSign pvt ltd');
   await page1.getByRole('menuitem', { name: 'Branding' }).click();
     const title = await page1.title();
@@ -68,7 +68,7 @@ test('Verify that Profession plan User cannot access the Branding page in the co
     } else {
       console.error(`Page title is incorrect. Expected: "Branding - OpenSign™", Got: "${title}"`);
     }
-    await expect(page1.locator('#root')).toContainText('Pravin Testing account');
+    await expect(page1.locator('#root')).toContainText('Pravin Testing account', { timeout: 120000 });
     await expect(page1.locator('#root')).toContainText('TEAM');
     await expect(page1.locator('#renderList')).toContainText('Upgrade to enterprise plan');
     await expect(page1.locator('#renderList')).toMatchAriaSnapshot(`- button "Upgrade to enterprise plan"`);

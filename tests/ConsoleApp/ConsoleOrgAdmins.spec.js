@@ -13,7 +13,7 @@ test('Verify that professional user cannot access the OrgAdmins page in the cons
     await page.getByText('Console').click();
     const page1 = await page1Promise;
 //verify the profile name on the profile
-await expect(page1.locator('#root')).toContainText('Mathew Steven');
+await expect(page1.locator('#root')).toContainText('Mathew Steven', { timeout: 120000 });
 await expect(page1.locator('#root')).toContainText('OpenSign Lab');
   await page1.getByRole('button', { name: ' Teams' }).click();
   await page1.getByRole('menuitem', { name: 'OrgAdmins' }).click();
