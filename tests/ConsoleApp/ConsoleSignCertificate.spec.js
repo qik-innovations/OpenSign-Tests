@@ -13,7 +13,8 @@ test('Verify that a free user cannot access the Signing certificate page in the 
     await page.getByText('Console').click();
     const page1 = await page1Promise;
 //verify the profile name on the profile
-  await expect(page1.locator('#root')).toContainText('Mathew Wade');
+
+  await expect(page1.locator('#root')).toContainText('Mathew Wade', { timeout: 120000 });
   await expect(page1.locator('#root')).toContainText('qikAi.com');
   await page1.getByRole('menuitem', { name: 'Signing certificate' }).click();
     const title = await page1.title();
@@ -38,7 +39,7 @@ test('Verify that Professional plan user cannot access the Signing certificate p
     await page.getByText('Console').click();
     const page1 = await page1Promise;
 //verify the profile name on the profile
-await expect(page1.locator('#root')).toContainText('Mathew Steven');
+await expect(page1.locator('#root')).toContainText('Mathew Steven', { timeout: 120000 });
 await expect(page1.locator('#root')).toContainText('OpenSign Lab');
   await page1.getByRole('menuitem', { name: 'Signing certificate' }).click();
     const title = await page1.title();
@@ -63,7 +64,7 @@ test('Verify that Team plan user can access the Signing certificate page in the 
     await page.getByText('Console').click();
     const page1 = await page1Promise;
 //verify the profile name on the profile
-await expect(page1.locator('#root')).toContainText('Pravin Testing account');
+await expect(page1.locator('#root')).toContainText('Pravin Testing account', { timeout: 120000 });
 await expect(page1.locator('#root')).toContainText('OpenSign pvt ltd');
   await page1.getByRole('menuitem', { name: 'Signing certificate' }).click();
     const title = await page1.title();

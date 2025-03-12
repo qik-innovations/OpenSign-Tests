@@ -1,3 +1,4 @@
+import { allure } from "allure-playwright";
 const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const path = require('path');
@@ -37,14 +38,26 @@ const fillSignupForm = async (page, { name, email, phone, company, jobTitle, pas
 if (!BASEURL) {
   throw new Error('BASEURL is not defined in the .env file');
 }
-
+//get the browser name, version and OS details
+test.beforeEach(async ({ browserName, browser }) => {
+  const browserVersion = await browser.version();
+  const osPlatform = process.platform;
+  allure.label("Browser Name", browserName);
+  console.log("browser name" + browserName);
+  allure.label("Browser Version "+ browserVersion);
+  console.log("Browser version" + browserVersion);
+  allure.label("OS", osPlatform);
+  console.log("Browser Platform"+ osPlatform);
+});
 class CommonSteps {
   constructor(page) {
     this.page = page;
   }
 
   async navigateToBaseUrl() {
+  
     await this.page.goto(BASEURL,{ timeout: 120000 });
+    
   }
 
   async login() {

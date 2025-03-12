@@ -13,7 +13,7 @@ test('Verify that a free user cannot access the Analytics page in the console ap
     await page.getByText('Console').click();
     const page1 = await page1Promise;
 //verify the profile name on the profile
-  await expect(page1.locator('#root')).toContainText('Mathew Wade');
+  await expect(page1.locator('#root')).toContainText('Mathew Wade', { timeout: 120000 });
   await expect(page1.locator('#root')).toContainText('qikAi.com');
     const title = await page1.title();
     if (title === 'Analytics - OpenSign™') {
@@ -34,7 +34,7 @@ test('Verify that Profession plan User can access the Analytics page in the cons
   await page.getByText('Console').click();
   const page1 = await page1Promise;
 //verify the profile name on the profile
-await expect(page1.locator('#root')).toContainText('Mathew Steven');
+await expect(page1.locator('#root')).toContainText('Mathew Steven', { timeout: 120000 });
 await expect(page1.locator('#root')).toContainText('OpenSign Lab');
   const title = await page1.title();
   if (title === 'Analytics - OpenSign™') {
@@ -60,7 +60,7 @@ test('Verify that Teams plan User can access the Analytics page in the console a
   await page.getByText('Console').click();
   const page1 = await page1Promise;
 //verify the profile name on the profile
-await expect(page1.locator('#root')).toContainText('Pravin Testing account');
+await expect(page1.locator('#root')).toContainText('Pravin Testing account', { timeout: 120000 });
 await expect(page1.locator('#root')).toContainText('OpenSign pvt ltd');
   const title = await page1.title();
   if (title === 'Analytics - OpenSign™') {

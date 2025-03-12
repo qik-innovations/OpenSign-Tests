@@ -200,7 +200,7 @@ try {
  await page.mouse.down();
  await page.mouse.move(600, 420)
  await page.mouse.up();
- 
+ await page.locator("//button[normalize-space()='Save']").click();
  await page.locator('//span[normalize-space()="date"]').hover();
  await page.mouse.down();
  await page.mouse.move(600, 550)

@@ -471,6 +471,7 @@ await expect(page.locator('#selectSignerModal')).toContainText('You have success
 await page.getByRole('button', { name: 'No' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 // Wait up to 90 seconds for the text to appear
+
 await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
 // Now assert the text
 await expect(page.locator('//div[@data-tut="tourreport1"]//div[text()="Recent signature requests"]')).toBeVisible({ timeout: 12000 });

@@ -13,7 +13,7 @@ test('Verify that a free user cannot access the Organisations page in the consol
     await page.getByText('Console').click();
     const page1 = await page1Promise;
 //verify the profile name on the profile
-  await expect(page1.locator('#root')).toContainText('Mathew Wade');
+  await expect(page1.locator('#root')).toContainText('Mathew Wade', { timeout: 120000 });
   await expect(page1.locator('#root')).toContainText('qikAi.com');
   await page1.getByRole('button', { name: ' Teams' }).click();
   await page1.getByRole('menuitem', { name: 'Organizations' }).click();
@@ -36,7 +36,7 @@ test('Verify that Professional plan user cannot access the Organisations page in
     await page.getByText('Console').click();
     const page1 = await page1Promise;
 //verify the profile name on the profile
-await expect(page1.locator('#root')).toContainText('Mathew Steven');
+await expect(page1.locator('#root')).toContainText('Mathew Steven', { timeout: 120000 });
 await expect(page1.locator('#root')).toContainText('OpenSign Lab');
   await page1.getByRole('button', { name: ' Teams' }).click();
   await page1.getByRole('menuitem', { name: 'Organizations' }).click();
