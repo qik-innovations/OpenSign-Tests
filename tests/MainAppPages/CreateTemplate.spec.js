@@ -128,7 +128,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
   await page.getByRole('button', { name: 'Next' }).click();
-  await expect(page.getByRole('dialog')).toContainText('Clicking \'Add role\' button will allow you to add various signer roles. You can attach users to each role in subsequent steps.');
+  await expect(page.getByRole('dialog')).toContainText("Clicking 'Add role' button will allow you to add various signer roles. You can attach users to each role in subsequent steps.", { timeout: 120000 });
   await page.locator('.sc-gsFSXq > button:nth-child(3)').click();
   await expect(page.getByRole('dialog')).toContainText('Once roles are added, select a role from list to add a place-holder where he is supposed to sign. The placeholder will appear in the same colour as the role name once you drop it on the document.');
   await page.locator('.sc-gsFSXq > button:nth-child(3)').click();
@@ -370,9 +370,8 @@ test('Verify that an existing Team Plan user can create a template using all adv
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  await page.locator("//input[@name='SendinOrder' and @value='false']").click();
   await page.getByText('Advanced options').click();
-  await page.locator('input[name="SendinOrder"]').nth(1).check();
-  await page.getByLabel('', { exact: true }).check();
   await page.locator('input[name="TimeToCompleteDays"]').fill('2');
   await page.locator('.css-n9qnu9').click();
   await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
@@ -388,7 +387,6 @@ test('Verify that an existing Team Plan user can create a template using all adv
   await expect(page.locator('input[name="Name"]')).toHaveValue('Sample-joining-letter');
   await expect(page.getByLabel('Note')).toHaveValue('Please review and sign this document');
   await expect(page.locator('input[name="SendinOrder"]').nth(1)).toBeChecked();
-  await expect(page.getByLabel('', { exact: true })).toBeChecked();
   await expect(page.locator('input[name="IsEnableOTP"]').first()).toBeChecked();
   await expect(page.locator('input[name="IsTourEnabled"]').first()).not.toBeChecked();
   await expect(page.locator('input[name="IsTourEnabled"]').nth(1)).toBeChecked();

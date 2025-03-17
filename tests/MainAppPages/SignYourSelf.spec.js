@@ -1723,7 +1723,7 @@ expect(elements.length).toBe(2);
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
-test('Verify that text widget settings for Name, Job Title, Company, Text, and Email function correctly in Sign Yourself.', async ({ page }) => {
+test('Verify that text widgets settings for Name, Job Title, Company, Text, and Email function correctly in Sign Yourself.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
@@ -1883,18 +1883,16 @@ if (fontSizetext === '15.4412px' && colortext  === 'rgb(0, 0, 255)') {
 
 await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 580)
+await page.mouse.move(600, 630)
 await page.mouse.up();
 await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
   await page.getByRole('button', { name: 'Save' }).click();
  
-  const fontSizeemail = await page.locator("//textarea[text()='pravin+testaccount@nxglabs.in']")
-  .evaluate(el => getComputedStyle(el).fontSize);
+  const fontSizeemail = await page.locator("//textarea[text()='pravin+testaccount@nxglabs.in']").evaluate(el => getComputedStyle(el).fontSize);
 
-const coloremail = await page.locator("//textarea[text()='pravin+testaccount@nxglabs.in']")
-  .evaluate(el => getComputedStyle(el).color);
+const coloremail = await page.locator("//textarea[text()='pravin+testaccount@nxglabs.in']").evaluate(el => getComputedStyle(el).color);
 
 console.log(`Font Size: ${fontSizeemail}, Color: ${coloremail}`);
 
@@ -1903,7 +1901,6 @@ if (fontSizeemail=== '15.4412px' && coloremail  === 'rgb(0, 0, 255)') {
 } else {
   throw new Error(`Test Failed: Expected Font Size: 15.4412px, Color: blue but got Font Size: ${fontSizeemail }, Color: ${coloremail }`);
 }
-await page.getByRole('button', { name: 'Save' }).click();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });

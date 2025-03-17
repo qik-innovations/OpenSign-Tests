@@ -156,7 +156,7 @@ await page.locator("//button[normalize-space()='Save']").click();
   await page.locator('#myDropdown').selectOption('option-2');
  await page.getByRole('radio', { name: 'option-1' }).check();
   await page.getByRole('checkbox', { name: 'option-1' }).check();
-  await page.getByText('Pravin Testing accountimage').click();
+  await page.getByText('image').click();
   const fileChooserPromise2 = page.waitForEvent('filechooser');
   await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
   const fileChooser2 = await fileChooserPromise2;
