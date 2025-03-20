@@ -1,0 +1,3 @@
+Attempt 1: Save button not visible, performing actions...
+Save button clicked!
+"Copy widget to" is visible. Stopping the loop.

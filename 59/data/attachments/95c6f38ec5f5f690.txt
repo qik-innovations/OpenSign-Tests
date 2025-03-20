@@ -1,0 +1,303 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Verify that owner can create the document and sign it from the need your signature report.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/ReportNeedYourSign.spec.js:6:1
+
+# Error details
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for getByText('Pravin Testing accountimage')
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/ReportNeedYourSign.spec.js:159:55
+```
+
+# Page snapshot
+
+```yaml
+- text: "New feature: Teams plan users can now integrate their own AWS S3 buckets for file storage — Setup now. "
+- button ""
+- img "logo"
+- text: TEAM
+- button ""
+- img "img"
+- button "Pravin Testing account"
+- button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menu "Documents submenu":
+        - menuitem "Need your sign"
+        - menuitem "In progress"
+        - menuitem "Completed"
+        - menuitem "Drafts"
+        - menuitem "Declined"
+        - menuitem "Expired"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- text: Pages   
+- button [disabled]
+- text: 1 of 1
+- button [disabled]
+- button "Decline"
+- button "Download"
+- button "Finish"
+- img "signature"
+- img "stamp"
+- img "initials"
+- textbox "name": Pravin Testing account
+- textbox "job title": Quality analystAA
+- textbox "company": OpenSign pvt ltd
+- text: 03/20/2025 
+- textbox "text": 120 wood street sanfransisco
+- checkbox "option-1" [checked]
+- text: option-1
+- checkbox "option-2"
+- text: option-2
+- combobox:
+  - option "option-1"
+  - option "option-2" [selected]
+- radio "option-1" [checked]
+- text: option-1
+- radio "option-2"
+- text: option-2 image
+- textbox "email": pravin+testaccount@nxglabs.in
+- text: Yet to sign P Pravin Testing account pravin+testaccount@nxglabs.in
+- paragraph: Signature
+- tablist:
+  - tab "My signature"
+  - tab "My initials"
+- img "signature"
+- button "Auto sign all"
+- contentinfo:
+  - complementary:
+    - paragraph: "All rights reserved © 2025 OpenSign™ ( version: v2.12.0 )"
+- button ""
+```
+
+# Test source
+
+```ts
+   59 |   console.log("Element not found or not interactable, continuing execution.");
+   60 |  
+   61 | }
+   62 | await page.locator('//span[normalize-space()=\'stamp\']').hover();
+   63 | await page.mouse.down();
+   64 | await page.mouse.move(600, 360)
+   65 | await page.mouse.up();
+   66 | await page.locator('//span[normalize-space()=\'initials\']').hover();
+   67 | await page.mouse.down();
+   68 | await page.mouse.move(600, 420)
+   69 | await page.mouse.up();
+   70 | await page.locator('//span[normalize-space()=\'name\']').hover();
+   71 | await page.mouse.down();
+   72 | await page.mouse.move(600, 470)
+   73 | await page.mouse.up();
+   74 | await page.locator('//span[normalize-space()=\'job title\']').hover();
+   75 | await page.mouse.down();
+   76 | await page.mouse.move(600, 500)
+   77 | await page.mouse.up();
+   78 | await page.locator('//span[normalize-space()=\'company\']').hover();
+   79 | await page.mouse.down();
+   80 | await page.mouse.move(600, 520)
+   81 | await page.mouse.up();
+   82 | await page.locator('//span[normalize-space()=\'date\']').hover();
+   83 | await page.mouse.down();
+   84 | await page.mouse.move(600, 550)
+   85 | await page.mouse.up();
+   86 | await page.locator('//span[normalize-space()=\'text input\']').hover();
+   87 | await page.mouse.down();
+   88 | await page.mouse.move(600, 570)
+   89 | await page.mouse.up();
+   90 | await page.locator('//span[normalize-space()=\'checkbox\']').hover();
+   91 | await page.mouse.down();
+   92 | await page.mouse.move(600, 600)
+   93 | await page.mouse.up();
+   94 | page.locator("//button[@type='submit' and text()='Save']").click();
+   95 | await page.locator('span').filter({ hasText: 'dropdown' }).hover();
+   96 | await page.mouse.down();
+   97 | await page.mouse.move(800, 300)
+   98 | await page.mouse.up();
+   99 | page.locator("//button[@type='submit' and text()='Save']").click();
+  100 | await page.locator('//span[normalize-space()=\'radio button\']').hover();
+  101 | await page.mouse.down();
+  102 | await page.mouse.move(800, 350)
+  103 | await page.mouse.up();
+  104 | page.locator("//button[@type='submit' and text()='Save']").click();
+  105 | await page.locator('//span[normalize-space()=\'image\']').hover();
+  106 | await page.mouse.down();
+  107 | await page.mouse.move(800, 400)
+  108 | await page.mouse.up();
+  109 | await page.locator('//span[normalize-space()=\'email\']').hover();
+  110 | await page.mouse.down();
+  111 | await page.mouse.move(800, 400)
+  112 | await page.mouse.up();
+  113 | await page.getByRole('button', { name: 'Next' }).click();
+  114 | //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+  115 | await page.getByRole('button', { name: 'Send' }).click();
+  116 | await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
+  117 | await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
+  118 | await expect(page.locator('#selectSignerModal')).toContainText('You have successfully sent email to Pravin Testing account. Subsequent signers will get email(s) once Pravin Testing account signs the document');
+  119 |   await page.getByRole('button', { name: 'No' }).click();
+  120 |   await page.getByRole('button', { name: ' Documents' }).click();
+  121 |   await page.getByRole('menuitem', { name: 'Need your sign' }).click();
+  122 |  // Wait up to 90 seconds for the text to appear
+  123 | await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+  124 | // Now assert the text
+  125 | await expect(page.locator('#renderList')).toContainText('Need your sign');
+  126 |   await page.locator('.op-btn-primary').first().click();
+  127 |   await page.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
+  128 |   await page.getByRole('button', { name: 'Agree & Continue' }).click();
+  129 |   await page.waitForLoadState("networkidle");
+  130 |   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  131 |   await page.locator('//div[contains(text(),"signature")]').click();
+  132 |   await page.mouse.down();
+  133 |   await page.mouse.move(120, 122)
+  134 |   await page.mouse.up();
+  135 |   // Optionally save changes
+  136 | await page.locator("//button[normalize-space()='Save']").click();
+  137 | //div[contains(text(),'signature')]
+  138 | await page.locator('//div[contains(text(),"stamp")]').click();
+  139 | const fileChooserPromise1 = page.waitForEvent('filechooser');
+  140 | await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
+  141 | const fileChooser1 = await fileChooserPromise1;
+  142 | await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
+  143 | await page.locator("//button[normalize-space()='Save']").click();
+  144 | await page.locator('//div[contains(text(),"initials")]').click();
+  145 | await page.mouse.move(650, 350)
+  146 | await page.mouse.down();
+  147 | await page.mouse.move(700, 380)
+  148 | await page.mouse.up();
+  149 | await page.locator("//button[normalize-space()='Save']").click();
+  150 | /*await page.getByPlaceholder('name').fill('Mark Anderson');
+  151 |   await page.getByPlaceholder('job title').click();
+  152 |   await page.getByPlaceholder('job title').fill('Quality analyst');
+  153 |   await page.getByPlaceholder('company').click();
+  154 |   await page.getByPlaceholder('company').fill('Opensign labs pvt. ltd');*/
+  155 |   await page.getByPlaceholder('text').fill('120 wood street sanfransisco');
+  156 |   await page.locator('#myDropdown').selectOption('option-2');
+  157 |  await page.getByRole('radio', { name: 'option-1' }).check();
+  158 |   await page.getByRole('checkbox', { name: 'option-1' }).check();
+> 159 |   await page.getByText('Pravin Testing accountimage').click();
+      |                                                       ^ Error: locator.click: Test timeout of 120000ms exceeded.
+  160 |   const fileChooserPromise2 = page.waitForEvent('filechooser');
+  161 |   await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
+  162 |   const fileChooser2 = await fileChooserPromise2;
+  163 |   await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
+  164 |   await page.locator("//button[normalize-space()='Save']").click();
+  165 |   await page.getByRole('button', { name: 'Finish' }).click();
+  166 |   await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
+  167 |   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
+  168 |   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
+  169 |   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Download' })).toBeVisible();
+  170 |   await page.getByRole('button', { name: '✕' }).click();
+  171 | });
+  172 |
+  173 | test('Verify the column names and the document details on the need your signature report.', async ({ page }) => {
+  174 |   const commonSteps = new CommonSteps(page);
+  175 |   // Step 1: Navigate to Base URL and log in
+  176 |   await commonSteps.navigateToBaseUrl();
+  177 |   await commonSteps.login();
+  178 | //const title = await page.title()
+  179 |   //Expects page to have a heading with the name of dashboard.
+  180 | //expect(title).toBe('Dashboard - OpenSign™');
+  181 | await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  182 |   await page.locator('input[name="Name"]').click();
+  183 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  184 |   await page.locator('input[name="Note"]').click();
+  185 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  186 | await page.locator('input[type="file"]').click();
+  187 | const fileChooser = await fileChooserPromise;
+  188 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  189 | await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  190 | await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+  191 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  192 | await page.getByRole('button', { name: 'Next' }).click();
+  193 | await page.waitForLoadState("networkidle");
+  194 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  195 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  196 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  197 | await page.locator('//span[normalize-space()=\'signature\']').hover();
+  198 | await page.mouse.down();
+  199 | await page.mouse.move(600, 300)
+  200 | await page.mouse.up();
+  201 | try {
+  202 |   const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+  203 |
+  204 |   for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  205 |       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  206 |       
+  207 |           console.log("signature widget dragged and dropped");
+  208 |           break; // Exit the loop if successfully clicked
+  209 |       } else {
+  210 |           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  211 |   
+  212 |           await page.locator('//span[normalize-space()="signature"]').hover();
+  213 |           await page.mouse.down();
+  214 |           await page.mouse.move(800, 300);
+  215 |           await page.mouse.up();
+  216 |           
+  217 |           // Wait a bit before checking again
+  218 |           await page.waitForTimeout(1000);
+  219 |       }
+  220 |   
+  221 |       if (i === 5) {
+  222 |           console.log("signature widget did not become visible on the document after multiple attempts.");
+  223 |       }
+  224 |   }
+  225 | } catch (error) {
+  226 |   console.log("Element not found or not interactable, continuing execution.");
+  227 |  
+  228 | }
+  229 | await page.locator('//span[normalize-space()=\'stamp\']').hover();
+  230 | await page.mouse.down();
+  231 | await page.mouse.move(600, 360)
+  232 | await page.mouse.up();
+  233 | await page.locator('//span[normalize-space()=\'initials\']').hover();
+  234 | await page.mouse.down();
+  235 | await page.mouse.move(600, 420)
+  236 | await page.mouse.up();
+  237 | await page.locator('//span[normalize-space()=\'name\']').hover();
+  238 | await page.mouse.down();
+  239 | await page.mouse.move(600, 470)
+  240 | await page.mouse.up();
+  241 | await page.locator('//span[normalize-space()=\'job title\']').hover();
+  242 | await page.mouse.down();
+  243 | await page.mouse.move(600, 500)
+  244 | await page.mouse.up();
+  245 | await page.locator('//span[normalize-space()=\'company\']').hover();
+  246 | await page.mouse.down();
+  247 | await page.mouse.move(600, 520)
+  248 | await page.mouse.up();
+  249 | await page.locator('//span[normalize-space()=\'date\']').hover();
+  250 | await page.mouse.down();
+  251 | await page.mouse.move(600, 550)
+  252 | await page.mouse.up();
+  253 | await page.locator('//span[normalize-space()=\'text input\']').hover();
+  254 | await page.mouse.down();
+  255 | await page.mouse.move(600, 570)
+  256 | await page.mouse.up();
+  257 | await page.locator('//span[normalize-space()=\'checkbox\']').hover();
+  258 | await page.mouse.down();
+  259 | await page.mouse.move(600, 600)
+```

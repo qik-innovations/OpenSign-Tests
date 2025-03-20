@@ -1,0 +1,6 @@
+browser namechromium
+Browser version134.0.6998.35
+Browser Platformlinux
+Attempt 1: signature widget not visible on the document, performing actions...
+Attempt 2: signature widget not visible on the document, performing actions...
+signature widget dragged and dropped

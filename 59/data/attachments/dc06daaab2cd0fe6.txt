@@ -1,0 +1,304 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Verify that a user can create a document, send it for a signature request, and signer can successfully sign the document.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Request_Signature.spec.js:418:1
+
+# Error details
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for locator('//div[contains(text(),"image")]')
+    - locator resolved to <div class="font-medium text-center">image</div>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <textarea rows="1" cols="1" placeholder="email" class="w-full h-full md:min-w-full md:min-h-full z-[999] text-[12px] rounded-[2px] border-[1px] border-[#007bff] overflow-hidden resize-none outline-none text-base-content item-center whitespace-pre-wrap bg-white"></textarea> from <div id="1154" data-tut="" class="signYourselfBlock react-draggable">…</div> subtree intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <textarea rows="1" cols="1" placeholder="email" class="w-full h-full md:min-w-full md:min-h-full z-[999] text-[12px] rounded-[2px] border-[1px] border-[#007bff] overflow-hidden resize-none outline-none text-base-content item-center whitespace-pre-wrap bg-white"></textarea> from <div id="1154" data-tut="" class="signYourselfBlock react-draggable">…</div> subtree intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    204 × waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <textarea rows="1" cols="1" placeholder="email" class="w-full h-full md:min-w-full md:min-h-full z-[999] text-[12px] rounded-[2px] border-[1px] border-[#007bff] overflow-hidden resize-none outline-none text-base-content item-center whitespace-pre-wrap bg-white"></textarea> from <div id="1154" data-tut="" class="signYourselfBlock react-draggable">…</div> subtree intercepts pointer events
+      - retrying click action
+        - waiting 500ms
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Request_Signature.spec.js:614:56
+```
+
+# Page snapshot
+
+```yaml
+- text: "New feature: Teams plan users can now integrate their own AWS S3 buckets for file storage — Setup now. "
+- button ""
+- img "logo"
+- text: TEAM
+- button ""
+- img "img"
+- button "Pravin Testing account"
+- button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- text: Pages
+- button "+ Add pages"
+- text: +     
+- dialog:
+  - heading "Send Mail" [level=3]
+  - button "✕"
+  - text: Are you sure you want to send out this document for signatures?
+  - button "Send"
+  - text: Cutomize email OR andyamaya@nxglabs.in
+  - button " Copy link"
+  - text: 
+- button [disabled]
+- text: 1 of 1
+- button [disabled]
+- button "Back"
+- button "Next" [disabled]
+- text: Recipients A Andy amaya andyamaya@nxglabs.in 
+- separator
+- button "+ Add recipients"
+- text: Fields  signature   stamp   initials   name   job title   company   date   text   text input   checkbox   dropdown   radio button   image   email 
+- contentinfo:
+  - complementary:
+    - paragraph: "All rights reserved © 2025 OpenSign™ ( version: v2.12.0 )"
+```
+
+# Test source
+
+```ts
+  514 | await page.mouse.move(600, 520)
+  515 | await page.mouse.up();
+  516 | //here we are copying the widget id to use while signing teh document through the guest signatrue flow
+  517 | const VariablecompanyID = await page.evaluate(() => {
+  518 |   const element = document.evaluate(
+  519 |       "//div[span[text()='company']]/ancestor::div[contains(@class, 'signYourselfBlock')]",document, null,
+  520 |       XPathResult.FIRST_ORDERED_NODE_TYPE,
+  521 |       null
+  522 |   ).singleNodeValue;
+  523 |   
+  524 |   return element ? element.id : null;
+  525 | });
+  526 | await page.locator('//span[normalize-space()=\'date\']').hover();
+  527 | await page.mouse.down();
+  528 | await page.mouse.move(600, 550)
+  529 | await page.mouse.up();
+  530 | await page.locator('//span[normalize-space()=\'text input\']').hover();
+  531 | await page.mouse.down();
+  532 | await page.mouse.move(600, 570)
+  533 | await page.mouse.up();
+  534 | //here we are copying the widget id to use while signing teh document through the guest signatrue flow
+  535 | const VariabletextinputID = await page.evaluate(() => {
+  536 |   const element = document.evaluate(
+  537 |       "//div[span[text()='text input']]/ancestor::div[contains(@class, 'signYourselfBlock')]",document, null,
+  538 |       XPathResult.FIRST_ORDERED_NODE_TYPE,
+  539 |       null
+  540 |   ).singleNodeValue;
+  541 |   
+  542 |   return element ? element.id : null;
+  543 | });
+  544 | await page.locator('//span[normalize-space()=\'checkbox\']').hover();
+  545 | await page.mouse.down();
+  546 | await page.mouse.move(600, 600)
+  547 | await page.mouse.up();
+  548 | page.locator("//button[@type='submit' and text()='Save']").click();
+  549 | await page.locator('span').filter({ hasText: 'dropdown' }).hover();
+  550 | await page.mouse.down();
+  551 | await page.mouse.move(800, 300)
+  552 | await page.mouse.up();
+  553 | page.locator("//button[@type='submit' and text()='Save']").click();
+  554 | await page.locator('//span[normalize-space()=\'radio button\']').hover();
+  555 | await page.mouse.down();
+  556 | await page.mouse.move(800, 400)
+  557 | await page.mouse.up();
+  558 | page.locator("//button[@type='submit' and text()='Save']").click();
+  559 | await page.locator('//span[normalize-space()=\'image\']').hover();
+  560 | await page.mouse.down();
+  561 | await page.mouse.move(800, 500)
+  562 | await page.mouse.up();
+  563 | await page.locator('//span[normalize-space()=\'email\']').hover();
+  564 | await page.mouse.down();
+  565 | await page.mouse.move(800, 520)
+  566 | await page.mouse.up();
+  567 | //here we are copying the widget id to use while signing teh document through the guest signatrue flow
+  568 | const VariableemailID = await page.evaluate(() => {
+  569 |   const element = document.evaluate(
+  570 |       "//div[span[text()='email']]/ancestor::div[contains(@class, 'signYourselfBlock')]",document, null,
+  571 |       XPathResult.FIRST_ORDERED_NODE_TYPE,
+  572 |       null
+  573 |   ).singleNodeValue;
+  574 |   
+  575 |   return element ? element.id : null;
+  576 | });
+  577 | await page.getByRole('button', { name: 'Next' }).click();
+  578 | await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+  579 |
+  580 | await page.locator('//span[@class=" hidden md:block ml-1 " and text()="Copy link"]').click();
+  581 | const copiedUrl = await page.locator('//p[@id="copyUrl"]').evaluate(el => el.textContent.trim());
+  582 | const page1 = await page.context().newPage();
+  583 | await page1.goto(copiedUrl);
+  584 | await page1.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
+  585 | await page1.getByRole('button', { name: 'Agree & Continue' }).click();
+  586 | await page1.waitForLoadState("networkidle");
+  587 | await page1.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  588 | await page1.locator('//div[@id="container"]//div[text()="signature"]').click();
+  589 | await page1.mouse.down();
+  590 | await page1.mouse.move(150, 128)
+  591 | await page1.mouse.move(160, 138)
+  592 | await page1.mouse.up();
+  593 | // Optionally save changes
+  594 | await page1.locator("//button[normalize-space()='Save']").click();
+  595 | await page1.locator('//div[@id="container"]//div[text()="stamp"]').click();
+  596 | const fileChooserPromise1 = page1.waitForEvent('filechooser');
+  597 | await page1.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
+  598 | const fileChooser1 = await fileChooserPromise1;
+  599 | await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
+  600 | await page1.locator("//button[normalize-space()='Save']").click();
+  601 | await page1.locator('//div[@id="container"]//div[text()="initials"]').click();
+  602 | await page1.mouse.move(650, 350)
+  603 | await page1.mouse.down();
+  604 | await page1.mouse.move(700, 380)
+  605 | await page1.mouse.up();
+  606 | await page1.locator("//button[normalize-space()='Save']").click();
+  607 | await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariablenameID}']//textarea[1]`).fill('Mark Anderson');
+  608 | await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariablejobtitleID}']//textarea[1]`).fill('Quality analyst');
+  609 | await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariablecompanyID}']//textarea[1]`).fill('OpenSign pvt. ltd');
+  610 | await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariabletextinputID}']//textarea[1]`).fill('120 wood street sanfransisco');
+  611 | await page1.locator('#myDropdown').selectOption('option-2');
+  612 | await page1.getByRole('radio', { name: 'option-1' }).check();
+  613 | await page1.getByRole('checkbox', { name: 'option-1' }).check();
+> 614 | await page1.locator('//div[contains(text(),"image")]').click();
+      |                                                        ^ Error: locator.click: Test timeout of 120000ms exceeded.
+  615 | const fileChooserPromise2 = page1.waitForEvent('filechooser');
+  616 | await page1.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
+  617 | const fileChooser2 = await fileChooserPromise2;
+  618 | await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
+  619 | await page1.locator("//button[normalize-space()='Save']").click();
+  620 | await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariableemailID}']//textarea[1]`).fill('anderson@oepnsignlabs.com');
+  621 | await page1.getByRole('button', { name: 'Finish' }).click();
+  622 |
+  623 | await expect(page1.getByRole('paragraph')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
+  624 | /*await page1.getByRole('button', { name: 'Print' }).click();
+  625 | const downloadPromise = page1.waitForEvent('download');
+  626 | await page1.getByRole('button', { name: 'Certificate' }).click();
+  627 | const download = await downloadPromise;
+  628 | await page1.getByRole('button', { name: 'Download' }).click();
+  629 |   const download1Promise = page1.waitForEvent('download');
+  630 |   await page1.locator('#selectSignerModal').getByRole('button', { name: 'Download' }).click();
+  631 |   const download1 = await download1Promise;
+  632 |   await page1.getByRole('button', { name: 'Download' }).click();
+  633 |   await page1.getByText('Download pdf + Certificate').click();
+  634 |   const download2Promise = page1.waitForEvent('download');
+  635 |   await page1.locator('#selectSignerModal').getByRole('button', { name: 'Download' }).click();
+  636 |   const download2 = await download2Promise;
+  637 |   const download3Promise = page1.waitForEvent('download');*/
+  638 | });
+  639 | test('Verify that a user can create a document with two signers, send it for a signature request, and signer can successfully sign the document.', async ({ page }) => {
+  640 |   const commonSteps = new CommonSteps(page);
+  641 |   // Step 1: Navigate to Base URL and log in
+  642 |   await commonSteps.navigateToBaseUrl();
+  643 |   await commonSteps.login();
+  644 | //const title = await page.title()
+  645 |   //Expects page to have a heading with the name of dashboard.
+  646 | //expect(title).toBe('Dashboard - OpenSign™');
+  647 |
+  648 | await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  649 |   await page.locator('input[name="Name"]').click();
+  650 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  651 |   await page.locator('input[name="Note"]').click();
+  652 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  653 | await page.locator('input[type="file"]').click();
+  654 | const fileChooser = await fileChooserPromise;
+  655 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
+  656 | await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  657 |   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
+  658 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  659 | await page.getByRole('button', { name: 'Next' }).click();
+  660 | await page.waitForLoadState("networkidle");
+  661 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  662 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  663 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  664 | await page.locator('//span[normalize-space()=\'signature\']').hover();
+  665 | await page.mouse.down();
+  666 | await page.mouse.move(600, 300)
+  667 | await page.mouse.up();
+  668 | try {
+  669 |   const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+  670 |
+  671 |   for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  672 |       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  673 |       
+  674 |           console.log("signature widget dragged and dropped");
+  675 |           break; // Exit the loop if successfully clicked
+  676 |       } else {
+  677 |           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  678 |   
+  679 |           await page.locator('//span[normalize-space()="signature"]').hover();
+  680 |           await page.mouse.down();
+  681 |           await page.mouse.move(600, 300);
+  682 |           await page.mouse.up();
+  683 |           
+  684 |           // Wait a bit before checking again
+  685 |           await page.waitForTimeout(1000);
+  686 |       }
+  687 |   
+  688 |       if (i === 5) {
+  689 |           console.log("signature widget did not become visible on the document after multiple attempts.");
+  690 |       }
+  691 |   }
+  692 | } catch (error) {
+  693 |   console.log("Element not found or not interactable, continuing execution.");
+  694 |  
+  695 | }
+  696 | await page.locator('//span[normalize-space()=\'stamp\']').hover();
+  697 | await page.mouse.down();
+  698 | await page.mouse.move(600, 360)
+  699 | await page.mouse.up();
+  700 | await page.locator('//span[normalize-space()=\'initials\']').hover();
+  701 | await page.mouse.down();
+  702 | await page.mouse.move(600, 420)
+  703 | await page.mouse.up();
+  704 | await page.locator('//span[normalize-space()=\'name\']').hover();
+  705 | await page.mouse.down();
+  706 | await page.mouse.move(600, 470)
+  707 | await page.mouse.up();
+  708 | //here we are copying the widget id to use while signing teh document through the guest signatrue flow
+  709 | const VariablenameID = await page.evaluate(() => {
+  710 |   const element = document.evaluate(
+  711 |       "//div[span[text()='name']]/ancestor::div[contains(@class, 'signYourselfBlock')]",document, null,
+  712 |       XPathResult.FIRST_ORDERED_NODE_TYPE,
+  713 |       null
+  714 |   ).singleNodeValue;
+```
