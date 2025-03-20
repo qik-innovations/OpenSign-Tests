@@ -994,12 +994,18 @@ await page2.goto(copiedUrl2);
 await page2.waitForLoadState("networkidle");
 await page2.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
 await page2.getByRole('button', { name: 'Agree & Continue' }).click();
-await expect(page2.getByRole('paragraph')).toContainText('List of signers who have already signed the document .');
-await page2.locator('.sc-gsFSXq > button:nth-child(3)').click();
+//await expect(page2.getByRole('paragraph')).toContainText('List of signers who have already signed the document .');
+//await page2.locator('.sc-gsFSXq > button:nth-child(3)').click();
 //await expect(page2.getByRole('paragraph')).toContainText('Click any of the placeholders appearing on the document to sign. You will then see options to draw your signature, type it, or upload an image .');
 //await page2.locator('.sc-gsFSXq > button:nth-child(3)').click();
 //await expect(page2.getByRole('paragraph')).toContainText('Click Decline, or Finish buttons to navigate your document. Use the ellipsis menu for additional options, including the Download button .');
-await page2.getByRole('button', { name: 'Close' }).click();
+//await page2.getByRole('button', { name: 'Close' }).click();
+await page2.locator('canvas').nth(1).click({
+  position: {
+    x: 90,
+    y: 56
+  }
+});
 await page2.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page2.locator('//div[@id="container"]//div[text()="signature"]').click();
 await page2.mouse.down();

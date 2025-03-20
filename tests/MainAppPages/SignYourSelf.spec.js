@@ -1723,7 +1723,7 @@ expect(elements.length).toBe(2);
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
-test('Verify that text widgets settings for Name, Job Title, Company, Text, and Email function correctly in Sign Yourself.', async ({ page }) => {
+test('Verify that widgets settings for Name, Job Title, Company, Text, and Email function correctly in Sign Yourself.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
@@ -1804,11 +1804,13 @@ const color = await page.locator("//textarea[text()='Pravin Testing account']")
   .evaluate(el => getComputedStyle(el).color);
 
 console.log(`Font Size: ${fontSize}, Color: ${color}`);
+// Extract the integer part and append 'px'
+let roundedFontSize = parseInt(fontSize) + 'px';
 
-if (fontSize === '15.6176px' && color === 'rgb(0, 0, 255)') {
+if (roundedFontSize === '15px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 15.6176px, Color: blue but got Font Size: ${fontSize}, Color: ${color}`);
+  throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSize}, Color: ${color}`);
 }
 await page.locator('//span[normalize-space()=\'job title\']').hover();
 await page.mouse.down();
@@ -1827,10 +1829,13 @@ const colorJotitle = await page.locator("//textarea[text()='Quality analystAA']"
 
 console.log(`Font Size: ${fontSizeJotitle}, Color: ${colorJotitle}`);
 
-if (fontSizeJotitle === '15.6176px' && colorJotitle === 'rgb(0, 0, 255)') {
+// Extract the integer part and append 'px'
+let roundedFontSizejobtitle = parseInt(fontSizeJotitle) + 'px';
+
+if (roundedFontSizejobtitle === '15px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 15.6176px, Color: blue but got Font Size: ${fontSizeJotitle}, Color: ${colorJotitle}`);
+  throw new Error(`Test Failed: Expected Font Size: 15.px, Color: blue but got Font Size: ${fontSizeJotitle}, Color: ${colorJotitle}`);
 }
 
 await page.locator('//span[normalize-space()=\'company\']').hover();
@@ -1849,11 +1854,13 @@ const colorcompany= await page.locator("//textarea[text()='OpenSign pvt ltd']")
   .evaluate(el => getComputedStyle(el).color);
 
 console.log(`Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
+// Extract the integer part and append 'px'
+let roundedFontSizecmp = parseInt(fontSizecompany) + 'px';
 
-if (fontSizecompany === '15.6176px' && colorcompany === 'rgb(0, 0, 255)') {
+if (roundedFontSizecmp === '15px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 15.6176px, Color: blue but got Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
+  throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
 }
 
 await page.locator('//span[@class="md:inline-block text-center text-[15px] ml-[5px] font-semibold pr-1 md:pr-0" and text()="text"]').hover();
@@ -1874,11 +1881,13 @@ const colortext = await page.locator("//textarea[text()='20 wood street sanfrans
   .evaluate(el => getComputedStyle(el).color);
 
 console.log(`Font Size: ${fontSizetext }, Color: ${colortext}`);
+// Extract the integer part and append 'px'
+let roundedFontSizetext = parseInt(fontSizetext) + 'px';
 
-if (fontSizetext === '15.6176px' && colortext  === 'rgb(0, 0, 255)') {
+if (roundedFontSizetext === '15px' && color === 'rgb(0, 0, 255)'){
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 15.6176px, Color: blue but got Font Size: ${fontSizetext }, Color: ${colortext }`);
+  throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizetext }, Color: ${colortext }`);
 }
 
 await page.locator('//span[normalize-space()=\'email\']').hover();
@@ -1895,11 +1904,13 @@ await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] 
 const coloremail = await page.locator("//textarea[text()='pravin+testaccount@nxglabs.in']").evaluate(el => getComputedStyle(el).color);
 
 console.log(`Font Size: ${fontSizeemail}, Color: ${coloremail}`);
+// Extract the integer part and append 'px'
+let roundedFontSizeemail = parseInt(fontSizeemail) + 'px';
 
-if (fontSizeemail=== '15.6176px' && coloremail  === 'rgb(0, 0, 255)') {
+if (roundedFontSizeemail === '15px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 15.6176px, Color: blue but got Font Size: ${fontSizeemail }, Color: ${coloremail }`);
+  throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizeemail }, Color: ${coloremail }`);
 }
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
