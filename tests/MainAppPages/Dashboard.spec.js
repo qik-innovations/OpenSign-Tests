@@ -363,7 +363,7 @@ await page.mouse.up();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
  await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
- await page.locator("//i[@class='fa-light fa-plus']").first().click();
+
  await page.locator("//button[normalize-space()='Send']").click();
 });
 test('Verify that pagination is functioning correctly in the dashboard drafts document.', async ({ page }) => {
@@ -467,7 +467,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.getByRole('button', { name: 'Send' }).click();
 await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
 await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('You have successfully sent email to Pravin Testing account. Subsequent signers will get email(s) once Pravin Testing account signs the document');
+await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoShare your review');
 await page.getByRole('button', { name: 'No' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 // Wait up to 90 seconds for the text to appear
@@ -854,7 +854,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.getByRole('button', { name: 'Send' }).click();
 await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
 await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('You have successfully sent email to Pravin Testing account. Subsequent signers will get email(s) once Pravin Testing account signs the document');
+await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoShare your review');
 await page.getByRole('button', { name: 'No' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 // Wait up to 90 seconds for the text to appear
@@ -938,7 +938,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.getByRole('button', { name: 'Send' }).click();
 await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
 await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('You have successfully sent email to Pravin Testing account. Subsequent signers will get email(s) once Pravin Testing account signs the document');
+await expect(page.locator('#selectSignerModal')).toContainText('Verify that user can resend the email from the dashboard Recently sent for signatures.');
 await page.getByRole('button', { name: 'No' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 // Wait up to 90 seconds for the text to appear
@@ -1013,7 +1013,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.getByRole('button', { name: 'Send' }).click();
 await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
 await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('You have successfully sent email to Pravin Testing account. Subsequent signers will get email(s) once Pravin Testing account signs the document');
+await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoShare your review');
 await page.getByRole('button', { name: 'No' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 // Wait up to 90 seconds for the text to appear

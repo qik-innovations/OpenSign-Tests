@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const CommonSteps = require('../utils/CommonSteps');
 const path = require('path');
-
+test.describe('Incompatiblepdfs', () => {
 test('Verify that the user can successfully sign a PDF that was previously incompatible ERR_PDF', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -121,7 +121,6 @@ await page.mouse.up();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
-  await page.locator("//i[@class='fa-light fa-plus']").first().click();
   await page.locator("//button[normalize-space()='Send']").click();
 
 });
@@ -244,7 +243,6 @@ await page.mouse.up();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
-  await page.locator("//i[@class='fa-light fa-plus']").first().click();
   await page.locator("//button[normalize-space()='Send']").click();
 
 });
@@ -366,7 +364,6 @@ await page.mouse.up();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
-  await page.locator("//i[@class='fa-light fa-plus']").first().click();
   await page.locator("//button[normalize-space()='Send']").click();
 
 });
@@ -487,7 +484,6 @@ await page.mouse.up();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
-  await page.locator("//i[@class='fa-light fa-plus']").first().click();
   await page.locator("//button[normalize-space()='Send']").click();
 
 });
@@ -801,7 +797,7 @@ await page.mouse.up();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
-  await page.locator("//i[@class='fa-light fa-plus']").first().click();
+
   await page.locator("//button[normalize-space()='Send']").click();
 
-});
+})});

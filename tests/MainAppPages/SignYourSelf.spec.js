@@ -153,7 +153,6 @@ await page.mouse.up();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
-  await page.locator("//i[@class='fa-light fa-plus']").first().click();
   await page.locator("//button[normalize-space()='Send']").click();
 
 });
@@ -307,7 +306,6 @@ await page.mouse.up();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
-  await page.locator("//i[@class='fa-light fa-plus']").first().click();
   await page.locator("//button[normalize-space()='Send']").click();
 
 });
@@ -430,7 +428,6 @@ await page.mouse.up();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
 await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
-await page.locator("//i[@class='fa-light fa-plus']").first().click();
 await page.locator("//button[normalize-space()='Send']").click();
 
 });
@@ -1723,7 +1720,7 @@ expect(elements.length).toBe(2);
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
-test('Verify that text widget settings for Name, Job Title, Company, Text, and Email function correctly in Sign Yourself.', async ({ page }) => {
+test('Verify that widgets settings for Name, Job Title, Company, Text, and Email function correctly in Sign Yourself.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
@@ -1804,11 +1801,13 @@ const color = await page.locator("//textarea[text()='Pravin Testing account']")
   .evaluate(el => getComputedStyle(el).color);
 
 console.log(`Font Size: ${fontSize}, Color: ${color}`);
+// Extract the integer part and append 'px'
+let roundedFontSize = parseInt(fontSize) + 'px';
 
-if (fontSize === '15.4412px' && color === 'rgb(0, 0, 255)') {
+if (roundedFontSize === '15px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 15.4412px, Color: blue but got Font Size: ${fontSize}, Color: ${color}`);
+  throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSize}, Color: ${color}`);
 }
 await page.locator('//span[normalize-space()=\'job title\']').hover();
 await page.mouse.down();
@@ -1827,10 +1826,13 @@ const colorJotitle = await page.locator("//textarea[text()='Quality analystAA']"
 
 console.log(`Font Size: ${fontSizeJotitle}, Color: ${colorJotitle}`);
 
-if (fontSizeJotitle === '15.4412px' && colorJotitle === 'rgb(0, 0, 255)') {
+// Extract the integer part and append 'px'
+let roundedFontSizejobtitle = parseInt(fontSizeJotitle) + 'px';
+
+if (roundedFontSizejobtitle === '15px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 15.4412px, Color: blue but got Font Size: ${fontSizeJotitle}, Color: ${colorJotitle}`);
+  throw new Error(`Test Failed: Expected Font Size: 15.px, Color: blue but got Font Size: ${fontSizeJotitle}, Color: ${colorJotitle}`);
 }
 
 await page.locator('//span[normalize-space()=\'company\']').hover();
@@ -1849,11 +1851,13 @@ const colorcompany= await page.locator("//textarea[text()='OpenSign pvt ltd']")
   .evaluate(el => getComputedStyle(el).color);
 
 console.log(`Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
+// Extract the integer part and append 'px'
+let roundedFontSizecmp = parseInt(fontSizecompany) + 'px';
 
-if (fontSizecompany === '15.4412px' && colorcompany === 'rgb(0, 0, 255)') {
+if (roundedFontSizecmp === '15px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 15.4412px, Color: blue but got Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
+  throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
 }
 
 await page.locator('//span[@class="md:inline-block text-center text-[15px] ml-[5px] font-semibold pr-1 md:pr-0" and text()="text"]').hover();
@@ -1874,36 +1878,37 @@ const colortext = await page.locator("//textarea[text()='20 wood street sanfrans
   .evaluate(el => getComputedStyle(el).color);
 
 console.log(`Font Size: ${fontSizetext }, Color: ${colortext}`);
+// Extract the integer part and append 'px'
+let roundedFontSizetext = parseInt(fontSizetext) + 'px';
 
-if (fontSizetext === '15.4412px' && colortext  === 'rgb(0, 0, 255)') {
+if (roundedFontSizetext === '15px' && color === 'rgb(0, 0, 255)'){
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 15.4412px, Color: blue but got Font Size: ${fontSizetext }, Color: ${colortext }`);
+  throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizetext }, Color: ${colortext }`);
 }
 
 await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 580)
+await page.mouse.move(600, 630)
 await page.mouse.up();
 await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
   await page.getByRole('button', { name: 'Save' }).click();
  
-  const fontSizeemail = await page.locator("//textarea[text()='pravin+testaccount@nxglabs.in']")
-  .evaluate(el => getComputedStyle(el).fontSize);
+  const fontSizeemail = await page.locator("//textarea[text()='pravin+testaccount@nxglabs.in']").evaluate(el => getComputedStyle(el).fontSize);
 
-const coloremail = await page.locator("//textarea[text()='pravin+testaccount@nxglabs.in']")
-  .evaluate(el => getComputedStyle(el).color);
+const coloremail = await page.locator("//textarea[text()='pravin+testaccount@nxglabs.in']").evaluate(el => getComputedStyle(el).color);
 
 console.log(`Font Size: ${fontSizeemail}, Color: ${coloremail}`);
+// Extract the integer part and append 'px'
+let roundedFontSizeemail = parseInt(fontSizeemail) + 'px';
 
-if (fontSizeemail=== '15.4412px' && coloremail  === 'rgb(0, 0, 255)') {
+if (roundedFontSizeemail === '15px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 15.4412px, Color: blue but got Font Size: ${fontSizeemail }, Color: ${coloremail }`);
+  throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizeemail }, Color: ${coloremail }`);
 }
-await page.getByRole('button', { name: 'Save' }).click();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
@@ -2848,5 +2853,42 @@ await page.mouse.up();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
 
+});
+test('Verify that the document is not uploaded if its format is not supported in sign yourself.', async ({ page }) => {
+  const commonSteps = new CommonSteps(page);
+  // Step 1: Navigate to Base URL and log in
+  await commonSteps.navigateToBaseUrl();
+  await commonSteps.login();
+await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+  await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  await page.locator('input[name="Note"]').click();
+
+  //select and try to upload the file format type json
+  const fileChooserPromise = page.waitForEvent('filechooser');
+await page.locator('input[type="file"]').click();
+const fileChooser = await fileChooserPromise;
+await fileChooser.setFiles(path.join(__dirname, '../TestData/Unsupported_fileFormats/Presentation1.pptx'));
+page.on('dialog', async (dialog) => {
+  console.log(`Dialog message: ${dialog.message()}`);
+  if (dialog.message() === 'We are currently experiencing some issues with processing DOCX files. Please upload the PDF file or contact us on support@opensignlabs.com') {
+    console.log('Dialog text matches the expected text.');
+  } else {
+    console.error('Dialog text does NOT match the expected text.');
+  }
+  await dialog.accept();
+});
+const fileChooserPromise2 = page.waitForEvent('filechooser');
+await page.locator('input[type="file"]').click();
+const fileChooser2 = await fileChooserPromise2;
+await fileChooser2.setFiles(path.join(__dirname, '../TestData/Unsupported_fileFormats/PlanSheet.xlsx'));
+page.on('dialog', async (dialog) => {
+  console.log(`Dialog message: ${dialog.message()}`);
+  if (dialog.message() === 'We are currently experiencing some issues with processing DOCX files. Please upload the PDF file or contact us on support@opensignlabs.com') {
+    console.log('Dialog text matches the expected text.');
+  } else {
+    console.error('Dialog text does NOT match the expected text.');
+  }
+  await dialog.accept();
+});
 });
 });

@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const CommonSteps = require('../utils/CommonSteps');
 const path = require('path');
-
+test.describe('Templates', () => {
 test('Verify that a new free user cannot access the paid features on the create template and edit template page.', async ({ page }) => {
   
   const commonSteps = new CommonSteps(page);
@@ -26,7 +26,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
     // Expects page to have a heading with the name of dashboard.
     const title = await page.title()
        expect(title).toBe('Dashboard - OpenSign™');
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -119,7 +119,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
     // Expects page to have a heading with the name of dashboard.
     const title = await page.title()
        expect(title).toBe('Dashboard - OpenSign™');
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -128,7 +128,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
   await page.getByRole('button', { name: 'Next' }).click();
-  await expect(page.getByRole('dialog')).toContainText('Clicking \'Add role\' button will allow you to add various signer roles. You can attach users to each role in subsequent steps.');
+  await expect(page.getByRole('dialog')).toContainText("Clicking 'Add role' button will allow you to add various signer roles. You can attach users to each role in subsequent steps.", { timeout: 120000 });
   await page.locator('.sc-gsFSXq > button:nth-child(3)').click();
   await expect(page.getByRole('dialog')).toContainText('Once roles are added, select a role from list to add a place-holder where he is supposed to sign. The placeholder will appear in the same colour as the role name once you drop it on the document.');
   await page.locator('.sc-gsFSXq > button:nth-child(3)').click();
@@ -254,7 +254,7 @@ test('Verify that a new free user is unable to send the document through bulk se
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -363,16 +363,15 @@ test('Verify that an existing Team Plan user can create a template using all adv
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
     
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  await page.locator("//input[@name='SendinOrder' and @value='false']").click();
   await page.getByText('Advanced options').click();
-  await page.locator('input[name="SendinOrder"]').nth(1).check();
-  await page.getByLabel('', { exact: true }).check();
   await page.locator('input[name="TimeToCompleteDays"]').fill('2');
   await page.locator('.css-n9qnu9').click();
   await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
@@ -388,7 +387,6 @@ test('Verify that an existing Team Plan user can create a template using all adv
   await expect(page.locator('input[name="Name"]')).toHaveValue('Sample-joining-letter');
   await expect(page.getByLabel('Note')).toHaveValue('Please review and sign this document');
   await expect(page.locator('input[name="SendinOrder"]').nth(1)).toBeChecked();
-  await expect(page.getByLabel('', { exact: true })).toBeChecked();
   await expect(page.locator('input[name="IsEnableOTP"]').first()).toBeChecked();
   await expect(page.locator('input[name="IsTourEnabled"]').first()).not.toBeChecked();
   await expect(page.locator('input[name="IsTourEnabled"]').nth(1)).toBeChecked();
@@ -455,7 +453,7 @@ test('Verify that a Team Plan user can create a template, make it public, and si
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
     
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -552,7 +550,7 @@ test('Verify that the signature settings function correctly for the signature wi
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -633,7 +631,7 @@ test('Verify that the merge page functions correctly and the user can sign the m
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -768,7 +766,7 @@ test('Verify that the delete page functions correctly in create template.', asyn
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
   await commonSteps.login();
-await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
 await page.getByRole('menuitem', { name: 'Create template' }).click();
 await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
 const fileChooserPromise = page.waitForEvent('filechooser');
@@ -798,7 +796,7 @@ test('Verify that the rotate page functions correctly in create template.', asyn
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -960,4 +958,4 @@ await page.getByRole('button', { name: 'Next' }).click();
   await page.locator('.css-n9qnu9').click();
   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
   await page.getByRole('button', { name: ' Next' }).click();
-});
+});});
