@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const CommonSteps = require('../utils/CommonSteps');
 const path = require('path');
-
+test.describe('Templates', () => {
 test('Verify that a new free user cannot access the paid features on the create template and edit template page.', async ({ page }) => {
   
   const commonSteps = new CommonSteps(page);
@@ -26,7 +26,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
     // Expects page to have a heading with the name of dashboard.
     const title = await page.title()
        expect(title).toBe('Dashboard - OpenSign™');
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -119,7 +119,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
     // Expects page to have a heading with the name of dashboard.
     const title = await page.title()
        expect(title).toBe('Dashboard - OpenSign™');
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -254,7 +254,7 @@ test('Verify that a new free user is unable to send the document through bulk se
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -363,7 +363,7 @@ test('Verify that an existing Team Plan user can create a template using all adv
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
     
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -453,7 +453,7 @@ test('Verify that a Team Plan user can create a template, make it public, and si
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
     
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -550,7 +550,7 @@ test('Verify that the signature settings function correctly for the signature wi
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -631,7 +631,7 @@ test('Verify that the merge page functions correctly and the user can sign the m
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -766,7 +766,7 @@ test('Verify that the delete page functions correctly in create template.', asyn
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
   await commonSteps.login();
-await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
 await page.getByRole('menuitem', { name: 'Create template' }).click();
 await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
 const fileChooserPromise = page.waitForEvent('filechooser');
@@ -796,7 +796,7 @@ test('Verify that the rotate page functions correctly in create template.', asyn
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -958,4 +958,4 @@ await page.getByRole('button', { name: 'Next' }).click();
   await page.locator('.css-n9qnu9').click();
   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
   await page.getByRole('button', { name: ' Next' }).click();
-});
+});});

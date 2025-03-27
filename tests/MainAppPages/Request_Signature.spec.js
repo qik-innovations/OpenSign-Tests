@@ -851,7 +851,7 @@ await page.locator('//span[normalize-space()=\'name\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 470)
 await page.mouse.up();
-//here we are copying the widget id to use while signing teh document through the guest signatrue flow
+//here we are copying the widget id to use while signing the document through the guest signatrue flow
 const Signer1VariablenameID = await page.evaluate(() => {
   const element = document.evaluate(
       "//div[span[text()='name']]/ancestor::div[contains(@class, 'signYourselfBlock')]",document, null,

@@ -121,7 +121,6 @@ await page.mouse.up();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
-  await page.locator("//i[@class='fa-light fa-plus']").first().click();
   await page.locator("//button[normalize-space()='Send']").click();
 
 });
@@ -244,7 +243,6 @@ await page.mouse.up();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
-  await page.locator("//i[@class='fa-light fa-plus']").first().click();
   await page.locator("//button[normalize-space()='Send']").click();
 
 });
@@ -366,7 +364,6 @@ await page.mouse.up();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
-  await page.locator("//i[@class='fa-light fa-plus']").first().click();
   await page.locator("//button[normalize-space()='Send']").click();
 
 });
@@ -487,7 +484,6 @@ await page.mouse.up();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
-  await page.locator("//i[@class='fa-light fa-plus']").first().click();
   await page.locator("//button[normalize-space()='Send']").click();
 
 });
@@ -801,7 +797,7 @@ await page.mouse.up();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
-  await page.locator("//i[@class='fa-light fa-plus']").first().click();
+
   await page.locator("//button[normalize-space()='Send']").click();
 
 })});

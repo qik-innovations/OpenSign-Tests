@@ -33,7 +33,7 @@ const fillSignupForm = async (page, { name, email, phone, company, jobTitle, pas
   await page.locator(locators.passwordInput).fill(password);
   await page.locator(locators.termsCheckbox).click();
 };
-
+test.describe('Contact', () => {
 test('Verify that user can add a new contact', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
@@ -83,8 +83,9 @@ test('Verify that user cannot add a new contact with existing email address', as
   await commonSteps.login();
   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
   try {
-    const rowLocator = page.getByRole('row', { name: 'Pravin Ssss pravin+8878@' }).getByRole('button').nth(1);
-
+   
+    const rowLocator = await page.getByRole('row', { name: 'Pravin Ssss pravin+8878@' }).getByRole('button').nth(1);
+    await page.waitForTimeout(2000);
     if (await rowLocator.isVisible()) {
         await rowLocator.click();
         await page.getByRole('button', { name: 'Yes' }).click();
@@ -100,7 +101,6 @@ test('Verify that user cannot add a new contact with existing email address', as
   await page.getByLabel('Email *').fill('pravin+8878@nxglabs.in');
   await page.getByPlaceholder('optional').fill('0924820934');
   await page.getByRole('button', { name: 'Submit' }).click();
-
   page.on('dialog', async (dialog) => {
     console.log(`Dialog message: ${dialog.message()}`);
     if (dialog.message() === 'Contact already exist! Please select it from ‘Signers’ dropdown') {
@@ -155,4 +155,4 @@ test('Verify that user can import contacts from an Excel file', async ({ page })
  await page.getByRole('row', { name: 'Steve Head stevehead@nxglabs.in' }).getByRole('button').nth(1).click();
  await page.getByRole('button', { name: 'Yes' }).click();
  
-});
+});});

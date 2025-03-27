@@ -34,7 +34,7 @@ test('Verify that revoked document from the In Progress document is available on
   await page.getByRole('button', { name: 'Send' }).click();
   await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
   await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-  await expect(page.locator('#selectSignerModal')).toContainText('You have successfully sent email to Pravin Testing account. Subsequent signers will get email(s) once Pravin Testing account signs the document');
+  await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoShare your review');
   await page.getByRole('button', { name: 'No' }).click();
   // Wait up to 90 seconds for the text to appear
   await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
