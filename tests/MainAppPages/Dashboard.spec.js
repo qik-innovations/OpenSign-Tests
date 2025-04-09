@@ -69,7 +69,6 @@ await expect(page.locator('//div[text()="Request signatures"]//parent::div[@clas
      await page.locator('input[name="Name"]').click();
         await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
         await page.locator('input[name="Name"]').press('Tab');
-        await page.locator('input[name="Note"]').click();
         const fileChooserPromise = page.waitForEvent('filechooser');
       await page.locator('input[type="file"]').click();
       const fileChooser = await fileChooserPromise;
@@ -78,6 +77,7 @@ await expect(page.locator('//div[text()="Request signatures"]//parent::div[@clas
     //  await page.getByRole('option', { name: 'Pravin Testing account <' + loginCredentials.email }).click();
     await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
     await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+    await page.locator('input[name="Note"]').click();
     await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
     await page.getByRole('button', { name: 'Next' }).click();
     await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
@@ -165,6 +165,7 @@ await expect(page.locator('#renderList')).toContainText('Need your signature');
     //  await page.getByRole('option', { name: 'Pravin Testing account <' + loginCredentials.email }).click();
     await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
     await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
+    await page.locator('input[name="Note"]').click();
     await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
     await page.getByRole('button', { name: 'Next' }).click();
     await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
@@ -405,13 +406,13 @@ test('Verify that owner can create the document and sign it from the dashboard r
 await page.getByRole('menuitem', { name: 'Request signatures' }).click();
   await page.locator('input[name="Name"]').click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
-  await page.locator('input[name="Note"]').click();
   const fileChooserPromise = page.waitForEvent('filechooser');
 await page.locator('input[type="file"]').click();
 const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+await page.locator('input[name="Note"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -552,7 +553,6 @@ test('Verify that the document sent for a signature request appears in the Recen
 await page.getByRole('menuitem', { name: 'Request signatures' }).click();
   await page.locator('input[name="Name"]').click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
-  await page.locator('input[name="Note"]').click();
   const fileChooserPromise = page.waitForEvent('filechooser');
 await page.locator('input[type="file"]').click();
 const fileChooser = await fileChooserPromise;
@@ -560,6 +560,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-J
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
+await page.locator('input[name="Note"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -699,6 +700,7 @@ await page.getByRole('button', { name: 'Next' }).click();
   await page.getByRole('button', { name: 'Create document' }).click();
   await page.locator('.css-n9qnu9').click();
   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
+  await page.locator('input[name="Note"]').click();
   await page.getByRole('button', { name: ' Next' }).click();
   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
   await page.getByRole('button', { name: 'Send' }).click();
@@ -811,6 +813,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+await page.locator('input[name="Note"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -895,6 +898,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+await page.locator('input[name="Note"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -938,10 +942,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.getByRole('button', { name: 'Send' }).click();
 await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
 await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-<<<<<<< HEAD
-=======
-await expect(page.locator('#selectSignerModal')).toContainText('Verify that user can resend the email from the dashboard Recently sent for signatures.');
->>>>>>> 2b7d75b87867b9ba8c914b1e9298c83102e12b24
+await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoShare your review');
 await page.getByRole('button', { name: 'No' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 // Wait up to 90 seconds for the text to appear
@@ -971,6 +972,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+await page.locator('input[name="Note"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
 await page.locator('input[name="Note"]').fill('Note Offer Letter for QA1144');

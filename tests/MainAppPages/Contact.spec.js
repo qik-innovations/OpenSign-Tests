@@ -34,7 +34,7 @@ const fillSignupForm = async (page, { name, email, phone, company, jobTitle, pas
   await page.locator(locators.termsCheckbox).click();
 };
 test.describe('Contact', () => {
-test('Verify that user can add a new contact', async ({ page }) => {
+test('Verify that user can add a new contact.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
@@ -47,8 +47,7 @@ test('Verify that user can add a new contact', async ({ page }) => {
     console.error(`Page title is incorrect. Expected: "Contactbook - OpenSign™", Got: "${title}"`);
   }
   try {
-    const rowLocator = page.getByRole('row', { name: 'Pravin Ssss pravin+8878@' }).getByRole('button').nth(1);
-
+    const rowLocator = await page.getByRole('row', { name: 'Pravin Ssss pravin+8878@' }).getByRole('button').nth(1).waitFor({ timeout: 120000 }); // 120000 ms = 120 seconds
     if (await rowLocator.isVisible()) {
         await rowLocator.click();
         await page.getByRole('button', { name: 'Yes' }).click();
@@ -84,11 +83,8 @@ test('Verify that user cannot add a new contact with existing email address', as
   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
   try {
    
-<<<<<<< HEAD
     const rowLocator = await page.getByRole('row', { name: 'Pravin Ssss pravin+8288@' }).getByRole('button').nth(1);
-=======
-    const rowLocator = await page.getByRole('row', { name: 'Pravin Ssss pravin+8878@' }).getByRole('button').nth(1);
->>>>>>> 2b7d75b87867b9ba8c914b1e9298c83102e12b24
+
     await page.waitForTimeout(2000);
     if (await rowLocator.isVisible()) {
         await rowLocator.click();
