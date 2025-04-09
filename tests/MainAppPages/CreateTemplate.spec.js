@@ -57,7 +57,7 @@ await page.bringToFront();
   await page.locator('span').filter({ hasText: 'Enable OTP verification' }).locator('span').click();
   const page2Promise = page.waitForEvent('popup');
   const page2 = await page2Promise;
-  await expect(page2.locator('#root')).toContainText('OPENSIGN™ FREE');
+  await expect(page2.locator('#root')).toContainText('OPENSIGN™ FREE', { timeout: 90000 });
   await page.bringToFront();
 /*
   await page.locator('label').filter({ hasText: 'Notify on signaturesUpgrade' }).locator('span').click();
@@ -140,7 +140,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   await page.getByLabel('Don\'t show this again').check();
   await page.getByLabel('Close').click();
   await page.getByRole('button', { name: '+ Add role' }).click();
-  await page.getByPlaceholder('User').fill('HR');
+  await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
@@ -266,7 +266,7 @@ test('Verify that a new free user is unable to send the document through bulk se
   await page.waitForLoadState("networkidle");
   await page.getByLabel('Close').click();
   await page.getByRole('button', { name: '+ Add role' }).click();
-  await page.getByPlaceholder('User').fill('HR');
+  await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
@@ -306,7 +306,7 @@ try {
  
 }
 await page.getByRole('button', { name: '+ Add role' }).click();
-await page.getByPlaceholder('User').fill('Manager');
+await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 2"]').fill('Manager');
 await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
@@ -395,7 +395,7 @@ test('Verify that an existing Team Plan user can create a template using all adv
   await expect(page.locator('input[name="TimeToCompleteDays"]')).toHaveValue('2');
   await page.getByRole('button', { name: 'Submit' }).click();
   await page.getByRole('button', { name: '+ Add role' }).click();
-  await page.getByPlaceholder('User').fill('HR');
+  await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
@@ -468,7 +468,7 @@ test('Verify that a Team Plan user can create a template, make it public, and si
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.waitForLoadState("networkidle");
   await page.getByRole('button', { name: '+ Add role' }).click();
-  await page.getByPlaceholder('User').fill('HR');
+  await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
   await page.locator('//span[normalize-space()=\'signature\']').hover();
   await page.mouse.down();
@@ -564,7 +564,7 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.getByRole('button', { name: '+ Add role' }).click();
-  await page.getByPlaceholder('User').fill('HR');
+  await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
 await page.locator('//span[normalize-space()=\'signature\']').hover();
 await page.mouse.down();
@@ -672,7 +672,7 @@ await fileChooser2.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_
   });
 
   await page.getByRole('button', { name: '+ Add role' }).click();
-  await page.getByPlaceholder('User').fill('HR');
+  await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
   await page.locator('//span[normalize-space()=\'signature\']').hover();
   await page.mouse.down();
@@ -751,8 +751,7 @@ await page.mouse.down();
 await page.mouse.move(600, 540)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
-  await expect(page.getByRole('heading')).toContainText('Create document');
-  await page.getByRole('button', { name: 'Create document' }).click();
+  await expect(page.locator('//h3[text()="Create document"]')).toContainText('Create document');
   await page.locator('.css-n9qnu9').click();
   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
   await page.getByRole('button', { name: ' Next' }).click();
@@ -873,7 +872,7 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
     - text: Fields  signature   stamp   initials   name   job title   company   date   text input   checkbox   dropdown   radio button   image   email 
     `);
     await page.getByRole('button', { name: '+ Add role' }).click();
-    await page.getByPlaceholder('User').fill('HR');
+    await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
     await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
     await page.locator('//span[normalize-space()=\'signature\']').hover();
     await page.mouse.down();
@@ -953,7 +952,7 @@ await page.mouse.down();
 await page.mouse.move(700, 350)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
-  await expect(page.getByRole('heading')).toContainText('Create document');
+  await expect(page.locator('//h3[text()="Create document"]')).toContainText('Create document');
   await page.getByRole('button', { name: 'Create document' }).click();
   await page.locator('.css-n9qnu9').click();
   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();

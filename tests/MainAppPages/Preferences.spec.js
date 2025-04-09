@@ -30,7 +30,7 @@ test('Verify that New free user can save the general preferences.', async ({ pag
   const page3Promise = page.waitForEvent('popup');
   await page.locator('#renderList').getByText('Upgrade now').click();
   const page3 = await page3Promise;
-  await expect(page.getByRole('heading', { name: 'Select your Timezone' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Timezone' })).toBeVisible();
   await page.locator('svg').click();
   await page.locator('#renderList div').filter({ hasText: 'Allowed signature' }).nth(2).click();
   await page.locator('.css-n9qnu9').click();

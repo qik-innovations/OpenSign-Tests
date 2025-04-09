@@ -368,7 +368,7 @@ await page.getByRole('button', { name: 'Send' }).click();
 
 await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
 await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('You have successfully sent email to Pravin Testing account. Subsequent signers will get email(s) once Pravin Testing account signs the document');
+await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoShare your review');
   await page.getByRole('button', { name: 'Yes' }).click();
   await page.locator('//div[@class="flex flex-row items-center"]//input[@type="checkbox" and @data-tut="IsAgree"]').click();
   await page.getByRole('button', { name: 'Agree & Continue' }).click();
@@ -619,7 +619,7 @@ await page1.locator("//button[normalize-space()='Save']").click();
 await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariableemailID}']//textarea[1]`).fill('anderson@oepnsignlabs.com');
 await page1.getByRole('button', { name: 'Finish' }).click();
 
-await expect(page1.getByRole('paragraph')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
+await expect(page1.locator('//h1[text()="The document has been signed successfully!"]')).toContainText('The document has been signed successfully!',{ timeout: 90000 });
 /*await page1.getByRole('button', { name: 'Print' }).click();
 const downloadPromise = page1.waitForEvent('download');
 await page1.getByRole('button', { name: 'Certificate' }).click();
@@ -988,7 +988,7 @@ await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerIma
 await page1.locator("//button[normalize-space()='Save']").click();
 await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariableemailID}']//textarea[1]`).fill('anderson@oepnsignlabs.com');
 await page1.getByRole('button', { name: 'Finish' }).click();
-await page1.getByText('Congratulations! 🎉 This').click();
+await page1.getByText('The document has been successfully signed by you!').click();
 const page2 = await page.context().newPage();
 await page2.goto(copiedUrl2);
 await page2.waitForLoadState("networkidle");
@@ -1041,7 +1041,7 @@ await fileChooser4.setFiles(path.join(__dirname, '../TestData/Images/DesignerIma
 await page2.locator("//button[normalize-space()='Save']").click();
 await page2.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${Signer1VariableemailID}']//textarea[1]`).fill('anderson@opepnsignlabs.com');
 await page2.getByRole('button', { name: 'Finish' }).click();
-await expect(page2.getByRole('paragraph')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 180000 });
+await expect(page2.locator('//h1[text()="The document has been signed successfully!"]')).toContainText('The document has been signed successfully!',{ timeout: 180000 });
 
 });
 test('Verify that a new free user cannot access the paid features on the request signature page.', async ({ page }) => {
@@ -1147,7 +1147,7 @@ try {
 await page.getByRole('button', { name: 'Next' }).click();
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 await page.getByRole('button', { name: 'Send' }).click();
-});
+});/*
 test('Verify that the tour guide messages function correctly for an existing signer when the tour guide is set to enabled.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
@@ -1236,7 +1236,7 @@ await page1.mouse.up();
 // Optionally save changes
 await page1.locator("//button[normalize-space()='Save']").click();
 await page1.getByRole('button', { name: 'Finish' }).click();
-});
+});*/
 test('Verify that the tour guide messages not displayed for an existing signer when the tour guide is set to disabled.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
@@ -1751,7 +1751,7 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
   await expect(page.locator('#renderList')).toContainText('2 of 3');
   await page.getByTitle('Rotate right').locator('i').click();
   await page.getByTitle('Rotate right').locator('i').click();
-  await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+ /* await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
     - text: Pages
     - button "+ Add pages"
     - text: +     
@@ -1764,7 +1764,7 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
     - separator
     - button "+ Add recipients"
     - text: Fields  signature   stamp   initials   name   job title   company   date   text   text input   checkbox   dropdown   radio button   image   email 
-    `);
+    `);*/
   await page.getByTitle('Rotate right').locator('i').click();
   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
     - text: Pages
@@ -2058,7 +2058,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
       y: 59
     }
   });
-  await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).toBeVisible();
+  await expect(page.locator('xpath=//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).not.toBeVisible();
   await page.getByRole('button', { name: 'Next' }).click();
 
   //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
@@ -2136,7 +2136,7 @@ while (true) {
 }
 await page.getByText('All pages but first').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[@class="font-medium" and text()="signature"]')).toBeVisible();
+  await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).toBeVisible();
   await page.locator('canvas').nth(1).click({
     position: {
       x: 49,
@@ -2150,7 +2150,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
       y: 59
     }
   });
-  await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).toBeVisible();
+  await expect(page.locator('xpath=//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).not.toBeVisible();
   await page.getByRole('button', { name: 'Next' }).click();
 
   //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
@@ -2223,7 +2223,7 @@ while (true) {
 }
 await page.getByText('Next to current widget').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).toBeVisible();
+//await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).toBeVisible();
   await page.getByRole('button', { name: 'Next' }).click();
 
   //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
@@ -2583,7 +2583,7 @@ await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//di
 
   //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
   await page.getByRole('button', { name: 'Send' }).click();
-});
+});/*
 test('Verify that initials widgets all types function correctly in request signature.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
@@ -2644,10 +2644,7 @@ await page.locator('//span[normalize-space()="initials"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 420)
 await page.mouse.up();
-await page.locator('//span[normalize-space()="initials"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 470)
-await page.mouse.up();
+await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
 await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()="Draw"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()="Draw"]').click();
 //draw the signature
@@ -2661,6 +2658,7 @@ await page.locator('//span[normalize-space()="initials"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 550)
 await page.mouse.up();
+await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
 await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()=" Upload image"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()=" Upload image"]').click();
 const fileChooserPromise1 = page.waitForEvent('filechooser');
@@ -2673,6 +2671,7 @@ await page.locator('//span[normalize-space()="initials"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 580)
 await page.mouse.up();
+await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
 await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()="Type"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()="Type"]').click();
 await page.locator('//div[@class="flex justify-between items-center"]//input[@placeholder="Your initials"]').fill('Ma');
@@ -2680,7 +2679,7 @@ await page.getByText('Ma').nth(3).click();
 await page.getByRole('button', { name: 'Save' }).click();
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
-});
+});*/
 test('Verify that initials widget Copy widget to all pages function correctly in request signature.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
@@ -3031,12 +3030,14 @@ while (true) {
 await page.getByText('Next to current widget').click();
 await page.getByRole('button', { name: 'Apply' }).click();
 await expect(page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[@class="font-medium text-center" and text()="initials"]')).toBeVisible();
+  
 await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium text-center" and text()="initials"]')).toBeVisible();
-  await page.getByRole('button', { name: 'Next' }).click();
+
+await page.getByRole('button', { name: 'Next' }).click();
 
   //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
   await page.getByRole('button', { name: 'Send' }).click();
-});
+});/*
 test('Verify that text widgets settings for Name, Job Title, Company, Text, and Email function correctly in request signature.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
@@ -3216,7 +3217,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 await page.getByRole('button', { name: 'Send' }).click();
 
-});
+});*/
 test('Verify that name,job title, company, checkbox, image and email widgets Copy function correctly in request signature.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in

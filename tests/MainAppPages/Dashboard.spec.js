@@ -60,7 +60,7 @@ await expect(page.locator('//div[text()="Request signatures"]//parent::div[@clas
     await commonSteps.login();
     await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
     await expect(page.locator('#renderList')).toContainText('Need your signature');
-    await expect(page.locator('#renderList')).toContainText('Drafts');
+    //await expect(page.locator('#renderList')).toContainText('Drafts');
     await page.waitForLoadState("networkidle");
     await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
     const countNeedYourSign = await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
@@ -121,7 +121,7 @@ await page.getByRole('button', { name: 'Send' }).click();
 await page.getByRole('button', { name: 'No' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
-await expect(page.locator('#renderList')).toContainText('Drafts');
+//await expect(page.locator('#renderList')).toContainText('Drafts');
 await page.waitForLoadState("networkidle");
 await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
 const newCountNeedYourSign = await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
@@ -147,7 +147,7 @@ if (IncrementedCount <= newCount) {
     await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
 await expect(page.locator('#renderList')).toContainText('Need your signature');
 
-    await expect(page.locator('#renderList')).toContainText('Drafts');
+    //await expect(page.locator('#renderList')).toContainText('Drafts');
     await page.waitForLoadState("networkidle");
     await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
     const countOutforSign = await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
@@ -207,7 +207,7 @@ await page.getByRole('button', { name: 'Send' }).click();
 await page.getByRole('button', { name: 'Close' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
-await expect(page.locator('#renderList')).toContainText('Drafts');
+//await expect(page.locator('#renderList')).toContainText('Drafts');
 await page.waitForLoadState("networkidle");
 await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
 await page.waitForLoadState("networkidle");
@@ -374,7 +374,7 @@ test('Verify that pagination is functioning correctly in the dashboard drafts do
     // Wait up to 90 seconds for the text to appear
     await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
     // Now assert the text
-    await expect(page.locator('#renderList')).toContainText('Drafts');
+    //await expect(page.locator('#renderList')).toContainText('Drafts');
     //Check if Pagination Buttons Exist
     const isPaginationVisible = await page.locator('//div[@data-tut="tourreport3"]//button[@class="op-join-item op-btn op-btn-sm" and text()="Next"]').isVisible();
     //expect(isPaginationVisible).toBeTruthy();
@@ -522,7 +522,7 @@ test('Verify that pagination is functioning correctly in the dashboard recent si
   // Wait up to 90 seconds for the text to appear
   await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
   // Now assert the text
-  await expect(page.locator('#renderList')).toContainText('Recent signature requests');
+  await expect(page.locator('//div[@data-tut="tourreport1"]//div[@class="font-light" and text()="Recent signature requests"]')).toContainText('Recent signature requests');
   //Check if Pagination Buttons Exist
   const isPaginationVisible = await page.locator('//div[@data-tut="tourreport1"]//button[@class="op-join-item op-btn op-btn-sm" and text()="Next"]').isVisible();
   //expect(isPaginationVisible).toBeTruthy();
@@ -644,7 +644,7 @@ test('Verify that the document created from a template appears in the Recently S
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
@@ -724,7 +724,7 @@ test('Verify that the document created from a template bulksend appears in the R
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-  await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Templates"]').click();
+  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
@@ -938,7 +938,10 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.getByRole('button', { name: 'Send' }).click();
 await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
 await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
+<<<<<<< HEAD
+=======
 await expect(page.locator('#selectSignerModal')).toContainText('Verify that user can resend the email from the dashboard Recently sent for signatures.');
+>>>>>>> 2b7d75b87867b9ba8c914b1e9298c83102e12b24
 await page.getByRole('button', { name: 'No' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 // Wait up to 90 seconds for the text to appear

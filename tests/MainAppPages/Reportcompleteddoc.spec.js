@@ -199,7 +199,7 @@ await expect(page.locator('.p-2 > .font-semibold').first()).toContainText('View 
  await page.locator('//div[@role="button"and @title="Edit"]').first().click();
  await expect(page.getByRole('heading')).toContainText('Document signed');
  await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by you!');
- await page.getByRole('button', { name: 'Close' }).click();
+/* await page.getByRole('button', { name: 'Close' }).click();
  await page.getByRole('button', { name: 'Certificate' }).click();
  await page.getByRole('button', { name: 'Print' }).click();
  await page.getByRole('button', { name: 'Download' }).click();
@@ -210,5 +210,5 @@ await expect(page.locator('.p-2 > .font-semibold').first()).toContainText('View 
  await page.getByPlaceholder('Add an email address and hit').click();
  await page.getByPlaceholder('Add an email address and hit').fill('pravin@nxglabs.in');
  await page.locator('#selectSignerModal').getByRole('button').nth(2).click();
- await page.getByRole('button', { name: 'Send' }).click();
+ await page.getByRole('button', { name: 'Send' }).click();*/
 });

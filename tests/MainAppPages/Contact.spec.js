@@ -84,7 +84,11 @@ test('Verify that user cannot add a new contact with existing email address', as
   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
   try {
    
+<<<<<<< HEAD
+    const rowLocator = await page.getByRole('row', { name: 'Pravin Ssss pravin+8288@' }).getByRole('button').nth(1);
+=======
     const rowLocator = await page.getByRole('row', { name: 'Pravin Ssss pravin+8878@' }).getByRole('button').nth(1);
+>>>>>>> 2b7d75b87867b9ba8c914b1e9298c83102e12b24
     await page.waitForTimeout(2000);
     if (await rowLocator.isVisible()) {
         await rowLocator.click();
@@ -93,12 +97,12 @@ test('Verify that user cannot add a new contact with existing email address', as
         console.log("Element not found, moving to the next step.");
         await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
   await page.getByLabel('Name *').fill('Pravin Ssss');
-  await page.getByLabel('Email *').fill('pravin+8878@nxglabs.in');
+  await page.getByLabel('Email *').fill('pravin+8288@nxglabs.in');
   await page.getByPlaceholder('optional').fill('0924820934');
   await page.getByRole('button', { name: 'Submit' }).click();
   await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
   await page.getByLabel('Name *').fill('ANdrews wade');
-  await page.getByLabel('Email *').fill('pravin+8878@nxglabs.in');
+  await page.getByLabel('Email *').fill('pravin+8288@nxglabs.in');
   await page.getByPlaceholder('optional').fill('0924820934');
   await page.getByRole('button', { name: 'Submit' }).click();
   page.on('dialog', async (dialog) => {
@@ -112,7 +116,7 @@ test('Verify that user cannot add a new contact with existing email address', as
   });
   await page.locator('//button[@class=\'op-btn op-btn-sm op-btn-circle op-btn-ghost text-base-content absolute right-2 top-2\' and text()=\'✕\']').click()
   
-  await page.getByRole('row', { name: 'Pravin Ssss pravin+8878@' }).getByRole('button').nth(1).click();
+  await page.getByRole('row', { name: 'Pravin Ssss pravin+8288@' }).getByRole('button').nth(1).click();
   await page.getByRole('button', { name: 'Yes' }).click();
     }
 } catch (error) {
