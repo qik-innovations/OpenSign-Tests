@@ -4,6 +4,7 @@ const CommonSteps = require('../utils/CommonSteps');
 const PageActions = require('../utils/PageActions');
 const path = require('path');
 const exp = require('constants');
+test.describe('Request signature', () => {
 test('Verify that new user can create and send the document for request signature.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -27,9 +28,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
     const title = await page.title()
        expect(title).toBe('Dashboard - OpenSign™');
   await page.getByRole('menuitem', { name: 'Request signatures' }).click();
-  await page.locator('input[name="Name"]').click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
-  await page.locator('input[name="Name"]').press('Tab');
   await page.locator('input[name="Note"]').click();
   const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
@@ -147,7 +146,6 @@ test('Verify that user can create a document of type image and send it for a sig
   //expect(title).toBe('Dashboard - OpenSign™');
   
   await page.getByRole('menuitem', { name: 'Request signatures' }).click();
-    await page.locator('input[name="Name"]').click();
     await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
     await page.locator('input[name="Note"]').click();
     const fileChooserPromise = page.waitForEvent('filechooser');
@@ -157,7 +155,7 @@ test('Verify that user can create a document of type image and send it for a sig
   await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-  await page.locator('input[name="Note"]').click();
+  await page.locator('input[name="Name"]').click();
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
@@ -267,7 +265,7 @@ test('Verify that an existing user can create a document and sign it when added 
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
   await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
-  await page.locator('input[name="Note"]').click();
+  await page.locator('input[name="Name"]').click();
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
@@ -370,7 +368,7 @@ await page.getByRole('button', { name: 'Send' }).click();
 
 await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
 await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoShare your review');
+await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
   await page.getByRole('button', { name: 'Yes' }).click();
   await page.locator('//div[@class="flex flex-row items-center"]//input[@type="checkbox" and @data-tut="IsAgree"]').click();
   await page.getByRole('button', { name: 'Agree & Continue' }).click();
@@ -436,7 +434,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-J
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -560,7 +558,7 @@ await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'image\']').hover();
 await page.mouse.down();
-await page.mouse.move(800, 500)
+await page.mouse.move(900, 300)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
@@ -657,7 +655,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-  await page.locator('input[name="Note"]').click();
+  await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -1251,7 +1249,6 @@ test('Verify that the tour guide messages not displayed for an existing signer w
 //expect(title).toBe('Dashboard - OpenSign™');
 
 await page.getByRole('menuitem', { name: 'Request signatures' }).click();
-  await page.locator('input[name="Name"]').click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
   await page.locator('input[name="Note"]').click();
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -1261,7 +1258,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-J
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await page.getByText('Advanced options').click();
 await page.locator('input[name="IsTourEnabled"]').nth(1).check();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
@@ -1335,7 +1332,7 @@ test('Verify that the signer redireced to the url if redirect url is set.', asyn
 //expect(title).toBe('Dashboard - OpenSign™');
 
 await page.getByRole('menuitem', { name: 'Request signatures' }).click();
-  await page.locator('input[name="Name"]').click();
+
   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
   await page.locator('input[name="Note"]').click();
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -1345,7 +1342,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-J
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await page.getByText('Advanced options').click();
 await page.locator('input[name="RedirectUrl"]').fill('https://webhook-test.com/');
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
@@ -1419,7 +1416,6 @@ test('Verify that the signer can add the widget if the allowed modification set 
 //expect(title).toBe('Dashboard - OpenSign™');
 
 await page.getByRole('menuitem', { name: 'Request signatures' }).click();
-  await page.locator('input[name="Name"]').click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
   await page.locator('input[name="Note"]').click();
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -1429,7 +1425,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-J
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await page.getByText('Advanced options').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
@@ -1502,7 +1498,6 @@ test('Verify that the signature settings function correctly for the signature wi
 //expect(title).toBe('Dashboard - OpenSign™');
 
 await page.getByRole('menuitem', { name: 'Request signatures' }).click();
-  await page.locator('input[name="Name"]').click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
   await page.locator('input[name="Note"]').click();
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -1512,7 +1507,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-J
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -1588,7 +1583,6 @@ test('Verify that the merge page functions correctly and the user can sign the m
 //expect(title).toBe('Dashboard - OpenSign™');
 
 await page.getByRole('menuitem', { name: 'Request signatures' }).click();
-  await page.locator('input[name="Name"]').click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
   await page.locator('input[name="Note"]').click();
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -1598,7 +1592,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-J
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -1707,7 +1701,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -1745,7 +1739,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -1899,7 +1893,6 @@ test('Verify that signature widget Copy widget to all pages function correctly i
 //expect(title).toBe('Dashboard - OpenSign™');
 
 await page.getByRole('menuitem', { name: 'Request signatures' }).click();
-  await page.locator('input[name="Name"]').click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
   await page.locator('input[name="Note"]').click();
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -1909,7 +1902,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -1993,7 +1986,7 @@ test('Verify that signature widgets Copy widget to all pages but last function c
 //expect(title).toBe('Dashboard - OpenSign™');
 
 await page.getByRole('menuitem', { name: 'Request signatures' }).click();
-  await page.locator('input[name="Name"]').click();
+
   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
   await page.locator('input[name="Note"]').click();
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -2003,7 +1996,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -2095,7 +2088,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -2189,7 +2182,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -2263,7 +2256,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -2358,7 +2351,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -2450,7 +2443,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -2544,7 +2537,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -2718,7 +2711,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -2813,7 +2806,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -2905,7 +2898,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -2999,7 +2992,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -3259,7 +3252,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -3385,7 +3378,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -3489,7 +3482,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -3582,7 +3575,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -3676,7 +3669,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -3775,7 +3768,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -3855,7 +3848,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -3944,7 +3937,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -4036,7 +4029,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -4130,7 +4123,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -4199,7 +4192,6 @@ test('Verify that the document is not uploaded if its format is not supported in
 await page.getByRole('menuitem', { name: 'Request signatures' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
   await page.locator('input[name="Note"]').click();
-
   //select and try to upload the file format type json
   const fileChooserPromise = page.waitForEvent('filechooser');
 await page.locator('input[type="file"]').click();
@@ -4226,6 +4218,7 @@ page.on('dialog', async (dialog) => {
     console.error('Dialog text does NOT match the expected text.');
   }
   await dialog.accept();
+});
 });
 });
 
