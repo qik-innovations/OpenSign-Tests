@@ -18,6 +18,7 @@ test('Verify that revoked document from the In Progress document is available on
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
   await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+  await page.locator('input[name="Note"]').click();
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.locator('input[name="Name"]').fill('Offer Letter declined report');
   await page.locator('input[name="Note"]').fill('Note Offer Letter for QA1144');
@@ -47,7 +48,7 @@ test('Verify that revoked document from the In Progress document is available on
     await page.getByPlaceholder('Reason (optional)').fill('Invalid document');
     await page.getByRole('button', { name: 'Yes' }).click();
     await expect(page.locator('#renderList')).toContainText('Record revoked successfully!');
-    await page.locator('//span[@class="ml-3 lg:ml-4" and text()="Documents"]').click();
+    await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Documents"]').click();
     await page.getByRole('menuitem', { name: 'Declined' }).click();
     await expect(page.locator('#renderList')).toContainText('Declined documents');
 await expect(page.locator('thead')).toContainText('Title');

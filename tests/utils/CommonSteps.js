@@ -101,9 +101,8 @@ console.log(`FreeplanUsername exists: ${loginCredentials.FreeplanUsername}`);
 //this method is signing up the user in free plan
   async signupTestFreeUser(page) {
     //await this.navigateToBaseUrl(); // Corrected reference
-
-    await page.getByRole('button', { name: 'Create account' }).click();
-    await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
+    await page.getByRole('button', { name: 'Create account' }).click({ timeout: 120000 });
+    await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible({ timeout: 120000 });
 
     const email = `pravin+${Math.random()}@nxglabs.in`;
     loginCredentials.FreeplanUsername = email;
@@ -119,7 +118,7 @@ console.log(`FreeplanUsername exists: ${loginCredentials.FreeplanUsername}`);
     });
 
     await page.locator(locators.registerButton).click();
-    await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible({ timeout: 120000 });
     await page.locator(locators.freePlanButton).click();
     await page.getByLabel('Close').click();
     await expect(page.locator('//div[@id="profile-menu"]//parent::button[text()="Upgrade now"]')).toBeVisible();
