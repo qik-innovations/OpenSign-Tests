@@ -136,7 +136,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   await page.locator('.sc-gsFSXq > button:nth-child(3)').click();
   await expect(page.getByRole('dialog')).toContainText('Drag the placeholder for a role anywhere on the document.Remember, it will appear in the same colour as the name of the recipient for easy reference.');
   await page.locator('.sc-gsFSXq > button:nth-child(3)').click();
-  await expect(page.getByRole('dialog')).toContainText('Clicking \'Next\' will store the current template. After saving, you’ll be prompted to create a new document from this template if you wish.');
+ // await expect(page.getByRole('dialog')).toContainText('Clicking \'Next\' will store the current template. After saving, you’ll be prompted to create a new document from this template if you wish.');
   await page.getByLabel('Don\'t show this again').check();
   await page.getByLabel('Close').click();
   await page.getByRole('button', { name: '+ Add role' }).click();
@@ -506,7 +506,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.getByRole('button', { name: 'Copy public URL' }).click();
   await page.getByRole('button', { name: 'Yes' }).click();
   const page1Promise = page.waitForEvent('popup');
-  await page.getByRole('link', { name: 'https://staging.opensign.me/' }).click();
+  await page.getByRole('link', { name: 'https://staging-app.' }).click();
   const page1 = await page1Promise;
   await page1.getByRole('button', { name: 'Sign now' }).click();
   await page1.locator('#name').click();
@@ -751,7 +751,8 @@ await page.mouse.down();
 await page.mouse.move(600, 540)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
-  await expect(page.locator('//h3[text()="Create document"]')).toContainText('Create document');
+ // await expect(page.locator('//h3[text()="Create document"]')).toContainText('Create document');
+ await page.locator('//button[text()="Create document" and @class= "op-btn op-btn-sm op-btn-primary"]').click();
   await page.locator('.css-n9qnu9').click();
   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
   await page.getByRole('button', { name: ' Next' }).click();

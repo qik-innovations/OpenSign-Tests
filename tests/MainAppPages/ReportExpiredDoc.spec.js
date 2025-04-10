@@ -2,6 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const CommonSteps = require('../utils/CommonSteps');
 const path = require('path');
+test.describe('Expired documents', () => {
 test('Verify that expired document is available on the Expired documents report.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -18,7 +19,7 @@ test('Verify that expired document is available on the Expired documents report.
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
   await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
-  await page.locator('input[name="Note"]').click();
+  await page.locator('input[name="Name"]').click();
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.locator('input[name="Name"]').fill('Offer Letter Expired doc report');
   await page.locator('input[name="Note"]').fill('Note Offer Letter for QA1144');
@@ -65,7 +66,7 @@ test('Verify that expired document is available on the Expired documents report.
   await page.getByRole('button', { name: 'Send' }).click();
   await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
   await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-  await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoShare your review');
+  await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
   await page.getByRole('button', { name: 'No' }).click();
     await page.getByRole('button', { name: ' Documents' }).click();
     await page.getByRole('menuitem', { name: 'Expired' }).click();
@@ -97,5 +98,5 @@ await expect(page.locator('.p-2 > .font-semibold').first()).toContainText('Offer
 }
   });
   
-  
+});
   

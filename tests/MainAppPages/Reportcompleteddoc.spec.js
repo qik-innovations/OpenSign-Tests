@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test');
 const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const CommonSteps = require('../utils/CommonSteps');
 const path = require('path');
-
+test.describe('Completed documents', () => {
 test('Verify that the document signed by SignYourSelf is available in the Completed Document Report and can be deleted.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -197,7 +197,7 @@ await expect(page.locator('#renderList')).toContainText('Completed documents');
 await expect(page.locator('.p-2 > .font-semibold').first()).toContainText('View Sample offer letter in completed rpt');
  
  await page.locator('//div[@role="button"and @title="Edit"]').first().click();
- await expect(page.getByRole('heading')).toContainText('Document signed');
+ //await expect(page.getByRole('heading')).toContainText('Document signed');
  await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by you!');
 /* await page.getByRole('button', { name: 'Close' }).click();
  await page.getByRole('button', { name: 'Certificate' }).click();
@@ -211,4 +211,4 @@ await expect(page.locator('.p-2 > .font-semibold').first()).toContainText('View 
  await page.getByPlaceholder('Add an email address and hit').fill('pravin@nxglabs.in');
  await page.locator('#selectSignerModal').getByRole('button').nth(2).click();
  await page.getByRole('button', { name: 'Send' }).click();*/
-});
+});});

@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const CommonSteps = require('../utils/CommonSteps');
 const path = require('path');
-
+test.describe('Need your signature', () => {
 test('Verify that owner can create the document and sign it from the need your signature report.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -21,7 +21,7 @@ test('Verify that owner can create the document and sign it from the need your s
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
   await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
-  await page.locator('input[name="Note"]').click();
+  await page.locator('input[name="Name"]').click();
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
@@ -116,7 +116,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.getByRole('button', { name: 'Send' }).click();
 await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
 await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoShare your review');
+await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
   await page.getByRole('button', { name: 'No' }).click();
   await page.getByRole('button', { name: ' Documents' }).click();
   await page.getByRole('menuitem', { name: 'Need your sign' }).click();
@@ -189,7 +189,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
-await page.locator('input[name="Note"]').click();
+await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -284,7 +284,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.getByRole('button', { name: 'Send' }).click();
 await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
 await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoShare your review');
+await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
 await page.getByRole('button', { name: 'No' }).click();
 await page.getByRole('button', { name: ' Documents' }).click();
 await page.getByRole('menuitem', { name: 'Need your sign' }).click();
@@ -343,4 +343,4 @@ await page.waitForLoadState('domcontentloaded');
 const page1DataPrev = await page.locator('table tbody tr').allTextContents();
 expect(page2Data).not.toEqual(page1DataPrev);// Ensure content changes
 
-});
+});});
