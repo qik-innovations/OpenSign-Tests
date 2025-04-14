@@ -1,0 +1,7 @@
+browser namechromium
+Browser version134.0.6998.35
+Browser Platformlinux
+FreeplanUsername is empty. Running signup test...
+✅ Signup successful. User: pravin+0.1640655142941181@nxglabs.in
+signature widget dragged and dropped
+Element not found or not interactable, continuing execution.

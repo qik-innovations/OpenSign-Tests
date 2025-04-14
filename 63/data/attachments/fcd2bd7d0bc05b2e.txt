@@ -1,0 +1,12 @@
+Save button clicked!
+"Copy widget to" is visible. Stopping the loop.
+Font Size: 15.6176px, Color: rgb(0, 0, 255)
+Test Passed: Font size and color are correct.
+Font Size: 15.6176px, Color: rgb(0, 0, 255)
+Test Passed: Font size and color are correct.
+Font Size: 15.6176px, Color: rgb(0, 0, 255)
+Test Passed: Font size and color are correct.
+Font Size: 15.6176px, Color: rgb(0, 0, 255)
+Test Passed: Font size and color are correct.
+Font Size: 15.6176px, Color: rgb(0, 0, 255)
+Test Passed: Font size and color are correct.

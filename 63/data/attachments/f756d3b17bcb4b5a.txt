@@ -1,0 +1,9 @@
+browser namechromium
+Browser version134.0.6998.35
+Browser Platformlinux
+Checkbox disabled: false
+Radio button disabled: false
+Radio button disabled: false
+Checkbox disabledon Edit template details: false
+Radio button disabled on Edit template details: false
+Radio button disabled on Edit template details: false

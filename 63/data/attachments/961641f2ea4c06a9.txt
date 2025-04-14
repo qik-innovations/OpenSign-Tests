@@ -1,0 +1,258 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Contact >> Verify that user can import contacts from an Excel file
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js:123:1
+
+# Error details
+
+```
+Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+Locator: getByRole('cell', { name: 'Steve Head' })
+Expected: visible
+Received: <element(s) not found>
+Call log:
+  - expect.toBeVisible with timeout 5000ms
+  - waiting for getByRole('cell', { name: 'Steve Head' })
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js:151:63
+```
+
+# Page snapshot
+
+```yaml
+- text: "New feature: Teams plan users can now integrate their own AWS S3 buckets for file storage — Setup now. "
+- button ""
+- img "logo"
+- text: TEAM
+- button ""
+- img "img"
+- button "Pravin Testing account"
+- button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- text: Contactbook
+- superscript: "?"
+- text:  
+- table:
+  - rowgroup:
+    - row "Name Email Phone Action":
+      - cell "Name"
+      - cell "Email"
+      - cell "Phone"
+      - cell "Action"
+  - rowgroup:
+    - row "Jimmy pravin+jimmy@nxglabs.in 123121312  ":
+      - cell "Jimmy"
+      - cell "pravin+jimmy@nxglabs.in"
+      - cell "123121312"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "joe bee pravin@nxglabs.in 123121312  ":
+      - cell "joe bee"
+      - cell "pravin@nxglabs.in"
+      - cell "123121312"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "joe bee pravin+23@nxglabs.in 123121312  ":
+      - cell "joe bee"
+      - cell "pravin+23@nxglabs.in"
+      - cell "123121312"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "joe bee joebee@example.com 123121312  ":
+      - cell "joe bee"
+      - cell "joebee@example.com"
+      - cell "123121312"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "John R pravin+revoke@nxglabs.in 1234567890  ":
+      - cell "John R"
+      - cell "pravin+revoke@nxglabs.in"
+      - cell "1234567890"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "Pravin Ssss pravin+8288@nxglabs.in 0924820934  ":
+      - cell "Pravin Ssss"
+      - cell "pravin+8288@nxglabs.in"
+      - cell "0924820934"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "joe M bee pravin+237@nxglabs.in 9923370549  ":
+      - cell "joe M bee"
+      - cell "pravin+237@nxglabs.in"
+      - cell "9923370549"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "joe bee pr@nxglabs.in 123121312  ":
+      - cell "joe bee"
+      - cell "pr@nxglabs.in"
+      - cell "123121312"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "Mark P pravin+markj@nxglabs.in 9923370549  ":
+      - cell "Mark P"
+      - cell "pravin+markj@nxglabs.in"
+      - cell "9923370549"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "Pravin M pravin+mnp@nxglabs.in 9923378495  ":
+      - cell "Pravin M"
+      - cell "pravin+mnp@nxglabs.in"
+      - cell "9923378495"
+      - cell " ":
+        - button ""
+        - button ""
+- button "Prev"
+- button "1"
+- button "2"
+- button "Next"
+- contentinfo:
+  - complementary:
+    - paragraph: "All rights reserved © 2025 OpenSign™ ( version: v2.17.0 )"
+```
+
+# Test source
+
+```ts
+   51 |     if (await rowLocator.isVisible()) {
+   52 |         await rowLocator.click();
+   53 |         await page.getByRole('button', { name: 'Yes' }).click();
+   54 |     } 
+   55 |     else {
+   56 |         console.log("Element not found, moving to the next step.");
+   57 |
+   58 |         await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
+   59 |         await page.getByLabel('Name *').fill('Pravin Ssss');
+   60 |         await page.getByLabel('Email *').fill('pravin+8878@nxglabs.in');
+   61 |         await page.getByPlaceholder('optional').fill('0924820934');
+   62 |         await page.getByRole('button', { name: 'Submit' }).click();
+   63 |         await expect(page.locator('tbody')).toContainText('Pravin Ssss');
+   64 |         await expect(page.locator('tbody')).toContainText('pravin+8878@nxglabs.in');
+   65 |         await expect(page.locator('tbody')).toContainText('0924820934');
+   66 |         await page.getByRole('row', { name: 'Pravin Ssss pravin+8878@' }).getByRole('button').nth(1).click();
+   67 |         await page.getByRole('button', { name: 'Yes' }).click();
+   68 |     }
+   69 | }
+   70 |  catch (error) {
+   71 |     console.log("Element not found or not interactable, continuing execution.");
+   72 |    
+   73 | }
+   74 |   
+   75 | });
+   76 |
+   77 | test('Verify that user cannot add a new contact with existing email address', async ({ page }) => {
+   78 |   const commonSteps = new CommonSteps(page);
+   79 |
+   80 |   // Step 1: Navigate to Base URL and log in
+   81 |   await commonSteps.navigateToBaseUrl();
+   82 |   await commonSteps.login();
+   83 |   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
+   84 |   try {
+   85 |    
+   86 |     const rowLocator = await page.getByRole('row', { name: 'Pravin Ssss pravin+8288@' }).getByRole('button').nth(1);
+   87 |
+   88 |     await page.waitForTimeout(2000);
+   89 |     if (await rowLocator.isVisible()) {
+   90 |         await rowLocator.click();
+   91 |         await page.getByRole('button', { name: 'Yes' }).click();
+   92 |     } else {
+   93 |         console.log("Element not found, moving to the next step.");
+   94 |         await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
+   95 |   await page.getByLabel('Name *').fill('Pravin Ssss');
+   96 |   await page.getByLabel('Email *').fill('pravin+8288@nxglabs.in');
+   97 |   await page.getByPlaceholder('optional').fill('0924820934');
+   98 |   await page.getByRole('button', { name: 'Submit' }).click();
+   99 |   await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
+  100 |   await page.getByLabel('Name *').fill('ANdrews wade');
+  101 |   await page.getByLabel('Email *').fill('pravin+8288@nxglabs.in');
+  102 |   await page.getByPlaceholder('optional').fill('0924820934');
+  103 |   await page.getByRole('button', { name: 'Submit' }).click();
+  104 |   page.on('dialog', async (dialog) => {
+  105 |     console.log(`Dialog message: ${dialog.message()}`);
+  106 |     if (dialog.message() === 'Contact already exist! Please select it from ‘Signers’ dropdown') {
+  107 |       console.log('Dialog text matches the expected text.');
+  108 |     } else {
+  109 |       console.error('Dialog text does NOT match the expected text.');
+  110 |     }
+  111 |     await dialog.accept();
+  112 |   });
+  113 |   await page.locator('//button[@class=\'op-btn op-btn-sm op-btn-circle op-btn-ghost text-base-content absolute right-2 top-2\' and text()=\'✕\']').click()
+  114 |   
+  115 |   await page.getByRole('row', { name: 'Pravin Ssss pravin+8288@' }).getByRole('button').nth(1).click();
+  116 |   await page.getByRole('button', { name: 'Yes' }).click();
+  117 |     }
+  118 | } catch (error) {
+  119 |   
+  120 | }
+  121 | });
+  122 |
+  123 | test('Verify that user can import contacts from an Excel file', async ({ page }) => {
+  124 |   const commonSteps = new CommonSteps(page);
+  125 |
+  126 |   // Step 1: Navigate to Base URL and log in
+  127 |   await commonSteps.navigateToBaseUrl();
+  128 |   await commonSteps.login();
+  129 |   // Navigate to Contactbook
+  130 |   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
+  131 |   // Trigger Import
+  132 |   await page.locator('div:nth-child(2) > div > .fa-light').first().click();
+  133 |   await page.getByRole('button', { name: 'Import' }).click();
+  134 |
+  135 |   // Handle file chooser
+  136 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  137 |   await page.locator('input[type="file"]').click();
+  138 |   const fileChooser = await fileChooserPromise;
+  139 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Contactbookready.xlsx'));
+  140 |
+  141 |   // Perform Import
+  142 |  await page.getByRole('button', { name: 'Import' }).click();
+  143 |  //Verify the imported contact
+  144 |  await expect(page.getByRole('cell', { name: 'Tony Stark' })).toBeVisible();
+  145 |  await expect(page.getByRole('cell', { name: 'tonys@nxglabs.in' })).toBeVisible();
+  146 |  await expect(page.getByRole('cell', { name: '233343434' })).toBeVisible();
+  147 |  //Delete the imported contact
+  148 |  await page.getByRole('row', { name: 'Tony Stark tonys@nxglabs.' }).getByRole('button').nth(1).click();
+  149 |  await page.getByRole('button', { name: 'Yes' }).click();
+  150 |  //Verify the imported second contact
+> 151 |  await expect(page.getByRole('cell', { name: 'Steve Head' })).toBeVisible();
+      |                                                               ^ Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+  152 |  await expect(page.getByRole('cell', { name: 'stevehead@nxglabs.' })).toBeVisible();
+  153 |  await page.waitForLoadState("networkidle");
+  154 |   //Delete the second imported contact
+  155 |  await page.getByRole('row', { name: 'Steve Head stevehead@nxglabs.in' }).getByRole('button').nth(1).click();
+  156 |  await page.getByRole('button', { name: 'Yes' }).click();
+  157 |  
+  158 | });});
+```
