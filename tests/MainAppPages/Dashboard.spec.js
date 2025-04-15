@@ -792,7 +792,6 @@ await expect(page.locator('//div[@class="m-[20px]"]//div[1]//span[1]')).toContai
 
 });
 
-
 test('Verify that the user can rename and delete a document from the dashboard Recently sent for signatures.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in

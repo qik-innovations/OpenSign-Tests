@@ -8,7 +8,7 @@ test('Verify that professional user cannot access the OrgAdmins page in the cons
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.ProfessionPlanUserlogin();
-    await page.getByRole('button', { name: '' }).click();
+    await page.locator('//div[@class ="op-dropdown op-dropdown-open op-dropdown-end" and @id="profile-menu"]').click();
     const page1Promise = page.waitForEvent('popup');
     await page.getByText('Console').click();
     const page1 = await page1Promise;

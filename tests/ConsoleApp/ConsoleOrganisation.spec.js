@@ -8,7 +8,7 @@ test('Verify that a free user cannot access the Organisations page in the consol
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-    await page.getByRole('button', { name: '' }).click();
+    await page.locator('//div[@class ="op-dropdown op-dropdown-open op-dropdown-end" and @id="profile-menu"]').click();
     const page1Promise = page.waitForEvent('popup');
     await page.getByText('Console').click();
     const page1 = await page1Promise;
@@ -31,7 +31,7 @@ test('Verify that Professional plan user cannot access the Organisations page in
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.ProfessionPlanUserlogin();
-    await page.getByRole('button', { name: '' }).click();
+    await page.locator('//div[@class ="op-dropdown op-dropdown-open op-dropdown-end" and @id="profile-menu"]').click();
     const page1Promise = page.waitForEvent('popup');
     await page.getByText('Console').click();
     const page1 = await page1Promise;
