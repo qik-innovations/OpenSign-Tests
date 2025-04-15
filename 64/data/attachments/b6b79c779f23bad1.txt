@@ -1,0 +1,279 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Sign yourself >> Verify that widgets settings for Name, Job Title, Company, Text, and Email function correctly in Sign Yourself.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/SignYourSelf.spec.js:1723:1
+
+# Error details
+
+```
+Error: locator.dblclick: Error: strict mode violation: locator('//i[@class="fa-light fa-gear icon"]') resolved to 2 elements:
+    1) <i class="fa-light fa-gear icon"></i> aka locator('div:nth-child(3) > i').first()
+    2) <i class="fa-light fa-gear icon"></i> aka locator('div:nth-child(4) > .flex > i').first()
+
+Call log:
+  - waiting for locator('//i[@class="fa-light fa-gear icon"]')
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/SignYourSelf.spec.js:1842:59
+```
+
+# Page snapshot
+
+```yaml
+- text: "New feature: Teams plan users can now integrate their own AWS S3 buckets for file storage — Setup now. "
+- button ""
+- img "logo"
+- text: TEAM
+- button ""
+- img "img"
+- button "Pravin Testing account"
+- button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- text: Pages
+- button "+ Add pages"
+- text: +     
+- button [disabled]
+- text: 1 of 1
+- button [disabled]
+- button "Back"
+- button "Finish"
+- img "signature"
+- text:   
+- textbox "name": Pravin Testing account
+- textbox "job title": Quality analystAA
+- text:   
+- textbox "company": OpenSign pvt ltd
+- text: Fields  signature   stamp   initials   name   job title   company   date   text   checkbox   image   email 
+- contentinfo:
+  - complementary:
+    - paragraph: "All rights reserved © 2025 OpenSign™ ( version: v2.17.0 )"
+```
+
+# Test source
+
+```ts
+  1742 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  1743 | await page.waitForLoadState("networkidle");
+  1744 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  1745 | await page.waitForLoadState("networkidle");
+  1746 | await page.locator('//span[normalize-space()="signature"]').hover();
+  1747 | await page.mouse.down();
+  1748 | await page.mouse.move(600, 300)
+  1749 | await page.mouse.up();
+  1750 |
+  1751 | try {
+  1752 | const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
+  1753 |
+  1754 | for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  1755 |     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  1756 |         await rowLocator.click();
+  1757 |         console.log("Save button clicked!");
+  1758 |         break; // Exit the loop if successfully clicked
+  1759 |     } else {
+  1760 |         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
+  1761 |
+  1762 |         await page.locator('//span[normalize-space()="signature"]').hover();
+  1763 |         await page.mouse.down();
+  1764 |         await page.mouse.move(600, 300);
+  1765 |         await page.mouse.up();
+  1766 |         
+  1767 |         // Wait a bit before checking again
+  1768 |         await page.waitForTimeout(1000);
+  1769 |     }
+  1770 |
+  1771 |     if (i === 5) {
+  1772 |         console.log("Save button did not become visible after multiple attempts.");
+  1773 |     }
+  1774 | }
+  1775 | } catch (error) {
+  1776 | console.log("Element not found or not interactable, continuing execution.");
+  1777 |
+  1778 | } 
+  1779 | await page.locator('//span[normalize-space()=\'name\']').hover();
+  1780 | await page.mouse.down();
+  1781 | await page.mouse.move(600, 400)
+  1782 | await page.mouse.up();
+  1783 | while (true) {
+  1784 |   await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
+  1785 |   
+  1786 |   const isVisible = await page.locator('//h3[text()="Text field"]').isVisible();
+  1787 |   
+  1788 |   if (isVisible) {
+  1789 |       console.log('"Copy widget to" is visible. Stopping the loop.');
+  1790 |       break; // Exit loop once the element is visible
+  1791 |   }
+  1792 |
+  1793 |   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
+  1794 | }
+  1795 | await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
+  1796 | await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
+  1797 |   await page.getByRole('button', { name: 'Save' }).click();
+  1798 |   const fontSize = await page.locator("//textarea[text()='Pravin Testing account']")
+  1799 |   .evaluate(el => getComputedStyle(el).fontSize);
+  1800 | const color = await page.locator("//textarea[text()='Pravin Testing account']")
+  1801 |   .evaluate(el => getComputedStyle(el).color);
+  1802 |
+  1803 | console.log(`Font Size: ${fontSize}, Color: ${color}`);
+  1804 | // Extract the integer part and append 'px'
+  1805 | let roundedFontSize = parseInt(fontSize) + 'px';
+  1806 |
+  1807 | if (roundedFontSize === '15px' && color === 'rgb(0, 0, 255)') {
+  1808 |   console.log('Test Passed: Font size and color are correct.');
+  1809 | } else {
+  1810 |   throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSize}, Color: ${color}`);
+  1811 | }
+  1812 | await page.locator('//span[normalize-space()=\'job title\']').hover();
+  1813 | await page.mouse.down();
+  1814 | await page.mouse.move(600, 480)
+  1815 | await page.mouse.up();
+  1816 | await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
+  1817 | await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
+  1818 | await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
+  1819 |   await page.getByRole('button', { name: 'Save' }).click();
+  1820 |  
+  1821 |   const fontSizeJotitle = await page.locator("//textarea[text()='Quality analystAA']")
+  1822 |   .evaluate(el => getComputedStyle(el).fontSize);
+  1823 |
+  1824 | const colorJotitle = await page.locator("//textarea[text()='Quality analystAA']")
+  1825 |   .evaluate(el => getComputedStyle(el).color);
+  1826 |
+  1827 | console.log(`Font Size: ${fontSizeJotitle}, Color: ${colorJotitle}`);
+  1828 |
+  1829 | // Extract the integer part and append 'px'
+  1830 | let roundedFontSizejobtitle = parseInt(fontSizeJotitle) + 'px';
+  1831 |
+  1832 | if (roundedFontSizejobtitle === '15px' && color === 'rgb(0, 0, 255)') {
+  1833 |   console.log('Test Passed: Font size and color are correct.');
+  1834 | } else {
+  1835 |   throw new Error(`Test Failed: Expected Font Size: 15.px, Color: blue but got Font Size: ${fontSizeJotitle}, Color: ${colorJotitle}`);
+  1836 | }
+  1837 |
+  1838 | await page.locator('//span[normalize-space()=\'company\']').hover();
+  1839 | await page.mouse.down();
+  1840 | await page.mouse.move(600, 520)
+  1841 | await page.mouse.up();
+> 1842 | await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
+       |                                                           ^ Error: locator.dblclick: Error: strict mode violation: locator('//i[@class="fa-light fa-gear icon"]') resolved to 2 elements:
+  1843 | await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
+  1844 | await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
+  1845 |   await page.getByRole('button', { name: 'Save' }).click();
+  1846 |  
+  1847 |   const fontSizecompany = await page.locator("//textarea[text()='OpenSign pvt ltd']")
+  1848 |   .evaluate(el => getComputedStyle(el).fontSize);
+  1849 |
+  1850 | const colorcompany= await page.locator("//textarea[text()='OpenSign pvt ltd']")
+  1851 |   .evaluate(el => getComputedStyle(el).color);
+  1852 |
+  1853 | console.log(`Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
+  1854 | // Extract the integer part and append 'px'
+  1855 | let roundedFontSizecmp = parseInt(fontSizecompany) + 'px';
+  1856 |
+  1857 | if (roundedFontSizecmp === '15px' && color === 'rgb(0, 0, 255)') {
+  1858 |   console.log('Test Passed: Font size and color are correct.');
+  1859 | } else {
+  1860 |   throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
+  1861 | }
+  1862 |
+  1863 | await page.locator('//span[@class="md:inline-block text-center text-[15px] ml-[5px] font-semibold pr-1 md:pr-0" and text()="text"]').hover();
+  1864 | await page.mouse.down();
+  1865 | await page.waitForTimeout(1000);
+  1866 | await page.mouse.move(600, 590)
+  1867 | await page.mouse.up();
+  1868 | await page.locator('//textarea[@placeholder="text"]').fill('20 wood street sanfransisco');
+  1869 | await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
+  1870 | await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
+  1871 | await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
+  1872 |   await page.getByRole('button', { name: 'Save' }).click();
+  1873 |  
+  1874 |   const fontSizetext = await page.locator("//textarea[text()='20 wood street sanfransisco']")
+  1875 |   .evaluate(el => getComputedStyle(el).fontSize);
+  1876 |
+  1877 | const colortext = await page.locator("//textarea[text()='20 wood street sanfransisco']")
+  1878 |   .evaluate(el => getComputedStyle(el).color);
+  1879 |
+  1880 | console.log(`Font Size: ${fontSizetext }, Color: ${colortext}`);
+  1881 | // Extract the integer part and append 'px'
+  1882 | let roundedFontSizetext = parseInt(fontSizetext) + 'px';
+  1883 |
+  1884 | if (roundedFontSizetext === '15px' && color === 'rgb(0, 0, 255)'){
+  1885 |   console.log('Test Passed: Font size and color are correct.');
+  1886 | } else {
+  1887 |   throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizetext }, Color: ${colortext }`);
+  1888 | }
+  1889 |
+  1890 | await page.locator('//span[normalize-space()=\'email\']').hover();
+  1891 | await page.mouse.down();
+  1892 | await page.mouse.move(600, 630)
+  1893 | await page.mouse.up();
+  1894 | await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
+  1895 | await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
+  1896 | await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
+  1897 |   await page.getByRole('button', { name: 'Save' }).click();
+  1898 |  
+  1899 |   const fontSizeemail = await page.locator("//textarea[text()='pravin+testaccount@nxglabs.in']").evaluate(el => getComputedStyle(el).fontSize);
+  1900 |
+  1901 | const coloremail = await page.locator("//textarea[text()='pravin+testaccount@nxglabs.in']").evaluate(el => getComputedStyle(el).color);
+  1902 |
+  1903 | console.log(`Font Size: ${fontSizeemail}, Color: ${coloremail}`);
+  1904 | // Extract the integer part and append 'px'
+  1905 | let roundedFontSizeemail = parseInt(fontSizeemail) + 'px';
+  1906 |
+  1907 | if (roundedFontSizeemail === '15px' && color === 'rgb(0, 0, 255)') {
+  1908 |   console.log('Test Passed: Font size and color are correct.');
+  1909 | } else {
+  1910 |   throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizeemail }, Color: ${coloremail }`);
+  1911 | }
+  1912 | await page.locator("//button[normalize-space()='Finish']").click();
+  1913 | await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
+  1914 | });
+  1915 | test('Verify that name,job title, company, checkbox, image and email widgets Copy function correctly in Sign Yourself.', async ({ page }) => {
+  1916 |   const commonSteps = new CommonSteps(page);
+  1917 |   // Step 1: Navigate to Base URL and log in
+  1918 |   await commonSteps.navigateToBaseUrl();
+  1919 |   await commonSteps.login();
+  1920 | //const title = await page.title()
+  1921 |   //Expects page to have a heading with the name of dashboard.
+  1922 | //expect(title).toBe('Dashboard - OpenSign™');
+  1923 |
+  1924 | await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+  1925 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  1926 |   await page.locator('input[name="Note"]').click();
+  1927 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  1928 | await page.locator('input[type="file"]').click();
+  1929 | const fileChooser = await fileChooserPromise;
+  1930 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
+  1931 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  1932 | await page.getByRole('button', { name: 'Next' }).click();
+  1933 | await page.waitForLoadState("networkidle");
+  1934 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  1935 | await page.waitForLoadState("networkidle");
+  1936 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  1937 | await page.waitForLoadState("networkidle");
+  1938 | await page.locator('//span[normalize-space()="signature"]').hover();
+  1939 | await page.mouse.down();
+  1940 | await page.mouse.move(600, 200)
+  1941 | await page.mouse.up();
+  1942 |
+```

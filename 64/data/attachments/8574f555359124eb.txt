@@ -1,0 +1,381 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Request signature >> Verify that an existing user can create a document and sign it when added as a self-signer.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Request_Signature.spec.js:249:1
+
+# Error details
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for locator('//div[contains(text(),"signature")]')
+    - locator resolved to <div class="font-medium">signature</div>
+  - attempting click action
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <div class="op-navbar bg-base-100 shadow">…</div> from <div class="sticky top-0 z-[501]">…</div> subtree intercepts pointer events
+  - retrying click action
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <rect x="0" y="0" width="1280" height="720" fill="currentColor" pointer-events="auto" clip-path="url(#clip-path)"></rect> from <div id="___reactour">…</div> subtree intercepts pointer events
+  - retrying click action
+    - waiting 20ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <rect x="0" y="0" width="1280" height="720" fill="currentColor" pointer-events="auto" clip-path="url(#clip-path)"></rect> from <div id="___reactour">…</div> subtree intercepts pointer events
+  2 × retrying click action
+      - waiting 100ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="flex-1 ml-2">…</div> from <div class="sticky top-0 z-[501]">…</div> subtree intercepts pointer events
+  50 × retrying click action
+       - waiting 500ms
+       - waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <rect x="0" y="0" width="1280" height="720" fill="currentColor" pointer-events="auto" clip-path="url(#clip-path)"></rect> from <div id="___reactour">…</div> subtree intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+       - waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <rect x="0" y="0" width="1280" height="720" fill="currentColor" pointer-events="auto" clip-path="url(#clip-path)"></rect> from <div id="___reactour">…</div> subtree intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+       - waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <div class="flex-1 ml-2">…</div> from <div class="sticky top-0 z-[501]">…</div> subtree intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+       - waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <div class="flex-1 ml-2">…</div> from <div class="sticky top-0 z-[501]">…</div> subtree intercepts pointer events
+  2 × retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <rect x="0" y="0" width="1280" height="720" fill="currentColor" pointer-events="auto" clip-path="url(#clip-path)"></rect> from <div id="___reactour">…</div> subtree intercepts pointer events
+  - retrying click action
+    - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <div class="flex-1 ml-2">…</div> from <div class="sticky top-0 z-[501]">…</div> subtree intercepts pointer events
+  - retrying click action
+    - waiting 500ms
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Request_Signature.spec.js:377:61
+```
+
+# Page snapshot
+
+```yaml
+- text: "New feature: Teams plan users can now integrate their own AWS S3 buckets for file storage — Setup now. "
+- button ""
+- img "logo"
+- text: TEAM
+- button ""
+- img "img"
+- button "Pravin Testing account"
+- button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- text: Pages   
+- button [disabled]
+- text: 1 of 1
+- button [disabled]
+- button "Decline"
+- button "Download"
+- button "Finish"
+- text: signature stamp initials
+- textbox "name": Pravin Testing account
+- textbox "job title": Quality analystAA
+- textbox "company": OpenSign pvt ltd
+- text: 04/15/2025 
+- textbox "text"
+- checkbox "option-1"
+- text: option-1
+- checkbox "option-2"
+- text: option-2
+- combobox:
+  - option "option-1"
+  - option "option-2"
+- radio "option-1"
+- text: option-1
+- radio "option-2"
+- text: option-2 image
+- textbox "email": pravin+testaccount@nxglabs.in
+- text: Yet to sign P Pravin Testing account pravin+testaccount@nxglabs.in
+- paragraph: Signature
+- tablist:
+  - tab "My signature"
+  - tab "My initials"
+- img "signature"
+- button "Auto sign all"
+- contentinfo:
+  - complementary:
+    - paragraph: "All rights reserved © 2025 OpenSign™ ( version: v2.17.0 )"
+- button ""
+- img
+- dialog:
+  - paragraph: Please complete the fields on page number 1, all highlighted in the same color for easy identification.
+  - checkbox "Don't show this again"
+  - text: Don't show this again 1
+  - button [disabled]:
+    - img
+  - navigation:
+    - button [disabled]
+    - button
+    - button
+    - button
+    - button
+  - button:
+    - img
+  - button "Close"
+```
+
+# Test source
+
+```ts
+  277 | await page.locator('//span[normalize-space()=\'signature\']').hover();
+  278 | await page.mouse.down();
+  279 | await page.mouse.move(600, 300)
+  280 | await page.mouse.up();
+  281 | try {
+  282 |   const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+  283 |
+  284 |   for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  285 |       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  286 |       
+  287 |           console.log("signature widget dragged and dropped");
+  288 |           break; // Exit the loop if successfully clicked
+  289 |       } else {
+  290 |           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  291 |   
+  292 |           await page.locator('//span[normalize-space()="signature"]').hover();
+  293 |           await page.mouse.down();
+  294 |           await page.mouse.move(800, 300);
+  295 |           await page.mouse.up();
+  296 |           
+  297 |           // Wait a bit before checking again
+  298 |           await page.waitForTimeout(1000);
+  299 |       }
+  300 |   
+  301 |       if (i === 5) {
+  302 |           console.log("signature widget did not become visible on the document after multiple attempts.");
+  303 |       }
+  304 |   }
+  305 | } catch (error) {
+  306 |   console.log("Element not found or not interactable, continuing execution.");
+  307 |  
+  308 | }
+  309 | await page.locator('//span[normalize-space()=\'stamp\']').hover();
+  310 | await page.mouse.down();
+  311 | await page.mouse.move(600, 360)
+  312 | await page.mouse.up();
+  313 | await page.locator('//span[normalize-space()=\'initials\']').hover();
+  314 | await page.mouse.down();
+  315 | await page.mouse.move(600, 420)
+  316 | await page.mouse.up();
+  317 | await page.locator('//span[normalize-space()=\'name\']').hover();
+  318 | await page.mouse.down();
+  319 |
+  320 | await page.mouse.move(600, 470)
+  321 | await page.mouse.up();
+  322 | await page.locator('//span[normalize-space()=\'job title\']').hover();
+  323 | await page.mouse.down();
+  324 |
+  325 | await page.mouse.move(600, 500)
+  326 | await page.mouse.up();
+  327 | await page.locator('//span[normalize-space()=\'company\']').hover();
+  328 | await page.mouse.down();
+  329 | await page.mouse.move(600, 520)
+  330 | await page.mouse.up();
+  331 |
+  332 | await page.locator('//span[normalize-space()=\'date\']').hover();
+  333 | await page.mouse.down();
+  334 | await page.mouse.move(600, 550)
+  335 | await page.mouse.up();
+  336 | await page.locator('//span[normalize-space()=\'text input\']').hover();
+  337 | await page.mouse.down();
+  338 | await page.mouse.move(600, 570)
+  339 | await page.mouse.up();
+  340 | await page.locator('//span[normalize-space()=\'checkbox\']').hover();
+  341 | await page.mouse.down();
+  342 | await page.mouse.move(600, 600)
+  343 | await page.mouse.up();
+  344 | page.locator("//button[@type='submit' and text()='Save']").click();
+  345 | await page.locator('span').filter({ hasText: 'dropdown' }).hover();
+  346 | await page.mouse.down();
+  347 | await page.mouse.move(800, 300)
+  348 | await page.mouse.up();
+  349 | page.locator("//button[@type='submit' and text()='Save']").click();
+  350 | await page.locator('//span[normalize-space()=\'radio button\']').hover();
+  351 | await page.mouse.down();
+  352 | await page.mouse.move(800, 350)
+  353 | await page.mouse.up();
+  354 | page.locator("//button[@type='submit' and text()='Save']").click();
+  355 | await page.locator('//span[normalize-space()=\'image\']').hover();
+  356 | await page.mouse.down();
+  357 | await page.mouse.move(800, 400)
+  358 | await page.mouse.up();
+  359 | await page.locator('//span[normalize-space()=\'email\']').hover();
+  360 | await page.mouse.down();
+  361 |
+  362 | await page.mouse.move(800, 400)
+  363 | await page.mouse.up();
+  364 | await page.getByRole('button', { name: 'Next' }).click();
+  365 |
+  366 | //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+  367 | await page.getByRole('button', { name: 'Send' }).click();
+  368 |
+  369 | await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
+  370 | await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
+  371 | await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
+  372 |   await page.getByRole('button', { name: 'Yes' }).click();
+  373 |   await page.locator('//div[@class="flex flex-row items-center"]//input[@type="checkbox" and @data-tut="IsAgree"]').click();
+  374 |   await page.getByRole('button', { name: 'Agree & Continue' }).click();
+  375 |   await page.waitForLoadState("networkidle");
+  376 |   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+> 377 |   await page.locator('//div[contains(text(),"signature")]').click();
+      |                                                             ^ Error: locator.click: Test timeout of 120000ms exceeded.
+  378 |   await page.mouse.down();
+  379 |   await page.mouse.move(120, 122)
+  380 |   await page.mouse.up();
+  381 |   // Optionally save changes
+  382 | await page.locator("//button[normalize-space()='Save']").click();
+  383 | await page.locator('//div[contains(text(),"stamp")]').click();
+  384 | const fileChooserPromise1 = page.waitForEvent('filechooser');
+  385 | await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
+  386 | const fileChooser1 = await fileChooserPromise1;
+  387 | await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
+  388 | await page.locator("//button[normalize-space()='Save']").click();
+  389 | await page.locator('//div[contains(text(),"itials")]').click();
+  390 | await page.mouse.move(650, 350)
+  391 | await page.mouse.down();
+  392 | await page.mouse.move(700, 380)
+  393 | await page.mouse.up();
+  394 | await page.locator("//button[normalize-space()='Save']").click();
+  395 | /*await page.getByPlaceholder('name').fill('Mark Anderson');
+  396 |   await page.getByPlaceholder('job title').click();
+  397 |   await page.getByPlaceholder('job title').fill('Quality analyst');
+  398 |   await page.getByPlaceholder('company').click();
+  399 |   await page.getByPlaceholder('company').fill('Oepnsign labs pvt. ltd');*/
+  400 |   await page.getByPlaceholder('text').fill('120 wood street sanfransisco');
+  401 |   await page.locator('#myDropdown').selectOption('option-2');
+  402 |  await page.getByRole('radio', { name: 'option-1' }).check();
+  403 |   await page.getByRole('checkbox', { name: 'option-1' }).check();
+  404 |   await page.locator('//div[contains(text(),"image")]').click();
+  405 |   const fileChooserPromise2 = page.waitForEvent('filechooser');
+  406 |   await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
+  407 |   const fileChooser2 = await fileChooserPromise2;
+  408 |   await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
+  409 |   await page.locator("//button[normalize-space()='Save']").click();
+  410 |   await page.getByRole('button', { name: 'Finish' }).click();
+  411 |   await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
+  412 |   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
+  413 |   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
+  414 |   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Download' })).toBeVisible();
+  415 |   await page.getByRole('button', { name: '✕' }).click();
+  416 | });
+  417 | test('Verify that a user can create a document, send it for a signature request, and signer can successfully sign the document.', async ({ page }) => {
+  418 |   const commonSteps = new CommonSteps(page);
+  419 |   // Step 1: Navigate to Base URL and log in
+  420 |   await commonSteps.navigateToBaseUrl();
+  421 |   await commonSteps.login();
+  422 | //const title = await page.title()
+  423 |   //Expects page to have a heading with the name of dashboard.
+  424 | //expect(title).toBe('Dashboard - OpenSign™');
+  425 |
+  426 | await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  427 |   await page.locator('input[name="Name"]').click();
+  428 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  429 |   await page.locator('input[name="Note"]').click();
+  430 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  431 | await page.locator('input[type="file"]').click();
+  432 | const fileChooser = await fileChooserPromise;
+  433 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  434 | await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  435 | await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
+  436 | await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
+  437 | await page.locator('input[name="Name"]').click();
+  438 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  439 | await page.getByRole('button', { name: 'Next' }).click();
+  440 | await page.waitForLoadState("networkidle");
+  441 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  442 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  443 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  444 | await page.locator('//span[normalize-space()=\'signature\']').hover();
+  445 | await page.mouse.down();
+  446 | await page.mouse.move(600, 300)
+  447 | await page.mouse.up();
+  448 | try {
+  449 |   const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+  450 |
+  451 |   for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  452 |       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  453 |       
+  454 |           console.log("signature widget dragged and dropped");
+  455 |           break; // Exit the loop if successfully clicked
+  456 |       } else {
+  457 |           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  458 |   
+  459 |           await page.locator('//span[normalize-space()="signature"]').hover();
+  460 |           await page.mouse.down();
+  461 |           await page.mouse.move(600, 300);
+  462 |           await page.mouse.up();
+  463 |           
+  464 |           // Wait a bit before checking again
+  465 |           await page.waitForTimeout(1000);
+  466 |       }
+  467 |   
+  468 |       if (i === 5) {
+  469 |           console.log("signature widget did not become visible on the document after multiple attempts.");
+  470 |       }
+  471 |   }
+  472 | } catch (error) {
+  473 |   console.log("Element not found or not interactable, continuing execution.");
+  474 |  
+  475 | }
+  476 | await page.locator('//span[normalize-space()=\'stamp\']').hover();
+  477 | await page.mouse.down();
+```
