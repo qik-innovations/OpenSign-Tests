@@ -8,7 +8,7 @@ test('Verify that a free user cannot access the Signing certificate page in the 
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-    await page.getByRole('button', { name: '' }).click();
+    await page.locator('//div[@class ="op-dropdown op-dropdown-open op-dropdown-end" and @id="profile-menu"]').click();
     const page1Promise = page.waitForEvent('popup');
     await page.getByText('Console').click();
     const page1 = await page1Promise;
@@ -34,7 +34,7 @@ test('Verify that Professional plan user cannot access the Signing certificate p
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.ProfessionPlanUserlogin();
-    await page.getByRole('button', { name: '' }).click();
+    await page.locator('//div[@class ="op-dropdown op-dropdown-open op-dropdown-end" and @id="profile-menu"]').click();
     const page1Promise = page.waitForEvent('popup');
     await page.getByText('Console').click();
     const page1 = await page1Promise;
@@ -59,7 +59,7 @@ test('Verify that Team plan user can access the Signing certificate page in the 
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-    await page.getByRole('button', { name: '' }).click();
+    await page.locator('//div[@class ="op-dropdown op-dropdown-open op-dropdown-end" and @id="profile-menu"]').click();
     const page1Promise = page.waitForEvent('popup');
     await page.getByText('Console').click();
     const page1 = await page1Promise;
@@ -79,6 +79,6 @@ await expect(page1.locator('#root')).toContainText('OpenSign pvt ltd');
       await fileChooser.setFiles(path.join(__dirname, '../TestData/fred.pfx'));
     await page1.getByPlaceholder('Enter password of pfx file').fill('apples');
     await page1.getByRole('button', { name: 'Save' }).click();
-    await page1.getByRole('button', { name: 'Use default OpenSign™' }).click();
+    await page1.getByRole('button', { name: 'Use default OpenSign™ certificate' }).click();
 });
 });

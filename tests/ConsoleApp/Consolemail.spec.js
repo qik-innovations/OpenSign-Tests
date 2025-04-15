@@ -1,98 +1,94 @@
-const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
-const path = require('path');
 const CommonSteps = require('../utils/CommonSteps');
-test.describe('Console app', () => {
-test('Verify that a free user cannot access the Mail page in the console application and is prompted to upgrade.', async ({ page }) => {
+
+// XPath Selectors
+const PROFILE_MENU_BUTTON = '//div[@class="op-dropdown op-dropdown-open op-dropdown-end" and @id="profile-menu"]';
+const CONSOLE_OPTION = '//div[@id="profile-menu"]//span[text()=" Console"]';
+const PROFILE_NAME = '//div[@id="root"]//p[@class="text-[14px] font-bold text-base-content"]';
+const PROFILE_DOMAIN = '//div[@id="root"]//p[@class="cursor-pointer text-[12px] text-base-content mt-2"]';
+const PLAN_BADGE = '//div[@id="profile-menu"]//div[@class="cursor-pointer"]//div[1]';
+const UPGRADE_ENTERPRISE_BUTTON = '//button[@class="op-btn op-btn-accent shadow-lg"]';
+const ROOT_SELECTOR = '#root';
+const RENDER_LIST_SELECTOR = '#renderList';
+
+test.describe('Console app - Mail Page Access Validation', () => {
+
+  test('Free user is prompted to upgrade when accessing the Mail page.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
-    // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-    await page.getByRole('button', { name: '' }).click();
+    await page.locator(PROFILE_MENU_BUTTON).click();
     const page1Promise = page.waitForEvent('popup');
-    await page.getByText('Console').click();
+    await page.locator(CONSOLE_OPTION).click();
     const page1 = await page1Promise;
-//verify the profile name on the profile
-  await expect(page1.locator('#root')).toContainText('Mathew Wade', { timeout: 120000 });
-  await expect(page1.locator('#root')).toContainText('qikAi.com');
-  await page1.getByRole('menuitem', { name: 'Mail' }).click();
+    await expect(page1.locator(PROFILE_NAME)).toContainText('Mathew Wade', { timeout: 120000 });
+    await expect(page1.locator(PROFILE_DOMAIN)).toContainText('qikAi.com');
+    await page1.getByRole('menuitem', { name: 'Mail' }).click();
     const title = await page1.title();
     if (title === 'OpenSign™ Email Settings - OpenSign™') {
       console.log('Page title is correct: OpenSign™ Email Settings - OpenSign™');
     } else {
       console.error(`Page title is incorrect. Expected: "OpenSign™ Email Settings - OpenSign™", Got: "${title}"`);
     }
-    await expect(page1.locator('#renderList')).toContainText('Upgrade now');
-    await expect(page1.locator('#renderList')).toMatchAriaSnapshot(`- button "Upgrade now"`);
-});
+    await expect(page1.locator(RENDER_LIST_SELECTOR)).toContainText('Upgrade now');
+    await expect(page1.locator(RENDER_LIST_SELECTOR)).toMatchAriaSnapshot('- button "Upgrade now"');
+  });
 
-test('Verify that Profession plan User can access the Email page in the console application.', async ({ page }) => {
+  test('Profession plan user can access the Email page.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
-    // Step 1: Navigate to Base URL and log in
+
     await commonSteps.navigateToBaseUrl();
     await commonSteps.ProfessionPlanUserlogin();
-    await page.getByRole('button', { name: '' }).click();
+
+    await page.locator(PROFILE_MENU_BUTTON).click();
     const page1Promise = page.waitForEvent('popup');
-    await page.getByText('Console').click();
+    await page.locator(CONSOLE_OPTION).click();
     const page1 = await page1Promise;
-  //verify the profile name on the profile
-  await expect(page1.locator('#root')).toContainText('Mathew Steven', { timeout: 120000 });
-  await expect(page1.locator('#root')).toContainText('OpenSign Lab');
-  await page1.getByRole('menuitem', { name: 'Mail' }).click();
+
+    await expect(page1.locator(PROFILE_NAME)).toContainText('Mathew Steven', { timeout: 120000 });
+    await expect(page1.locator(PROFILE_DOMAIN)).toContainText('OpenSign Lab');
+
+    await page1.getByRole('menuitem', { name: 'Mail' }).click();
+
     const title = await page1.title();
     if (title === 'OpenSign™ Email Settings - OpenSign™') {
       console.log('Page title is correct: OpenSign™ Email Settings - OpenSign™');
     } else {
       console.error(`Page title is incorrect. Expected: "OpenSign™ Email Settings - OpenSign™", Got: "${title}"`);
     }
-  
-    await expect(page1.locator('#root')).toContainText('PRO');
-    /*
-  await page1.getByRole('button', { name: 'G Connect to Gmail' }).click();
-  const page2Promise = page1.waitForEvent('popup');
-  const page2 = await page2Promise;
-  await page2.getByText('Sign in', { exact: true }).click();
-  await expect(page2.locator('#headingText')).toContainText('Sign in');
-  await page1.getByRole('button', { name: ' Custom SMTP' }).click();
-  await page1.getByRole('heading', { name: 'SMTP Credentials' }).click();
-  await expect(page1.locator('h3')).toContainText('SMTP Credentials');
-  await page1.getByRole('button', { name: '✕' }).click();*/
-  await expect(page1.getByRole('heading')).toContainText('OpenSign™ Email Settings');
-  await expect(page1.locator('#renderList')).toContainText('OpenSign™ default SMTP');
+
+    await expect(page1.locator(ROOT_SELECTOR)).toContainText('PRO');
+    await expect(page1.getByRole('heading')).toContainText('OpenSign™ Email Settings');
+    await expect(page1.locator(RENDER_LIST_SELECTOR)).toContainText('OpenSign™ default SMTP');
   });
 
-  test('Verify that Team plan User can access the Email page in the console application.', async ({ page }) => {
+  test('Team plan user can access the Email page.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
-    // Step 1: Navigate to Base URL and log in
+
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-    await page.getByRole('button', { name: '' }).click();
+
+    await page.locator(PROFILE_MENU_BUTTON).click();
     const page1Promise = page.waitForEvent('popup');
-    await page.getByText('Console').click();
+    await page.locator(CONSOLE_OPTION).click();
     const page1 = await page1Promise;
-  //verify the profile name on the profile
-  await expect(page1.locator('#root')).toContainText('Pravin Testing account', { timeout: 120000 });
-  await expect(page1.locator('#root')).toContainText('OpenSign pvt ltd');
-  await page1.getByRole('menuitem', { name: 'Mail' }).click();
+
+    await expect(page1.locator(PROFILE_NAME)).toContainText('Pravin Testing account', { timeout: 120000 });
+    await expect(page1.locator(PROFILE_DOMAIN)).toContainText('OpenSign pvt ltd');
+
+    await page1.getByRole('menuitem', { name: 'Mail' }).click();
+
     const title = await page1.title();
     if (title === 'OpenSign™ Email Settings - OpenSign™') {
       console.log('Page title is correct: OpenSign™ Email Settings - OpenSign™');
     } else {
       console.error(`Page title is incorrect. Expected: "OpenSign™ Email Settings - OpenSign™", Got: "${title}"`);
     }
-    await expect(page1.locator('#root')).toContainText('Pravin Testing account');
-    await expect(page1.locator('#root')).toContainText('TEAM');
-  /*await page1.getByRole('button', { name: 'G Connect to Gmail' }).click();
-  const page2Promise = page1.waitForEvent('popup');
-  const page2 = await page2Promise;
-  await page2.getByText('Sign in', { exact: true }).click();
-  await expect(page2.locator('#headingText')).toContainText('Sign in');
-  await page1.getByRole('button', { name: ' Custom SMTP' }).click();
-  await page1.getByRole('heading', { name: 'SMTP Credentials' }).click();
-  await expect(page1.locator('h3')).toContainText('SMTP Credentials');
-  await page1.getByRole('button', { name: '✕' }).click();*/
-  await expect(page1.getByRole('heading')).toContainText('OpenSign™ Email Settings');
-  await expect(page1.locator('#renderList')).toContainText('OpenSign™ default SMTP');
- 
+
+    await expect(page1.locator(ROOT_SELECTOR)).toContainText('Pravin Testing account');
+    await expect(page1.locator(ROOT_SELECTOR)).toContainText('TEAM');
+    await expect(page1.getByRole('heading')).toContainText('OpenSign™ Email Settings');
+    await expect(page1.locator(RENDER_LIST_SELECTOR)).toContainText('OpenSign™ default SMTP');
   });
+
 });
