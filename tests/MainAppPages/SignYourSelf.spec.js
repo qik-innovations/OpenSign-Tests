@@ -135,7 +135,7 @@ await page.mouse.down();
 await page.mouse.move(600, 640)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('//span[normalize-space()=\'image\']').hover();
+await page.locator('//div[@data-tut="isSignatureWidget"]//span[text()="image"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 550)
 await page.mouse.up();
@@ -289,7 +289,7 @@ await page.mouse.down();
 await page.mouse.move(600, 540)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('//span[normalize-space()="image"]').hover();
+await page.locator('//div[@data-tut="isSignatureWidget"]//span[text()="image"]').hover();
 await page.mouse.down();
 
 await page.mouse.move(600, 580)
@@ -411,7 +411,7 @@ await page.mouse.down();
 await page.mouse.move(600, 640)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('//span[normalize-space()="image"]').hover();
+await page.locator('//div[@data-tut="isSignatureWidget"]//span[text()="image"]').hover();
 await page.mouse.down();
 
 await page.mouse.move(600, 550)
@@ -2005,7 +2005,7 @@ await page.mouse.up();
         // Verify that there are now two matching elements
         const checkboxElements = await page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[1]//input[@type="checkbox"]').count();
         expect(checkboxElements).toBeGreaterThan(1);
-    await page.locator('//span[normalize-space()=\'image\']').hover();
+    await page.locator('//div[@data-tut="isSignatureWidget"]//span[text()="image"]').hover();
     await page.mouse.down();
     await page.mouse.move(600, 500)
     await page.mouse.up();
@@ -2635,7 +2635,7 @@ await page.mouse.down();
 await page.mouse.move(600, 640)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('//span[normalize-space()="image"]').hover();
+await page.locator('//div[@data-tut="isSignatureWidget"]//span[text()="image"]').hover();
 await page.mouse.down();
 
 await page.mouse.move(600, 550)
@@ -2836,7 +2836,7 @@ await page.mouse.down();
 await page.mouse.move(800, 260)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('//span[normalize-space()="image"]').hover();
+await page.locator('//div[@data-tut="isSignatureWidget"]//span[text()="image"]').hover();
 await page.mouse.down();
 
 await page.mouse.move(700, 260)

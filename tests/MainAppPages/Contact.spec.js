@@ -81,53 +81,95 @@ test('Verify that user cannot add a new contact with existing email address', as
   await commonSteps.navigateToBaseUrl();
   await commonSteps.login();
   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
-  try {
-   
-    const rowLocator = await page.getByRole('row', { name: 'Pravin Ssss pravin+8288@' }).getByRole('button').nth(1);
 
-    await page.waitForTimeout(2000);
-    if (await rowLocator.isVisible()) {
-        await rowLocator.click();
+  const contactName = 'Pravin Ssss';
+  const contactEmail = 'pravin+8288@nxglabs.in';
+  const contactFullName = `${contactName} ${contactEmail}`;
+
+  try {
+    let contactFound = false;
+
+    // Step 2: Check across paginated contact list for the contact
+    while (!contactFound) {
+      const contactRow = page.getByRole('row', { name: 'Pravin Ssss pravin+8288@' });
+      await contactRow.waitFor({ timeout: 120000 });
+      if (await contactRow.isVisible().catch(() => false)) {
+        const deleteButton = contactRow.getByRole('button').nth(1);
+        await deleteButton.click();
         await page.getByRole('button', { name: 'Yes' }).click();
-    } else {
-        console.log("Element not found, moving to the next step.");
-        await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
-  await page.getByLabel('Name *').fill('Pravin Ssss');
-  await page.getByLabel('Email *').fill('pravin+8288@nxglabs.in');
-  await page.getByPlaceholder('optional').fill('0924820934');
-  await page.getByRole('button', { name: 'Submit' }).click();
-  await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
-  await page.getByLabel('Name *').fill('ANdrews wade');
-  await page.getByLabel('Email *').fill('pravin+8288@nxglabs.in');
-  await page.getByPlaceholder('optional').fill('0924820934');
-  await page.getByRole('button', { name: 'Submit' }).click();
-  page.on('dialog', async (dialog) => {
-    console.log(`Dialog message: ${dialog.message()}`);
-    if (dialog.message() === 'Contact already exist! Please select it from ‘Signers’ dropdown') {
-      console.log('Dialog text matches the expected text.');
-    } else {
-      console.error('Dialog text does NOT match the expected text.');
+        contactFound = true;
+        break;
+      } else {
+        const nextBtn = page.locator('//button[@class ="op-join-item op-btn op-btn-sm" and text()="Next"]'); // Adjust if your pagination control is different
+        if (await nextBtn.isVisible() && !(await nextBtn.isDisabled())) {
+          await nextBtn.click();
+          await page.waitForLoadState('networkidle');
+        } else {
+          break; // Reached last page
+        }
+      }
     }
-    await dialog.accept();
-  });
-  await page.locator('//button[@class=\'op-btn op-btn-sm op-btn-circle op-btn-ghost text-base-content absolute right-2 top-2\' and text()=\'✕\']').click()
-  
-  await page.getByRole('row', { name: 'Pravin Ssss pravin+8288@' }).getByRole('button').nth(1).click();
-  await page.getByRole('button', { name: 'Yes' }).click();
+
+    // Step 3: Add the contact (first time)
+    await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
+    await page.getByLabel('Name *').fill(contactName);
+    await page.getByLabel('Email *').fill(contactEmail);
+    await page.getByPlaceholder('optional').fill('0924820934');
+    await page.getByRole('button', { name: 'Submit' }).click();
+
+    // Step 4: Try to add the same contact again (should trigger error dialog)
+    await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
+    await page.getByLabel('Name *').fill('ANdrews wade');
+    await page.getByLabel('Email *').fill(contactEmail);
+    await page.getByPlaceholder('optional').fill('0924820934');
+
+    // Listen for the alert dialog
+    page.once('dialog', async (dialog) => {
+      console.log(`Dialog message: ${dialog.message()}`);
+      expect(dialog.message()).toBe('Contact already exist! Please select it from \'Signers\' dropdown');
+      await dialog.accept();
+    });
+
+    await page.getByRole('button', { name: 'Submit' }).click();
+
+    // Close the Add Contact modal
+    await page.locator('//button[contains(@class,"op-btn-circle") and text()="✕"]').click();
+
+    // Final Cleanup - delete the contact
+    let deleteSuccess = false;
+    while (!deleteSuccess) {
+      const row = page.getByRole('row', { name: 'Pravin Ssss pravin+8288@' });
+      if (await row.isVisible().catch(() => false)) {
+        await row.getByRole('button').nth(1).click();
+        await page.getByRole('button', { name: 'Yes' }).click();
+        deleteSuccess = true;
+      } else {
+        const nextBtn = page.locator('//button[@class ="op-join-item op-btn op-btn-sm" and text()="Next"]');
+        if (await nextBtn.isVisible() && !(await nextBtn.isDisabled())) {
+          await nextBtn.click();
+          await page.waitForLoadState('networkidle');
+        } else {
+          console.log('Contact not found for final deletion.');
+          break;
+        }
+      }
     }
-} catch (error) {
-  
-}
+
+  } catch (error) {
+    console.error('Test encountered an error:', error);
+  }
 });
 
-test('Verify that user can import contacts from an Excel file', async ({ page }) => {
+test('Verify that user can import contacts from an Excel file and delete them across pages.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
 
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
   await commonSteps.login();
+
   // Navigate to Contactbook
   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
+
   // Trigger Import
   await page.locator('div:nth-child(2) > div > .fa-light').first().click();
   await page.getByRole('button', { name: 'Import' }).click();
@@ -139,20 +181,41 @@ test('Verify that user can import contacts from an Excel file', async ({ page })
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Contactbookready.xlsx'));
 
   // Perform Import
- await page.getByRole('button', { name: 'Import' }).click();
- //Verify the imported contact
- await expect(page.getByRole('cell', { name: 'Tony Stark' })).toBeVisible();
- await expect(page.getByRole('cell', { name: 'tonys@nxglabs.in' })).toBeVisible();
- await expect(page.getByRole('cell', { name: '233343434' })).toBeVisible();
- //Delete the imported contact
- await page.getByRole('row', { name: 'Tony Stark tonys@nxglabs.' }).getByRole('button').nth(1).click();
- await page.getByRole('button', { name: 'Yes' }).click();
- //Verify the imported second contact
- await expect(page.getByRole('cell', { name: 'Steve Head' })).toBeVisible();
- await expect(page.getByRole('cell', { name: 'stevehead@nxglabs.' })).toBeVisible();
- await page.waitForLoadState("networkidle");
-  //Delete the second imported contact
- await page.getByRole('row', { name: 'Steve Head stevehead@nxglabs.in' }).getByRole('button').nth(1).click();
- await page.getByRole('button', { name: 'Yes' }).click();
- 
-});});
+  await page.getByRole('button', { name: 'Import' }).click();
+
+  // Verify and delete each contact
+  const contacts = [
+    { name: 'Tony Stark', email: 'tonys@nxglabs.in' },
+    { name: 'Steve Head', email: 'stevehead@nxglabs.in' }
+  ];
+
+  for (const contact of contacts) {
+    let contactFound = false;
+
+    // Loop through pages until contact is found
+    while (!contactFound) {
+      const contactCell = page.getByRole('cell', { name: contact.name });
+      if (await contactCell.isVisible().catch(() => false)) {
+        // Verify contact details
+        await expect(contactCell).toBeVisible();
+        await expect(page.getByRole('cell', { name: contact.email })).toBeVisible();
+
+        // Delete the contact
+        const row = await page.getByRole('row', { name: new RegExp(`${contact.name}.*${contact.email}`) });
+        await row.getByRole('button').nth(1).click();
+        await page.getByRole('button', { name: 'Yes' }).click();
+        contactFound = true;
+      } else {
+        // Check if next page button is enabled
+        const nextButton = page.locator('//button[@class ="op-join-item op-btn op-btn-sm" and text()="Next"]'); // Adjust selector based on your UI
+        if (await nextButton.isVisible() && !(await nextButton.isDisabled())) {
+          await nextButton.click();
+          await page.waitForLoadState('networkidle');
+        } else {
+          throw new Error(`Contact "${contact.name}" not found in the contact book.`);
+        }
+      }
+    }
+  }
+});
+});

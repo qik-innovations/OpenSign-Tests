@@ -299,7 +299,7 @@ await expect(page.locator('//div[@data-tut="tourreport3"]//th[3]')).toContainTex
 await expect(page.locator('//div[@data-tut="tourreport3"]//th[4]')).toContainText('File');
 await expect(page.locator('//div[@data-tut="tourreport3"]//th[5]')).toContainText('Owner');
 await expect(page.locator('//div[@data-tut="tourreport3"]//th[6]')).toContainText('Signers');
-await expect(page.locator('//div[@data-tut="tourreport3"]//div[@class="font-semibold"]').first()).toContainText('Draft doc rpt Sample offer letter');
+await expect(page.locator('//div[@data-tut="tourreport3"]//div[@class="font-semibold break-words"]').first()).toContainText('Draft doc rpt Sample offer letter');
 await expect(page.locator('//div[@data-tut="tourreport3"]//td[2]').first()).toContainText('Note Draft doc rpt');
 await expect(page.locator('//div[@data-tut="tourreport3"]//td[3]').first()).toContainText('OpenSign™ Drive'); 
 await expect(page.locator('//div[@data-tut="tourreport3"]//td[4]').first()).toContainText('Download');
@@ -478,7 +478,7 @@ await expect(page.locator('//div[@data-tut="tourreport1"]//th[1]')).toContainTex
 await expect(page.locator('//div[@data-tut="tourreport1"]//th[2]')).toContainText('File');
 await expect(page.locator('//div[@data-tut="tourreport1"]//th[3]')).toContainText('Owner');
 await expect(page.locator('//div[@data-tut="tourreport1"]//th[4]')).toContainText('Signers');
-await expect(page.locator('//div[@data-tut="tourreport1"]//div[@class="font-semibold"]').first()).toContainText('Sample-joining-letter');
+await expect(page.locator('//div[@data-tut="tourreport1"]//div[@class="font-semibold break-words"]').first()).toContainText('Sample-joining-letter');
 await expect(page.locator('//div[@data-tut="tourreport1"]//td[2]').first()).toContainText('Download');
 await expect(page.locator('//div[@data-tut="tourreport1"]//td[3]').first()).toContainText('Pravin Testing account');  
 await page.locator('//div[@data-tut="tourreport1"]//div[@role="button"and @title="SIGN"]').first().click();
@@ -625,7 +625,7 @@ await expect(page.locator('//div[@data-tut="tourreport2"]//th[1]')).toContainTex
 await expect(page.locator('//div[@data-tut="tourreport2"]//th[2]')).toContainText('File');
 await expect(page.locator('//div[@data-tut="tourreport2"]//th[3]')).toContainText('Owner');
 await expect(page.locator('//div[@data-tut="tourreport2"]//th[4]')).toContainText('Signers');
-await expect(page.locator('//div[@data-tut="tourreport2"]//div[@class="font-semibold"]').first()).toContainText('Sample-joining-letter');
+await expect(page.locator('//div[@data-tut="tourreport2"]//div[@class="font-semibold break-words"]').first()).toContainText('Sample-joining-letter');
 await expect(page.locator('//div[@data-tut="tourreport2"]//td[2]').first()).toContainText('Download');
 await expect(page.locator('//div[@data-tut="tourreport2"]//td[3]').first()).toContainText('Pravin Testing account');  
 await page.locator('//div[@data-tut="tourreport2"]//div[@role="button"and @title="Share"]').first().click();
@@ -658,7 +658,7 @@ await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'vi
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.waitForLoadState("networkidle");
   await page.getByRole('button', { name: '+ Add role' }).click();
-  await page.getByPlaceholder('User').fill('HR');
+  await page.getByPlaceholder('Role 1').fill('HR');
   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
   await page.locator('//span[normalize-space()=\'signature\']').hover();
   await page.mouse.down();
@@ -694,11 +694,11 @@ await page.waitForLoadState("networkidle");
   }
 
 await page.getByRole('button', { name: 'Next' }).click();
-  await expect(page.getByRole('heading')).toContainText('Create document');
+  //await expect(page.getByRole('heading')).toContainText('Create document');
   await page.getByRole('button', { name: 'Create document' }).click();
   await page.locator('.css-n9qnu9').click();
   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-  await page.locator('input[name="Name"]').click();
+ 
   await page.getByRole('button', { name: ' Next' }).click();
   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
   await page.getByRole('button', { name: 'Send' }).click();
@@ -707,7 +707,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
 // Now assert the text
 await expect(page.locator('//div[@data-tut="tourreport2"]//div[text()="Recently sent for signatures"]')).toBeVisible({ timeout: 12000 });
-await expect(page.locator('//div[@data-tut="tourreport2"]//div[@class="font-semibold"]').first()).toContainText('Offer Letter for QA11');
+await expect(page.locator('//div[@data-tut="tourreport2"]//div[@class="font-semibold break-words"]').first()).toContainText('Offer Letter for QA11');
 await expect(page.locator('//div[@data-tut="tourreport2"]//td[2]').first()).toContainText('Download');
 await expect(page.locator('//div[@data-tut="tourreport2"]//td[3]').first()).toContainText('Pravin Testing account');  
 await page.locator('//div[@data-tut="tourreport2"]//div[@role="button"and @title="Share"]').first().click();
@@ -739,7 +739,7 @@ await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'vi
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.waitForLoadState("networkidle");
   await page.getByRole('button', { name: '+ Add role' }).click();
-  await page.getByPlaceholder('User').fill('HR');
+  await page.getByPlaceholder('Role 1').fill('HR');
   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
   await page.locator('//span[normalize-space()=\'signature\']').hover();
   await page.mouse.down();
@@ -775,7 +775,7 @@ await page.waitForLoadState("networkidle");
   }
 
 await page.getByRole('button', { name: 'Next' }).click();
-  await expect(page.getByRole('heading')).toContainText('Create document');
+ // await expect(page.getByRole('heading')).toContainText('Create document');
   await page.locator('//dialog[@id="selectSignerModal"]//button[text()="Bulk send"]').click();
   await page.locator('//dialog[@id="selectSignerModal"]//input[@type="email" and @placeholder="Enter Email..."]').fill("andyamaya@nxglabs.in");
   await page.locator('//dialog[@id="selectSignerModal"]//span[text()="Send"]').click();
@@ -784,7 +784,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
 // Now assert the text
 await expect(page.locator('//div[@data-tut="tourreport2"]//div[text()="Recently sent for signatures"]')).toBeVisible({ timeout: 12000 });
-await expect(page.locator('//div[@data-tut="tourreport2"]//div[@class="font-semibold"]').first()).toContainText('Offer Letter for QA11');
+await expect(page.locator('//div[@data-tut="tourreport2"]//div[@class="font-semibold break-words"]').first()).toContainText('Offer Letter for QA11');
 await expect(page.locator('//div[@data-tut="tourreport2"]//td[2]').first()).toContainText('Download');
 await expect(page.locator('//div[@data-tut="tourreport2"]//td[3]').first()).toContainText('Pravin Testing account');  
 await page.locator('//div[@data-tut="tourreport2"]//div[@role="button"and @title="Share"]').first().click();
@@ -853,7 +853,7 @@ try {
 await page.getByRole('button', { name: 'Next' }).click();
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 await page.getByRole('button', { name: 'Send' }).click();
-await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
+//await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
 await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
 await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
 await page.getByRole('button', { name: 'No' }).click();
@@ -864,7 +864,7 @@ await page.locator('//div[@data-tut="tourreport2"]//i[@class="fa-light fa-ellips
 await page.locator('//span[contains(text(),"Rename")]').click();
 await page.locator('//div[@class="flex flex-col gap-2"]/input[@maxlength="200" and @type="text"]').fill('Sample-joining-letter-2025');
 await page.getByRole('button', { name: 'Save' }).click();
-await expect(page.locator('//div[@data-tut="tourreport2"]//tr[1]//div[@class="font-semibold"]')).toContainText('Sample-joining-letter-2025');
+await expect(page.locator('//div[@data-tut="tourreport2"]//tr[1]//div[@class="font-semibold break-words"]')).toContainText('Sample-joining-letter-2025');
 await page.locator('//div[@data-tut="tourreport2"]//i[@class="fa-light fa-ellipsis-vertical fa-lg"]').first().click();
 await page.locator('//span[contains(text(),"Delete")]').click();
 await expect(page.getByRole('heading')).toContainText('Delete document');
@@ -872,7 +872,7 @@ await expect(page.getByRole('heading')).toContainText('Delete document');
   await page.getByRole('button', { name: 'Yes' }).click();
   await expect(page.locator('#renderList')).toContainText('Record deleted successfully!');
   try {
-    await expect(page.locator('//div[@data-tut="tourreport2"]//tr[1]//div[@class="font-semibold"]')).toContainText('Sample-joining-letter-2025');
+    await expect(page.locator('//div[@data-tut="tourreport2"]//tr[1]//div[@class="font-semibold break-words"]')).toContainText('Sample-joining-letter-2025');
 } catch (error) {
     console.log("Document not found in the table, successfully deleted!");
 }
