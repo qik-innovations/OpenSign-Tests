@@ -1,0 +1,44 @@
+Test encountered an error: locator.waitFor: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for getByRole('row', { name: 'Pravin Ssss pravin+8288@' }) to be visible
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js:81:24 {
+  [Symbol(step)]: {
+    stepId: 'pw:api@11',
+    location: {
+      file: '/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js',
+      line: 81,
+      column: 24
+    },
+    category: 'pw:api',
+    title: "locator.getByRole('row', { name: 'Pravin Ssss pravin+8288@' }).waitFor",
+    apiName: 'locator.waitFor',
+    params: {
+      selector: 'internal:role=row[name="Pravin Ssss pravin+8288@"i]',
+      strict: true,
+      omitReturnValue: true,
+      timeout: 120000
+    },
+    boxedStack: undefined,
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'pw:api@11'
+    },
+    complete: [Function: complete],
+    endWallTime: 1744813359007,
+    error: {
+      message: 'Error: locator.waitFor: Test timeout of 120000ms exceeded.\n' +
+        'Call log:\n' +
+        "\x1B[2m  - waiting for getByRole('row', { name: 'Pravin Ssss pravin+8288@' }) to be visible\x1B[22m\n",
+      stack: 'Error: locator.waitFor: Test timeout of 120000ms exceeded.\n' +
+        'Call log:\n' +
+        "\x1B[2m  - waiting for getByRole('row', { name: 'Pravin Ssss pravin+8288@' }) to be visible\x1B[22m\n" +
+        '\n' +
+        '    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js:81:24',
+      cause: undefined
+    }
+  }
+}

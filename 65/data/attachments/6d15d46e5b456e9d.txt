@@ -1,0 +1,191 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Preferences >> Verify that New free user can save the general preferences.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Preferences.spec.js:6:1
+
+# Error details
+
+```
+Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+Locator: locator('//div[@title="Enabling this allow signers to draw signature" and text()="draw"]')
+Expected: visible
+Received: <element(s) not found>
+Call log:
+  - expect.toBeVisible with timeout 5000ms
+  - waiting for locator('//div[@title="Enabling this allow signers to draw signature" and text()="draw"]')
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Preferences.spec.js:24:113
+```
+
+# Page snapshot
+
+```yaml
+- text: "New feature: Teams plan users can now integrate their own AWS S3 buckets for file storage — Setup now. "
+- button ""
+- img "logo"
+- button "Upgrade now"
+- button ""
+- img "img"
+- button "Mathew Wade"
+- button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Mathew Wade
+  - paragraph: qikAi.com
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+      - menu "Settings submenu":
+        - menuitem "My signature"
+        - menuitem "API token"
+        - menuitem "Webhook"
+        - menuitem "Preferences"
+        - menuitem "Teams"
+        - menuitem "Users"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- heading "OpenSign™ Preferences ?" [level=1]:
+  - text: OpenSign™ Preferences
+  - superscript: "?"
+- tablist:
+  - tab " General" [selected]
+  - tab " Email"
+- tabpanel:
+  - text: Allowed signature types
+  - superscript: "?"
+  - checkbox "draw"
+  - text: draw
+  - checkbox "type" [checked]
+  - text: type
+  - checkbox "upload" [checked]
+  - text: upload
+  - checkbox "default" [checked]
+  - text: default Notify on signatures
+  - superscript: "?"
+  - superscript: Upgrade now
+  - radio "Yes" [checked]
+  - text: "Yes"
+  - radio "No"
+  - text: No Send in order
+  - superscript: "?"
+  - radio "Yes" [checked]
+  - text: "Yes"
+  - radio "No"
+  - text: No Enable tour
+  - superscript: "?"
+  - radio "Yes" [checked]
+  - text: "Yes"
+  - radio "No"
+  - text: "No"
+  - heading "Timezone" [level=1]
+  - log
+  - text: Select...
+  - combobox
+  - text: Date format
+  - combobox:
+    - option "MM/DD/YYYY" [selected]
+    - option "MMMM DD, YYYY"
+    - option "DD MMMM, YYYY"
+    - option "DD-MM-YYYY"
+    - option "DD MMM, YYYY"
+    - option "YYYY-MM-DD"
+    - option "MM-DD-YYYY"
+    - option "MM.DD.YYYY"
+    - option "MMM DD, YYYY"
+  - radio
+  - text: 12 hr
+  - radio [checked]
+  - text: 24 hr
+  - paragraph:
+    - strong: 04/16/2025, 14:31:55 GMT Z
+  - button "Save"
+- contentinfo:
+  - complementary:
+    - paragraph: "All rights reserved © 2025 OpenSign™ ( version: v2.17.0 )"
+```
+
+# Test source
+
+```ts
+   1 | const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+   2 | const { test, expect } = require('@playwright/test');
+   3 | const path = require('path');
+   4 | const CommonSteps = require('../utils/CommonSteps');
+   5 | test.describe('Preferences', () => {
+   6 | test('Verify that New free user can save the general preferences.', async ({ page }) => {
+   7 |     const commonSteps = new CommonSteps(page);
+   8 |     // Step 1: Navigate to Base URL and log in
+   9 |     await commonSteps.navigateToBaseUrl();
+  10 |     await commonSteps.NewUserlogin();
+  11 |     await page.getByRole('button', { name: ' Settings' }).click();
+  12 |     await page.getByRole('menuitem', { name: 'Preferences' }).click();
+  13 |     await page.waitForTimeout(5000);
+  14 |     const title = await page.title();
+  15 |     if (title === 'Preferences - OpenSign™') {
+  16 |       console.log('Page title is correct: Preferences - OpenSign™');
+  17 |     } else {
+  18 |       console.error(`Page title is incorrect. Expected: "Preferences - OpenSign™", Got: "${title}"`);
+  19 |     }
+  20 |     await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences ?' })).toBeVisible();
+  21 |   await page.getByText('General').click();
+  22 |   await expect(page.getByText('Allowed signature types')).toBeVisible();
+  23 |   await page.getByText('draw').click();
+> 24 |   await expect(page.locator('//div[@title="Enabling this allow signers to draw signature" and text()="draw"]')).toBeVisible();
+     |                                                                                                                 ^ Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+  25 |   await expect(page.locator('//div[@title="Enabling this allow signers to typed signature" and text()="type"]', { exact: true })).toBeVisible();
+  26 |   await expect(page.locator('//div[@title="Enabling this allow signers to upload signature" and text()="upload"]')).toBeVisible();
+  27 |   await expect(page.locator('//div[@title="Enabling this allow signers to default signature" and text()="default"]')).toBeVisible();
+  28 |   await expect(page.getByText('Notify on signaturesUpgrade')).toBeVisible();
+  29 |   await expect(page.locator('#renderList').getByText('Upgrade now')).toBeVisible();
+  30 |   const page3Promise = page.waitForEvent('popup');
+  31 |   await page.locator('#renderList').getByText('Upgrade now').click();
+  32 |   const page3 = await page3Promise;
+  33 |   await expect(page.getByRole('heading', { name: 'Timezone' })).toBeVisible();
+  34 |   await page.locator('svg').click();
+  35 |   await page.locator('#renderList div').filter({ hasText: 'Allowed signature' }).nth(2).click();
+  36 |   await page.locator('.css-n9qnu9').click();
+  37 |   await page.locator('#renderList div').filter({ hasText: 'Allowed signature' }).nth(2).click();
+  38 |   await page.locator('svg').click();
+  39 |   await page.getByRole('option', { name: '(GMT-6:00) Saskatchewan' }).click();
+  40 |   await page.getByRole('button', { name: 'Save' }).click();
+  41 |   await page.getByText('Saved successfully.').click();
+  42 |   await page.getByRole('button', { name: 'Save' }).click();
+  43 |   await page.getByText('Saved successfully.').click();
+  44 | });
+  45 |
+  46 | test('Verify that a new free user cannot save email preferences is prompted to upgrade', async ({ page }) => {
+  47 |     const commonSteps = new CommonSteps(page);
+  48 |     // Step 1: Navigate to Base URL and log in
+  49 |     await commonSteps.navigateToBaseUrl();
+  50 |     await commonSteps.NewUserlogin();
+  51 |     await page.getByRole('button', { name: ' Settings' }).click();
+  52 |     await page.getByRole('menuitem', { name: 'Preferences' }).click();
+  53 |     await page.waitForTimeout(5000);
+  54 |     const title = await page.title();
+  55 |     if (title === 'Preferences - OpenSign™') {
+  56 |       console.log('Page title is correct: Preferences - OpenSign™');
+  57 |     } else {
+  58 |       console.error(`Page title is incorrect. Expected: "Preferences - OpenSign™", Got: "${title}"`);
+  59 |     }
+  60 |     await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences ?' })).toBeVisible();
+  61 |   await page.getByText('Email').click();
+  62 |   await page.getByRole('button', { name: 'Upgrade now' }).nth(1).click();
+  63 | });});
+  64 |
+```
