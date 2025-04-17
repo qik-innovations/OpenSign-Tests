@@ -1,0 +1,310 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Contact >> Verify that user can add a new contact.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js:37:1
+
+# Error details
+
+```
+Error: Timed out 5000ms waiting for expect(locator).toContainText(expected)
+
+Locator: locator('tbody')
+Expected string: "Pravin Ssss"
+Received string: "Pravin Shej ps+24@tim.in0924820934Pravin Shej ps+99@tim.in0924820934Pravin Shej ps+94@tim.in0924820934Karl mark pravin+1900@nxglabs.in-Pravin HR pravin+hr@nxglabs.in989897976Jimmy pravin+jimmy@nxglabs.in123121312joe bee pravin@nxglabs.in123121312joe bee pravin+23@nxglabs.in123121312joe bee joebee@example.com123121312John R pravin+revoke@nxglabs.in1234567890"
+Call log:
+  - expect.toContainText with timeout 5000ms
+  - waiting for locator('tbody')
+    3 × locator resolved to <tbody class="text-[12px]">…</tbody>
+      - unexpected value "Pravin Shej ps+99@tim.in0924820934Pravin Shej ps+94@tim.in0924820934Karl mark pravin+1900@nxglabs.in-Pravin HR pravin+hr@nxglabs.in989897976Jimmy pravin+jimmy@nxglabs.in123121312joe bee pravin@nxglabs.in123121312joe bee pravin+23@nxglabs.in123121312joe bee joebee@example.com123121312John R pravin+revoke@nxglabs.in1234567890joe M bee pravin+237@nxglabs.in9923370549"
+    6 × locator resolved to <tbody class="text-[12px]">…</tbody>
+      - unexpected value "Pravin Shej ps+24@tim.in0924820934Pravin Shej ps+99@tim.in0924820934Pravin Shej ps+94@tim.in0924820934Karl mark pravin+1900@nxglabs.in-Pravin HR pravin+hr@nxglabs.in989897976Jimmy pravin+jimmy@nxglabs.in123121312joe bee pravin@nxglabs.in123121312joe bee pravin+23@nxglabs.in123121312joe bee joebee@example.com123121312John R pravin+revoke@nxglabs.in1234567890"
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js:55:45
+```
+
+# Page snapshot
+
+```yaml
+- text: "New feature: Teams plan users can now integrate their own AWS S3 buckets for file storage — Setup now. "
+- button ""
+- img "logo"
+- text: TEAM
+- button ""
+- img "img"
+- button "Pravin Testing account"
+- button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- text: Contactbook
+- superscript: "?"
+- text:  
+- table:
+  - rowgroup:
+    - row "Name Email Phone Action":
+      - cell "Name"
+      - cell "Email"
+      - cell "Phone"
+      - cell "Action"
+  - rowgroup:
+    - row "Pravin Shej ps+24@tim.in 0924820934  ":
+      - cell "Pravin Shej"
+      - cell "ps+24@tim.in"
+      - cell "0924820934"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "Pravin Shej ps+99@tim.in 0924820934  ":
+      - cell "Pravin Shej"
+      - cell "ps+99@tim.in"
+      - cell "0924820934"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "Pravin Shej ps+94@tim.in 0924820934  ":
+      - cell "Pravin Shej"
+      - cell "ps+94@tim.in"
+      - cell "0924820934"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "Karl mark pravin+1900@nxglabs.in -  ":
+      - cell "Karl mark"
+      - cell "pravin+1900@nxglabs.in"
+      - cell "-"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "Pravin HR pravin+hr@nxglabs.in 989897976  ":
+      - cell "Pravin HR"
+      - cell "pravin+hr@nxglabs.in"
+      - cell "989897976"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "Jimmy pravin+jimmy@nxglabs.in 123121312  ":
+      - cell "Jimmy"
+      - cell "pravin+jimmy@nxglabs.in"
+      - cell "123121312"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "joe bee pravin@nxglabs.in 123121312  ":
+      - cell "joe bee"
+      - cell "pravin@nxglabs.in"
+      - cell "123121312"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "joe bee pravin+23@nxglabs.in 123121312  ":
+      - cell "joe bee"
+      - cell "pravin+23@nxglabs.in"
+      - cell "123121312"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "joe bee joebee@example.com 123121312  ":
+      - cell "joe bee"
+      - cell "joebee@example.com"
+      - cell "123121312"
+      - cell " ":
+        - button ""
+        - button ""
+    - row "John R pravin+revoke@nxglabs.in 1234567890  ":
+      - cell "John R"
+      - cell "pravin+revoke@nxglabs.in"
+      - cell "1234567890"
+      - cell " ":
+        - button ""
+        - button ""
+- button "Prev"
+- button "1"
+- button "2"
+- button "3"
+- button "Next"
+- contentinfo:
+  - complementary:
+    - paragraph: "All rights reserved © 2025 OpenSign™ ( version: v2.17.0 )"
+```
+
+# Test source
+
+```ts
+   1 |
+   2 | const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+   3 | const { test, expect } = require('@playwright/test');
+   4 | const path = require('path');
+   5 | const CommonSteps = require('../utils/CommonSteps');
+   6 |
+   7 | const locators = {
+   8 |   createAccountButton: 'button[name="Create account"]',
+   9 |   nameInput: 'input[type="text"]',
+   10 |   emailInput: '#email',
+   11 |   phoneInput: 'input[type="tel"]',
+   12 |   companyInput: '//input[4]',
+   13 |   jobTitleInput: '//input[5]',
+   14 |   passwordInput: 'input[name="password"]',
+   15 |   termsCheckbox: 'input[id="termsandcondition"]',
+   16 |   registerButton: '//button[contains(.,\'Register\')]',
+   17 |   freePlanButton: 'li:has-text("OPENSIGN™ FREEFreeBilled") button',
+   18 |   professionalPlanButton: 'li:has-text("OPENSIGN™ PROFESSIONAL$9.99/") button',
+   19 |   proceedButton: "//span[@class='btn-txt' and text()='Proceed']",
+   20 |   addressField: '//input[@id=\'billing_street\']',
+   21 |   cityField: '//input[@id=\'billing_city\']',
+   22 |   zipCodeField: '//input[@id=\'billing_zip\']',
+   23 |   sameAsBillingCheckbox: 'input[name="sameasbillingaddress"]',
+   24 |   reviewOrderButton: '//button[@class=\'btn-txt\' and text() =\'Review Order\']',
+   25 | };
+   26 |
+   27 | const fillSignupForm = async (page, { name, email, phone, company, jobTitle, password }) => {
+   28 |   await page.locator(locators.nameInput).first().fill(name);
+   29 |   await page.locator(locators.emailInput).fill(email);
+   30 |   await page.locator(locators.phoneInput).fill(phone);
+   31 |   await page.locator(locators.companyInput).fill(company);
+   32 |   await page.locator(locators.jobTitleInput).fill(jobTitle);
+   33 |   await page.locator(locators.passwordInput).fill(password);
+   34 |   await page.locator(locators.termsCheckbox).click();
+   35 | };
+   36 | test.describe('Contact', () => {
+   37 | test('Verify that user can add a new contact.', async ({ page }) => {
+   38 |   const commonSteps = new CommonSteps(page);
+   39 |   // Step 1: Navigate to Base URL and log in
+   40 |   await commonSteps.navigateToBaseUrl();
+   41 |   await commonSteps.login();
+   42 |   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
+   43 |   const title = await page.title();
+   44 |   if (title === 'Contactbook - OpenSign™') {
+   45 |     console.log('Page title is correct: Contactbook - OpenSign™');
+   46 |   } else {
+   47 |     console.error(`Page title is incorrect. Expected: "Contactbook - OpenSign™", Got: "${title}"`);
+   48 |   }
+   49 |   const Randomemail = `ps+${Math.floor(10 + Math.random() * 90)}@tim.in`;
+   50 |         await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
+   51 |         await page.getByLabel('Name *').fill('Pravin Shej');
+   52 |         await page.getByLabel('Email *').fill(Randomemail);
+   53 |         await page.getByPlaceholder('optional').fill('0924820934');
+   54 |         await page.getByRole('button', { name: 'Submit' }).click();
+>  55 |         await expect(page.locator('tbody')).toContainText('Pravin Ssss');
+      |                                             ^ Error: Timed out 5000ms waiting for expect(locator).toContainText(expected)
+   56 |         await expect(page.locator('tbody')).toContainText(Randomemail);
+   57 |         await expect(page.locator('tbody')).toContainText('0924820934');
+   58 |         console.log(`P Shej ${Randomemail}`);
+   59 |         await page.getByRole('row', { name: `Pravin Shej ${Randomemail}` }).getByRole('button').nth(1).click();
+   60 |         await page.getByRole('button', { name: 'Yes' }).click(); 
+   61 | });
+   62 |
+   63 | test('Verify that user cannot add a new contact with existing email address', async ({ page }) => {
+   64 |   const commonSteps = new CommonSteps(page);
+   65 |
+   66 |   // Step 1: Navigate to Base URL and log in
+   67 |   await commonSteps.navigateToBaseUrl();
+   68 |   await commonSteps.login();
+   69 |   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
+   70 |
+   71 |   const contactName = 'Pravin Ssss';
+   72 |   const contactEmail = 'pravin+8288@nxglabs.in';
+   73 |   const contactFullName = `${contactName} ${contactEmail}`;
+   74 |
+   75 |   try {
+   76 |     let contactFound = false;
+   77 |
+   78 |     // Step 2: Check across paginated contact list for the contact
+   79 |     while (!contactFound) {
+   80 |       const contactRow = page.getByRole('row', { name: 'Pravin Ssss pravin+8288@' });
+   81 |       if (await contactRow.isVisible().catch(() => false)) {
+   82 |         const deleteButton = contactRow.getByRole('button').nth(1);
+   83 |         await deleteButton.click();
+   84 |         await page.getByRole('button', { name: 'Yes' }).click();
+   85 |         contactFound = true;
+   86 |         break;
+   87 |       } else {
+   88 |         const nextBtn = page.locator('//button[@class ="op-join-item op-btn op-btn-sm" and text()="Next"]'); // Adjust if your pagination control is different
+   89 |         if (await nextBtn.isVisible() && !(await nextBtn.isDisabled())) {
+   90 |           await nextBtn.click();
+   91 |           await page.waitForLoadState('networkidle');
+   92 |           if (await contactRow.isVisible().catch(() => false)) {
+   93 |             const deleteButton = contactRow.getByRole('button').nth(1);
+   94 |             await deleteButton.click();
+   95 |             await page.getByRole('button', { name: 'Yes' }).click();
+   96 |             contactFound = true;
+   97 |             break;
+   98 |           } 
+   99 |
+  100 |         } else {
+  101 |           break; // Reached last page
+  102 |         }
+  103 |       }
+  104 |     }
+  105 |
+  106 |     // Step 3: Add the contact (first time)
+  107 |     await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
+  108 |     await page.getByLabel('Name *').fill(contactName);
+  109 |     await page.getByLabel('Email *').fill(contactEmail);
+  110 |     await page.getByPlaceholder('optional').fill('0924820934');
+  111 |     await page.getByRole('button', { name: 'Submit' }).click();
+  112 |
+  113 |     // Step 4: Try to add the same contact again (should trigger error dialog)
+  114 |     await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
+  115 |     await page.getByLabel('Name *').fill('ANdrews wade');
+  116 |     await page.getByLabel('Email *').fill(contactEmail);
+  117 |     await page.getByPlaceholder('optional').fill('0924820934');
+  118 |
+  119 |     // Listen for the alert dialog
+  120 |     page.once('dialog', async (dialog) => {
+  121 |       console.log(`Dialog message: ${dialog.message()}`);
+  122 |       expect(dialog.message()).toBe('Contact already exist! Please select it from \'Signers\' dropdown');
+  123 |       await dialog.accept();
+  124 |     });
+  125 |
+  126 |     await page.getByRole('button', { name: 'Submit' }).click();
+  127 |
+  128 |     // Close the Add Contact modal
+  129 |     await page.locator('//button[contains(@class,"op-btn-circle") and text()="✕"]').click();
+  130 |
+  131 |     // Final Cleanup - delete the contact
+  132 |     let deleteSuccess = false;
+  133 |     while (!deleteSuccess) {
+  134 |       const row = page.getByRole('row', { name: 'Pravin Ssss pravin+8288@' });
+  135 |       if (await row.isVisible().catch(() => false)) {
+  136 |         await row.getByRole('button').nth(1).click();
+  137 |         await page.getByRole('button', { name: 'Yes' }).click();
+  138 |         deleteSuccess = true;
+  139 |       } else {
+  140 |         const nextBtn = page.locator('//button[@class ="op-join-item op-btn op-btn-sm" and text()="Next"]');
+  141 |         if (await nextBtn.isVisible() && !(await nextBtn.isDisabled())) {
+  142 |           await nextBtn.click();
+  143 |           await page.waitForLoadState('networkidle');
+  144 |         } else {
+  145 |           console.log('Contact not found for final deletion.');
+  146 |           break;
+  147 |         }
+  148 |       }
+  149 |     }
+  150 |
+  151 |   } catch (error) {
+  152 |     console.error('Test encountered an error:', error);
+  153 |   }
+  154 | });
+  155 |
+```

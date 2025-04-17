@@ -1,0 +1,5 @@
+FreeplanUsername exists: pravin+0.8817311869656308@nxglabs.in
+Checkbox disabled: false
+Radio button disabled: false
+Radio button disabled: false
+signature widget dragged and dropped
