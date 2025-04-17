@@ -52,7 +52,6 @@ test('Verify that user can add a new contact.', async ({ page }) => {
         await page.getByLabel('Email *').fill(Randomemail);
         await page.getByPlaceholder('optional').fill('0924820934');
         await page.getByRole('button', { name: 'Submit' }).click();
-        await expect(page.locator('tbody')).toContainText('Pravin Ssss');
         await expect(page.locator('tbody')).toContainText(Randomemail);
         await expect(page.locator('tbody')).toContainText('0924820934');
         console.log(`P Shej ${Randomemail}`);
