@@ -78,7 +78,6 @@ test('Verify that user cannot add a new contact with existing email address', as
     // Step 2: Check across paginated contact list for the contact
     while (!contactFound) {
       const contactRow = page.getByRole('row', { name: 'Pravin Ssss pravin+8288@' });
-      await contactRow.waitFor({ timeout: 120000 });
       if (await contactRow.isVisible().catch(() => false)) {
         const deleteButton = contactRow.getByRole('button').nth(1);
         await deleteButton.click();
@@ -90,6 +89,14 @@ test('Verify that user cannot add a new contact with existing email address', as
         if (await nextBtn.isVisible() && !(await nextBtn.isDisabled())) {
           await nextBtn.click();
           await page.waitForLoadState('networkidle');
+          if (await contactRow.isVisible().catch(() => false)) {
+            const deleteButton = contactRow.getByRole('button').nth(1);
+            await deleteButton.click();
+            await page.getByRole('button', { name: 'Yes' }).click();
+            contactFound = true;
+            break;
+          } 
+
         } else {
           break; // Reached last page
         }
