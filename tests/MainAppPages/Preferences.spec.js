@@ -21,10 +21,10 @@ test('Verify that New free user can save the general preferences.', async ({ pag
   await page.getByText('General').click();
   await expect(page.getByText('Allowed signature types')).toBeVisible();
   await page.getByText('draw').click();
-  await expect(page.locator('//div[@title="Enabling this allow signers to draw signature" and text()="draw"]')).toBeVisible();
-  await expect(page.locator('//div[@title="Enabling this allow signers to typed signature" and text()="type"]', { exact: true })).toBeVisible();
-  await expect(page.locator('//div[@title="Enabling this allow signers to upload signature" and text()="upload"]')).toBeVisible();
-  await expect(page.locator('//div[@title="Enabling this allow signers to default signature" and text()="default"]')).toBeVisible();
+  await expect(page.locator('//label[@title="Enabling this allows signers to draw signature" and text()="draw"]')).toBeVisible();
+  await expect(page.locator('//label[@title="Enabling this allows signers to typed signature" and text()="type"]', { exact: true })).toBeVisible();
+  await expect(page.locator('//label[@title="Enabling this allows signers to upload signature" and text()="upload"]')).toBeVisible();
+  await expect(page.locator('//label[@title="Enabling this allows signers to default signature" and text()="default"]')).toBeVisible();
   await expect(page.getByText('Notify on signaturesUpgrade')).toBeVisible();
   await expect(page.locator('#renderList').getByText('Upgrade now')).toBeVisible();
   const page3Promise = page.waitForEvent('popup');
