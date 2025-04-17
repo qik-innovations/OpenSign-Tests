@@ -1,0 +1,2 @@
+Save button clicked!
+"Copy widget to" is visible. Stopping the loop.
