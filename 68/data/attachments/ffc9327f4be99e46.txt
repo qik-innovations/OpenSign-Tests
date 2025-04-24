@@ -1,0 +1,5 @@
+browser namechromium
+Browser version134.0.6998.35
+Browser Platformlinux
+Save button clicked!
+"Copy widget to" is visible. Stopping the loop.
