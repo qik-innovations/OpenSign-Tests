@@ -10,7 +10,6 @@ test('Verify that New free user can save the general preferences.', async ({ pag
     await commonSteps.NewUserlogin();
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'Preferences' }).click();
-    await page.waitForTimeout(5000);
     const title = await page.title();
     if (title === 'Preferences - OpenSign™') {
       console.log('Page title is correct: Preferences - OpenSign™');
@@ -27,20 +26,18 @@ test('Verify that New free user can save the general preferences.', async ({ pag
   await expect(page.locator('//label[@title="Enabling this allows signers to default signature" and text()="default"]')).toBeVisible();
   await expect(page.getByText('Notify on signaturesUpgrade')).toBeVisible();
   await expect(page.locator('#renderList').getByText('Upgrade now')).toBeVisible();
-  const page3Promise = page.waitForEvent('popup');
-  await page.locator('#renderList').getByText('Upgrade now').click();
-  const page3 = await page3Promise;
   await expect(page.getByRole('heading', { name: 'Timezone' })).toBeVisible();
-  await page.locator('svg').click();
+// Open the dropdown
+await page.locator('.css-n9qnu9').click();
+//await page.locator('//div[@class="css-w54w9q-singleValue"]').click();
+// Click the desired option
+await page.locator('//div[text()="(GMT+10:00) Canberra, Melbourne, Sydney"]').click();
   await page.locator('#renderList div').filter({ hasText: 'Allowed signature' }).nth(2).click();
   await page.locator('.css-n9qnu9').click();
   await page.locator('#renderList div').filter({ hasText: 'Allowed signature' }).nth(2).click();
-  await page.locator('svg').click();
-  await page.getByRole('option', { name: '(GMT-6:00) Saskatchewan' }).click();
+  await page.locator('//select[@class="op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content w-full h-full text-[11px]"]').selectOption({ label: "MM/DD/YYYY" });
   await page.getByRole('button', { name: 'Save' }).click();
-  await page.getByText('Saved successfully.').click();
-  await page.getByRole('button', { name: 'Save' }).click();
-  await page.getByText('Saved successfully.').click();
+  await expect(page.getByText('Saved successfully.')).toBeVisible();
 });
 
 test('Verify that a new free user cannot save email preferences is prompted to upgrade', async ({ page }) => {
@@ -50,7 +47,6 @@ test('Verify that a new free user cannot save email preferences is prompted to u
     await commonSteps.NewUserlogin();
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'Preferences' }).click();
-    await page.waitForTimeout(5000);
     const title = await page.title();
     if (title === 'Preferences - OpenSign™') {
       console.log('Page title is correct: Preferences - OpenSign™');
