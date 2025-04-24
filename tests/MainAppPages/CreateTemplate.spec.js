@@ -96,7 +96,6 @@ console.log("Radio button disabled on Edit template details:", EnableotpisDisabl
   await page.getByRole('button', { name: 'Submit' }).click();
 
 });
-
 test('Verify that a new user can create a template and use it to create the document for selfsign', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -355,7 +354,6 @@ await page.getByRole('button', { name: 'Next' }).click();
   await expect(page.locator('#selectSignerModal')).toContainText('Upgrade now');
   await page.locator('#selectSignerModal').getByRole('button', { name: 'Upgrade now' }).click();
 });
-
 test('Verify that an existing Team Plan user can create a template using all advanced fields in the Create New Template form.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -445,7 +443,6 @@ await page.getByRole('button', { name: '✕' }).click();
   await page.getByRole('button', { name: '✕' }).click();
 
 });
-
 test('Verify that a Team Plan user can create a template, make it public, and sign the document through the public template.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -543,7 +540,6 @@ await page.getByRole('button', { name: 'Copy public URL' }).click();
   await expect(page1.locator('#selectSignerModal')).toContainText('Print');
 
 });
-
 test('Verify that the signature settings function correctly for the signature widget on the create template.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -624,7 +620,6 @@ await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @ty
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(3)).not.toBeChecked();
   await expect(page.getByRole('textbox')).toHaveValue('only upload type enabled');
 }); 
-
 test('Verify that the merge page functions correctly and the user can sign the merged document in the crerate template.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -758,8 +753,6 @@ await page.getByRole('button', { name: 'Next' }).click();
   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
   await page.getByRole('button', { name: 'Send' }).click();
 });
-
-
 test('Verify that the delete page functions correctly in create template.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
@@ -789,7 +782,6 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
   await expect(page.locator('#renderList')).toContainText('1 of 2');
 
 });
-
 test('Verify that the rotate page functions correctly in create template.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
