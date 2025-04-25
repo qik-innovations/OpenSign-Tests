@@ -1,0 +1,111 @@
+Test encountered an error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for locator('div:nth-child(2) > div:nth-child(2) > .fa-light')
+    - locator resolved to <i class="fa-light fa-square-plus text-accent text-[30px] md:text-[35px]"></i>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <dialog id="selectSignerModal" class="op-modal op-modal-open">…</dialog> intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <dialog id="selectSignerModal" class="op-modal op-modal-open">…</dialog> intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    227 × waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <dialog id="selectSignerModal" class="op-modal op-modal-open">…</dialog> intercepts pointer events
+      - retrying click action
+        - waiting 500ms
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js:113:75 {
+  [Symbol(step)]: {
+    stepId: 'pw:api@24',
+    location: {
+      file: '/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js',
+      line: 113,
+      column: 75
+    },
+    category: 'pw:api',
+    title: 'locator.click(div:nth-child(2) > div:nth-child(2) > .fa-light)',
+    apiName: 'locator.click',
+    params: {
+      selector: 'div:nth-child(2) > div:nth-child(2) > .fa-light',
+      strict: true
+    },
+    boxedStack: undefined,
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'pw:api@24'
+    },
+    complete: [Function: complete],
+    endWallTime: 1745560787801,
+    error: {
+      message: 'Error: locator.click: Test timeout of 120000ms exceeded.\n' +
+        'Call log:\n' +
+        "\x1B[2m  - waiting for locator('div:nth-child(2) > div:nth-child(2) > .fa-light')\x1B[22m\n" +
+        '\x1B[2m    - locator resolved to <i class="fa-light fa-square-plus text-accent text-[30px] md:text-[35px]"></i>\x1B[22m\n' +
+        '\x1B[2m  - attempting click action\x1B[22m\n' +
+        '\x1B[2m    2 × waiting for element to be visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m      - element is visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m      - scrolling into view if needed\x1B[22m\n' +
+        '\x1B[2m      - done scrolling\x1B[22m\n' +
+        '\x1B[2m      - <dialog id="selectSignerModal" class="op-modal op-modal-open">…</dialog> intercepts pointer events\x1B[22m\n' +
+        '\x1B[2m    - retrying click action\x1B[22m\n' +
+        '\x1B[2m    - waiting 20ms\x1B[22m\n' +
+        '\x1B[2m    2 × waiting for element to be visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m      - element is visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m      - scrolling into view if needed\x1B[22m\n' +
+        '\x1B[2m      - done scrolling\x1B[22m\n' +
+        '\x1B[2m      - <dialog id="selectSignerModal" class="op-modal op-modal-open">…</dialog> intercepts pointer events\x1B[22m\n' +
+        '\x1B[2m    - retrying click action\x1B[22m\n' +
+        '\x1B[2m      - waiting 100ms\x1B[22m\n' +
+        '\x1B[2m    227 × waiting for element to be visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m        - element is visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m        - scrolling into view if needed\x1B[22m\n' +
+        '\x1B[2m        - done scrolling\x1B[22m\n' +
+        '\x1B[2m        - <dialog id="selectSignerModal" class="op-modal op-modal-open">…</dialog> intercepts pointer events\x1B[22m\n' +
+        '\x1B[2m      - retrying click action\x1B[22m\n' +
+        '\x1B[2m        - waiting 500ms\x1B[22m\n',
+      stack: 'Error: locator.click: Test timeout of 120000ms exceeded.\n' +
+        'Call log:\n' +
+        "\x1B[2m  - waiting for locator('div:nth-child(2) > div:nth-child(2) > .fa-light')\x1B[22m\n" +
+        '\x1B[2m    - locator resolved to <i class="fa-light fa-square-plus text-accent text-[30px] md:text-[35px]"></i>\x1B[22m\n' +
+        '\x1B[2m  - attempting click action\x1B[22m\n' +
+        '\x1B[2m    2 × waiting for element to be visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m      - element is visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m      - scrolling into view if needed\x1B[22m\n' +
+        '\x1B[2m      - done scrolling\x1B[22m\n' +
+        '\x1B[2m      - <dialog id="selectSignerModal" class="op-modal op-modal-open">…</dialog> intercepts pointer events\x1B[22m\n' +
+        '\x1B[2m    - retrying click action\x1B[22m\n' +
+        '\x1B[2m    - waiting 20ms\x1B[22m\n' +
+        '\x1B[2m    2 × waiting for element to be visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m      - element is visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m      - scrolling into view if needed\x1B[22m\n' +
+        '\x1B[2m      - done scrolling\x1B[22m\n' +
+        '\x1B[2m      - <dialog id="selectSignerModal" class="op-modal op-modal-open">…</dialog> intercepts pointer events\x1B[22m\n' +
+        '\x1B[2m    - retrying click action\x1B[22m\n' +
+        '\x1B[2m      - waiting 100ms\x1B[22m\n' +
+        '\x1B[2m    227 × waiting for element to be visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m        - element is visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m        - scrolling into view if needed\x1B[22m\n' +
+        '\x1B[2m        - done scrolling\x1B[22m\n' +
+        '\x1B[2m        - <dialog id="selectSignerModal" class="op-modal op-modal-open">…</dialog> intercepts pointer events\x1B[22m\n' +
+        '\x1B[2m      - retrying click action\x1B[22m\n' +
+        '\x1B[2m        - waiting 500ms\x1B[22m\n' +
+        '\n' +
+        '    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js:113:75',
+      cause: undefined
+    }
+  }
+}

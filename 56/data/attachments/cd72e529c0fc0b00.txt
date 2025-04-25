@@ -1,3 +1,0 @@
-FreeplanUsername is empty. Running signup test...
-✅ Signup successful. User: pravin+0.9078021404926895@nxglabs.in
-Teams - OpenSign™
