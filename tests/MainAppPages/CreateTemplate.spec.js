@@ -530,9 +530,10 @@ await page.getByRole('button', { name: 'Copy public URL' }).click();
   await expect(page1.getByRole('paragraph')).toContainText('Click Decline, or Finish buttons to navigate your document. Use the ellipsis menu for additional options, including the Download button .');
   await page1.getByRole('button', { name: 'Close' }).click();*/
   await page1.getByText('signature').click();
+  await page1.mouse.move(750, 340);
   await page1.mouse.down();
-  await page1.mouse.move(700, 300);
-  await page1.mouse.move(700, 350);
+  await page1.mouse.move(750, 340);
+  await page1.mouse.move(750, 350);
   await page1.mouse.up();
   await page1.getByRole('button', { name: 'Save' }).click();
   await page1.getByRole('button', { name: 'Finish' }).click();

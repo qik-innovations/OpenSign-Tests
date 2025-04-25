@@ -586,9 +586,10 @@ await page1.getByRole('button', { name: 'Agree & Continue' }).click();
 await page1.waitForLoadState("networkidle");
 await page1.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page1.locator('//div[@id="container"]//div[text()="signature"]').click();
+await page1.mouse.move(600, 350)
 await page1.mouse.down();
-await page1.mouse.move(150, 128)
-await page1.mouse.move(160, 138)
+await page1.mouse.move(600, 350)
+await page1.mouse.move(600, 400)
 await page1.mouse.up();
 // Optionally save changes
 await page1.locator("//button[normalize-space()='Save']").click();
@@ -957,9 +958,10 @@ await page1.getByRole('button', { name: 'Agree & Continue' }).click();
 await page1.waitForLoadState("networkidle");
 await page1.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page1.locator('//div[@id="container"]//div[text()="signature"]').click();
+await page1.mouse.move(600, 350)
 await page1.mouse.down();
-await page1.mouse.move(150, 128)
-await page1.mouse.move(160, 138)
+await page1.mouse.move(600, 350)
+await page1.mouse.move(600, 400)
 await page1.mouse.up();
 // Optionally save changes
 await page1.locator("//button[normalize-space()='Save']").click();
