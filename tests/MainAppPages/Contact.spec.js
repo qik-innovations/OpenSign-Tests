@@ -73,7 +73,7 @@ test('Verify that user cannot add a new contact with existing email address', as
 
   try {
     let contactFound = false;
-
+await page.waitForTimeout(20000); // Wait for the page to load
     // Step 2: Check across paginated contact list for the contact
     while (!contactFound) {
       const contactRow = page.getByRole('row', { name: 'Pravin Ssss pravin+8288@' });

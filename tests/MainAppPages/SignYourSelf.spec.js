@@ -254,24 +254,34 @@ const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
 
 console.log('Today\'s date:', formattedDate);  // Extract day number as text
 await page.locator(`//div[text()="${formattedDate}"]`).dblclick();
- // Calculate the target date (today + 2 days)
- today.setDate(today.getDate() + 2); // Add 2 days
- const targetDay = today.getDate();
- console.log("targeted day"+ targetDay);
- const targetMonth = today.toLocaleString('default', { month: 'long' }); // e.g., "March"
- const targetYear = today.getFullYear();
- // Select the correct month and year
- while (true) {
-  const displayedMonthYear = await page.locator('//div[@class="react-datepicker__month-container"]').textContent() || '';
-
-  if (displayedMonthYear.includes(targetMonth) && displayedMonthYear.includes(targetYear.toString())) {
-      break; // Exit loop if month and year match
+function getDayWithSuffix(day) {
+  if (day >= 11 && day <= 13) return `${day}th`;
+  switch (day % 10) {
+    case 1: return `${day}st`;
+    case 2: return `${day}nd`;
+    case 3: return `${day}rd`;
+    default: return `${day}th`;
   }
-  await page.locator('//button[contains(@aria-label, "Next Month")]').click(); // Click next until matched
 }
 
- // Select the target day
- await page.locator(`//div[@class="react-datepicker__month"]//div[text()='${targetDay}']`).click();
+// Calculate the target date (today + 2 days)
+
+today.setDate(today.getDate() + 2);
+const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g., "Friday"
+const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
+const day = today.getDate();                                            // e.g., 2
+const year = today.getFullYear();                                       // e.g., 2025
+
+const dayWithSuffix = getDayWithSuffix(day);
+const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
+
+// Final XPath
+const targetXPath = `//div[@aria-label="${ariaLabelValue}"]`;
+
+console.log("Target XPath:", targetXPath);
+
+// Use the locator
+await page.locator(targetXPath).click();
 
  // Verify the selected date in the input field
  //const selectedDate = await page.locator('//div[@class="react-datepicker__month"]').inputValue();
