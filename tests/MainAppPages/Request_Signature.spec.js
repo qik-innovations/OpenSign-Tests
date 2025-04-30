@@ -1012,9 +1012,10 @@ await page2.locator('canvas').nth(1).click({
 });
 await page2.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page2.locator('//div[@id="container"]//div[text()="signature"]').click();
+await page2.mouse.move(600, 350)
 await page2.mouse.down();
-await page2.mouse.move(150, 128)
-await page2.mouse.move(160, 138)
+await page2.mouse.move(600, 350)
+await page2.mouse.move(600, 400)
 await page2.mouse.up();
 // Optionally save changes
 await page2.locator("//button[normalize-space()='Save']").click();
