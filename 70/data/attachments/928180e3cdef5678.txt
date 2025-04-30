@@ -1,0 +1,42 @@
+Test encountered an error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for locator('//button[@class ="op-join-item op-btn op-btn-sm" and text()="Next"]')
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js:89:25 {
+  [Symbol(step)]: {
+    stepId: 'pw:api@9924',
+    location: {
+      file: '/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js',
+      line: 89,
+      column: 25
+    },
+    category: 'pw:api',
+    title: 'locator.click(//button[@class ="op-join-item op-btn op-btn-sm" and text()="Next"])',
+    apiName: 'locator.click',
+    params: {
+      selector: '//button[@class ="op-join-item op-btn op-btn-sm" and text()="Next"]',
+      strict: true
+    },
+    boxedStack: undefined,
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'pw:api@9924'
+    },
+    complete: [Function: complete],
+    endWallTime: 1746021898699,
+    error: {
+      message: 'Error: locator.click: Test timeout of 120000ms exceeded.\n' +
+        'Call log:\n' +
+        `\x1B[2m  - waiting for locator('//button[@class ="op-join-item op-btn op-btn-sm" and text()="Next"]')\x1B[22m\n`,
+      stack: 'Error: locator.click: Test timeout of 120000ms exceeded.\n' +
+        'Call log:\n' +
+        `\x1B[2m  - waiting for locator('//button[@class ="op-join-item op-btn op-btn-sm" and text()="Next"]')\x1B[22m\n` +
+        '\n' +
+        '    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js:89:25',
+      cause: undefined
+    }
+  }
+}
