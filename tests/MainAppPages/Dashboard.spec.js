@@ -779,7 +779,9 @@ await page.getByRole('button', { name: 'Next' }).click();
   await page.locator('//dialog[@id="selectSignerModal"]//button[text()="Bulk send"]').click();
   await page.locator('//dialog[@id="selectSignerModal"]//input[@type="email" and @placeholder="Enter Email..."]').fill("andyamaya@nxglabs.in");
   await page.locator('//dialog[@id="selectSignerModal"]//span[text()="Send"]').click();
+  await expect(page.locator('#renderList')).toContainText('In-progress documents');
   await page.getByRole('menuitem', { name: 'Dashboard' }).click();
+  await page.waitForTimeout(2000);
 // Wait up to 90 seconds for the text to appear
 await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
 // Now assert the text
