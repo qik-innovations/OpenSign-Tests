@@ -70,7 +70,7 @@ test('Verify that expired document is available on the Expired documents report.
   await page.getByRole('button', { name: 'No' }).click();
     await page.getByRole('button', { name: ' Documents' }).click();
     await page.getByRole('menuitem', { name: 'Expired' }).click();
-    await expect(page.locator('#renderList')).toContainText('Expired documents');
+    await expect(page.locator('//div[contains(@class, "font-light") and contains(., "Expired documents")]')).toContainText('Expired documents');
 await expect(page.locator('thead')).toContainText('Title');
   await expect(page.locator('thead')).toContainText('Note');
   await expect(page.locator('thead')).toContainText('Folder');
@@ -85,7 +85,7 @@ await expect(page.locator('.p-2 > .font-semibold').first()).toContainText('Offer
  await page.locator('//div[@role="button"and @title="View"]').first().click();
  await expect(page.getByRole('heading')).toContainText('Expired document');
     await page.getByRole('menuitem', { name: 'Expired' }).click();
-    await expect(page.locator('#renderList')).toContainText('Expired documents');
+    await expect(page.locator('//div[contains(@class, "font-light") and contains(., "Expired documents")]')).toContainText('Expired documents');
  await page.locator('//div[@role="button"and @title="Delete"]').first().click();
  await expect(page.getByRole('heading')).toContainText('Delete document');
   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to delete this document?');
