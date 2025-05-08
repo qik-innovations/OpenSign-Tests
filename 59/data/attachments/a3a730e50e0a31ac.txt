@@ -1,5 +1,0 @@
-browser namechromium
-Browser version134.0.6998.35
-Browser Platformlinux
-signature widget dragged and dropped
-Dialog message: expect-default-one-more-signature-type

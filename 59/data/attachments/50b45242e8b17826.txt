@@ -1,6 +1,0 @@
-browser namechromium
-Browser version134.0.6998.35
-Browser Platformlinux
-Total iframes found: 6
-Formatted Date: 2026-03-20
-Date after one year: 2026-03-20

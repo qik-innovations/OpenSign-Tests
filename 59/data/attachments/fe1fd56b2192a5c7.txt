@@ -1,4 +1,0 @@
-Attempt 1: Save button not visible, performing actions...
-Save button clicked!
-"Copy widget to" is visible. Stopping the loop.
-Font Size: 15.6176px, Color: rgb(0, 0, 255)

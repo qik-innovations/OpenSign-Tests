@@ -1,5 +1,0 @@
-browser namechromium
-Browser version134.0.6998.35
-Browser Platformlinux
-Attempt 1: Save button not visible, performing actions...
-Save button clicked!

@@ -1,2 +1,0 @@
-Element not found, moving to the next step.
-Element not found or not interactable, continuing execution.
