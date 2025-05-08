@@ -62,93 +62,77 @@ test('Verify that user can add a new contact.', async ({ page }) => {
 test('Verify that user cannot add a new contact with existing email address', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
 
-  // Step 1: Navigate to Base URL and log in
-  await commonSteps.navigateToBaseUrl();
-  await commonSteps.login();
-  await page.getByRole('menuitem', { name: 'Contactbook' }).click();
-
   const contactName = 'Pravin Ssss';
   const contactEmail = 'pravin+8288@nxglabs.in';
   const contactFullName = `${contactName} ${contactEmail}`;
+ /// getByRole('row', { name: 'Pravin Ssss pravin+hr@gmail.com' }).getByRole('button').nth(1)
+  await commonSteps.navigateToBaseUrl();
+  await commonSteps.login();
+  await page.getByRole('menuitem', { name: 'Contactbook' }).click();
+  await page.waitForTimeout(5000); // Wait for contacts page to load
 
-  try {
+  const deleteContactIfExists = async () => {
     let contactFound = false;
-await page.waitForTimeout(20000); // Wait for the page to load
-    // Step 2: Check across paginated contact list for the contact
-    while (!contactFound) {
-      const contactRow = page.getByRole('row', { name: 'Pravin Ssss pravin+8288@' });
-      if (await contactRow.isVisible().catch(() => false)) {
-        const deleteButton = contactRow.getByRole('button').nth(1);
-        await deleteButton.click();
+    let maxPages = 5; // Set a reasonable limit to avoid infinite loop
+
+    for (let i = 0; i < maxPages; i++) {
+      const row = page.getByRole('row', { name: `${contactName} ${contactEmail.split('@')[0]}`});
+      console.log(`${contactName} ${contactEmail.split('@')[0]}`);
+      if (await row.isVisible().catch(() => false)) {
+        await row.getByRole('button').nth(1).click();
         await page.getByRole('button', { name: 'Yes' }).click();
+        await page.waitForTimeout(4000); // Wait for deletion to complete
         contactFound = true;
         break;
-      } else {
-        const nextBtn = page.locator('//button[@class ="op-join-item op-btn op-btn-sm" and text()="Next"]'); // Adjust if your pagination control is different
-        if (await nextBtn.isVisible() && !(await nextBtn.isDisabled())) {
-          await nextBtn.click();
-          await page.waitForLoadState('networkidle');
-          if (await contactRow.isVisible().catch(() => false)) {
-            const deleteButton = contactRow.getByRole('button').nth(1);
-            await deleteButton.click();
-            await page.getByRole('button', { name: 'Yes' }).click();
-            contactFound = true;
-            break;
-          } 
+      }
 
-        } else {
-          break; // Reached last page
-        }
+      const nextBtn = page.locator('//button[@class="op-join-item op-btn op-btn-sm" and text()="Next"]');
+      if (await nextBtn.isVisible() && !(await nextBtn.isDisabled())) {
+        await nextBtn.click();
+        await page.waitForLoadState('networkidle');
+      } else {
+        break;
       }
     }
 
-    // Step 3: Add the contact (first time)
+    return contactFound;
+  };
+
+  try {
+    // Delete existing contact if it exists
+    await deleteContactIfExists();
+
+    // Add the contact first time
     await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
     await page.getByLabel('Name *').fill(contactName);
     await page.getByLabel('Email *').fill(contactEmail);
     await page.getByPlaceholder('optional').fill('0924820934');
     await page.getByRole('button', { name: 'Submit' }).click();
+    await page.waitForTimeout(1000); // Wait for creation
 
-    // Step 4: Try to add the same contact again (should trigger error dialog)
+    // Attempt to add the same email again
     await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
-    await page.getByLabel('Name *').fill('ANdrews wade');
+    await page.getByLabel('Name *').fill('Andrews Wade');
     await page.getByLabel('Email *').fill(contactEmail);
     await page.getByPlaceholder('optional').fill('0924820934');
 
-    // Listen for the alert dialog
+    // Set up dialog handler BEFORE triggering the action
     page.once('dialog', async (dialog) => {
-      console.log(`Dialog message: ${dialog.message()}`);
-      expect(dialog.message()).toBe('Contact already exist! Please select it from \'Signers\' dropdown');
+      expect(dialog.message()).toBe("Contact already exist! Please select it from 'Signers' dropdown");
       await dialog.accept();
     });
 
     await page.getByRole('button', { name: 'Submit' }).click();
 
-    // Close the Add Contact modal
+    // Close Add Contact modal
     await page.locator('//button[contains(@class,"op-btn-circle") and text()="✕"]').click();
-
-    // Final Cleanup - delete the contact
-    let deleteSuccess = false;
-    while (!deleteSuccess) {
-      const row = page.getByRole('row', { name: 'Pravin Ssss pravin+8288@' });
-      if (await row.isVisible().catch(() => false)) {
-        await row.getByRole('button').nth(1).click();
-        await page.getByRole('button', { name: 'Yes' }).click();
-        deleteSuccess = true;
-      } else {
-        const nextBtn = page.locator('//button[@class ="op-join-item op-btn op-btn-sm" and text()="Next"]');
-        if (await nextBtn.isVisible() && !(await nextBtn.isDisabled())) {
-          await nextBtn.click();
-          await page.waitForLoadState('networkidle');
-        } else {
-          console.log('Contact not found for final deletion.');
-          break;
-        }
-      }
-    }
+ // Wait for modal to close
+    // Cleanup
+    await deleteContactIfExists();
 
   } catch (error) {
     console.error('Test encountered an error:', error);
+    throw error; // Re-throw for test failure
   }
 });
 

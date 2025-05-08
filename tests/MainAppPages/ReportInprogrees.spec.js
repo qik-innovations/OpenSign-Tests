@@ -118,9 +118,10 @@ await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
 await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
   await page.getByRole('button', { name: 'No' }).click();
  // Wait up to 90 seconds for the text to appear
-await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]').waitFor({ state: 'visible', timeout: 90000 });
 // Now assert the text
-await expect(page.locator('#renderList')).toContainText('In-progress documents');
+
+await expect(page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]')).toContainText('In-progress documents');
   await page.locator('//div[@role = \'button\' and @class=\'op-btn-secondary op-btn op-btn-sm mr-1\']').first().click();
   await page.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
   await page.getByRole('button', { name: 'Agree & Continue' }).click();
@@ -281,9 +282,9 @@ await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
 await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
 await page.getByRole('button', { name: 'No' }).click();
 // Wait up to 90 seconds for the text to appear
-await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]').waitFor({ state: 'visible', timeout: 90000 });
 // Now assert the text
-await expect(page.locator('#renderList')).toContainText('In-progress documents');
+await expect(page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]')).toContainText('In-progress documents');
 await expect(page.locator('thead')).toContainText('Title');
   await expect(page.locator('thead')).toContainText('Note');
   await expect(page.locator('thead')).toContainText('Folder');
@@ -308,9 +309,9 @@ test('Verify that pagination is functioning correctly in the inprogress document
   await page.getByRole('button', { name: ' Documents' }).click();
   await page.getByRole('menuitem', { name: 'In progress' }).click();
   // Wait up to 90 seconds for the text to appear
-  await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+  await page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]').waitFor({ state: 'visible', timeout: 90000 });
   // Now assert the text
-  await expect(page.locator('#renderList')).toContainText('In-progress documents');
+  await expect(page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]')).toContainText('In-progress documents');
   const title = await page.title();
   if (title === 'In-progress documents - OpenSign™') {
     console.log('In-progress documents - OpenSign™');
@@ -401,9 +402,9 @@ await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
 await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
 await page.getByRole('button', { name: 'No' }).click();
 // Wait up to 90 seconds for the text to appear
-await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]').waitFor({ state: 'visible', timeout: 90000 });
 // Now assert the text
-await expect(page.locator('#renderList')).toContainText('In-progress documents');
+await expect(page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]')).toContainText('In-progress documents');
 await page.locator('.text-base-content > .text-base-content').first().click();
 await page.locator('//span[contains(text(),"Rename")]').click();
 await page.locator('//div[@class="flex flex-col gap-2"]/input[@maxlength="200" and @type="text"]').fill('Sample-joining-letter-2025');
@@ -487,9 +488,9 @@ await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
 await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
 await page.getByRole('button', { name: 'No' }).click();
 // Wait up to 90 seconds for the text to appear
-await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]').waitFor({ state: 'visible', timeout: 90000 });
 // Now assert the text
-await expect(page.locator('#renderList')).toContainText('In-progress documents');
+await expect(page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]')).toContainText('In-progress documents');
 await page.locator('.text-base-content > .text-base-content').first().click();
 await page.locator('//span[contains(text(),"Resend")]').click();
 await expect(page.getByRole('heading')).toContainText('Resend mail');
@@ -564,9 +565,9 @@ await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
 await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
 await page.getByRole('button', { name: 'No' }).click();
 // Wait up to 90 seconds for the text to appear
-await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]').waitFor({ state: 'visible', timeout: 90000 });
 // Now assert the text
-await expect(page.locator('#renderList')).toContainText('In-progress documents');
+await expect(page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]')).toContainText('In-progress documents');
 await page.locator('.text-base-content > .text-base-content').first().click();
 await page.locator('//span[contains(text(),"Revoke")]').click();
 await expect(page.getByRole('heading')).toContainText('Revoke document');
