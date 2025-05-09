@@ -1,6 +1,0 @@
-browser namechromium
-Browser version134.0.6998.35
-Browser Platformlinux
-FreeplanUsername is empty. Running signup test...
-✅ Signup successful. User: pravin+0.4436832447985566@nxglabs.in
-Page title is correct: Analytics - OpenSign™

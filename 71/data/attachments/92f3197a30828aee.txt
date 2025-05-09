@@ -1,0 +1,264 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Templates >> Verify that the merge page functions correctly and the user can sign the merged document in the crerate template.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/CreateTemplate.spec.js:624:1
+
+# Error details
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]')
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/CreateTemplate.spec.js:629:89
+```
+
+# Page snapshot
+
+```yaml
+- region:
+  - img "applogo"
+  - form "Login Form":
+    - heading "Welcome back!" [level=1]
+    - group "Login to your account":
+      - text: Login to your account
+      - tablist:
+        - tab "global"
+        - tab "gdpr europe":
+          - img "gdpr"
+          - text: europe
+      - text: Email
+      - textbox "Email": pravin+testaccount@nxglabs.in
+      - separator
+      - text: Password
+      - textbox "Password": Nxglabs@123
+      - text: 
+      - link "Forgot password?"
+    - button "Login"
+    - button "Create account"
+    - button "Sign in with passkey":
+      - img
+      - text: Sign in with passkey
+  - text: OR Sign in with SSO
+  - img "The image illustrates a person from behind, seated at a desk with a four-monitor computer setup, in an environment with a light blue and white color scheme, featuring a potted plant to the right."
+  - combobox:
+    - option "select" [disabled]
+    - option "English" [selected]
+    - option "Española"
+    - option "Français"
+    - option "Italiano"
+    - option "Deutsch"
+```
+
+# Test source
+
+```ts
+  529 |   await page1.locator('.sc-gsFSXq > button:nth-child(3)').click();
+  530 |   await expect(page1.getByRole('paragraph')).toContainText('Click Decline, or Finish buttons to navigate your document. Use the ellipsis menu for additional options, including the Download button .');
+  531 |   await page1.getByRole('button', { name: 'Close' }).click();*/
+  532 |   await page1.getByText('signature').click();
+  533 |   await page1.mouse.move(750, 340);
+  534 |   await page1.mouse.down();
+  535 |   await page1.mouse.move(750, 340);
+  536 |   await page1.mouse.move(750, 350);
+  537 |   await page1.mouse.up();
+  538 |   await page1.getByRole('button', { name: 'Save' }).click();
+  539 |   await page1.getByRole('button', { name: 'Finish' }).click();
+  540 |   await expect(page1.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 120000 });
+  541 |   await expect(page1.locator('#selectSignerModal')).toContainText('Print');
+  542 |
+  543 | });
+  544 | test('Verify that the signature settings function correctly for the signature widget on the create template.', async ({ page }) => {
+  545 |   const commonSteps = new CommonSteps(page);
+  546 |     // Step 1: Navigate to Base URL and log in
+  547 |     await commonSteps.navigateToBaseUrl();
+  548 |     await commonSteps.login();
+  549 |   await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+  550 |   await page.getByRole('menuitem', { name: 'Create template' }).click();
+  551 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  552 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  553 |   await page.locator('input[type="file"]').click();
+  554 |   const fileChooser = await fileChooserPromise;
+  555 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  556 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  557 |   await page.getByRole('button', { name: 'Next' }).click();
+  558 | await page.waitForLoadState("networkidle");
+  559 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  560 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  561 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  562 | await page.getByRole('button', { name: '+ Add role' }).click();
+  563 |   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
+  564 |   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+  565 | await page.locator('//span[normalize-space()=\'signature\']').hover();
+  566 | await page.mouse.down();
+  567 | await page.mouse.move(600, 300)
+  568 | await page.mouse.up();
+  569 | try {
+  570 |   const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+  571 |
+  572 |   for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  573 |       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  574 |       
+  575 |           console.log("signature widget dragged and dropped");
+  576 |           break; // Exit the loop if successfully clicked
+  577 |       } else {
+  578 |           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  579 |   
+  580 |           await page.locator('//span[normalize-space()="signature"]').hover();
+  581 |           await page.mouse.down();
+  582 |           await page.mouse.move(800, 300);
+  583 |           await page.mouse.up();
+  584 |           
+  585 |           // Wait a bit before checking again
+  586 |           await page.waitForTimeout(1000);
+  587 |       }
+  588 |   
+  589 |       if (i === 5) {
+  590 |           console.log("signature widget did not become visible on the document after multiple attempts.");
+  591 |       }
+  592 |   }
+  593 | } catch (error) {
+  594 |   console.log("Element not found or not interactable, continuing execution.");
+  595 |  
+  596 | }
+  597 | await page.locator('//div[@class="flex items-stretch justify-center"]//i[@class="fa-light fa-gear icon"]').click();
+  598 | await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first().uncheck();
+  599 |   await page.getByRole('textbox').fill('Signature Draw remove');
+  600 |   await page.getByRole('button', { name: 'Save' }).click();
+  601 |   await page.locator('//div[@class="flex items-stretch justify-center"]//i[@class="fa-light fa-gear icon"]').click();
+  602 |   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first()).not.toBeChecked();
+  603 |   await expect(page.getByRole('textbox')).toHaveValue('Signature Draw remove');
+  604 |   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(1).uncheck();
+  605 |   await page.getByRole('button', { name: 'Save' }).click();
+  606 |   await page.locator('//div[@class="flex items-stretch justify-center"]//i[@class="fa-light fa-gear icon"]').click();
+  607 |   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(1)).not.toBeChecked();
+  608 |   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(2).uncheck();
+  609 |   page.once('dialog', dialog => {
+  610 |     console.log(`Dialog message: ${dialog.message()}`);
+  611 |     dialog.dismiss().catch(() => {});
+  612 |   });
+  613 |   await page.getByRole('button', { name: 'Save' }).click();
+  614 |   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(2).check();
+  615 |   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(3).uncheck();
+  616 |   await page.getByRole('textbox').fill('only upload type enabled');
+  617 |   await page.getByRole('button', { name: 'Save' }).click();
+  618 |   await page.locator('//div[@class="flex items-stretch justify-center"]//i[@class="fa-light fa-gear icon"]').click();
+  619 |   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first()).not.toBeChecked();
+  620 |   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(1)).not.toBeChecked();
+  621 |   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(3)).not.toBeChecked();
+  622 |   await expect(page.getByRole('textbox')).toHaveValue('only upload type enabled');
+  623 | }); 
+  624 | test('Verify that the merge page functions correctly and the user can sign the merged document in the crerate template.', async ({ page }) => {
+  625 |   const commonSteps = new CommonSteps(page);
+  626 |     // Step 1: Navigate to Base URL and log in
+  627 |     await commonSteps.navigateToBaseUrl();
+  628 |     await commonSteps.login();
+> 629 |   await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+      |                                                                                         ^ Error: locator.click: Test timeout of 120000ms exceeded.
+  630 |   await page.getByRole('menuitem', { name: 'Create template' }).click();
+  631 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  632 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  633 |   await page.locator('input[type="file"]').click();
+  634 |   const fileChooser = await fileChooserPromise;
+  635 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  636 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  637 |   await page.getByRole('button', { name: 'Next' }).click();
+  638 | await page.waitForLoadState("networkidle");
+  639 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  640 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  641 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  642 | await page.waitForLoadState("networkidle");
+  643 | await expect(page.locator('#renderList')).toContainText('1 of 1');
+  644 |   await page.locator('#container div').first().click();
+  645 |   const fileChooserPromise2 = page.waitForEvent('filechooser');
+  646 |   await page.getByTitle('Add pages').nth(1).click();
+  647 |   const fileChooser2 = await fileChooserPromise2;
+  648 | await fileChooser2.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
+  649 |   await expect(page.locator('#renderList')).toContainText('1 of 4');
+  650 |   await page.locator('canvas').nth(1).click({
+  651 |     position: {
+  652 |       x: 69,
+  653 |       y: 42
+  654 |     }
+  655 |   });
+  656 |   await page.locator('canvas').nth(2).click({
+  657 |     position: {
+  658 |       x: 47,
+  659 |       y: 53
+  660 |     }
+  661 |   });
+  662 |   await page.locator('canvas').nth(3).click({
+  663 |     position: {
+  664 |       x: 65,
+  665 |       y: 49
+  666 |     }
+  667 |   });
+  668 |
+  669 |   await page.getByRole('button', { name: '+ Add role' }).click();
+  670 |   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
+  671 |   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+  672 |   await page.locator('//span[normalize-space()=\'signature\']').hover();
+  673 |   await page.mouse.down();
+  674 |   await page.mouse.move(600, 200)
+  675 |   await page.mouse.up();
+  676 |   try {
+  677 |     const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+  678 |   
+  679 |     for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  680 |         if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  681 |         
+  682 |             console.log("signature widget dragged and dropped");
+  683 |             break; // Exit the loop if successfully clicked
+  684 |         } else {
+  685 |             console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  686 |     
+  687 |             await page.locator('//span[normalize-space()="signature"]').hover();
+  688 |             await page.mouse.down();
+  689 |             await page.mouse.move(600, 200);
+  690 |             await page.mouse.up();
+  691 |             
+  692 |             // Wait a bit before checking again
+  693 |             await page.waitForTimeout(1000);
+  694 |         }
+  695 |     
+  696 |         if (i === 5) {
+  697 |             console.log("signature widget did not become visible on the document after multiple attempts.");
+  698 |         }
+  699 |     }
+  700 |   } catch (error) {
+  701 |     console.log("Element not found or not interactable, continuing execution.");
+  702 |    
+  703 |   }
+  704 | await page.locator('//span[normalize-space()=\'stamp\']').hover();
+  705 | await page.mouse.down();
+  706 | await page.mouse.move(600, 250)
+  707 | await page.mouse.up();
+  708 | await page.locator('//span[normalize-space()=\'initials\']').hover();
+  709 | await page.mouse.down();
+  710 | await page.mouse.move(600, 300)
+  711 | await page.mouse.up();
+  712 | await page.locator('//span[normalize-space()=\'name\']').hover();
+  713 | await page.mouse.down();
+  714 |
+  715 | await page.mouse.move(600, 340)
+  716 | await page.mouse.up();
+  717 | await page.locator('//span[normalize-space()=\'job title\']').hover();
+  718 | await page.mouse.down();
+  719 |
+  720 | await page.mouse.move(600, 370)
+  721 | await page.mouse.up();
+  722 | await page.locator('//span[normalize-space()=\'company\']').hover();
+  723 | await page.mouse.down();
+  724 | await page.mouse.move(600, 400)
+  725 | await page.mouse.up();
+  726 |
+  727 | await page.locator('//span[normalize-space()=\'date\']').hover();
+  728 | await page.mouse.down();
+  729 | await page.mouse.move(600, 430)
+```

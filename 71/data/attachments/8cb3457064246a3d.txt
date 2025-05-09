@@ -1,0 +1,4 @@
+signature widget dragged and dropped
+"Copy widget to" is visible. Stopping the loop.
+Font Size: 16px, Color: rgb(33, 37, 41)
+Test Passed: Font size and color are correct.
