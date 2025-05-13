@@ -1,0 +1,4 @@
+count out for sign old540
+signature widget dragged and dropped
+Text found: 541
+✅ Out for signature card count increased by one, which is correct.
