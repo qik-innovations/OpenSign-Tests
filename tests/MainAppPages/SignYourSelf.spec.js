@@ -1,11 +1,13 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
 const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
-const CommonSteps = require('../utils/CommonSteps');
+const CommonSteps  = require('../utils/CommonSteps');
 const path = require('path');
+const PageActions = require('../utils/PageActions');
 test.describe('Sign yourself', () => {
 test('Verify that new user can perform the sign yourself', async ({ page }) => {
-   const commonSteps = new CommonSteps(page);
+  const commonSteps = new CommonSteps(page);
+  const actions = new PageActions(page);
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
   await page.getByRole('button', { name: 'Create account' }).click();
@@ -42,19 +44,12 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   await page.waitForLoadState("networkidle");
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()=\'signature\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-//draw the signature
-await page.mouse.move(670, 300)
-await page.mouse.down();
-await page.mouse.move(670, 350)
-await page.mouse.up();
+await actions.waitForNetworkIdle();
+ await commonSteps.dragAndDrop('signature', 600, 200);
+await commonSteps.drawSignature();
 
 try {
-  const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
   
   for (let i = 0; i < 5; i++) { // Retry up to 5 times
       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -63,16 +58,9 @@ try {
           break; // Exit the loop if successfully clicked
       } else {
           console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-  
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(600, 300);
-          await page.mouse.up();
-          //draw the signature
-          await page.mouse.move(670, 300)
-await page.mouse.down();
-await page.mouse.move(670, 350)
-await page.mouse.up();
+   await commonSteps.dragAndDrop('signature', 600, 200);
+   //draw the signature
+   await commonSteps.drawSignature();
           // Wait a bit before checking again
           await page.waitForTimeout(1000);
       }
@@ -85,72 +73,61 @@ await page.mouse.up();
   console.log("Element not found or not interactable, continuing execution.");
  
 }
+await commonSteps.dragAndDrop('stamp', 600, 250);
+await commonSteps.uploadStamp();
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('initials', 600, 300);
+await commonSteps.drawInitials();
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('name', 600, 370);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('job title', 600, 390);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('company', 600, 430);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('date', 600, 460);
+const today = new Date();
+// Format the date as MM/DD/YYYY
+const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
+                      `${today.getDate().toString().padStart(2, '0')}/` + 
+                      `${today.getFullYear()}`;
+console.log('Today\'s date:', formattedDate);  // Extract day number as text
+await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
+//await commonSteps.selectCalendarDateByLabel();
+// Function to get the day with the appropriate suffix
+function getDayWithSuffix(day) {
+  if (day >= 11 && day <= 13) return `${day}th`;
+  switch (day % 10) {
+    case 1: return `${day}st`;
 
-await page.locator('//span[normalize-space()=\'stamp\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 360)
-await page.mouse.up();
-const fileChooserPromise1 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
-await page.locator("//button[normalize-space()='Save']").click();
-await page.locator('//span[normalize-space()=\'initials\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 420)
-await page.mouse.up();
-
-await page.mouse.move(700, 350)
-await page.mouse.down();
-await page.mouse.move(700, 380)
-await page.mouse.up();
-await page.locator("//button[normalize-space()='Save']").click();
-await page.locator('//span[normalize-space()=\'name\']').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 470)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'job title\']').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 480)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'company\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 520)
-await page.mouse.up();
-
-await page.locator('//span[normalize-space()=\'date\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 550)
-await page.mouse.up();
-await page.locator('//span[@class="md:inline-block text-center text-[15px] ml-[5px] font-semibold pr-1 md:pr-0" and text()="text"]').hover();
-await page.mouse.down();
-await page.waitForTimeout(1000);
-await page.mouse.move(600, 590)
-await page.mouse.up();
-await page.locator('//textarea[@placeholder="text"]').fill('20 wood street sanfransisco');
-await page.locator('//span[normalize-space()=\'checkbox\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 640)
-await page.mouse.up();
-page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('//div[@data-tut="isSignatureWidget"]//span[text()="image"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 550)
-await page.mouse.up();
-const fileChooserPromise2 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
-
-await page.locator("//button[normalize-space()='Save']").click();
-await page.locator('//span[normalize-space()=\'email\']').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 580)
-await page.mouse.up();
-await page.locator("//button[normalize-space()='Finish']").click();
+    case 2: return `${day}nd`;  
+    case 3: return `${day}rd`;
+    default: return `${day}th`;
+  }   
+}
+// Calculate the target date (today + 2 days)
+today.setDate(today.getDate() + 2);
+const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g., "Friday" 
+const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
+const day = today.getDate();                                            // e.g., 2
+const year = today.getFullYear();                                       // e.g., 2025
+const dayWithSuffix = getDayWithSuffix(day);
+const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
+await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('text', 600, 490);
+await commonSteps.fillTextField('text','20 wood street sanfransisco');
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('checkbox', 600, 540);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.clickCheckboxAndSelect('Option-1');
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('image', 600, 600);
+await commonSteps.uploadImage();
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('email', 600, 640);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
   await page.locator("//button[normalize-space()='Send']").click();
@@ -179,14 +156,9 @@ await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.waitForLoadState("networkidle");
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
   await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 200)
-await page.mouse.up();
-
+  await commonSteps.dragAndDrop('signature', 600, 200);
 try {
-  const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
-
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
   for (let i = 0; i < 5; i++) { // Retry up to 5 times
       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
           await rowLocator.click();
@@ -194,11 +166,8 @@ try {
           break; // Exit the loop if successfully clicked
       } else {
           console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-  
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(600, 200);
-          await page.mouse.up();
+  await commonSteps.dragAndDrop('signature', 600, 200);
+    
           // Wait a bit before checking again
           await page.waitForTimeout(2000);
       }
@@ -211,41 +180,19 @@ try {
   console.log("Element not found or not interactable, continuing execution.");
  
 }
-
-await page.locator('//span[normalize-space()="stamp"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 250)
-await page.mouse.up();
-const fileChooserPromise1 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
-await page.locator("//button[normalize-space()='Save']").click();
-await page.locator('//span[normalize-space()="initials"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
-await page.locator('//span[normalize-space()="name"]').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 370)
-await page.mouse.up();
-await page.locator('//span[normalize-space()="job title"]').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 390)
-await page.mouse.up();
-await page.locator('//span[normalize-space()="company"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 430)
-await page.mouse.up();
-
-await page.locator('//span[normalize-space()="date"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 460)
-await page.mouse.up();
-await page.waitForTimeout(2000);
+await commonSteps.dragAndDrop('stamp', 600, 250);
+await commonSteps.uploadStamp();
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('initials', 600, 300);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('name', 600, 340);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('job title', 600, 390);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('company', 600, 430);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('date', 600, 460);
+// Get today's date
 const today = new Date();
 // Format the date as MM/DD/YYYY
 const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` + 
@@ -253,7 +200,10 @@ const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
                       `${today.getFullYear()}`;
 
 console.log('Today\'s date:', formattedDate);  // Extract day number as text
-await page.locator(`//div[text()="${formattedDate}"]`).dblclick();
+await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
+
+// Function to get the day with the appropriate suffix
+
 function getDayWithSuffix(day) {
   if (day >= 11 && day <= 13) return `${day}th`;
   switch (day % 10) {
@@ -271,49 +221,24 @@ const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g.,
 const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
 const day = today.getDate();                                            // e.g., 2
 const year = today.getFullYear();                                       // e.g., 2025
-
 const dayWithSuffix = getDayWithSuffix(day);
 const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
-
-// Final XPath
-const targetXPath = `//div[@aria-label="${ariaLabelValue}"]`;
-
-console.log("Target XPath:", targetXPath);
-
-// Use the locator
-await page.locator(targetXPath).click();
-
- // Verify the selected date in the input field
- //const selectedDate = await page.locator('//div[@class="react-datepicker__month"]').inputValue();
- //expect(selectedDate).toContain(today.toLocaleDateString('en-US')); // Format as needed
-
-await page.locator('//span[@class="md:inline-block text-center text-[15px] ml-[5px] font-semibold pr-1 md:pr-0" and text()="text"]').hover();
-await page.mouse.down();
-await page.waitForTimeout(1000);
-await page.mouse.move(600, 490)
-await page.mouse.up();
-await page.locator('//textarea[@placeholder="text"]').fill('20 wood street sanfransisco');
-await page.locator('//span[normalize-space()="checkbox"]').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 540)
-await page.mouse.up();
-page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('//div[@data-tut="isSignatureWidget"]//span[text()="image"]').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 580)
-await page.mouse.up();
-const fileChooserPromise2 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
-await page.locator("//button[normalize-space()='Save']").click();
-await page.locator('//span[normalize-space()="email"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 580)
-await page.mouse.up();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.selectCalendarDateByLabel(ariaLabelValue);  
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('text', 600, 490);
+await commonSteps.fillTextField('text','20 wood street sanfransisco');
+await commonSteps.ClickSavebuttonSignerModal();
+//drag and drop the cehckbox
+await commonSteps.dragAndDrop('checkbox', 600, 540);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.clickCheckboxAndSelect('Option-1');
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('image', 600, 600);
+await commonSteps.uploadImage();
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('email', 600, 640);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
   await page.locator("//button[normalize-space()='Send']").click();
@@ -341,13 +266,11 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature', 600, 200);
 try {
-  const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
-
+  // Attempt to find the Save button in the modal
+  // and click it if it becomes visible and enabled
+    const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
   for (let i = 0; i < 5; i++) { // Retry up to 5 times
       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
           await rowLocator.click();
@@ -355,12 +278,7 @@ try {
           break; // Exit the loop if successfully clicked
       } else {
           console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-  
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(600, 300);
-          await page.mouse.up();
-          
+          await commonSteps.dragAndDrop('signature', 600, 200);
           // Wait a bit before checking again
           await page.waitForTimeout(1000);
       }
@@ -373,69 +291,33 @@ try {
   console.log("Element not found or not interactable, continuing execution.");
  
 }
-
-await page.locator('//span[normalize-space()="stamp"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 360)
-await page.mouse.up();
-const fileChooserPromise1 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
-await page.locator("//button[normalize-space()='Save']").click();
-await page.locator('//span[normalize-space()="initials"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 420)
-await page.mouse.up();
-await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
-await page.locator('//span[normalize-space()="name"]').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 470)
-await page.mouse.up();
-await page.locator('//span[normalize-space()="job title"]').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 480)
-await page.mouse.up();
-await page.locator('//span[normalize-space()="company"]').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 520)
-await page.mouse.up();
-
-await page.locator('//span[normalize-space()="date"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 550)
-await page.mouse.up();
-
-await page.locator('//span[@class="md:inline-block text-center text-[15px] ml-[5px] font-semibold pr-1 md:pr-0" and text()="text"]').hover();
-await page.mouse.down();
-await page.waitForTimeout(1000);
-await page.mouse.move(600, 590)
-await page.mouse.up();
-await page.locator('//textarea[@placeholder="text"]').fill('20 wood street sanfransisco');
+await commonSteps.dragAndDrop('stamp', 600, 250);
+await commonSteps.uploadStamp();
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('initials', 600, 300);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('name', 600, 370);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('job title', 600, 390);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('company', 600, 430);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('date', 600, 460);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('text', 600, 490);
+await commonSteps.fillTextField('text','20 wood street sanfransisco');
+await commonSteps.ClickSavebuttonSignerModal();
 //drag and drop the cehckbox
-await page.locator('//span[normalize-space()="checkbox"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 640)
-await page.mouse.up();
-page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('//div[@data-tut="isSignatureWidget"]//span[text()="image"]').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 550)
-await page.mouse.up();
-const fileChooserPromise2 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
-await page.locator("//button[normalize-space()='Save']").click();
-await page.locator('//span[normalize-space()="email"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 580)
-await page.mouse.up();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.dragAndDrop('checkbox', 600, 540);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.clickCheckboxAndSelect('Option-1');
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('image', 600, 600);
+await commonSteps.uploadImage();
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('email', 600, 640);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
 await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
 await page.locator("//button[normalize-space()='Send']").click();
@@ -464,13 +346,9 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature', 600, 200);
 
-try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
+try {  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -480,10 +358,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
 
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
+      await commonSteps.dragAndDrop('signature', 600, 200);
         
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
@@ -497,41 +372,27 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 400)
-await page.mouse.up();
-await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()="Draw"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()="Draw"]').click();
+await commonSteps.dragAndDrop('signature', 600, 250);
+await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').click();
 //draw the signature
-await page.mouse.move(670, 420)
-await page.mouse.down();
-await page.mouse.move(670, 450)
-await page.mouse.up();
-await page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']").click();
-
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 500)
-await page.mouse.up();
-await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()=" Upload image"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()=" Upload image"]').click();
+await commonSteps.drawSignature();
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('signature', 600, 300);
+await page.locator('//div[@class="flex justify-center"]//span[ text()=" Upload image"]').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[@class="flex justify-center"]//span[ text()=" Upload image"]').click();
 const fileChooserPromise1 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser1 = await fileChooserPromise1;
 await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/signature.png'));
-await page.locator("//button[normalize-space()='Save']").click();
-
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 550)
-await page.mouse.up();
-await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()="Type"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()="Type"]').click();
-await page.locator('//div[@class="flex justify-between items-center"]//input[@placeholder="Your signature"]').fill('Mat henry');
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('signature', 600, 400);
+await page.locator('//div[@class="flex justify-center"]//span[ text()="Type"]').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[@class="flex justify-center"]//span[ text()="Type"]').click();
+await page.locator('//div[@class="flex justify-between items-center tabWidth"]//input[@placeholder="Your signature"]').fill('Mat henry');
 await page.getByText('Mat henry').nth(3).click();
-await page.getByRole('button', { name: 'Save' }).click();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that signature widget Copy widget to all pages function correctly in Sign Yourself.', async ({ page }) => {
@@ -557,14 +418,10 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature', 600, 200);
 
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
-
+const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
         await rowLocator.click();
@@ -573,10 +430,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
 
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
+        await commonSteps.dragAndDrop('signature', 600, 200);
         
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
@@ -592,10 +446,11 @@ console.log("Element not found or not interactable, continuing execution.");
 } 
 
 while (true) {
+    await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="signature"]').click();
+     // Close the signer modal if it's open
+    await commonSteps.clickCloseButtonInSignerModal();
   await page.locator('//i[@class="fa-light fa-copy icon"]').click();
-  
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
-  
   if (isVisible) {
       console.log('"Copy widget to" is visible. Stopping the loop.');
       break; // Exit loop once the element is visible
@@ -619,7 +474,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
     }
   });
   await expect(page.getByRole('img', { name: 'signature' })).toBeVisible();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that signature widgets Copy widget to all pages but last function correctly in Sign Yourself.', async ({ page }) => {
@@ -645,14 +500,12 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature', 600, 200);
 
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
-
+  // Attempt to find the Save button in the modal
+  // and click it if it becomes visible and enabled 
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
         await rowLocator.click();
@@ -660,12 +513,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -680,10 +528,11 @@ console.log("Element not found or not interactable, continuing execution.");
 } 
 
 while (true) {
+  await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="signature"]').click();
+     // Close the signer modal if it's open
+    await commonSteps.clickCloseButtonInSignerModal();
   await page.locator('//i[@class="fa-light fa-copy icon"]').click();
-  
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
-  
   if (isVisible) {
       console.log('"Copy widget to" is visible. Stopping the loop.');
       break; // Exit loop once the element is visible
@@ -708,7 +557,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
     }
   });
   await expect(page.getByRole('img', { name: 'signature' })).not.toBeVisible();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that signature widgets Copy widget to all pages but first function correctly in Sign Yourself.', async ({ page }) => {
@@ -719,7 +568,6 @@ test('Verify that signature widgets Copy widget to all pages but first function 
 //const title = await page.title()
   //Expects page to have a heading with the name of dashboard.
 //expect(title).toBe('Dashboard - OpenSign™');
-
 await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
   await page.locator('input[name="Note"]').click();
@@ -740,14 +588,8 @@ await page.locator('canvas').nth(2).click({
     y: 59
   }
 });
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-
-try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
-
+await commonSteps.dragAndDrop('signature', 600, 200);
+try {  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
         await rowLocator.click();
@@ -755,12 +597,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -774,8 +611,10 @@ console.log("Element not found or not interactable, continuing execution.");
 
 } 
   while (true) {
+    await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="signature"]').click();
+       // Close the signer modal if it's open
+    await commonSteps.clickCloseButtonInSignerModal();
     await page.locator('//i[@class="fa-light fa-copy icon"]').click();
-    
     const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
     
     if (isVisible) {
@@ -802,7 +641,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
     }
   });
   await expect(page.getByRole('img', { name: 'signature' })).not.toBeVisible();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that signature widgets Copy widget next to current widget function correctly in Sign Yourself.', async ({ page }) => {
@@ -828,14 +667,9 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-
+await commonSteps.dragAndDrop('signature', 600, 200);
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
-
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
         await rowLocator.click();
@@ -843,12 +677,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -863,8 +692,10 @@ console.log("Element not found or not interactable, continuing execution.");
 } 
 
 while (true) {
+  await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="signature"]').click();
+     // Close the signer modal if it's open
+    await commonSteps.clickCloseButtonInSignerModal();
   await page.locator('//i[@class="fa-light fa-copy icon"]').click();
-  
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
   if (isVisible) {
@@ -879,7 +710,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
 const elements = await page.getByRole('img', { name: 'signature' }).all();
 // Verify that exactly two elements are present
 expect(elements.length).toBe(2); 
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that stamp widgets Copy widget to all pages function correctly in Sign Yourself.', async ({ page }) => {
@@ -905,14 +736,10 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature', 600, 200);
 
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
-
+    const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
         await rowLocator.click();
@@ -920,12 +747,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -938,18 +760,16 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await page.locator('//span[normalize-space()=\'stamp\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 400)
-await page.mouse.up();
-const fileChooserPromise2 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
-await page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']").click();
+await commonSteps.dragAndDrop('stamp', 600, 250);
+await commonSteps.uploadStamp();
+await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
+  await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="stamp"]').click();
+     // Close the signer modal if it's open
+    await commonSteps.clickCloseButtonInSignerModal();
   await page.locator('//i[@class="fa-light fa-copy icon"]').click();
-  
+     // Close the signer modal if it's open
+    await commonSteps.clickCloseButtonInSignerModal();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
   if (isVisible) {
@@ -975,7 +795,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
     }
   });
   await expect(page.getByRole('img', { name: 'stamp' })).toBeVisible();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that stamp widgets Copy widget to all pages but last function correctly in Sign Yourself.', async ({ page }) => {
@@ -1001,14 +821,10 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature', 600, 200);
 
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
-
+      const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
         await rowLocator.click();
@@ -1016,12 +832,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -1034,18 +845,13 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await page.locator('//span[normalize-space()=\'stamp\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 360)
-await page.mouse.up();
-const fileChooserPromise2 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
-await page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']").click();
+await commonSteps.dragAndDrop('stamp', 600, 250);
+await commonSteps.uploadStamp();
+await commonSteps.ClickSavebuttonSignerModal();                            
 while (true) {
+    await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="stamp"]').click();
+      await commonSteps.clickCloseButtonInSignerModal();
   await page.locator('//i[@class="fa-light fa-copy icon"]').click();
-  
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
   if (isVisible) {
@@ -1072,7 +878,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
     }
   });
   await expect(page.getByRole('img', { name: 'stamp' })).not.toBeVisible();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that stamp widgets Copy widget to all pages but first function correctly in Sign Yourself.', async ({ page }) => {
@@ -1098,14 +904,10 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature', 600, 200);
 
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
-
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
         await rowLocator.click();
@@ -1113,12 +915,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -1137,18 +934,14 @@ await page.locator('canvas').nth(2).click({
     y: 59
   }
 });
-await page.locator('//span[normalize-space()=\'stamp\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 360)
-await page.mouse.up();
-const fileChooserPromise2 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
-await page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']").click();
+await commonSteps.dragAndDrop('stamp', 600, 250);
+await commonSteps.uploadStamp();
+await commonSteps.ClickSavebuttonSignerModal();
   await expect(page.getByRole('img', { name: 'stamp' })).toBeVisible();
   
   while (true) {
+     await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="stamp"]').click();
+      await commonSteps.clickCloseButtonInSignerModal();
     await page.locator('//i[@class="fa-light fa-copy icon"]').click();
     
     const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
@@ -1177,7 +970,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
     }
   });
   await expect(page.getByRole('img', { name: 'stamp' })).not.toBeVisible();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that stamp widgets Copy widget next to current widget function correctly in Sign Yourself.', async ({ page }) => {
@@ -1203,14 +996,10 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature', 600, 200);
 
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
-
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
         await rowLocator.click();
@@ -1218,12 +1007,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -1236,16 +1020,12 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await page.locator('//span[normalize-space()=\'stamp\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 360)
-await page.mouse.up();
-const fileChooserPromise2 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
-await page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']").click();
+await commonSteps.dragAndDrop('stamp', 600, 250);
+await commonSteps.uploadStamp();
+await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
+   await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="stamp"]').click();
+      await commonSteps.clickCloseButtonInSignerModal();
   await page.locator('//i[@class="fa-light fa-copy icon"]').click();
   
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
@@ -1262,7 +1042,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
 const elements = await page.getByRole('img', { name: 'stamp' }).all();
 // Verify that exactly two elements are present
 expect(elements.length).toBe(2); 
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that initials widgets all types function correctly in Sign Yourself.', async ({ page }) => {
@@ -1288,13 +1068,9 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-
+await commonSteps.dragAndDrop('signature', 600, 200);
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -1303,12 +1079,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -1321,46 +1092,28 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await page.locator('//span[normalize-space()="initials"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 420)
-await page.mouse.up();
-await page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']").click();
-await page.locator('//span[normalize-space()="initials"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 470)
-await page.mouse.up();
+await commonSteps.dragAndDrop('initials', 600, 300);
 await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()="Draw"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()="Draw"]').click();
 //draw the signature
-await page.mouse.move(700, 350)
-await page.mouse.down();
-await page.mouse.move(700, 380)
-await page.mouse.up();
-await page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']").click();
+await commonSteps.drawInitials()
+await commonSteps.ClickSavebuttonSignerModal();
 
-await page.locator('//span[normalize-space()="initials"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 550)
-await page.mouse.up();
+await commonSteps.dragAndDrop('initials', 600, 400);
 await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()=" Upload image"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()=" Upload image"]').click();
 const fileChooserPromise1 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser1 = await fileChooserPromise1;
 await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/initial.png'));
-await page.locator("//button[normalize-space()='Save']").click();
-
-await page.locator('//span[normalize-space()="initials"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 580)
-await page.mouse.up();
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('initials', 600, 500);
 await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()="Type"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()="Type"]').click();
 await page.locator('//div[@class="flex justify-between items-center"]//input[@placeholder="Your initials"]').fill('Ma');
 await page.getByText('Ma').nth(3).click();
-await page.getByRole('button', { name: 'Save' }).click();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that initials widgets Copy widget to all pages function correctly in Sign Yourself.', async ({ page }) => {
@@ -1386,13 +1139,10 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature', 600, 200);
 
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -1401,12 +1151,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -1419,16 +1164,13 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await page.locator('//span[normalize-space()=\'initials\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 400)
-await page.mouse.up();
-await page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']").click();
+await commonSteps.dragAndDrop('initials', 600, 300);
+await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
+   await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="initials"]').click();
+      await commonSteps.clickCloseButtonInSignerModal();
   await page.locator('//i[@class="fa-light fa-copy icon"]').click();
-  
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
-  
   if (isVisible) {
       console.log('"Copy widget to" is visible. Stopping the loop.');
       break; // Exit loop once the element is visible
@@ -1452,7 +1194,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
     }
   });
   await expect(page.getByRole('img', { name: 'initials' })).toBeVisible();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that initials widgets Copy widget to all pages but last function correctly in Sign Yourself.', async ({ page }) => {
@@ -1478,13 +1220,9 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-
+await commonSteps.dragAndDrop('signature', 600, 200);
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -1493,12 +1231,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -1511,12 +1244,11 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await page.locator('//span[normalize-space()=\'initials\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 360)
-await page.mouse.up();
-await page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']").click();
+await commonSteps.dragAndDrop('initials', 600, 300);
+await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
+  await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="initials"]').click();
+      await commonSteps.clickCloseButtonInSignerModal();
   await page.locator('//i[@class="fa-light fa-copy icon"]').click();
   
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
@@ -1545,7 +1277,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
     }
   });
   await expect(page.getByRole('img', { name: 'initials' })).not.toBeVisible();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that initials widgets Copy widget to all pages but first function correctly in Sign Yourself.', async ({ page }) => {
@@ -1571,14 +1303,9 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-
+await commonSteps.dragAndDrop('signature', 600, 200);
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
-
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
         await rowLocator.click();
@@ -1586,12 +1313,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -1610,14 +1332,13 @@ await page.locator('canvas').nth(2).click({
     y: 59
   }
 });
-await page.locator('//span[normalize-space()=\'initials\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 360)
-await page.mouse.up();
-await page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']").click();
+await commonSteps.dragAndDrop('initials', 600, 300);
+await commonSteps.ClickSavebuttonSignerModal();
   await expect(page.getByRole('img', { name: 'initials' })).toBeVisible();
   
   while (true) {
+    await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="initials"]').click();
+      await commonSteps.clickCloseButtonInSignerModal();
     await page.locator('//i[@class="fa-light fa-copy icon"]').click();
     
     const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
@@ -1646,7 +1367,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
     }
   });
   await expect(page.getByRole('img', { name: 'initials' })).not.toBeVisible();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that initials widgets Copy widget next to current widget function correctly in Sign Yourself.', async ({ page }) => {
@@ -1672,13 +1393,9 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-
+await commonSteps.dragAndDrop('signature', 600, 200);
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -1687,12 +1404,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -1705,12 +1417,11 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await page.locator('//span[normalize-space()=\'initials\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 360)
-await page.mouse.up();
-await page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']").click();
+await commonSteps.dragAndDrop('initials', 600, 300);
+await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
+  await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="initials"]').click();
+      await commonSteps.clickCloseButtonInSignerModal();
   await page.locator('//i[@class="fa-light fa-copy icon"]').click();
   
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
@@ -1727,7 +1438,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
   const elements = await page.getByRole('img', { name: 'initials' }).all();
 // Verify that exactly two elements are present
 expect(elements.length).toBe(2);
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that widgets settings for Name, Job Title, Company, Text, and Email function correctly in Sign Yourself.', async ({ page }) => {
@@ -1753,13 +1464,9 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-
+await commonSteps.dragAndDrop('signature', 600, 200);
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -1768,12 +1475,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -1786,56 +1488,43 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await page.locator('//span[normalize-space()=\'name\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 400)
-await page.mouse.up();
+await commonSteps.dragAndDrop('name', 600, 300);
+await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
   await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
-  
   const isVisible = await page.locator('//h3[text()="Text field"]').isVisible();
-  
   if (isVisible) {
       console.log('"Copy widget to" is visible. Stopping the loop.');
       break; // Exit loop once the element is visible
   }
-
   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
 }
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
-  await page.getByRole('button', { name: 'Save' }).click();
+await commonSteps.ClickSavebuttonSignerModal();
   const fontSize = await page.locator("//textarea[text()='Pravin Testing account']")
   .evaluate(el => getComputedStyle(el).fontSize);
 const color = await page.locator("//textarea[text()='Pravin Testing account']")
   .evaluate(el => getComputedStyle(el).color);
-
 console.log(`Font Size: ${fontSize}, Color: ${color}`);
 // Extract the integer part and append 'px'
 let roundedFontSize = parseInt(fontSize) + 'px';
-
 if (roundedFontSize === '15px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
   throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSize}, Color: ${color}`);
 }
-await page.locator('//span[normalize-space()=\'job title\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 480)
-await page.mouse.up();
+await commonSteps.dragAndDrop('job title', 600, 400);
+await commonSteps.ClickSavebuttonSignerModal();
 await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
   await page.getByRole('button', { name: 'Save' }).click();
- 
   const fontSizeJotitle = await page.locator("//textarea[text()='Quality analystAA']")
   .evaluate(el => getComputedStyle(el).fontSize);
-
 const colorJotitle = await page.locator("//textarea[text()='Quality analystAA']")
   .evaluate(el => getComputedStyle(el).color);
-
 console.log(`Font Size: ${fontSizeJotitle}, Color: ${colorJotitle}`);
-
 // Extract the integer part and append 'px'
 let roundedFontSizejobtitle = parseInt(fontSizeJotitle) + 'px';
 
@@ -1844,11 +1533,8 @@ if (roundedFontSizejobtitle === '15px' && color === 'rgb(0, 0, 255)') {
 } else {
   throw new Error(`Test Failed: Expected Font Size: 15.px, Color: blue but got Font Size: ${fontSizeJotitle}, Color: ${colorJotitle}`);
 }
-
-await page.locator('//span[normalize-space()=\'company\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 520)
-await page.mouse.up();
+await commonSteps.dragAndDrop('company', 600, 500);
+await commonSteps.ClickSavebuttonSignerModal();
 await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
@@ -1869,13 +1555,9 @@ if (roundedFontSizecmp === '15px' && color === 'rgb(0, 0, 255)') {
 } else {
   throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
 }
-
-await page.locator('//span[@class="md:inline-block text-center text-[15px] ml-[5px] font-semibold pr-1 md:pr-0" and text()="text"]').hover();
-await page.mouse.down();
-await page.waitForTimeout(1000);
-await page.mouse.move(600, 590)
-await page.mouse.up();
+await commonSteps.dragAndDrop('text', 600, 600);
 await page.locator('//textarea[@placeholder="text"]').fill('20 wood street sanfransisco');
+await commonSteps.ClickSavebuttonSignerModal();
 await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
@@ -1896,11 +1578,8 @@ if (roundedFontSizetext === '15px' && color === 'rgb(0, 0, 255)'){
 } else {
   throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizetext }, Color: ${colortext }`);
 }
-
-await page.locator('//span[normalize-space()=\'email\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 630)
-await page.mouse.up();
+await commonSteps.dragAndDrop('email', 600, 700);
+await commonSteps.ClickSavebuttonSignerModal();
 await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
@@ -1919,7 +1598,7 @@ if (roundedFontSizeemail === '15px' && color === 'rgb(0, 0, 255)') {
 } else {
   throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizeemail }, Color: ${coloremail }`);
 }
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that name,job title, company, checkbox, image and email widgets Copy function correctly in Sign Yourself.', async ({ page }) => {
@@ -1945,13 +1624,10 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 200)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature', 600, 200);
 
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -1960,12 +1636,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 200);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -1978,66 +1649,47 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await page.locator('//span[normalize-space()=\'name\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
+await commonSteps.dragAndDrop('name', 600, 300);
  await expect(page.locator("//textarea[text()='Pravin Testing account']")).toBeVisible();
   await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
    const nameElements = await page.locator("//textarea[text()='Pravin Testing account']").count();
     expect(nameElements).toBeGreaterThan(1);
- 
-  await page.locator('//span[normalize-space()=\'job title\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 350)
-await page.mouse.up();
+ await commonSteps.dragAndDrop('job title', 600, 350);
+ await commonSteps.ClickSavebuttonSignerModal();
 await expect(page.locator("//textarea[text()='Quality analystAA']")).toBeVisible();
   await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
     // Verify that there are now two matching elements
     const JobTitleElements = await page.locator("//textarea[text()='Quality analystAA']").count();
     expect(JobTitleElements).toBeGreaterThan(1);
-  await page.locator('//span[normalize-space()=\'company\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 400)
-await page.mouse.up();
+await commonSteps.dragAndDrop('company', 600, 400);
+await commonSteps.ClickSavebuttonSignerModal();
  await expect(page.locator("//textarea[text()='OpenSign pvt ltd']")).toBeVisible();
   await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
     // Verify that there are now two matching elements
     const companyElements = await page.locator("//textarea[text()='OpenSign pvt ltd']").count();
     expect(companyElements).toBeGreaterThan(1);
 
-    await page.locator('//span[normalize-space()=\'checkbox\']').hover();
-    await page.mouse.down();
-    await page.mouse.move(600, 450)
-    await page.mouse.up();
-    await page.locator("//button[normalize-space()='Save']").click(); 
+   await commonSteps.dragAndDrop('checkbox', 600, 450);
+   await commonSteps.ClickSavebuttonSignerModal();
       await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
         // Verify that there are now two matching elements
         const checkboxElements = await page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[1]//input[@type="checkbox"]').count();
         expect(checkboxElements).toBeGreaterThan(1);
-    await page.locator('//div[@data-tut="isSignatureWidget"]//span[text()="image"]').hover();
-    await page.mouse.down();
-    await page.mouse.move(600, 500)
-    await page.mouse.up();
-    const fileChooserPromise2 = page.waitForEvent('filechooser');
-    await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-    const fileChooser2 = await fileChooserPromise2;
-    await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
-    await page.locator("//button[normalize-space()='Save']").click(); 
+   await commonSteps.dragAndDrop('image', 600, 500);
+   await commonSteps.uploadImage();
+   await commonSteps.ClickSavebuttonSignerModal();
      await expect(page.locator('//img[@alt="image"]')).toBeVisible();
       await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
         // Verify that there are now two matching elements
         const imageElements = await page.locator('//img[@alt="image"]').count();
         expect(imageElements).toBeGreaterThan(1);
-  await page.locator('//span[normalize-space()=\'email\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 550)
-await page.mouse.up();
+  await commonSteps.dragAndDrop('email', 600, 550);
+  await commonSteps.ClickSavebuttonSignerModal();
   await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
    // Verify that there are now two matching elements
     const emailElements = await page.locator("//textarea[text()='pravin+testaccount@nxglabs.in']").count();
     expect(emailElements).toBeGreaterThan(1);
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that checkbox widget settings options function correctly in Sign Yourself.', async ({ page }) => {
@@ -2063,13 +1715,10 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature', 600, 200);
 
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -2078,12 +1727,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -2096,11 +1740,8 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await page.locator('//span[normalize-space()=\'checkbox\']').hover();
-    await page.mouse.down();
-    await page.mouse.move(600, 450)
-    await page.mouse.up();
-    await page.locator("//button[normalize-space()='Save']").click(); 
+await commonSteps.dragAndDrop('checkbox', 600, 300);
+await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
   await page.locator('//i[@class="fa-light fa-gear icon"]').click();
   
@@ -2125,8 +1766,7 @@ while (true) {
   await page.locator("(//select[contains(@class, 'op-select')])[2]").selectOption('blue');
 //await page.locator('//dialog[@id="selectSignerModal"]//div[@class="flex items-center mt-3 mb-3"]').selectOption('18');
 //await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
- await page.getByRole('button', { name: 'Save' }).click();
- 
+await commonSteps.ClickSavebuttonSignerModal();
  const fontSize = await page.locator('(//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[1]//input[@type="checkbox"])[1]').evaluate(el => window.getComputedStyle(el).fontSize);
  const color = await page.locator('(//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[1]//input[@type="checkbox"])[1]').evaluate(el => getComputedStyle(el).color);
 
@@ -2168,13 +1808,10 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature', 600, 200);
 
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -2183,12 +1820,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -2201,12 +1833,9 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await page.locator('//span[@class="md:inline-block text-center text-[15px] ml-[5px] font-semibold pr-1 md:pr-0" and text()="text"]').hover();
-await page.mouse.down();
-await page.waitForTimeout(1000);
-await page.mouse.move(600, 590)
-await page.mouse.up();
-await page.locator('//textarea[@placeholder="text"]').fill('20 wood street sanfransisco');
+await commonSteps.dragAndDrop('text', 600, 300);
+await commonSteps.fillTextField('text', '20 wood street sanfransisco');
+await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
   await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
   
@@ -2236,7 +1865,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
     }
   });
   await expect(page.locator("//span[text()='20 wood street sanfransisco']")).toBeVisible();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that text widget Copy widget to all pages but last function correctly in Sign Yourself.', async ({ page }) => {
@@ -2262,13 +1891,10 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature', 600, 200);
 
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -2278,11 +1904,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
 
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -2295,13 +1917,8 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await page.locator('//span[@class="md:inline-block text-center text-[15px] ml-[5px] font-semibold pr-1 md:pr-0" and text()="text"]').hover();
-await page.mouse.down();
-await page.waitForTimeout(1000);
-await page.mouse.move(600, 590)
-await page.mouse.up();
-await page.locator('//textarea[@placeholder="text"]').fill('20 wood street sanfransisco');
-
+await commonSteps.dragAndDrop('text', 600, 300);
+await commonSteps.fillTextField('text', '20 wood street sanfransisco');
 while (true) {
   await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
   
@@ -2331,7 +1948,7 @@ await expect(page.locator("//textarea[text()='20 wood street sanfransisco']")).t
     }
   });
   await expect(page.locator("//span[text()='20 wood street sanfransisco']")).not.toBeVisible();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that text widget Copy widget to all pages but first function correctly in Sign Yourself.', async ({ page }) => {
@@ -2357,13 +1974,10 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature', 600, 200);
 
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -2372,12 +1986,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -2396,12 +2005,9 @@ await page.locator('canvas').nth(2).click({
     y: 59
   }
 });
-await page.locator('//span[@class="md:inline-block text-center text-[15px] ml-[5px] font-semibold pr-1 md:pr-0" and text()="text"]').hover();
-await page.mouse.down();
-await page.waitForTimeout(1000);
-await page.mouse.move(600, 590)
-await page.mouse.up();
-await page.locator('//textarea[@placeholder="text"]').fill('20 wood street sanfransisco');
+await commonSteps.dragAndDrop('text', 600, 300);
+await commonSteps.fillTextField('text', '20 wood street sanfransisco');
+await commonSteps.ClickSavebuttonSignerModal();
   while (true) {
     await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
     
@@ -2431,7 +2037,7 @@ await expect(page.locator("//span[text()='20 wood street sanfransisco']")).toBeV
     }
   });
   await expect(page.locator("//span[text()='20 wood street sanfransisco']")).not.toBeVisible();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that text widget Copy widget next to current widget function correctly in Sign Yourself.', async ({ page }) => {
@@ -2457,12 +2063,9 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature', 600, 200);
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -2471,12 +2074,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -2489,12 +2087,9 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await page.locator('//span[@class="md:inline-block text-center text-[15px] ml-[5px] font-semibold pr-1 md:pr-0" and text()="text"]').hover();
-await page.mouse.down();
-await page.waitForTimeout(1000);
-await page.mouse.move(600, 590)
-await page.mouse.up();
-await page.locator('//textarea[@placeholder="text"]').fill('20 wood street sanfransisco');
+await commonSteps.dragAndDrop('text', 600, 300);
+await commonSteps.fillTextField('text', '20 wood street sanfransisco');
+  await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
   await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
   
@@ -2511,7 +2106,7 @@ await page.getByText('Next to current widget').click();
 await page.getByRole('button', { name: 'Apply' }).click();
 await expect(page.locator("//span[text()='20 wood street sanfransisco']")).toBeVisible();
 await expect(page.locator("//textarea[text()='20 wood street sanfransisco']")).toBeVisible();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
 test('Verify that the merge page functions correctly and the user can sign the merged document in Sign Yourself.', async ({ page }) => {
@@ -2564,14 +2159,10 @@ await fileChooser2.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_
       y: 49
     }
   });
-
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature', 600, 200);
 
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -2580,12 +2171,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 300);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -2598,68 +2184,34 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await page.locator('//span[normalize-space()="stamp"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 360)
-await page.mouse.up();
-const fileChooserPromise3 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser3 = await fileChooserPromise3;
-await fileChooser3.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
-await page.locator("//button[normalize-space()='Save']").click();
-await page.locator('//span[normalize-space()="initials"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 420)
-await page.mouse.up();
-await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
-await page.locator('//span[normalize-space()="name"]').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 470)
-await page.mouse.up();
-await page.locator('//span[normalize-space()="job title"]').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 480)
-await page.mouse.up();
-await page.locator('//span[normalize-space()="company"]').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 520)
-await page.mouse.up();
-
-await page.locator('//span[normalize-space()="date"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 550)
-await page.mouse.up();
-
-await page.locator('//span[@class="md:inline-block text-center text-[15px] ml-[5px] font-semibold pr-1 md:pr-0" and text()="text"]').hover();
-await page.mouse.down();
-await page.waitForTimeout(1000);
-await page.mouse.move(600, 590)
-await page.mouse.up();
-await page.locator('//textarea[@placeholder="text"]').fill('20 wood street sanfransisco');
-//drag and drop the cehckbox
-await page.locator('//span[normalize-space()="checkbox"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 640)
-await page.mouse.up();
-page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('//div[@data-tut="isSignatureWidget"]//span[text()="image"]').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 550)
-await page.mouse.up();
-const fileChooserPromise4 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser4 = await fileChooserPromise4;
-await fileChooser4.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
-await page.locator("//button[normalize-space()='Save']").click();
-await page.locator('//span[normalize-space()="email"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 580)
-await page.mouse.up();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.dragAndDrop('stamp', 600, 300);
+await commonSteps.uploadStamp();
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('initials', 600, 400);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('name', 600, 500);
+await commonSteps.fillTextField('name', 'Pravin Testing account');
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('job title', 600, 550);
+await commonSteps.fillTextField('job title', 'Quality analystAA');
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('company', 600, 600);
+await commonSteps.fillTextField('company', 'OpenSign pvt ltd');
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('date', 600, 650);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('text', 600, 700);
+await commonSteps.fillTextField('text', '20 wood street sanfransisco');
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('checkbox', 600, 750);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('image', 600, 800);
+await commonSteps.uploadImage();
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('email', 600, 850);
+await commonSteps.fillTextField('email', 'pravin+testaccount@nxglabs.in');
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
 });
 test('Verify that the delete page functions correctly in Sign Yourself.', async ({ page }) => {
@@ -2766,13 +2318,10 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
     - button "Finish"
     - text: Fields  signature   stamp   initials   name   job title   company   date   text   checkbox   image   email 
     `);
-    await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 200)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature', 600, 200);
 
 try {
-const rowLocator = page.locator("//button[@type='button' and @class=' op-btn op-btn-primary shadow-lg' and text()='Save']");
+  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -2781,12 +2330,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(600, 200);
-        await page.mouse.up();
-        
+        await commonSteps.dragAndDrop('signature', 600, 200);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -2799,68 +2343,34 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await page.locator('//span[normalize-space()="stamp"]').hover();
-await page.mouse.down();
-await page.mouse.move(700, 200)
-await page.mouse.up();
-const fileChooserPromise3 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser3 = await fileChooserPromise3;
-await fileChooser3.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
-await page.locator("//button[normalize-space()='Save']").click();
-await page.locator('//span[normalize-space()="initials"]').hover();
-await page.mouse.down();
-await page.mouse.move(800, 200)
-await page.mouse.up();
-await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
-await page.locator('//span[normalize-space()="name"]').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 250)
-await page.mouse.up();
-await page.locator('//span[normalize-space()="job title"]').hover();
-await page.mouse.down();
-
-await page.mouse.move(700, 250)
-await page.mouse.up();
-await page.locator('//span[normalize-space()="company"]').hover();
-await page.mouse.down();
-
-await page.mouse.move(800, 250)
-await page.mouse.up();
-
-await page.locator('//span[normalize-space()="date"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-
-await page.locator('//span[@class="md:inline-block text-center text-[15px] ml-[5px] font-semibold pr-1 md:pr-0" and text()="text"]').hover();
-await page.mouse.down();
-await page.waitForTimeout(1000);
-await page.mouse.move(700, 300)
-await page.mouse.up();
-await page.locator('//textarea[@placeholder="text"]').fill('20 wood street sanfransisco');
-//drag and drop the cehckbox
-await page.locator('//span[normalize-space()="checkbox"]').hover();
-await page.mouse.down();
-await page.mouse.move(800, 260)
-await page.mouse.up();
-page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('//div[@data-tut="isSignatureWidget"]//span[text()="image"]').hover();
-await page.mouse.down();
-
-await page.mouse.move(700, 260)
-await page.mouse.up();
-const fileChooserPromise4 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser4 = await fileChooserPromise4;
-await fileChooser4.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
-await page.locator("//button[normalize-space()='Save']").click();
-await page.locator('//span[normalize-space()="email"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 260)
-await page.mouse.up();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.dragAndDrop('stamp', 600, 300);
+await commonSteps.uploadStamp();
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('initials', 600, 400);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('name', 600, 500);
+await commonSteps.fillTextField('name', 'Pravin Testing account');
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('job title', 600, 550);
+await commonSteps.fillTextField('job title', 'Quality analystAA');
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('company', 600, 600);
+await commonSteps.fillTextField('company', 'OpenSign pvt ltd');
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('date', 600, 650);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('text', 600, 700);
+await commonSteps.fillTextField('text', '20 wood street sanfransisco');
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('checkbox', 600, 750);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('image', 600, 800);
+await commonSteps.uploadImage();
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('email', 600, 850);
+await commonSteps.fillTextField('email', 'pravin+testaccount@nxglabs.in');
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
 
 });
@@ -2872,7 +2382,6 @@ test('Verify that the document is not uploaded if its format is not supported in
 await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
   await page.locator('input[name="Note"]').click();
-
   //select and try to upload the file format type json
   const fileChooserPromise = page.waitForEvent('filechooser');
 await page.locator('input[type="file"]').click();
