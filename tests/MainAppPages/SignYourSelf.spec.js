@@ -768,8 +768,6 @@ while (true) {
      // Close the signer modal if it's open
     await commonSteps.clickCloseButtonInSignerModal();
   await page.locator('//i[@class="fa-light fa-copy icon"]').click();
-     // Close the signer modal if it's open
-    await commonSteps.clickCloseButtonInSignerModal();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
   if (isVisible) {
@@ -853,7 +851,6 @@ while (true) {
       await commonSteps.clickCloseButtonInSignerModal();
   await page.locator('//i[@class="fa-light fa-copy icon"]').click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
-  
   if (isVisible) {
       console.log('"Copy widget to" is visible. Stopping the loop.');
       break; // Exit loop once the element is visible
@@ -1093,25 +1090,25 @@ console.log("Element not found or not interactable, continuing execution.");
 
 } 
 await commonSteps.dragAndDrop('initials', 600, 300);
-await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()="Draw"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()="Draw"]').click();
+await page.locator('//div[@class="flex justify-center"]//span[text()="Draw"]').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[@class="flex justify-center"]//span[text()="Draw"]').click();
 //draw the signature
 await commonSteps.drawInitials()
 await commonSteps.ClickSavebuttonSignerModal();
 
 await commonSteps.dragAndDrop('initials', 600, 400);
-await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()=" Upload image"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()=" Upload image"]').click();
+await page.locator('//div[@class="flex justify-center"]//span[text()=" Upload image"]').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[@class="flex justify-center"]//span[text()=" Upload image"]').click();
 const fileChooserPromise1 = page.waitForEvent('filechooser');
 await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
 const fileChooser1 = await fileChooserPromise1;
 await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/initial.png'));
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('initials', 600, 500);
-await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()="Type"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.locator('//span[@class="no-underline op-link underline-offset-8 ml-[2px]" and text()="Type"]').click();
-await page.locator('//div[@class="flex justify-between items-center"]//input[@placeholder="Your initials"]').fill('Ma');
-await page.getByText('Ma').nth(3).click();
+await page.locator('//div[@class="flex justify-center"]//span[text()="Type"]').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[@class="flex justify-center"]//span[text()="Type"]').click();
+await page.locator('//div[@class="flex justify-between items-center tabWidth"]//input[@placeholder="Your initials"]').fill('Ps');
+await page.getByText('Ps').nth(3).click();
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
@@ -1556,7 +1553,7 @@ if (roundedFontSizecmp === '15px' && color === 'rgb(0, 0, 255)') {
   throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
 }
 await commonSteps.dragAndDrop('text', 600, 600);
-await page.locator('//textarea[@placeholder="text"]').fill('20 wood street sanfransisco');
+await commonSteps.fillTextField('text','20 wood street sanfransisco');
 await commonSteps.ClickSavebuttonSignerModal();
 await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
@@ -1651,6 +1648,7 @@ console.log("Element not found or not interactable, continuing execution.");
 } 
 await commonSteps.dragAndDrop('name', 600, 300);
  await expect(page.locator("//textarea[text()='Pravin Testing account']")).toBeVisible();
+  await commonSteps.ClickSavebuttonSignerModal();
   await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
    const nameElements = await page.locator("//textarea[text()='Pravin Testing account']").count();
     expect(nameElements).toBeGreaterThan(1);
@@ -1671,6 +1669,8 @@ await commonSteps.ClickSavebuttonSignerModal();
 
    await commonSteps.dragAndDrop('checkbox', 600, 450);
    await commonSteps.ClickSavebuttonSignerModal();
+   await page.getByText('Option-1Option-').click();
+   await commonSteps.clickCloseButtonInSignerModal();
       await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
         // Verify that there are now two matching elements
         const checkboxElements = await page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[1]//input[@type="checkbox"]').count();
@@ -1678,7 +1678,8 @@ await commonSteps.ClickSavebuttonSignerModal();
    await commonSteps.dragAndDrop('image', 600, 500);
    await commonSteps.uploadImage();
    await commonSteps.ClickSavebuttonSignerModal();
-     await expect(page.locator('//img[@alt="image"]')).toBeVisible();
+      await page.locator('//img[@alt="image"]').click();
+      await commonSteps.clickCloseButtonInSignerModal();
       await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
         // Verify that there are now two matching elements
         const imageElements = await page.locator('//img[@alt="image"]').count();
@@ -1743,8 +1744,9 @@ console.log("Element not found or not interactable, continuing execution.");
 await commonSteps.dragAndDrop('checkbox', 600, 300);
 await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
+await page.getByText('Option-1Option-').click();
+  await commonSteps.clickCloseButtonInSignerModal();
   await page.locator('//i[@class="fa-light fa-gear icon"]').click();
-  
   const isVisible = await page.locator('//h3[text()="Checkbox"]').isVisible();
   
   if (isVisible) {
@@ -1755,13 +1757,13 @@ while (true) {
   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
 }
  await expect(page.locator('form')).toContainText('Name *');
-  await expect(page.getByRole('textbox').first()).toHaveValue('checkbox');
+  await expect(page.locator("//dialog[@class=' op-modal op-modal-open']//input[@id='title']")).toHaveValue('Checkbox');
   await expect(page.locator('form')).toContainText('Options');
-  await expect(page.getByRole('textbox').nth(1)).toHaveValue('option-1');
-  await expect(page.getByRole('textbox').nth(2)).toHaveValue('option-2');
+  await expect(page.getByRole('textbox').nth(1)).toHaveValue('Option-1');
+  await expect(page.getByRole('textbox').nth(2)).toHaveValue('Option-2');
   await page.locator('#selectSignerModal i').nth(2).click();
   await page.getByRole('textbox').nth(3).click();
-  await page.getByRole('textbox').nth(3).fill('option-3');
+  await page.getByRole('textbox').nth(3).fill('Option-3');
   await page.locator("(//select[contains(@class, 'op-select')])[1]").selectOption('18');
   await page.locator("(//select[contains(@class, 'op-select')])[2]").selectOption('blue');
 //await page.locator('//dialog[@id="selectSignerModal"]//div[@class="flex items-center mt-3 mb-3"]').selectOption('18');
@@ -1770,12 +1772,15 @@ await commonSteps.ClickSavebuttonSignerModal();
  const fontSize = await page.locator('(//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[1]//input[@type="checkbox"])[1]').evaluate(el => window.getComputedStyle(el).fontSize);
  const color = await page.locator('(//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[1]//input[@type="checkbox"])[1]').evaluate(el => getComputedStyle(el).color);
 
-console.log(`Font Size: ${fontSize}, Color: ${color}`);
+// Round the font size to the nearest whole number and append 'px'
+const roundedFontSize = Math.round(parseFloat(fontSize)) + 'px';
 
-if (fontSize === '16px' && color === 'rgb(33, 37, 41)') {
+console.log(`Font Size: ${roundedFontSize}, Color: ${color}`);
+
+if (roundedFontSize === '15px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 16px, Color: blue but got Font Size: ${fontSize}, Color: ${color}`);
+  throw new Error(`Test Failed: Expected Font Size: 16px, Color: blue but got Font Size: ${roundedFontSize}, Color: ${color}`);
 }
 //const checkboxes = await page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[1]//input[@type="checkbox"]').allTextContents();
 //console.log(checkboxes);
@@ -1919,6 +1924,7 @@ console.log("Element not found or not interactable, continuing execution.");
 } 
 await commonSteps.dragAndDrop('text', 600, 300);
 await commonSteps.fillTextField('text', '20 wood street sanfransisco');
+await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
   await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
   
@@ -2184,32 +2190,32 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await commonSteps.dragAndDrop('stamp', 600, 300);
+await commonSteps.dragAndDrop('stamp', 600, 250);
 await commonSteps.uploadStamp();
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('initials', 600, 400);
+await commonSteps.dragAndDrop('initials', 600, 300);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('name', 600, 500);
-await commonSteps.fillTextField('name', 'Pravin Testing account');
+await commonSteps.dragAndDrop('name', 600,330);
+await commonSteps.fillTextField('please enter text', 'Pravin Testing account');
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('job title', 600, 550);
-await commonSteps.fillTextField('job title', 'Quality analystAA');
+await commonSteps.dragAndDrop('job title', 600, 380);
+await commonSteps.fillTextField('please enter text', 'Quality analystAA');
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('company', 600, 600);
-await commonSteps.fillTextField('company', 'OpenSign pvt ltd');
+await commonSteps.dragAndDrop('company', 600, 420);
+await commonSteps.fillTextField('please enter text', 'OpenSign pvt ltd');
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('date', 600, 650);
+await commonSteps.dragAndDrop('date', 600, 450);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('text', 600, 700);
+await commonSteps.dragAndDrop('text', 600, 480);
 await commonSteps.fillTextField('text', '20 wood street sanfransisco');
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('checkbox', 600, 750);
+await commonSteps.dragAndDrop('checkbox', 600, 520);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('image', 600, 800);
+await commonSteps.dragAndDrop('image', 600, 570);
 await commonSteps.uploadImage();
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('email', 600, 850);
-await commonSteps.fillTextField('email', 'pravin+testaccount@nxglabs.in');
+await commonSteps.dragAndDrop('email', 600, 620);
+await commonSteps.fillEmailField('demo@gmail.com', 'pravin+testaccount@nxglabs.in');
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
@@ -2286,43 +2292,42 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
     - text: Pages
     - button "+ Add pages"
-    - text: +     
+    - text: +      
     - button
     - text: 2 of 3
     - button
     - button "Back"
     - button "Finish"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text   checkbox   image   email 
+    - text: Fields  signature   stamp   initials   name   job title   company   date   text   cells   checkbox   image   email 
     `);
   await page.getByTitle('Rotate right').locator('i').click();
-  await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
     - text: Pages
     - button "+ Add pages"
-    - text: +     
+    - text: +      
     - button
     - text: 2 of 3
     - button
     - button "Back"
     - button "Finish"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text   checkbox   image   email 
+    - text: Fields  signature   stamp   initials   name   job title   company   date   text   cells   checkbox   image   email 
     `);
   await page.getByTitle('Rotate left').locator('i').click();
-  await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
     - text: Pages
     - button "+ Add pages"
-    - text: +     
+    - text: +      
     - button
     - text: 2 of 3
     - button
     - button "Back"
     - button "Finish"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text   checkbox   image   email 
+    - text: Fields  signature   stamp   initials   name   job title   company   date   text   cells   checkbox   image   email 
     `);
-await commonSteps.dragAndDrop('signature', 600, 200);
+await commonSteps.dragAndDrop('signature', 600, 150);
 
 try {
   const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
         await rowLocator.click();
@@ -2343,36 +2348,36 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await commonSteps.dragAndDrop('stamp', 600, 300);
+await commonSteps.dragAndDrop('stamp', 600, 250);
 await commonSteps.uploadStamp();
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('initials', 600, 400);
+await commonSteps.dragAndDrop('initials', 600, 300);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('name', 600, 500);
-await commonSteps.fillTextField('name', 'Pravin Testing account');
+await commonSteps.dragAndDrop('name', 600, 320);
+await commonSteps.fillTextField('please enter text', 'Pravin Testing account');
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('job title', 600, 550);
-await commonSteps.fillTextField('job title', 'Quality analystAA');
+await commonSteps.dragAndDrop('job title', 600, 350);
+await commonSteps.fillTextField('please enter text', 'Quality analystAA');
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('company', 600, 600);
-await commonSteps.fillTextField('company', 'OpenSign pvt ltd');
+await commonSteps.dragAndDrop('company', 600, 370);
+await commonSteps.fillTextField('please enter text', 'OpenSign pvt ltd');
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('date', 600, 650);
+await commonSteps.dragAndDrop('date', 600, 390);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('text', 600, 700);
+await commonSteps.dragAndDrop('text', 600, 400);
 await commonSteps.fillTextField('text', '20 wood street sanfransisco');
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('checkbox', 600, 750);
+await commonSteps.dragAndDrop('checkbox', 600, 420);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('image', 600, 800);
+await commonSteps.dragAndDrop('image', 600, 450);
 await commonSteps.uploadImage();
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('email', 600, 850);
-await commonSteps.fillTextField('email', 'pravin+testaccount@nxglabs.in');
+await commonSteps.dragAndDrop('email', 700, 450);
+await commonSteps.fillEmailField('demo@gmail.com', 'pravin+testaccount@nxglabs.in');
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
-
+console.log('Rotate page test completed successfully.');
 });
 test('Verify that the document is not uploaded if its format is not supported in sign yourself.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
