@@ -128,13 +128,57 @@ export class CommonSteps {
       await page.getByRole('button', { name: 'Agree & Continue' }).click();
     });
   }
+  async getElementIdByWidgetName(widgetName) {
+  const xpath = widgetName === 'cells'
+    ? `//div[contains(@class, 'signYourselfBlock') and .//div[contains(text(), '${widgetName}')]]`
+    : `//div[span[text()='${widgetName}']]/ancestor::div[contains(@class, 'signYourselfBlock')]`;
 
-  async clickSignatureWidgetAndDraw() {
-    const page = this.page;
-    await page.locator('//div[@id="container"]//div[text()="signature"]').click();
-    console.log('Signature widget clicked');
-    await this.drawSignature();
+  const id = await this.page.evaluate((xpath) => {
+    const element = document.evaluate(
+      xpath,
+      document,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null
+    ).singleNodeValue;
+
+    return element ? element.id : null;
+  }, xpath);
+
+  return id;
+}
+
+async dragAndDropSignatureWidget(WidgetName,x, y) {
+    const { page } = this;
+    // Wait until signature widget is visible
+    await page.locator(`//span[normalize-space()='${WidgetName}']`).waitFor({ state: 'visible', timeout: 90000 });
+    await page.waitForLoadState("networkidle");
+    // Confirm visibility
+    await expect(page.locator(`//span[normalize-space()='${WidgetName}']`)).toBeVisible();
+    await page.waitForLoadState("networkidle");
+    // First drag and drop
+    await this.dragAndDrop(WidgetName, x, y);
+    try {     
+const rowLocator = page.locator(`//div[@class='signYourselfBlock react-draggable']//div[@class='font-medium' and text()='signature']`);
+      for (let i = 0; i < 5; i++) {
+        if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+          console.log("Signature widget dragged and dropped successfully.");
+          break;
+        } else {
+          console.log(`Attempt ${i + 1}: Signature widget not visible, retrying drag and drop...`);
+          await this.dragAndDrop(WidgetName, x, y);
+          await page.waitForTimeout(1000);
+        }
+
+        if (i === 5) {
+          console.log("Signature widget failed to appear after multiple attempts.");
+        }
+      }
+    } catch (error) {
+      console.log("Error while verifying signature widget drag-drop:", error);
+    }
   }
+
 async drawSignature() {
     const page = this.page;
     await allure.step('Sign Signature Widget', async () => {
@@ -169,6 +213,8 @@ async drawSignature() {
     const page = this.page;
     await page.locator('//div[@id="container"]//div[text()="signature"]').click();
     console.log('Signature widget clicked');
+    await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').click();
     await this.drawSignature();
   }
 
@@ -217,6 +263,8 @@ async drawSignature() {
   async drawInitials() {
     const page = this.page;
     await allure.step('Draw Initials', async () => {
+      await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').waitFor({ state: 'visible', timeout: 90000 });
+      await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').click();
       const canvasLocator = page.locator('//canvas[contains(@class, "intialSignatureCanvas")]');
       await canvasLocator.waitFor({ state: 'visible' });
       const box = await canvasLocator.boundingBox();
@@ -265,7 +313,6 @@ async drawSignature() {
     await allure.step(`Select '${value}' from dropdown '${dropdownId}'`, async () => {
       await page.locator(`//select[@id='${dropdownId}']`).selectOption(value);
       console.log(`Selected value '${value}' from dropdown with id '${dropdownId}'.`);
-      await this.clickNextButtonInSignerModal();
     });
   }
 
@@ -285,7 +332,7 @@ async drawSignature() {
     await allure.step(`Select checkbox with label '${labelText}'`, async () => {
       await page.locator(`//div[@class='flex justify-center']//label[contains(., '${labelText}')]/input[@type='checkbox']`).click({ force: true });
       console.log(`Checkbox with label '${labelText}' selected.`);
-      await this.clickNextButtonInSignerModal();
+
     });
   }
 
@@ -303,7 +350,6 @@ async drawSignature() {
     const page = this.page;
     await page.locator(`//div[@class='flex justify-center']//label[contains(., '${label}')]/input[@type='radio']`).click();
     console.log(`Radio button with label '${label}' selected.`);
-    await this.clickNextButtonInSignerModal();
   }
 
   async clickTextWidgetAndFill(placeholder, value) {
@@ -347,6 +393,7 @@ async drawSignature() {
     });
   }
  async clickDateFieldOnTheSignerPad(dateString) {
+
     const page = this.page;
     await allure.step(`Select date field with value '${dateString}'`, async () => {
       await page.locator(`//div[@class='flex justify-center']//div[@class='react-datepicker__input-container']//div[contains(text(), '${dateString}')]`).click({ force: true });
@@ -425,52 +472,20 @@ async ClickSavebuttonSignerModal() {
       return element ? element.id : null;
     }, type);
   }
+  async fillCellWidgetsInModal(values = []) {
+    const { page } = this;
 
-  async selectDateWidgets(requestBody) {
-    const page = this.page;
+    if (values.length === 0) {
+      console.warn('No values provided to fill into cell widgets.');
+      return;
+    }
+    for (let i = 0; i < values.length; i++) {
+      const textbox = page.locator('#selectSignerModal').getByRole('textbox').nth(i);
+      await textbox.fill(values[i]);
+    }
 
-    await allure.step('Select Date Widgets', async () => {
-      const widgets = requestBody.signers.flatMap((signer) => signer.widgets || []);
-      const defaultDateString = widgets.find((w) => w.type === 'date' && w.options?.default)?.options?.default ?? null;
-
-      let baseDate = new Date();
-      if (defaultDateString) {
-        const [month, day, year] = defaultDateString.split('-').map(Number);
-        baseDate = new Date(year, month - 1, day);
-      }
-
-      const selectedDate = new Date(baseDate);
-      selectedDate.setDate(baseDate.getDate() + 2);
-
-      function getDayWithSuffix(day) {
-        if (day >= 11 && day <= 13) return `${day}th`;
-        switch (day % 10) {
-          case 1: return `${day}st`;
-          case 2: return `${day}nd`;
-          case 3: return `${day}rd`;
-          default: return `${day}th`;
-        }
-      }
-
-      for (const widget of widgets) {
-        if (widget.type === 'date' && widget.options?.format) {
-          const dayOfWeek = selectedDate.toLocaleString('default', { weekday: 'long' });
-          const month = selectedDate.toLocaleString('default', { month: 'long' });
-          const day = selectedDate.getDate();
-          const year = selectedDate.getFullYear();
-          const dayWithSuffix = getDayWithSuffix(day);
-          const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
-          const targetXPath = `//div[@aria-label="${ariaLabelValue}"]`;
-
-          console.log("Target XPath for date selection:", targetXPath);
-
-          await allure.step(`Click on date: ${ariaLabelValue}`, async () => {
-            await page.locator(targetXPath).click({ force: true });
-          });
-        }
-      }
-    });
-   }
+    console.log('All values filled in cell widgets.');
+  }
 }
 
 module.exports = CommonSteps;
