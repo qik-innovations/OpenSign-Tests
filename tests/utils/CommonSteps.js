@@ -245,7 +245,7 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
     const page = this.page;
     await allure.step('Upload Stamp Image', async () => {
       const fileChooserPromise = page.waitForEvent('filechooser');
-      await page.locator('//i[@class="fa-light fa-cloud-upload-alt uploadImgLogo"]').click();
+      await page.locator('//div[@class="flex justify-center"]//i[@class="fa-light fa-cloud-upload-alt uploadImgLogo text-base-content"]').click();
       const imagePath = path.resolve(__dirname, '../TestData/Images/stamp.jpg');
       console.log("Image Path:", imagePath);
       await fileChooserPromise.then(fileChooser => fileChooser.setFiles(imagePath));
@@ -289,7 +289,7 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
     const page = this.page;
     await allure.step('Upload Designer Image', async () => {
       const fileChooserPromise = page.waitForEvent('filechooser');
-      await page.locator('//i[@class="fa-light fa-cloud-upload-alt uploadImgLogo"]').click();
+      await page.locator('//div[@class="flex justify-center"]//i[@class="fa-light fa-cloud-upload-alt uploadImgLogo text-base-content"]').click();
       const imagePath = path.resolve(__dirname, '../TestData/Images/DesignerImage.png');
       await fileChooserPromise.then(fileChooser => fileChooser.setFiles(imagePath));
       console.log('Image uploaded successfully.');
@@ -307,7 +307,6 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
       await this.clickCloseButtonInSignerModal();
     });
   }
-
   async selectFromDropdown(dropdownId, value) {
     const page = this.page;
     await allure.step(`Select '${value}' from dropdown '${dropdownId}'`, async () => {
