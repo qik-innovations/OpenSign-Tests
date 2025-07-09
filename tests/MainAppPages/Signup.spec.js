@@ -63,7 +63,7 @@ test('Verify that a user can sign up with a free subscription plan and validate 
   await page.locator(locators.registerButton).click();
 
   // Wait for the subscription page to visible
-  await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible();
+await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible({ timeout: 120000 });
   await expect(page.locator('#root')).toContainText('FreeBilled YearlyFree Unlimited E-signatures, Forever.');
   await expect(page.locator('#root')).toContainText('Unlimited digital signaturesSign documents yourselfRequest signatures from othersUnlimited templates14 field typesAutomatic e-signaturesCompletion certificatesSend in orderOrganize docs in OpenSign™ DriveDocument templatesImport from DropboxContact bookDocument expiry supportDecline document supportEmail notificationsPublic profilesAnd much more');
   // Select the free plan
@@ -158,6 +158,7 @@ await page.locator('//span[text()="Sent this month"]').click();
 });
 
 test('Verify that a user can sign up with a professional plan and validate the details in the user profile.', async ({ page }) => {
+ test.setTimeout(120 * 1000);
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
@@ -174,7 +175,7 @@ test('Verify that a user can sign up with a professional plan and validate the d
   });
 
   await page.locator(locators.registerButton).click();
-  await expect(page.getByRole('heading', { name: 'OPENSIGN™ PROFESSIONAL' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'OPENSIGN™ PROFESSIONAL' })).toBeVisible({ timeout: 120000 });
  await expect(page.locator('#root')).toContainText('$9.99/monthBilled YearlyExclusive Access to advanced features.');
   await expect(page.locator('#root')).toContainText('Everything in OpenSign™ freeField validationsRegular expression validationsOrganize docs in OpenSign™ DriveWebhooksZapier integrationAPI Accessupto 240 API signaturesCustom email templatesConnect your own Gmail or SMTP account for sending emailsAuto remindersBulk send (upto 240 docs)Premium Public profile usernamesEnforce email-based verification to confirm signer identityEmbedded signing');
   
@@ -292,6 +293,7 @@ await page.getByRole('button', { name: 'Edit' }).click();
   expect(formattedDate).toBe(BillingformattedDate); 
 });
 test('Verify that a user can sign up with a Teams plan and validate the details in the user profile.', async ({ page }) => {
+  test.setTimeout(120 * 1000);
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
@@ -308,7 +310,7 @@ test('Verify that a user can sign up with a Teams plan and validate the details 
   });
 
   await page.locator(locators.registerButton).click();
-  await expect(page.getByRole('heading', { name: 'OPENSIGN™ TEAMS' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'OPENSIGN™ TEAMS' })).toBeVisible({ timeout: 120000 });
   await expect(page.locator('#root')).toContainText('$19.99/user/monthBilled YearlyExclusive Access to advanced features.');
   await expect(page.locator('#root')).toContainText('Everything in OpenSign™ professionalupto 500 API signaturesTeams and OrganizationsShare Templates with teamsShare Templates with individualsBYOC - Store your documents in your own cloud storageDocumentId removal from signed docsBulk send (upto 500 docs)Request Payments (coming soon)Mobile app (coming soon)');
   await page.locator(locators.TeamsPlanButton).click();

@@ -47,11 +47,12 @@ test('Verify that user can add a new contact.', async ({ page }) => {
     console.error(`Page title is incorrect. Expected: "Contactbook - OpenSign™", Got: "${title}"`);
   }
   const Randomemail = `ps+${Math.floor(10 + Math.random() * 90)}@tim.in`;
-        await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
+        await page.locator("//div[contains(@class, 'cursor-pointer') and contains(@class, 'flex') and .//i[contains(@class, 'fa-square-plus')]]").click();
         await page.getByLabel('Name *').fill('Pravin Shej');
         await page.getByLabel('Email *').fill(Randomemail);
         await page.getByPlaceholder('optional').fill('0924820934');
         await page.getByRole('button', { name: 'Submit' }).click();
+        await page.locator("//input[@placeholder='Search contacts…']").fill("Pravin Shej");
         await expect(page.locator('tbody')).toContainText(Randomemail);
         await expect(page.locator('tbody')).toContainText('0924820934');
         console.log(`P Shej ${Randomemail}`);
@@ -103,7 +104,7 @@ test('Verify that user cannot add a new contact with existing email address', as
     await deleteContactIfExists();
 
     // Add the contact first time
-    await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
+    await page.locator("//div[contains(@class, 'cursor-pointer') and contains(@class, 'flex') and .//i[contains(@class, 'fa-square-plus')]]").click();
     await page.getByLabel('Name *').fill(contactName);
     await page.getByLabel('Email *').fill(contactEmail);
     await page.getByPlaceholder('optional').fill('0924820934');
@@ -111,7 +112,7 @@ test('Verify that user cannot add a new contact with existing email address', as
     await page.waitForTimeout(1000); // Wait for creation
 
     // Attempt to add the same email again
-    await page.locator('div:nth-child(2) > div:nth-child(2) > .fa-light').click();
+    await page.locator("//div[contains(@class, 'cursor-pointer') and contains(@class, 'flex') and .//i[contains(@class, 'fa-square-plus')]]").click();
     await page.getByLabel('Name *').fill('Andrews Wade');
     await page.getByLabel('Email *').fill(contactEmail);
     await page.getByPlaceholder('optional').fill('0924820934');
@@ -135,7 +136,6 @@ test('Verify that user cannot add a new contact with existing email address', as
     throw error; // Re-throw for test failure
   }
 });
-
 test('Verify that user can import contacts from an Excel file and delete them across pages.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
 
@@ -147,7 +147,7 @@ test('Verify that user can import contacts from an Excel file and delete them ac
   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
 
   // Trigger Import
-  await page.locator('div:nth-child(2) > div > .fa-light').first().click();
+  await page.locator("//div[contains(@class, 'cursor-pointer') and .//i[contains(@class, 'fa-upload')]]").click();
   await page.getByRole('button', { name: 'Import' }).click();
 
   // Handle file chooser
@@ -158,8 +158,8 @@ test('Verify that user can import contacts from an Excel file and delete them ac
 
   // Perform Import
   await page.getByRole('button', { name: 'Import' }).click();
-
-  // Verify and delete each contact
+await page.waitForTimeout(5000);
+  // Contacts to verify and delete
   const contacts = [
     { name: 'Tony Stark', email: 'tonys@nxglabs.in' },
     { name: 'Steve Head', email: 'stevehead@nxglabs.in' }
@@ -167,23 +167,26 @@ test('Verify that user can import contacts from an Excel file and delete them ac
 
   for (const contact of contacts) {
     let contactFound = false;
-
     // Loop through pages until contact is found
     while (!contactFound) {
       const contactCell = page.getByRole('cell', { name: contact.name });
+await page.waitForTimeout(2000);
       if (await contactCell.isVisible().catch(() => false)) {
-        // Verify contact details
-        await expect(contactCell).toBeVisible();
-        await expect(page.getByRole('cell', { name: contact.email })).toBeVisible();
+        // Step: Verify contact name is visible
+        await expect(contactCell).toBeVisible({ timeout: 5000 });
+        // Step: Verify contact email is visible
+        await expect(
+          page.getByRole('cell', { name: contact.email })).toBeVisible({ timeout: 5000 });
 
-        // Delete the contact
-        const row = await page.getByRole('row', { name: new RegExp(`${contact.name}.*${contact.email}`) });
+        // Step: Delete the contact
+        const row = await page.getByRole('row', { name: new RegExp(`${contact.name}.*${contact.email}`)
+        });
         await row.getByRole('button').nth(1).click();
         await page.getByRole('button', { name: 'Yes' }).click();
         contactFound = true;
       } else {
-        // Check if next page button is enabled
-        const nextButton = page.locator('//button[@class ="op-join-item op-btn op-btn-sm" and text()="Next"]'); // Adjust selector based on your UI
+        // Try to go to the next page
+        const nextButton = page.locator('//button[@class ="op-join-item op-btn op-btn-sm" and text()="Next"]');
         if (await nextButton.isVisible() && !(await nextButton.isDisabled())) {
           await nextButton.click();
           await page.waitForLoadState('networkidle');
@@ -194,4 +197,5 @@ test('Verify that user can import contacts from an Excel file and delete them ac
     }
   }
 });
+
 });
