@@ -1,0 +1,283 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Request signature >> Verify that a user can create a document, send it for a signature request, and signer can successfully sign the document.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Request_Signature.spec.js:232:1
+
+# Error details
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for locator('//span[@class="text-red-500 text-sm font-bold" and text()="X"]')
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/utils/CommonSteps.js:127:92
+    at CommonSteps.validateAndAcceptTerms (/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/utils/CommonSteps.js:123:5)
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Request_Signature.spec.js:302:1
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - button ""
+  - img "logo"
+  - text: TEAM
+  - button ""
+  - img "img"
+  - button
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- text: Pages
+- button "+ Add pages"
+- text: +      
+- dialog:
+  - heading "Send Mail" [level=3]
+  - button "✕"
+  - text: Are you sure you want to send out this document for signatures?
+  - button "Send"
+  - text: Cutomize email OR andyamaya@nxglabs.in
+  - button " Copy link"
+  - button "Open share options": 
+- button [disabled]
+- text: 1 of 1
+- button [disabled]
+- button "Back"
+- button "Next" [disabled]
+- text: Recipients A Andy amaya andyamaya@nxglabs.in 
+- separator
+- button "+ Add recipients"
+- text: Fields  signature   stamp   initials   name   job title   company   date   text   text input   cells   checkbox   dropdown   radio button   image   email 
+- contentinfo:
+  - complementary:
+    - paragraph: "All rights reserved © 2025 OpenSign™ ( version: v2.26.0 )"
+```
+
+# Test source
+
+```ts
+   27 |   zipCodeField: '#billing_zip',
+   28 |   sameAsBillingCheckbox: 'input[name="sameasbillingaddress"]',
+   29 |   reviewOrderButton: '//button[@class="btn-txt" and text() ="Review Order"]',
+   30 | };
+   31 |
+   32 | const fillSignupForm = async (page, { name, email, phone, company, jobTitle, password }) => {
+   33 |   await page.locator(locators.nameInput).first().fill(name);
+   34 |   await page.locator(locators.emailInput).fill(email);
+   35 |   await page.locator(locators.phoneInput).fill(phone);
+   36 |   await page.locator(locators.companyInput).nth(1).fill(company);
+   37 |   await page.locator(locators.jobTitleInput).nth(2).fill(jobTitle);
+   38 |   await page.locator(locators.passwordInput).fill(password);
+   39 |   await page.locator(locators.termsCheckbox).click();
+   40 | };
+   41 |
+   42 | test.beforeEach(async ({ browserName, browser }) => {
+   43 |   const browserVersion = await browser.version();
+   44 |   const osPlatform = process.platform;
+   45 |   allure.label("Browser Name", browserName);
+   46 |   allure.label("Browser Version", browserVersion);
+   47 |   allure.label("OS", osPlatform);
+   48 |   console.log(`Browser: ${browserName}, Version: ${browserVersion}, OS: ${osPlatform}`);
+   49 | });
+   50 |
+   51 | export class CommonSteps {
+   52 |   constructor(page) {
+   53 |     this.page = page;
+   54 |   }
+   55 |
+   56 |   async navigateToBaseUrl() {
+   57 |     await this.page.goto(BASEURL, { timeout: 120000 });
+   58 |   }
+   59 |   async login() {
+   60 |     await this.page.locator('#email').fill(loginCredentials.email);
+   61 |     await this.page.locator('#password').fill(loginCredentials.password);
+   62 |     await this.page.getByRole('button', { name: 'Login' }).click();
+   63 |   }
+   64 |
+   65 |   async ProfessionPlanUserlogin() {
+   66 |     await this.page.locator('#email').fill(loginCredentials.ProplanUsername);
+   67 |     await this.page.locator('#password').fill(loginCredentials.ProPlanpassword);
+   68 |     await this.page.getByRole('button', { name: 'Login' }).click();
+   69 |   }
+   70 |
+   71 |   async NewUserlogin() {
+   72 |     if (!loginCredentials.FreeplanUsername) {
+   73 |       console.log('FreeplanUsername is empty. Running signup test...');
+   74 |       await this.signupTestFreeUser(this.page);
+   75 |     } else {
+   76 |       console.log(`FreeplanUsername exists: ${loginCredentials.FreeplanUsername}`);
+   77 |       await this.page.locator('#email').fill(loginCredentials.FreeplanUsername);
+   78 |       await this.page.locator('#password').fill(loginCredentials.FreePlanpassword);
+   79 |       await this.page.getByRole('button', { name: 'Login' }).click();
+   80 |     }
+   81 |   }
+   82 |
+   83 |   async verifyPageTitle(expectedTitle) {
+   84 |     const title = await this.page.title();
+   85 |     if (title === expectedTitle) {
+   86 |       console.log(`Page title is correct: ${expectedTitle}`);
+   87 |     } else {
+   88 |       console.error(`Page title is incorrect. Expected: "${expectedTitle}", Got: "${title}"`);
+   89 |     }
+   90 |   }
+   91 |
+   92 |   async signupTestFreeUser(page) {
+   93 |     await page.getByRole('button', { name: 'Create account' }).click({ timeout: 120000 });
+   94 |     await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible({ timeout: 120000 });
+   95 |
+   96 |     const email = `pravin+${Math.random()}@nxglabs.in`;
+   97 |     loginCredentials.FreeplanUsername = email;
+   98 |     loginCredentials.FreePlanpassword = 'Nxglabs@123';
+   99 |
+  100 |     await fillSignupForm(page, {
+  101 |       name: 'Mathew Wade',
+  102 |       email,
+  103 |       phone: '8238988998',
+  104 |       company: 'qikAi.com',
+  105 |       jobTitle: 'HrExecative',
+  106 |       password: loginCredentials.FreePlanpassword,
+  107 |     });
+  108 |
+  109 |     await page.locator(locators.registerButton).click();
+  110 |     await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible({ timeout: 120000 });
+  111 |     await page.locator(locators.freePlanButton).click();
+  112 |     await page.getByLabel('Close').click();
+  113 |     await expect(page.locator('//div[@id="profile-menu"]//parent::button[text()="Upgrade now"]')).toBeVisible();
+  114 |
+  115 |     const title = await page.title();
+  116 |     expect(title).toBe('Dashboard - OpenSign™');
+  117 |     console.log(`✅ Signup successful. User: ${loginCredentials.FreeplanUsername}`);
+  118 |   }
+  119 |
+  120 |   // ↓↓↓ ADDED ALL CommonMethods METHODS ↓↓↓
+  121 |   async validateAndAcceptTerms() {
+  122 |     const page = this.page;
+  123 |     await allure.step('Agree to Digital Signing Agreement', async () => {
+  124 |       await expect(page.getByRole('button', { name: 'Agree & Continue' })).toBeVisible({ timeout: 120000 });
+  125 |       await expect(page.locator('body')).toContainText('I confirm that I have read and understood the Electronic Record and Signature Disclosure and consent to use electronic records and signatures.');
+  126 |       await expect(page.locator("//div[@class='mt-2  text-base-content']//span[@class='text-[11px]']")).toContainText('Note: Agreeing to this does not mean you are signing the document immediately. This only allows you to review the document electronically. You will have the opportunity to read it in full and decide whether to sign it afterward.');
+> 127 |       await page.locator('//span[@class="text-red-500 text-sm font-bold" and text()="X"]').click();
+      |                                                                                            ^ Error: locator.click: Test timeout of 120000ms exceeded.
+  128 |       await page.getByRole('button', { name: 'Agree & Continue' }).click();
+  129 |     });
+  130 |   }
+  131 |   async getElementIdByWidgetName(widgetName) {
+  132 |   const xpath = widgetName === 'cells'
+  133 |     ? `//div[contains(@class, 'signYourselfBlock') and .//div[contains(text(), '${widgetName}')]]`
+  134 |     : `//div[span[text()='${widgetName}']]/ancestor::div[contains(@class, 'signYourselfBlock')]`;
+  135 |
+  136 |   const id = await this.page.evaluate((xpath) => {
+  137 |     const element = document.evaluate(
+  138 |       xpath,
+  139 |       document,
+  140 |       null,
+  141 |       XPathResult.FIRST_ORDERED_NODE_TYPE,
+  142 |       null
+  143 |     ).singleNodeValue;
+  144 |
+  145 |     return element ? element.id : null;
+  146 |   }, xpath);
+  147 |
+  148 |   return id;
+  149 | }
+  150 |
+  151 | async dragAndDropSignatureWidget(WidgetName,x, y) {
+  152 |     const { page } = this;
+  153 |     // Wait until signature widget is visible
+  154 |     await page.locator(`//span[normalize-space()='${WidgetName}']`).waitFor({ state: 'visible', timeout: 90000 });
+  155 |     await page.waitForLoadState("networkidle");
+  156 |     // Confirm visibility
+  157 |     await expect(page.locator(`//span[normalize-space()='${WidgetName}']`)).toBeVisible();
+  158 |     await page.waitForLoadState("networkidle");
+  159 |     // First drag and drop
+  160 |     await this.dragAndDrop(WidgetName, x, y);
+  161 |     try {     
+  162 | const rowLocator = page.locator(`//div[@class='signYourselfBlock react-draggable']//div[@class='font-medium' and text()='signature']`);
+  163 |       for (let i = 0; i < 5; i++) {
+  164 |         if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  165 |           console.log("Signature widget dragged and dropped successfully.");
+  166 |           break;
+  167 |         } else {
+  168 |           console.log(`Attempt ${i + 1}: Signature widget not visible, retrying drag and drop...`);
+  169 |           await this.dragAndDrop(WidgetName, x, y);
+  170 |           await page.waitForTimeout(1000);
+  171 |         }
+  172 |
+  173 |         if (i === 5) {
+  174 |           console.log("Signature widget failed to appear after multiple attempts.");
+  175 |         }
+  176 |       }
+  177 |     } catch (error) {
+  178 |       console.log("Error while verifying signature widget drag-drop:", error);
+  179 |     }
+  180 |   }
+  181 |
+  182 | async drawSignature() {
+  183 |     const page = this.page;
+  184 |     await allure.step('Sign Signature Widget', async () => {
+  185 |       const canvasLocator = page.locator("//canvas[contains(@class, 'signatureCanvas')]");
+  186 |       await canvasLocator.waitFor({ state: 'visible' });
+  187 |       const box = await canvasLocator.boundingBox();
+  188 |       if (!box) throw new Error('Canvas bounding box not found.');
+  189 |       const clickX = box.x + box.width * 0.3;
+  190 |       const clickY = box.y + box.height * 0.6;
+  191 |       await page.mouse.click(clickX, clickY);
+  192 |       await page.mouse.down();
+  193 |       await page.mouse.move(clickX + 5, clickY);
+  194 |       await page.mouse.up();
+  195 |     });
+  196 |   }
+  197 |   async clickSignatureWidgetAndType() {
+  198 |     const page = this.page;
+  199 |     await page.locator('//div[@id="container"]//div[text()="signature"]').click();
+  200 |     console.log('Signature widget clicked');
+  201 |     await page.locator('//input[@id="signature"]').fill('Mathew Wade');
+  202 |     console.log('Signature typed in input field');
+  203 |   }
+  204 |   async clickSignatureWidgetAndUpload() {
+  205 |     const page = this.page;
+  206 |     await page.locator('//div[@id="container"]//div[text()="signature"]').click();
+  207 |     console.log('Signature widget clicked');
+  208 |     const filePath = path.join(__dirname, '../../../tests/TestData/Images/signature.png');
+  209 |     await page.locator('//input[@id="signature"]').setInputFiles(filePath);
+  210 |     console.log('Signature uploaded from file');
+  211 |   }
+  212 |   async clickSignatureWidgetAndDraw() {
+  213 |     const page = this.page;
+  214 |     await page.locator('//div[@id="container"]//div[text()="signature"]').click();
+  215 |     console.log('Signature widget clicked');
+  216 |     await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').waitFor({ state: 'visible', timeout: 90000 });
+  217 | await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').click();
+  218 |     await this.drawSignature();
+  219 |   }
+  220 |
+  221 |   async drawSignature() {
+  222 |     const page = this.page;
+  223 |     await allure.step('Sign Signature Widget', async () => {
+  224 |       const canvasLocator = page.locator("//canvas[contains(@class, 'signatureCanvas')]");
+  225 |       await canvasLocator.waitFor({ state: 'visible' });
+  226 |       const box = await canvasLocator.boundingBox();
+  227 |       if (!box) throw new Error('Canvas bounding box not found.');
+```

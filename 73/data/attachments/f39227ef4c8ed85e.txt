@@ -1,0 +1,7 @@
+Browser: chromium, Version: 134.0.6998.35, OS: linux
+FreeplanUsername is empty. Running signup test...
+✅ Signup successful. User: pravin+0.4116754763223498@nxglabs.in
+Checkbox disabled: false
+Radio button disabled: false
+Radio button disabled: false
+signature widget dragged and dropped

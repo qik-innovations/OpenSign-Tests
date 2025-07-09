@@ -1,0 +1,32 @@
+Browser: chromium, Version: 134.0.6998.35, OS: linux
+Dragged and dropped widget with label 'signature' to coordinates (600, 200).
+Save button clicked!
+Dragged and dropped widget with label 'stamp' to coordinates (600, 250).
+Image Path: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/TestData/Images/stamp.jpg
+Stamp image uploaded successfully.
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'initials' to coordinates (600, 300).
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'name' to coordinates (600, 330).
+Filled 'please enter text' widget with value 'Pravin Testing account'.
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'job title' to coordinates (600, 380).
+Filled 'please enter text' widget with value 'Quality analystAA'.
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'company' to coordinates (600, 420).
+Filled 'please enter text' widget with value 'OpenSign pvt ltd'.
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'date' to coordinates (600, 450).
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'text' to coordinates (600, 480).
+Filled 'text' widget with value '20 wood street sanfransisco'.
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'checkbox' to coordinates (600, 520).
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'image' to coordinates (600, 570).
+Image uploaded successfully.
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'email' to coordinates (600, 620).
+Filled Email field with value 'pravin+testaccount@nxglabs.in'.
+Save button in signer modal clicked.
+Finish button on placeholder clicked.

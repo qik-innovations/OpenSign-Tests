@@ -1,0 +1,5 @@
+Dragged and dropped widget with label 'signature' to coordinates (600, 200).
+Save button clicked!
+Close button in signer modal clicked.
+"Copy widget to" is visible. Stopping the loop.
+Finish button on placeholder clicked.

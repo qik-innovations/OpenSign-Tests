@@ -1,0 +1,276 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Incompatiblepdfs >> Verify that the user can successfully sign a PDF that was previously incompatible pdf 10pages.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/pdfsCompatibility.spec.js:249:1
+
+# Error details
+
+```
+Error: page.waitForEvent: Test timeout of 120000ms exceeded.
+=========================== logs ===========================
+waiting for event "filechooser"
+============================================================
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/pdfsCompatibility.spec.js:311:34
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - button ""
+  - img "logo"
+  - text: TEAM
+  - button ""
+  - img "img"
+  - button "Pravin Testing account"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- text: Pages
+- button "+ Add pages"
+- text: +      
+- button [disabled]
+- text: 1 of 10
+- button
+- button "Back"
+- button "Finish"
+- img "signature"
+- text:   stamp Fields  signature   stamp   initials   name   job title   company   date   text   cells   checkbox   image   email 
+- dialog:
+  - button "✕"
+  - text: Upload stamp  Upload
+  - button "Clear"
+  - button "Save" [disabled]
+- contentinfo:
+  - complementary:
+    - paragraph: "All rights reserved © 2025 OpenSign™ ( version: v2.26.0 )"
+```
+
+# Test source
+
+```ts
+  211 | await page.locator('//span[normalize-space()=\'date\']').hover();
+  212 | await page.mouse.down();
+  213 | await page.mouse.move(600, 550)
+  214 | await page.mouse.up();
+  215 | /*
+  216 | await page.locator('//span[normalize-space()="text"]').hover();
+  217 | await page.mouse.down();
+  218 | await page.waitForTimeout(1000);
+  219 | await page.mouse.move(600, 590)//textarea[@placeholder='text']
+  220 | await page.mouse.up();
+  221 | await page.locator('//textarea[@placeholder=\'text\']').fill('20 wood street sanfransisco');
+  222 | */
+  223 | await page.locator('//span[normalize-space()="checkbox"]').hover();
+  224 | await page.mouse.down();
+  225 | await page.mouse.move(600, 640)
+  226 | await page.mouse.up();
+  227 | page.locator("//button[@type='submit' and text()='Save']").click();
+  228 | await page.locator('//span[normalize-space()=\'image\']').hover();
+  229 | await page.mouse.down();
+  230 | await page.mouse.move(600, 550)
+  231 | await page.mouse.up();
+  232 | const fileChooserPromise2 = page.waitForEvent('filechooser');
+  233 | await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
+  234 | const fileChooser2 = await fileChooserPromise2;
+  235 | await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
+  236 | const saveButton = page.locator("//button[normalize-space()='Save']");
+  237 | await saveButton.waitFor();
+  238 | await saveButton.click();
+  239 | await page.locator('//span[normalize-space()="email"]').hover();
+  240 | await page.mouse.down();
+  241 | await page.mouse.move(600, 580)
+  242 | await page.mouse.up();
+  243 | await page.locator("//button[normalize-space()='Finish']").click();
+  244 | await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
+  245 |   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
+  246 |   await page.locator("//button[normalize-space()='Send']").click();
+  247 |
+  248 | });
+  249 | test('Verify that the user can successfully sign a PDF that was previously incompatible pdf 10pages.', async ({ page }) => {
+  250 |     const commonSteps = new CommonSteps(page);
+  251 |     // Step 1: Navigate to Base URL and log in
+  252 |     await commonSteps.navigateToBaseUrl();
+  253 |     await commonSteps.login();
+  254 |   //const title = await page.title()
+  255 |     //Expects page to have a heading with the name of dashboard.
+  256 |   //expect(title).toBe('Dashboard - OpenSign™');
+  257 |   
+  258 |   await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+  259 |     await page.locator('input[name="Name"]').click();
+  260 |     await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  261 |     await page.locator('input[name="Name"]').press('Tab');
+  262 |     await page.locator('input[name="Note"]').click();
+  263 |     const fileChooserPromise = page.waitForEvent('filechooser');
+  264 |   await page.locator('input[type="file"]').click();
+  265 |   const fileChooser = await fileChooserPromise;
+  266 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/IncompatiblePDFs/10pages.pdf'));
+  267 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  268 |   await page.getByRole('button', { name: 'Next' }).click();
+  269 |   await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  270 |   await page.waitForLoadState("networkidle");
+  271 |   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  272 |   await page.waitForLoadState("networkidle");
+  273 | await page.locator('//span[normalize-space()="signature"]').hover();
+  274 | await page.mouse.down();
+  275 | await page.mouse.move(600, 300)
+  276 | await page.mouse.up();
+  277 |
+  278 | try {
+  279 |   const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
+  280 |
+  281 |   for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  282 |       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  283 |           await rowLocator.click();
+  284 |           console.log("Save button clicked!");
+  285 |           break; // Exit the loop if successfully clicked
+  286 |       } else {
+  287 |           console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
+  288 |   
+  289 |           await page.locator('//span[normalize-space()="signature"]').hover();
+  290 |           await page.mouse.down();
+  291 |           await page.mouse.move(800, 300);
+  292 |           await page.mouse.up();
+  293 |           
+  294 |           // Wait a bit before checking again
+  295 |           await page.waitForTimeout(1000);
+  296 |       }
+  297 |   
+  298 |       if (i === 5) {
+  299 |           console.log("Save button did not become visible after multiple attempts.");
+  300 |       }
+  301 |   }
+  302 | } catch (error) {
+  303 |   console.log("Element not found or not interactable, continuing execution.");
+  304 |  
+  305 | }
+  306 |
+  307 | await page.locator('//span[normalize-space()="stamp"]').hover();
+  308 | await page.mouse.down();
+  309 | await page.mouse.move(600, 360)
+  310 | await page.mouse.up();
+> 311 | const fileChooserPromise1 = page.waitForEvent('filechooser');
+      |                                  ^ Error: page.waitForEvent: Test timeout of 120000ms exceeded.
+  312 | await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
+  313 | const fileChooser1 = await fileChooserPromise1;
+  314 | await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
+  315 | await page.locator("//button[normalize-space()='Save']").click();
+  316 | await page.locator('//span[normalize-space()="initials"]').hover();
+  317 | await page.mouse.down();
+  318 | await page.mouse.move(600, 420)
+  319 | await page.mouse.up();
+  320 | await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
+  321 | await page.locator('//span[normalize-space()="name"]').hover();
+  322 | await page.mouse.down();
+  323 | await page.mouse.move(600, 470)
+  324 | await page.mouse.up();
+  325 | await page.locator('//span[normalize-space()="job title"]').hover();
+  326 | await page.mouse.down();
+  327 | await page.mouse.move(600, 480)
+  328 | await page.mouse.up();
+  329 | await page.locator('//span[normalize-space()="company"]').hover();
+  330 | await page.mouse.down();
+  331 | await page.mouse.move(600, 520)
+  332 | await page.mouse.up();
+  333 |
+  334 | await page.locator('//span[normalize-space()="date"]').hover();
+  335 | await page.mouse.down();
+  336 | await page.mouse.move(600, 550)
+  337 | await page.mouse.up();
+  338 | /*
+  339 | await page.locator('//span[normalize-space()="text"]').hover();
+  340 | await page.mouse.down();
+  341 | await page.waitForTimeout(1000);
+  342 | await page.mouse.move(600, 590)//textarea[@placeholder='text']
+  343 | await page.mouse.up();
+  344 | await page.locator('//textarea[@placeholder=\'text\']').fill('20 wood street sanfransisco');
+  345 | */
+  346 | await page.locator('//span[normalize-space()="checkbox"]').hover();
+  347 | await page.mouse.down();
+  348 | await page.mouse.move(600, 640)
+  349 | await page.mouse.up();
+  350 | page.locator("//button[@type='submit' and text()='Save']").click();
+  351 | await page.locator('//span[normalize-space()="image"]').hover();
+  352 | await page.mouse.down();
+  353 | await page.mouse.move(600, 550)
+  354 | await page.mouse.up();
+  355 | const fileChooserPromise2 = page.waitForEvent('filechooser');
+  356 | await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
+  357 | const fileChooser2 = await fileChooserPromise2;
+  358 | await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
+  359 | await page.locator("//button[normalize-space()='Save']").click();
+  360 | await page.locator('//span[normalize-space()="email"]').hover();
+  361 | await page.mouse.down();
+  362 | await page.mouse.move(600, 580)
+  363 | await page.mouse.up();
+  364 | await page.locator("//button[normalize-space()='Finish']").click();
+  365 | await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
+  366 |   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
+  367 |   await page.locator("//button[normalize-space()='Send']").click();
+  368 |
+  369 | });
+  370 | test('Verify that the user can successfully sign a PDF that was previously incompatible pdf 20pages', async ({ page }) => {
+  371 |     const commonSteps = new CommonSteps(page);
+  372 |     // Step 1: Navigate to Base URL and log in
+  373 |     await commonSteps.navigateToBaseUrl();
+  374 |     await commonSteps.login();
+  375 |   //const title = await page.title()
+  376 |     //Expects page to have a heading with the name of dashboard.
+  377 |   //expect(title).toBe('Dashboard - OpenSign™');
+  378 |   
+  379 |   await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+  380 |     await page.locator('input[name="Name"]').click();
+  381 |     await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  382 |     await page.locator('input[name="Name"]').press('Tab');
+  383 |     await page.locator('input[name="Note"]').click();
+  384 |     const fileChooserPromise = page.waitForEvent('filechooser');
+  385 |   await page.locator('input[type="file"]').click();
+  386 |   const fileChooser = await fileChooserPromise;
+  387 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/IncompatiblePDFs/20pages.pdf'));
+  388 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  389 |   await page.getByRole('button', { name: 'Next' }).click();
+  390 |   await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  391 |   await page.waitForLoadState("networkidle");
+  392 |   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  393 |   await page.waitForLoadState("networkidle");
+  394 |   await page.locator('//span[normalize-space()="signature"]').hover();
+  395 |     await page.mouse.down();
+  396 |     await page.mouse.move(800, 300)
+  397 |     await page.mouse.up();
+  398 | try {
+  399 |   const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
+  400 |
+  401 |   for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  402 |       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  403 |           await rowLocator.click();
+  404 |           console.log("Save button clicked!");
+  405 |           break; // Exit the loop if successfully clicked
+  406 |       } else {
+  407 |           console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
+  408 |   
+  409 |           await page.locator('//span[normalize-space()="signature"]').hover();
+  410 |           await page.mouse.down();
+  411 |           await page.mouse.move(800, 300);
+```

@@ -1,0 +1,9 @@
+Dragged and dropped widget with label 'signature' to coordinates (600, 200).
+Save button clicked!
+Dragged and dropped widget with label 'stamp' to coordinates (600, 250).
+Image Path: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/TestData/Images/stamp.jpg
+Stamp image uploaded successfully.
+Save button in signer modal clicked.
+Close button in signer modal clicked.
+"Copy widget to" is visible. Stopping the loop.
+Finish button on placeholder clicked.

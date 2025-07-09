@@ -1,0 +1,2 @@
+Browser: chromium, Version: 134.0.6998.35, OS: linux
+FreeplanUsername exists: pravin+0.2565254764142919@nxglabs.in

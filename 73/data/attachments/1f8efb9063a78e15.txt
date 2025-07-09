@@ -1,0 +1,9 @@
+Dragged and dropped widget with label 'signature' to coordinates (600, 200).
+Save button clicked!
+Dragged and dropped widget with label 'initials' to coordinates (600, 300).
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'initials' to coordinates (600, 400).
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'initials' to coordinates (600, 500).
+Save button in signer modal clicked.
+Finish button on placeholder clicked.

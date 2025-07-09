@@ -1,0 +1,235 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Incompatiblepdfs >> Verify that user can perform the sign yourself using the word document
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/pdfsCompatibility.spec.js:682:1
+
+# Error details
+
+```
+Error: page.waitForEvent: Test timeout of 120000ms exceeded.
+=========================== logs ===========================
+waiting for event "filechooser"
+============================================================
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/pdfsCompatibility.spec.js:744:34
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - button ""
+  - img "logo"
+  - text: TEAM
+  - button ""
+  - img "img"
+  - button "Pravin Testing account"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- text: Pages
+- button "+ Add pages"
+- text: +      
+- button [disabled]
+- text: 1 of 3
+- button
+- button "Back"
+- button "Finish"
+- img "signature"
+- text:   stamp Fields  signature   stamp   initials   name   job title   company   date   text   cells   checkbox   image   email 
+- dialog:
+  - button "✕"
+  - text: Upload stamp  Upload
+  - button "Clear"
+  - button "Save" [disabled]
+- contentinfo:
+  - complementary:
+    - paragraph: "All rights reserved © 2025 OpenSign™ ( version: v2.26.0 )"
+```
+
+# Test source
+
+```ts
+  644 | await page.locator('//span[normalize-space()="date"]').hover();
+  645 | await page.mouse.down();
+  646 | await page.mouse.move(600, 550)
+  647 | await page.mouse.up();
+  648 | /*
+  649 | await page.locator('//span[normalize-space()="text"]').hover();
+  650 | await page.mouse.down();
+  651 | await page.waitForTimeout(1000);
+  652 | await page.mouse.move(600, 590)//textarea[@placeholder='text']
+  653 | await page.mouse.up();
+  654 | await page.locator('//textarea[@placeholder=\'text\']').fill('20 wood street sanfransisco');
+  655 |
+  656 | await page.locator('//span[normalize-space()="checkbox"]').hover();
+  657 | await page.mouse.down();
+  658 | await page.mouse.move(600, 640)
+  659 | await page.mouse.up();
+  660 | page.locator("//button[@type='submit' and text()='Save']").click();
+  661 | await page.locator('//span[normalize-space()="image"]').hover();
+  662 | await page.mouse.down();
+  663 | await page.mouse.move(600, 550)
+  664 | await page.mouse.up();
+  665 | const fileChooserPromise2 = page.waitForEvent('filechooser');
+  666 | await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
+  667 | const fileChooser2 = await fileChooserPromise2;
+  668 | await fileChooser2.setFiles(path.join(__dirname, '/TestData/Images/DesignerImage.png'));
+  669 | await page.locator("//button[normalize-space()='Save']").click();
+  670 | await page.locator('//span[normalize-space()="email"]').hover();
+  671 | await page.mouse.down();
+  672 | await page.mouse.move(600, 580)
+  673 | await page.mouse.up();
+  674 | await page.locator("//button[normalize-space()='Finish']").click();
+  675 | await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
+  676 |   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
+  677 |   await page.locator("//i[@class='fa-light fa-plus']").first().click();
+  678 |   await page.locator("//button[normalize-space()='Send']").click();
+  679 |
+  680 | });*/
+  681 |
+  682 | test('Verify that user can perform the sign yourself using the word document', async ({ page }) => {
+  683 |     const commonSteps = new CommonSteps(page);
+  684 |     // Step 1: Navigate to Base URL and log in
+  685 |     await commonSteps.navigateToBaseUrl();
+  686 |     await commonSteps.login();
+  687 |   //const title = await page.title()
+  688 |     //Expects page to have a heading with the name of dashboard.
+  689 |   //expect(title).toBe('Dashboard - OpenSign™');
+  690 |   
+  691 |   await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+  692 |     await page.locator('input[name="Name"]').click();
+  693 |     await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  694 |     await page.locator('input[name="Name"]').press('Tab');
+  695 |     await page.locator('input[name="Note"]').click();
+  696 |     const fileChooserPromise = page.waitForEvent('filechooser');
+  697 |   await page.locator('input[type="file"]').click();
+  698 |   const fileChooser = await fileChooserPromise;
+  699 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_word_doc.docx'));
+  700 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  701 |   await page.getByRole('button', { name: 'Next' }).click();
+  702 |   await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  703 |   await page.waitForLoadState("networkidle");
+  704 |   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  705 |   await page.waitForLoadState("networkidle");
+  706 | await page.locator('//span[normalize-space()="signature"]').hover();
+  707 | await page.mouse.down();
+  708 | await page.mouse.move(600, 300)
+  709 | await page.mouse.up();
+  710 | // Optionally save changes
+  711 | try {
+  712 |   const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
+  713 |
+  714 |   for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  715 |       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  716 |           await rowLocator.click();
+  717 |           console.log("Save button clicked!");
+  718 |           break; // Exit the loop if successfully clicked
+  719 |       } else {
+  720 |           console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
+  721 |   
+  722 |           await page.locator('//span[normalize-space()="signature"]').hover();
+  723 |           await page.mouse.down();
+  724 |           await page.mouse.move(800, 300);
+  725 |           await page.mouse.up();
+  726 |           
+  727 |           // Wait a bit before checking again
+  728 |           await page.waitForTimeout(1000);
+  729 |       }
+  730 |   
+  731 |       if (i === 5) {
+  732 |           console.log("Save button did not become visible after multiple attempts.");
+  733 |       }
+  734 |   }
+  735 | } catch (error) {
+  736 |   console.log("Element not found or not interactable, continuing execution.");
+  737 |  
+  738 | }
+  739 |
+  740 | await page.locator('//span[normalize-space()="stamp"]').hover();
+  741 | await page.mouse.down();
+  742 | await page.mouse.move(600, 360)
+  743 | await page.mouse.up();
+> 744 | const fileChooserPromise1 = page.waitForEvent('filechooser');
+      |                                  ^ Error: page.waitForEvent: Test timeout of 120000ms exceeded.
+  745 | await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
+  746 | const fileChooser1 = await fileChooserPromise1;
+  747 | await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
+  748 | await page.locator("//button[normalize-space()='Save']").click();
+  749 | await page.locator('//span[normalize-space()="initials"]').hover();
+  750 | await page.mouse.down();
+  751 | await page.mouse.move(600, 420)
+  752 | await page.mouse.up();
+  753 | await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
+  754 | await page.locator('//span[normalize-space()="name"]').hover();
+  755 | await page.mouse.down();
+  756 | await page.mouse.move(600, 470)
+  757 | await page.mouse.up();
+  758 | await page.locator('//span[normalize-space()="job title"]').hover();
+  759 | await page.mouse.down();
+  760 | await page.mouse.move(600, 480)
+  761 | await page.mouse.up();
+  762 | await page.locator('//span[normalize-space()="company"]').hover();
+  763 | await page.mouse.down();
+  764 | await page.mouse.move(600, 520)
+  765 | await page.mouse.up();
+  766 |
+  767 | await page.locator('//span[normalize-space()="date"]').hover();
+  768 | await page.mouse.down();
+  769 | await page.mouse.move(600, 550)
+  770 | await page.mouse.up();
+  771 | /*
+  772 | await page.locator('//span[normalize-space()="text"]').hover();
+  773 | await page.mouse.down();
+  774 | await page.waitForTimeout(1000);
+  775 | await page.mouse.move(600, 590)//textarea[@placeholder='text']
+  776 | await page.mouse.up();
+  777 | await page.locator('//textarea[@placeholder=\'text\']').fill('20 wood street sanfransisco');
+  778 | */
+  779 | await page.locator('//span[normalize-space()="checkbox"]').hover();
+  780 | await page.mouse.down();
+  781 | await page.mouse.move(600, 640)
+  782 | await page.mouse.up();
+  783 | page.locator("//button[@type='submit' and text()='Save']").click();
+  784 | await page.locator('//span[normalize-space()="image"]').hover();
+  785 | await page.mouse.down();
+  786 | await page.mouse.move(600, 550)
+  787 | await page.mouse.up();
+  788 | const fileChooserPromise2 = page.waitForEvent('filechooser');
+  789 | await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
+  790 | const fileChooser2 = await fileChooserPromise2;
+  791 | await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
+  792 | await page.locator("//button[normalize-space()='Save']").click();
+  793 | await page.locator('//span[normalize-space()="email"]').hover();
+  794 | await page.mouse.down();
+  795 | await page.mouse.move(600, 580)
+  796 | await page.mouse.up();
+  797 | await page.locator("//button[normalize-space()='Finish']").click();
+  798 | await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
+  799 |   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
+  800 |
+  801 |   await page.locator("//button[normalize-space()='Send']").click();
+  802 |
+  803 | })});
+```

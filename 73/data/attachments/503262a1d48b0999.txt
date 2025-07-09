@@ -1,0 +1,26 @@
+Dragged and dropped widget with label 'signature' to coordinates (600, 200).
+Save button clicked!
+Dragged and dropped widget with label 'name' to coordinates (600, 300).
+Save button in signer modal clicked.
+"Copy widget to" is visible. Stopping the loop.
+Save button in signer modal clicked.
+Font Size: 15.6176px, Color: rgb(0, 0, 255)
+Test Passed: Font size and color are correct.
+Dragged and dropped widget with label 'job title' to coordinates (600, 400).
+Save button in signer modal clicked.
+Font Size: 15.6176px, Color: rgb(0, 0, 255)
+Test Passed: Font size and color are correct.
+Dragged and dropped widget with label 'company' to coordinates (600, 500).
+Save button in signer modal clicked.
+Font Size: 15.6176px, Color: rgb(0, 0, 255)
+Test Passed: Font size and color are correct.
+Dragged and dropped widget with label 'text' to coordinates (600, 600).
+Filled 'text' widget with value '20 wood street sanfransisco'.
+Save button in signer modal clicked.
+Font Size: 15.6176px, Color: rgb(0, 0, 255)
+Test Passed: Font size and color are correct.
+Dragged and dropped widget with label 'email' to coordinates (600, 700).
+Save button in signer modal clicked.
+Font Size: 15.6176px, Color: rgb(0, 0, 255)
+Test Passed: Font size and color are correct.
+Finish button on placeholder clicked.

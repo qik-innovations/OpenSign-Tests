@@ -1,0 +1,489 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Templates >> Verify that the rotate page functions correctly in create template.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/CreateTemplate.spec.js:786:1
+
+# Error details
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]')
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/CreateTemplate.spec.js:791:89
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - button ""
+  - img "logo"
+  - text: TEAM
+  - button ""
+  - img "img"
+  - button "Pravin Testing account"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- text:  Sign yourself Use this option to sign the document yourself without adding others  Request signatures Use this option to request signatures from others and yourself together.  Need your signature 27
+- superscript: "?"
+- text:  Out for signatures 187
+- superscript: "?"
+- text: Recent signature requests
+- button "Search": 
+- table:
+  - rowgroup:
+    - row "Title File Owner Signers Action":
+      - cell "Title"
+      - cell "File"
+      - cell "Owner"
+      - cell "Signers"
+      - cell "Action"
+  - rowgroup:
+    - row "Sample-joining-letter Expires 17-Jul-2025 Download Pravin Testing account View  sign":
+      - cell "Sample-joining-letter Expires 17-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell " sign":
+        - button " sign"
+    - row "Offer Letter Expires 17-Jul-2025 Download Pravin Testing account View  sign":
+      - cell "Offer Letter Expires 17-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell " sign":
+        - button " sign"
+    - row "Sample-joining-letter Expires 17-Jul-2025 Download Pravin Testing account View  sign":
+      - cell "Sample-joining-letter Expires 17-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell " sign":
+        - button " sign"
+    - row "Sample-joining-letter Expires 17-Jul-2025 Download Pravin Testing account View  sign":
+      - cell "Sample-joining-letter Expires 17-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell " sign":
+        - button " sign"
+    - row "Sample-joining-letter Expires 17-Jul-2025 Download Pravin Testing account View  sign":
+      - cell "Sample-joining-letter Expires 17-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell " sign":
+        - button " sign"
+- button "Prev"
+- button "1"
+- button "2"
+- button "3"
+- button "4"
+- button "5"
+- button "6"
+- button "Next"
+- text: Recently sent for signatures
+- button "Search": 
+- table:
+  - rowgroup:
+    - row "Title File Owner Signers Action":
+      - cell "Title"
+      - cell "File"
+      - cell "Owner"
+      - cell "Signers"
+      - cell "Action"
+  - rowgroup:
+    - row "Nu-international-application-form Expires 24-Jul-2025 Download Pravin Testing account View   ":
+      - cell "Nu-international-application-form Expires 24-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+    - row "Sample document Self sign Expires 23-Jul-2025 Download Pravin Testing account View   ":
+      - cell "Sample document Self sign Expires 23-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+    - row "Sample document Self sign Expires 23-Jul-2025 Download Pravin Testing account View   ":
+      - cell "Sample document Self sign Expires 23-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+    - row "Sample document Self sign Expires 23-Jul-2025 Download Pravin Testing account View   ":
+      - cell "Sample document Self sign Expires 23-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+    - row "Create template Expires 10-Jul-2025 Download Pravin Testing account View   ":
+      - cell "Create template Expires 10-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+- button "Prev"
+- button "1"
+- button "2"
+- button "3"
+- button "4"
+- button "Next"
+- text: Drafts
+- searchbox "Search documents…"
+- table:
+  - rowgroup:
+    - row "Title Note Folder File Owner Signers Action":
+      - cell "Title"
+      - cell "Note"
+      - cell "Folder"
+      - cell "File"
+      - cell "Owner"
+      - cell "Signers"
+      - cell "Action"
+  - rowgroup:
+    - row "Sample-joining-letter Note to myself OpenSign™ Drive Download Pravin Testing account View   ":
+      - cell "Sample-joining-letter"
+      - cell "Note to myself":
+        - paragraph: Note to myself
+      - cell "OpenSign™ Drive"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+    - row "Sample Test Doc Line Note to myself OpenSign™ Drive Download Pravin Testing account -   ":
+      - cell "Sample Test Doc Line"
+      - cell "Note to myself":
+        - paragraph: Note to myself
+      - cell "OpenSign™ Drive"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "-"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+    - row "Sample-joining-letter Note to myself OpenSign™ Drive Download Pravin Testing account View   ":
+      - cell "Sample-joining-letter"
+      - cell "Note to myself":
+        - paragraph: Note to myself
+      - cell "OpenSign™ Drive"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+    - row "Sample-joining-letter Note to myself OpenSign™ Drive Download Pravin Testing account View   ":
+      - cell "Sample-joining-letter"
+      - cell "Note to myself":
+        - paragraph: Note to myself
+      - cell "OpenSign™ Drive"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+    - row "Sample Test Doc Line Note to myself OpenSign™ Drive Download Pravin Testing account View   ":
+      - cell "Sample Test Doc Line"
+      - cell "Note to myself":
+        - paragraph: Note to myself
+      - cell "OpenSign™ Drive"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+- button "Prev"
+- button "1"
+- button "2"
+- button "3"
+- button "4"
+- button "Next"
+- contentinfo:
+  - complementary:
+    - paragraph: "All rights reserved © 2025 OpenSign™ ( version: v2.26.0 )"
+```
+
+# Test source
+
+```ts
+  691 |             
+  692 |             // Wait a bit before checking again
+  693 |             await page.waitForTimeout(1000);
+  694 |         }
+  695 |     
+  696 |         if (i === 5) {
+  697 |             console.log("signature widget did not become visible on the document after multiple attempts.");
+  698 |         }
+  699 |     }
+  700 |   } catch (error) {
+  701 |     console.log("Element not found or not interactable, continuing execution.");
+  702 |    
+  703 |   }
+  704 | await page.locator('//span[normalize-space()=\'stamp\']').hover();
+  705 | await page.mouse.down();
+  706 | await page.mouse.move(600, 250)
+  707 | await page.mouse.up();
+  708 | await page.locator('//span[normalize-space()=\'initials\']').hover();
+  709 | await page.mouse.down();
+  710 | await page.mouse.move(600, 300)
+  711 | await page.mouse.up();
+  712 | await page.locator('//span[normalize-space()=\'name\']').hover();
+  713 | await page.mouse.down();
+  714 |
+  715 | await page.mouse.move(600, 340)
+  716 | await page.mouse.up();
+  717 | await page.locator('//span[normalize-space()=\'job title\']').hover();
+  718 | await page.mouse.down();
+  719 |
+  720 | await page.mouse.move(600, 370)
+  721 | await page.mouse.up();
+  722 | await page.locator('//span[normalize-space()=\'company\']').hover();
+  723 | await page.mouse.down();
+  724 | await page.mouse.move(600, 400)
+  725 | await page.mouse.up();
+  726 |
+  727 | await page.locator('//span[normalize-space()=\'date\']').hover();
+  728 | await page.mouse.down();
+  729 | await page.mouse.move(600, 430)
+  730 | await page.mouse.up();
+  731 | await page.locator('//span[normalize-space()=\'text input\']').hover();
+  732 | await page.mouse.down();
+  733 | await page.mouse.move(600, 450)
+  734 | await page.mouse.up();
+  735 | await page.locator('//span[normalize-space()=\'checkbox\']').hover();
+  736 | await page.mouse.down();
+  737 | await page.mouse.move(600, 480)
+  738 | await page.mouse.up();
+  739 | page.locator("//button[@type='submit' and text()='Save']").click();
+  740 | await page.locator('//span[normalize-space()=\'image\']').hover();
+  741 | await page.mouse.down();
+  742 | await page.mouse.move(600, 510)
+  743 | await page.mouse.up();
+  744 | await page.locator('//span[normalize-space()=\'email\']').hover();
+  745 | await page.mouse.down();
+  746 | await page.mouse.move(600, 540)
+  747 | await page.mouse.up();
+  748 | await page.getByRole('button', { name: 'Next' }).click();
+  749 |  // await expect(page.locator('//h3[text()="Create document"]')).toContainText('Create document');
+  750 |  await page.locator('//button[text()="Create document" and @class= "op-btn op-btn-sm op-btn-primary"]').click();
+  751 |   await page.locator('.css-n9qnu9').click();
+  752 |   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
+  753 |   await page.getByRole('button', { name: ' Next' }).click();
+  754 |   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+  755 |   await page.getByRole('button', { name: 'Send' }).click();
+  756 | });
+  757 | test('Verify that the delete page functions correctly in create template.', async ({ page }) => {
+  758 |   const commonSteps = new CommonSteps(page);
+  759 |   // Step 1: Navigate to Base URL and log in
+  760 |   await commonSteps.navigateToBaseUrl();
+  761 |   await commonSteps.login();
+  762 | await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+  763 | await page.getByRole('menuitem', { name: 'Create template' }).click();
+  764 | await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  765 | const fileChooserPromise = page.waitForEvent('filechooser');
+  766 | await page.locator('input[type="file"]').click();
+  767 | const fileChooser = await fileChooserPromise;
+  768 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
+  769 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  770 | await page.getByRole('button', { name: 'Next' }).click();
+  771 | await page.waitForLoadState("networkidle");
+  772 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  773 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  774 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  775 | await page.waitForLoadState("networkidle");
+  776 | await expect(page.locator('#renderList')).toContainText('1 of 3');
+  777 |   await page.locator('#container div').first().click();
+  778 |   await page.getByTitle('Delete page').locator('i').click();
+  779 |   await expect(page.getByRole('heading')).toContainText('Delete page');
+  780 |   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to delete this page?');
+  781 |   await expect(page.locator('#selectSignerModal')).toContainText('Note: Once you delete this page, you cannot undo.');
+  782 |   await page.getByRole('button', { name: 'Yes' }).click();
+  783 |   await expect(page.locator('#renderList')).toContainText('1 of 2');
+  784 |
+  785 | });
+  786 | test('Verify that the rotate page functions correctly in create template.', async ({ page }) => {
+  787 |   const commonSteps = new CommonSteps(page);
+  788 |     // Step 1: Navigate to Base URL and log in
+  789 |     await commonSteps.navigateToBaseUrl();
+  790 |     await commonSteps.login();
+> 791 |   await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+      |                                                                                         ^ Error: locator.click: Test timeout of 120000ms exceeded.
+  792 |   await page.getByRole('menuitem', { name: 'Create template' }).click();
+  793 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  794 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  795 |   await page.locator('input[type="file"]').click();
+  796 |   const fileChooser = await fileChooserPromise;
+  797 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
+  798 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  799 |   await page.getByRole('button', { name: 'Next' }).click();
+  800 | await page.waitForLoadState("networkidle");
+  801 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  802 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  803 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  804 | await page.waitForLoadState("networkidle");
+  805 | await expect(page.locator('#renderList')).toContainText('1 of 3');
+  806 |   await page.locator('canvas').nth(1).click({
+  807 |     position: {
+  808 |       x: 92,
+  809 |       y: 83
+  810 |     }
+  811 |   });
+  812 |   await expect(page.locator('#renderList')).toContainText('2 of 3');
+  813 |   await page.getByTitle('Rotate right').locator('i').click();
+  814 |   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+  815 |     - text: Pages
+  816 |     - button "+ Add pages"
+  817 |     - text: +     
+  818 |     - button
+  819 |     - text: 2 of 3
+  820 |     - button
+  821 |     - button ""
+  822 |     - button "Back"
+  823 |     - button "Next"
+  824 |     - text: Roles
+  825 |     - superscript: "?"
+  826 |     - button "+ Add role"
+  827 |     - text: Fields  signature   stamp   initials   name   job title   company   date   text input   checkbox   dropdown   radio button   image   email 
+  828 |     `);
+  829 |   await page.getByTitle('Rotate right').locator('i').click();
+  830 |   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+  831 |     - text: Pages
+  832 |     - button "+ Add pages"
+  833 |     - text: +     
+  834 |     - button
+  835 |     - text: 2 of 3
+  836 |     - button
+  837 |     - button ""
+  838 |     - button "Back"
+  839 |     - button "Next"
+  840 |     - text: Roles
+  841 |     - superscript: "?"
+  842 |     - button "+ Add role"
+  843 |     - text: Fields  signature   stamp   initials   name   job title   company   date   text input   checkbox   dropdown   radio button   image   email 
+  844 |     `);
+  845 |   await page.locator('canvas').nth(2).click({
+  846 |     position: {
+  847 |       x: 85,
+  848 |       y: 18
+  849 |     }
+  850 |   });
+  851 |   await page.getByTitle('Rotate left').locator('i').click();
+  852 |   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+  853 |     - text: Pages
+  854 |     - button "+ Add pages"
+  855 |     - text: +     
+  856 |     - button
+  857 |     - text: 3 of 3
+  858 |     - button [disabled]
+  859 |     - button ""
+  860 |     - button "Back"
+  861 |     - button "Next"
+  862 |     - text: Roles
+  863 |     - superscript: "?"
+  864 |     - button "+ Add role"
+  865 |     - text: Fields  signature   stamp   initials   name   job title   company   date   text input   checkbox   dropdown   radio button   image   email 
+  866 |     `);
+  867 |     await page.getByRole('button', { name: '+ Add role' }).click();
+  868 |     await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
+  869 |     await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+  870 |     await page.locator('//span[normalize-space()=\'signature\']').hover();
+  871 |     await page.mouse.down();
+  872 |     await page.mouse.move(600, 200)
+  873 |     await page.mouse.up();
+  874 |     try {
+  875 |       const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+  876 |     
+  877 |       for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  878 |           if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  879 |           
+  880 |               console.log("signature widget dragged and dropped");
+  881 |               break; // Exit the loop if successfully clicked
+  882 |           } else {
+  883 |               console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  884 |       
+  885 |               await page.locator('//span[normalize-space()="signature"]').hover();
+  886 |               await page.mouse.down();
+  887 |               await page.mouse.move(600, 200);
+  888 |               await page.mouse.up();
+  889 |               
+  890 |               // Wait a bit before checking again
+  891 |               await page.waitForTimeout(1000);
+```

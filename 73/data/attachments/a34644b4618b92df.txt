@@ -1,0 +1,33 @@
+Dragged and dropped widget with label 'signature' to coordinates (600, 200).
+Save button clicked!
+Dragged and dropped widget with label 'stamp' to coordinates (600, 250).
+Image Path: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/TestData/Images/stamp.jpg
+Stamp image uploaded successfully.
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'initials' to coordinates (600, 300).
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'name' to coordinates (600, 370).
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'job title' to coordinates (600, 390).
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'company' to coordinates (600, 430).
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'date' to coordinates (600, 460).
+Today's date: 07/09/2025
+Date field with value '07/09/2025' clicked on the signer modal.
+Date with aria-label 'Choose Friday, July 11th, 2025' selected from the calendar.
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'text' to coordinates (600, 490).
+Filled 'text' widget with value '20 wood street sanfransisco'.
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'checkbox' to coordinates (600, 540).
+Save button in signer modal clicked.
+Checkbox with label 'Option-1' clicked.
+Checkbox with label 'Option-1' selected.
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'image' to coordinates (600, 600).
+Image uploaded successfully.
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'email' to coordinates (600, 640).
+Save button in signer modal clicked.
+Finish button on placeholder clicked.

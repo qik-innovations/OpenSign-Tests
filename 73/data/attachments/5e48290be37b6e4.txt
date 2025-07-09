@@ -1,0 +1,490 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Verify that the document created from a template bulksend appears in the Recently Sent for Signatures section on the dashboard.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Dashboard.spec.js:722:1
+
+# Error details
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]')
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Dashboard.spec.js:727:89
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - button ""
+  - img "logo"
+  - text: TEAM
+  - button ""
+  - img "img"
+  - button "Pravin Testing account"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- text:  Sign yourself Use this option to sign the document yourself without adding others  Request signatures Use this option to request signatures from others and yourself together.  Need your signature 31
+- superscript: "?"
+- text:  Out for signatures 193
+- superscript: "?"
+- text: Recent signature requests
+- button "Search": 
+- table:
+  - rowgroup:
+    - row "Title File Owner Signers Action":
+      - cell "Title"
+      - cell "File"
+      - cell "Owner"
+      - cell "Signers"
+      - cell "Action"
+  - rowgroup:
+    - row "Sample-joining-letter Expires 24-Jul-2025 Download Pravin Testing account View  sign":
+      - cell "Sample-joining-letter Expires 24-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell " sign":
+        - button " sign"
+    - row "Sample-joining-letter Expires 24-Jul-2025 Download Pravin Testing account View  sign":
+      - cell "Sample-joining-letter Expires 24-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell " sign":
+        - button " sign"
+    - row "Sample-joining-letter Expires 24-Jul-2025 Download Pravin Testing account View  sign":
+      - cell "Sample-joining-letter Expires 24-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell " sign":
+        - button " sign"
+    - row "Sample-joining-letter Expires 24-Jul-2025 Download Pravin Testing account View  sign":
+      - cell "Sample-joining-letter Expires 24-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell " sign":
+        - button " sign"
+    - row "Sample-joining-letter Expires 17-Jul-2025 Download Pravin Testing account View  sign":
+      - cell "Sample-joining-letter Expires 17-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell " sign":
+        - button " sign"
+- button "Prev"
+- button "1"
+- button "2"
+- button "3"
+- button "4"
+- button "5"
+- button "6"
+- button "7"
+- button "Next"
+- text: Recently sent for signatures
+- button "Search": 
+- table:
+  - rowgroup:
+    - row "Title File Owner Signers Action":
+      - cell "Title"
+      - cell "File"
+      - cell "Owner"
+      - cell "Signers"
+      - cell "Action"
+  - rowgroup:
+    - row "Sample-joining-letter Expires 24-Jul-2025 Download Pravin Testing account View   ":
+      - cell "Sample-joining-letter Expires 24-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+    - row "Sample-joining-letter Expires 24-Jul-2025 Download Pravin Testing account View   ":
+      - cell "Sample-joining-letter Expires 24-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+    - row "Sample-joining-letter Expires 24-Jul-2025 Download Pravin Testing account View   ":
+      - cell "Sample-joining-letter Expires 24-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+    - row "Sample-joining-letter Expires 24-Jul-2025 Download Pravin Testing account View   ":
+      - cell "Sample-joining-letter Expires 24-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+    - row "Sample-joining-letter Expires 24-Jul-2025 Download Pravin Testing account View   ":
+      - cell "Sample-joining-letter Expires 24-Jul-2025"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+- button "Prev"
+- button "1"
+- button "2"
+- button "3"
+- button "4"
+- button "Next"
+- text: Drafts
+- searchbox "Search documents…"
+- table:
+  - rowgroup:
+    - row "Title Note Folder File Owner Signers Action":
+      - cell "Title"
+      - cell "Note"
+      - cell "Folder"
+      - cell "File"
+      - cell "Owner"
+      - cell "Signers"
+      - cell "Action"
+  - rowgroup:
+    - row "Draft doc rpt Sample offer letter Note Draft doc rpt OpenSign™ Drive Download Pravin Testing account View   ":
+      - cell "Draft doc rpt Sample offer letter"
+      - cell "Note Draft doc rpt":
+        - paragraph: Note Draft doc rpt
+      - cell "OpenSign™ Drive"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+    - row "Draft doc rpt Sample offer letter Note Draft doc rpt OpenSign™ Drive Download Pravin Testing account View   ":
+      - cell "Draft doc rpt Sample offer letter"
+      - cell "Note Draft doc rpt":
+        - paragraph: Note Draft doc rpt
+      - cell "OpenSign™ Drive"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+    - row "Draft doc rpt Sample offer letter Note Draft doc rpt OpenSign™ Drive Download Pravin Testing account View   ":
+      - cell "Draft doc rpt Sample offer letter"
+      - cell "Note Draft doc rpt":
+        - paragraph: Note Draft doc rpt
+      - cell "OpenSign™ Drive"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+    - row "Sample-joining-letter Note to myself OpenSign™ Drive Download Pravin Testing account View   ":
+      - cell "Sample-joining-letter"
+      - cell "Note to myself":
+        - paragraph: Note to myself
+      - cell "OpenSign™ Drive"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "View":
+        - button "View"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+    - row "Sample Test Doc Line Note to myself OpenSign™ Drive Download Pravin Testing account -   ":
+      - cell "Sample Test Doc Line"
+      - cell "Note to myself":
+        - paragraph: Note to myself
+      - cell "OpenSign™ Drive"
+      - cell "Download":
+        - button "Download"
+      - cell "Pravin Testing account"
+      - cell "-"
+      - cell "  ":
+        - button ""
+        - button ""
+        - button ""
+- button "Prev"
+- button "1"
+- button "2"
+- button "3"
+- button "4"
+- button "Next"
+- contentinfo:
+  - complementary:
+    - paragraph: "All rights reserved © 2025 OpenSign™ ( version: v2.26.0 )"
+```
+
+# Test source
+
+```ts
+  627 | await expect(page.locator('//div[@data-tut="tourreport2"]//th[4]')).toContainText('Signers');
+  628 | await expect(page.locator('//div[@data-tut="tourreport2"]//div[@class="font-semibold break-words"]').first()).toContainText('Sample-joining-letter');
+  629 | await expect(page.locator('//div[@data-tut="tourreport2"]//td[2]').first()).toContainText('Download');
+  630 | await expect(page.locator('//div[@data-tut="tourreport2"]//td[3]').first()).toContainText('Pravin Testing account');  
+  631 | await page.locator('//div[@data-tut="tourreport2"]//div[@role="button"and @title="Share"]').first().click();
+  632 | await expect(page.locator('//div[@class="m-[20px]"]//div[1]//span[1]')).toContainText('andyamaya@nxglabs.in');
+  633 | await page.locator('//div[@class="m-[20px]"]//div[1]//button[text()="Copy"]').click();
+  634 | await expect(page.locator('//div[@class="m-[20px]"]//div[1]//button[2]')).toContainText('Copied');
+  635 | await page.locator('//dialog[@id="selectSignerModal"]//div[1]//button[text()="✕"]').click();
+  636 | await page.locator('//div[@data-tut="tourreport2"]//div[@role="button"and @title="View"]').first().click();
+  637 | await expect(page.locator('//div[@class="flex flex-col"]//span[1]')).toBeVisible({ timeout: 120000 });
+  638 | await expect(page.locator('//div[@class="flex flex-col"]//span[1]')).toContainText('Andy amaya');
+  639 | });
+  640 |
+  641 | test('Verify that the document created from a template appears in the Recently Sent for Signatures section on the dashboard.', async ({ page }) => {
+  642 |   const commonSteps = new CommonSteps(page);
+  643 |     // Step 1: Navigate to Base URL and log in
+  644 |     await commonSteps.navigateToBaseUrl();
+  645 |     await commonSteps.login();
+  646 |   await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+  647 |   await page.getByRole('menuitem', { name: 'Create template' }).click();
+  648 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  649 |   await page.locator('input[type="file"]').click();
+  650 |   const fileChooser = await fileChooserPromise;
+  651 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  652 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  653 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  654 |   await page.getByRole('button', { name: 'Next' }).click();
+  655 | await page.waitForLoadState("networkidle");
+  656 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  657 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  658 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  659 | await page.waitForLoadState("networkidle");
+  660 |   await page.getByRole('button', { name: '+ Add role' }).click();
+  661 |   await page.getByPlaceholder('Role 1').fill('HR');
+  662 |   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+  663 |   await page.locator('//span[normalize-space()=\'signature\']').hover();
+  664 |   await page.mouse.down();
+  665 |   await page.mouse.move(600, 200)
+  666 |   await page.mouse.up();
+  667 |   try {
+  668 |     const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+  669 |   
+  670 |     for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  671 |         if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  672 |         
+  673 |             console.log("signature widget dragged and dropped");
+  674 |             break; // Exit the loop if successfully clicked
+  675 |         } else {
+  676 |             console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  677 |     
+  678 |             await page.locator('//span[normalize-space()="signature"]').hover();
+  679 |             await page.mouse.down();
+  680 |             await page.mouse.move(600, 200);
+  681 |             await page.mouse.up();
+  682 |             
+  683 |             // Wait a bit before checking again
+  684 |             await page.waitForTimeout(1000);
+  685 |         }
+  686 |     
+  687 |         if (i === 5) {
+  688 |             console.log("signature widget did not become visible on the document after multiple attempts.");
+  689 |         }
+  690 |     }
+  691 |   } catch (error) {
+  692 |     console.log("Element not found or not interactable, continuing execution.");
+  693 |    
+  694 |   }
+  695 |
+  696 | await page.getByRole('button', { name: 'Next' }).click();
+  697 |   //await expect(page.getByRole('heading')).toContainText('Create document');
+  698 |   await page.getByRole('button', { name: 'Create document' }).click();
+  699 |   await page.locator('.css-n9qnu9').click();
+  700 |   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
+  701 |  
+  702 |   await page.getByRole('button', { name: ' Next' }).click();
+  703 |   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+  704 |   await page.getByRole('button', { name: 'Send' }).click();
+  705 |   await page.getByRole('menuitem', { name: 'Dashboard' }).click();
+  706 | // Wait up to 90 seconds for the text to appear
+  707 | await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+  708 | // Now assert the text
+  709 | await expect(page.locator('//div[@data-tut="tourreport2"]//div[text()="Recently sent for signatures"]')).toBeVisible({ timeout: 12000 });
+  710 | await expect(page.locator('//div[@data-tut="tourreport2"]//div[@class="font-semibold break-words"]').first()).toContainText('Offer Letter for QA11');
+  711 | await expect(page.locator('//div[@data-tut="tourreport2"]//td[2]').first()).toContainText('Download');
+  712 | await expect(page.locator('//div[@data-tut="tourreport2"]//td[3]').first()).toContainText('Pravin Testing account');  
+  713 | await page.locator('//div[@data-tut="tourreport2"]//div[@role="button"and @title="Share"]').first().click();
+  714 | await expect(page.locator('//div[@class="m-[20px]"]//div[1]//span[1]')).toContainText('andyamaya@nxglabs.in');
+  715 | await page.locator('//div[@class="m-[20px]"]//div[1]//button[text()="Copy"]').click();
+  716 | await expect(page.locator('//div[@class="m-[20px]"]//div[1]//button[2]')).toContainText('Copied');
+  717 | await page.locator('//dialog[@id="selectSignerModal"]//div[1]//button[text()="✕"]').click();
+  718 | await page.locator('//div[@data-tut="tourreport2"]//div[@role="button"and @title="View"]').first().click();
+  719 | await expect(page.locator('//div[@class="flex flex-col"]//span[1]')).toBeVisible({ timeout: 120000 });
+  720 | await expect(page.locator('//div[@class="flex flex-col"]//span[1]')).toContainText('Andy amaya');
+  721 | });
+  722 | test('Verify that the document created from a template bulksend appears in the Recently Sent for Signatures section on the dashboard.', async ({ page }) => {
+  723 |   const commonSteps = new CommonSteps(page);
+  724 |     // Step 1: Navigate to Base URL and log in
+  725 |     await commonSteps.navigateToBaseUrl();
+  726 |     await commonSteps.login();
+> 727 |   await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+      |                                                                                         ^ Error: locator.click: Test timeout of 120000ms exceeded.
+  728 |   await page.getByRole('menuitem', { name: 'Create template' }).click();
+  729 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  730 |   await page.locator('input[type="file"]').click();
+  731 |   const fileChooser = await fileChooserPromise;
+  732 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  733 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  734 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  735 |   await page.getByRole('button', { name: 'Next' }).click();
+  736 | await page.waitForLoadState("networkidle");
+  737 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  738 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  739 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  740 | await page.waitForLoadState("networkidle");
+  741 |   await page.getByRole('button', { name: '+ Add role' }).click();
+  742 |   await page.getByPlaceholder('Role 1').fill('HR');
+  743 |   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+  744 |   await page.locator('//span[normalize-space()=\'signature\']').hover();
+  745 |   await page.mouse.down();
+  746 |   await page.mouse.move(600, 200)
+  747 |   await page.mouse.up();
+  748 |   try {
+  749 |     const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+  750 |   
+  751 |     for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  752 |         if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  753 |         
+  754 |             console.log("signature widget dragged and dropped");
+  755 |             break; // Exit the loop if successfully clicked
+  756 |         } else {
+  757 |             console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  758 |     
+  759 |             await page.locator('//span[normalize-space()="signature"]').hover();
+  760 |             await page.mouse.down();
+  761 |             await page.mouse.move(600, 200);
+  762 |             await page.mouse.up();
+  763 |             
+  764 |             // Wait a bit before checking again
+  765 |             await page.waitForTimeout(1000);
+  766 |         }
+  767 |     
+  768 |         if (i === 5) {
+  769 |             console.log("signature widget did not become visible on the document after multiple attempts.");
+  770 |         }
+  771 |     }
+  772 |   } catch (error) {
+  773 |     console.log("Element not found or not interactable, continuing execution.");
+  774 |    
+  775 |   }
+  776 |
+  777 | await page.getByRole('button', { name: 'Next' }).click();
+  778 |  // await expect(page.getByRole('heading')).toContainText('Create document');
+  779 |   await page.locator('//dialog[@id="selectSignerModal"]//button[text()="Bulk send"]').click();
+  780 |   await page.locator('//dialog[@id="selectSignerModal"]//input[@type="email" and @placeholder="Enter Email..."]').fill("andyamaya@nxglabs.in");
+  781 |   await page.locator('//dialog[@id="selectSignerModal"]//span[text()="Send"]').click();
+  782 |   await expect(page.locator('#renderList')).toContainText('In-progress documents');
+  783 |   await page.getByRole('menuitem', { name: 'Dashboard' }).click();
+  784 |   await page.waitForTimeout(2000);
+  785 | // Wait up to 90 seconds for the text to appear
+  786 | await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+  787 | // Now assert the text
+  788 | await expect(page.locator('//div[@data-tut="tourreport2"]//div[text()="Recently sent for signatures"]')).toBeVisible({ timeout: 12000 });
+  789 | await expect(page.locator('//div[@data-tut="tourreport2"]//div[@class="font-semibold break-words"]').first()).toContainText('Offer Letter for QA11');
+  790 | await expect(page.locator('//div[@data-tut="tourreport2"]//td[2]').first()).toContainText('Download');
+  791 | await expect(page.locator('//div[@data-tut="tourreport2"]//td[3]').first()).toContainText('Pravin Testing account');  
+  792 | await page.locator('//div[@data-tut="tourreport2"]//div[@role="button"and @title="Share"]').first().click();
+  793 | await expect(page.locator('//div[@class="m-[20px]"]//div[1]//span[1]')).toContainText('andyamaya@nxglabs.in');
+  794 |
+  795 | });
+  796 |
+  797 | test('Verify that the user can rename and delete a document from the dashboard Recently sent for signatures.', async ({ page }) => {
+  798 |   const commonSteps = new CommonSteps(page);
+  799 |   // Step 1: Navigate to Base URL and log in
+  800 |   await commonSteps.navigateToBaseUrl();
+  801 |   await commonSteps.login();
+  802 | //const title = await page.title()
+  803 |   //Expects page to have a heading with the name of dashboard.
+  804 | //expect(title).toBe('Dashboard - OpenSign™');
+  805 | await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  806 |   await page.locator('input[name="Name"]').click();
+  807 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  808 |   await page.locator('input[name="Note"]').click();
+  809 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  810 | await page.locator('input[type="file"]').click();
+  811 | const fileChooser = await fileChooserPromise;
+  812 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  813 | await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  814 | await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+  815 | await page.locator('input[name="Name"]').click();
+  816 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  817 | await page.getByRole('button', { name: 'Next' }).click();
+  818 | await page.waitForLoadState("networkidle");
+  819 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  820 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  821 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  822 | await page.locator('//span[normalize-space()=\'signature\']').hover();
+  823 | await page.mouse.down();
+  824 | await page.mouse.move(600, 300)
+  825 | await page.mouse.up();
+  826 | try {
+  827 |   const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+```

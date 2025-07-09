@@ -1,0 +1,9 @@
+Browser: chromium, Version: 134.0.6998.35, OS: linux
+Dragged and dropped widget with label 'signature' to coordinates (600, 200).
+Save button clicked!
+Dragged and dropped widget with label 'checkbox' to coordinates (600, 300).
+Save button in signer modal clicked.
+Close button in signer modal clicked.
+"Copy widget to" is visible. Stopping the loop.
+Save button in signer modal clicked.
+Font Size: 16px, Color: rgb(0, 0, 255)

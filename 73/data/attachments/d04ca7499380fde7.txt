@@ -1,0 +1,24 @@
+Browser: chromium, Version: 134.0.6998.35, OS: linux
+Dragged and dropped widget with label 'signature' to coordinates (600, 200).
+Signature widget dragged and dropped successfully.
+Dragged and dropped widget with label 'stamp' to coordinates (600, 250).
+Dragged and dropped widget with label 'initials' to coordinates (600, 300).
+Dragged and dropped widget with label 'name' to coordinates (600, 350).
+Widget element ID: 10200461
+Dragged and dropped widget with label 'job title' to coordinates (600, 370).
+Widget element ID: 98056047
+Dragged and dropped widget with label 'company' to coordinates (600, 400).
+Widget element ID: 23342467
+Dragged and dropped widget with label 'date' to coordinates (600, 430).
+Dragged and dropped widget with label 'text input' to coordinates (600, 450).
+Widget element ID: 12534729
+Dragged and dropped widget with label 'cells' to coordinates (750, 380).
+Dragged and dropped widget with label 'checkbox' to coordinates (600, 500).
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'dropdown' to coordinates (600, 550).
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'radio button' to coordinates (600, 600).
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'image' to coordinates (600, 650).
+Dragged and dropped widget with label 'email' to coordinates (600, 700).
+Widget element ID: null

@@ -1,0 +1,3 @@
+Browser: chromium, Version: 134.0.6998.35, OS: linux
+FreeplanUsername is empty. Running signup test...
+✅ Signup successful. User: pravin+0.3000150548339249@nxglabs.in

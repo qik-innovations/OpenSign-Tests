@@ -1,0 +1,232 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Templates >> Verify that a new free user cannot access the paid features on the create template and edit template page.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/CreateTemplate.spec.js:6:1
+
+# Error details
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]')
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/CreateTemplate.spec.js:29:89
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - button ""
+  - img "logo"
+  - button "Upgrade now"
+  - button ""
+  - img "img"
+  - button "Mathew Wade"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Mathew Wade
+  - paragraph: qikAi.com
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- text:  Sign yourself Use this option to sign the document yourself without adding others  Request signatures Use this option to request signatures from others and yourself together.  Need your signature 0
+- superscript: "?"
+- text:  Out for signatures 0
+- superscript: "?"
+- text: Recent signature requests
+- button "Search": 
+- table:
+  - rowgroup:
+    - row "Title File Owner Signers Action":
+      - cell "Title"
+      - cell "File"
+      - cell "Owner"
+      - cell "Signers"
+      - cell "Action"
+  - rowgroup
+- img "img"
+- text: No data available Recently sent for signatures
+- button "Search": 
+- table:
+  - rowgroup:
+    - row "Title File Owner Signers Action":
+      - cell "Title"
+      - cell "File"
+      - cell "Owner"
+      - cell "Signers"
+      - cell "Action"
+  - rowgroup
+- img "img"
+- text: No data available Drafts
+- searchbox "Search documents…"
+- table:
+  - rowgroup:
+    - row "Title Note Folder File Owner Signers Action":
+      - cell "Title"
+      - cell "Note"
+      - cell "Folder"
+      - cell "File"
+      - cell "Owner"
+      - cell "Signers"
+      - cell "Action"
+  - rowgroup
+- img "img"
+- text: No data available
+- contentinfo:
+  - complementary:
+    - paragraph: "All rights reserved © 2025 OpenSign™ ( version: v2.26.0 )"
+```
+
+# Test source
+
+```ts
+   1 | const { test, expect } = require('@playwright/test');
+   2 | const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+   3 | const CommonSteps = require('../utils/CommonSteps');
+   4 | const path = require('path');
+   5 | test.describe('Templates', () => {
+   6 | test('Verify that a new free user cannot access the paid features on the create template and edit template page.', async ({ page }) => {
+   7 |   
+   8 |   const commonSteps = new CommonSteps(page);
+   9 |     // Step 1: Navigate to Base URL and log in
+   10 |     await commonSteps.navigateToBaseUrl();
+   11 |   await page.getByRole('button', { name: 'Create account' }).click();
+   12 |   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
+   13 |   await page.locator('input[type="text"]').first().fill('Mathew Wade');
+   14 |   //here we are creating the random email id
+   15 |   let x = "pravin+" + Math.random() + "@nxglabs.in"
+   16 |   await page.locator('#email').fill(x);
+   17 |   await page.locator('input[type="tel"]').fill('8238988998');
+   18 |   await page.locator('input[type="text"]').nth(1).fill('qikAi.com');
+   19 |   await page.locator('input[type="text"]').nth(2).fill('Hr Execative');
+   20 |   await page.locator('input[name="password"]').fill('Nxglabs@123');
+   21 |   await page.locator('input[id="termsandcondition"]').click();
+   22 |   await page.getByRole('button', { name: 'Register' }).click();
+   23 |   await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible();
+   24 | await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getByRole('button').click();
+   25 |     await page.getByLabel('Close').click();
+   26 |     // Expects page to have a heading with the name of dashboard.
+   27 |     const title = await page.title()
+   28 |        expect(title).toBe('Dashboard - OpenSign™');
+>  29 |   await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+      |                                                                                         ^ Error: locator.click: Test timeout of 120000ms exceeded.
+   30 |   await page.getByRole('menuitem', { name: 'Create template' }).click();
+   31 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+   32 |   const fileChooserPromise = page.waitForEvent('filechooser');
+   33 |   await page.locator('input[type="file"]').click();
+   34 |   const fileChooser = await fileChooserPromise;
+   35 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+   36 |   await page.getByText('Advanced options').click();
+   37 |   const checkbox = page.locator('//input[@type="checkbox" and @class="op-toggle transition-all checked:[--tglbg:#3368ff] checked:bg-white"]');
+   38 | const isDisabled = await checkbox.isDisabled();
+   39 | console.log("Checkbox disabled:", isDisabled);
+   40 | const radioButton = page.locator('//input[@type="radio" and @name="IsEnableOTP" and @value="true"]');
+   41 | const EnableotpisDisabled = await radioButton.isDisabled();
+   42 | console.log("Radio button disabled:", EnableotpisDisabled);
+   43 | const radioButtonNo = page.locator('//input[@type="radio" and @name="IsEnableOTP" and @value="false"]');
+   44 | const EnableotpisDisabled_No = await radioButtonNo.isDisabled();
+   45 | console.log("Radio button disabled:", EnableotpisDisabled_No);
+   46 |
+   47 | const [popup] = await Promise.all([
+   48 |   page.waitForEvent('popup'),
+   49 |   page.locator('span').filter({ hasText: 'Auto reminder Upgrade now' }).locator('span').click()
+   50 | ]);
+   51 |
+   52 | await popup.waitForLoadState();
+   53 | await popup.goto('https://staging-app.opensignlabs.com/subscription');
+   54 | await expect(popup.locator('#root')).toContainText('OPENSIGN™ FREE');
+   55 | await page.bringToFront();
+   56 |   
+   57 |   await page.locator('span').filter({ hasText: 'Enable OTP verification' }).locator('span').click();
+   58 |   const page2Promise = page.waitForEvent('popup');
+   59 |   const page2 = await page2Promise;
+   60 |   await expect(page2.locator('#root')).toContainText('OPENSIGN™ FREE', { timeout: 90000 });
+   61 |   await page.bringToFront();
+   62 | /*
+   63 |   await page.locator('label').filter({ hasText: 'Notify on signaturesUpgrade' }).locator('span').click();
+   64 |   const page3Promise = page.waitForEvent('popup');
+   65 |   const page3 = await page3Promise;
+   66 |   await expect(page3.locator('#root')).toContainText('OPENSIGN™ PROFESSIONAL');
+   67 |   await page.bringToFront();
+   68 |   await page.locator('label').filter({ hasText: 'Allow modificationsUpgrade now' }).locator('span').click();
+   69 |   const page4Promise = page.waitForEvent('popup');
+   70 |   const page4 = await page4Promise;
+   71 |   await page4.goto('https://staging-app.opensignlabs.com/subscription');
+   72 |   await expect(page4.locator('#root')).toContainText('OPENSIGN™ FREE');
+   73 |   // Switch back to the default page
+   74 | await page.bringToFront();  // Brings the default page to the foreground
+   75 | console.log("Switched back to the main page");*/
+   76 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+   77 |   await page.getByRole('button', { name: 'Next' }).click();
+   78 |   await page.waitForLoadState("networkidle");
+   79 |   await page.getByLabel('Close').click();
+   80 |   await page.getByRole('button', { name: '', exact: true }).click();
+   81 |   const checkboxSetting = page.locator('//input[@type="checkbox" and @class="op-toggle transition-all checked:[--tglbg:#3368ff] checked:bg-white mt-2"]');
+   82 | const isDisabledSetting  = await checkboxSetting.isDisabled();
+   83 | console.log("Checkbox disabledon Edit template details:", isDisabledSetting);
+   84 | const radioButtonSetting = page.locator('//input[@type="radio" and @name="IsEnableOTP" and @value="true"]');
+   85 | const EnableotpisDisabledSetting = await radioButtonSetting.isDisabled();
+   86 | console.log("Radio button disabled on Edit template details:", EnableotpisDisabledSetting);
+   87 | const radioButtonNoSetting = page.locator('//input[@type="radio" and @name="IsEnableOTP" and @value="false"]');
+   88 | const EnableotpisDisabled_NoSetting = await radioButtonNoSetting.isDisabled();
+   89 | console.log("Radio button disabled on Edit template details:", EnableotpisDisabled_NoSetting);
+   90 |   await expect(page.locator('form')).toContainText('Auto reminder Upgrade now');
+   91 |   await expect(page.getByText('YesNo').nth(1)).toBeVisible();
+   92 |   await expect(page.locator('form')).toContainText('Enable OTP verification Upgrade now');
+   93 |   await expect(page.getByText('YesNo').nth(2)).toBeVisible();
+   94 |   await expect(page.locator('form')).toContainText('Upgrade now');
+   95 |   await expect(page.getByText('YesNo').nth(4)).toBeVisible();
+   96 |   await page.getByRole('button', { name: 'Submit' }).click();
+   97 |
+   98 | });
+   99 | test('Verify that a new user can create a template and use it to create the document for selfsign', async ({ page }) => {
+  100 |   const commonSteps = new CommonSteps(page);
+  101 |     // Step 1: Navigate to Base URL and log in
+  102 |     await commonSteps.navigateToBaseUrl();
+  103 |   await page.getByRole('button', { name: 'Create account' }).click();
+  104 |   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
+  105 |   await page.locator('input[type="text"]').first().fill('Mathew Wade');
+  106 |   //here we are creating the random email id
+  107 |   let x = "pravin+" + Math.random() + "@nxglabs.in"
+  108 |   await page.locator('#email').fill(x);
+  109 |   await page.locator('input[type="tel"]').fill('8238988998');
+  110 |   await page.locator('input[type="text"]').nth(1).fill('qikAi.com');
+  111 |   await page.locator('input[type="text"]').nth(2).fill('Hr Execative');
+  112 |   await page.locator('input[name="password"]').fill('Nxglabs@123');
+  113 |   await page.locator('input[id="termsandcondition"]').click();
+  114 |   await page.getByRole('button', { name: 'Register' }).click();
+  115 |   await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible();
+  116 | await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getByRole('button').click();
+  117 |     await page.getByLabel('Close').click();
+  118 |     // Expects page to have a heading with the name of dashboard.
+  119 |     const title = await page.title()
+  120 |        expect(title).toBe('Dashboard - OpenSign™');
+  121 |   await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+  122 |   await page.getByRole('menuitem', { name: 'Create template' }).click();
+  123 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  124 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  125 |   await page.locator('input[type="file"]').click();
+  126 |   const fileChooser = await fileChooserPromise;
+  127 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  128 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  129 |   await page.getByRole('button', { name: 'Next' }).click();
+```

@@ -1,0 +1,281 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Request signature >> Verify that initials widgets Copy widget next to current function correctly in request signature.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Request_Signature.spec.js:2700:1
+
+# Error details
+
+```
+Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+Locator: locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[@class="font-medium text-center" and text()="initials"]')
+Expected: visible
+Received: <element(s) not found>
+Call log:
+  - expect.toBeVisible with timeout 5000ms
+  - waiting for locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[@class="font-medium text-center" and text()="initials"]')
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Request_Signature.spec.js:2772:166
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - text: "New feature: Protect your account with Two-Factor Authentication (2FA) and enjoy the future of login with Passkeys — no passwords needed. — Setup now."
+  - img
+  - text: 
+  - button ""
+  - img "logo"
+  - text: TEAM
+  - button ""
+  - img "img"
+  - button "Pravin Testing account"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- text: Pages
+- button "+ Add pages"
+- text: +      
+- button [disabled]
+- text: 1 of 3
+- button
+- button "Back"
+- button "Next"
+- text: signature     initials initials Recipients  Andy amaya andyamaya@nxglabs.in 
+- separator
+- button "+ Add recipients"
+- text: Fields  signature   stamp   initials   name   job title   company   date   text   text input   cells   checkbox   dropdown   radio button   image   email 
+- contentinfo:
+  - complementary:
+    - paragraph: "All rights reserved © 2025 OpenSign™ ( version: v2.26.0 )"
+```
+
+# Test source
+
+```ts
+  2672 | while (true) {
+  2673 |   await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+  2674 |   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
+  2675 |   if (isVisible) {
+  2676 |       console.log('"Copy widget to" is visible. Stopping the loop.');
+  2677 |       break; // Exit loop once the element is visible
+  2678 |   }
+  2679 |   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
+  2680 | }
+  2681 | await page.getByText('All pages but first').click();
+  2682 | await page.getByRole('button', { name: 'Apply' }).click();
+  2683 |   await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium text-center" and text()="initials"]')).toBeVisible();
+  2684 |   await page.locator('canvas').nth(1).click({
+  2685 |     position: {
+  2686 |       x: 49,
+  2687 |       y: 71
+  2688 |     }
+  2689 |   });
+  2690 |   await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium text-center" and text()="initials"]')).toBeVisible();
+  2691 |   await page.locator('canvas').nth(0).click({
+  2692 |     position: {
+  2693 |       x: 65,
+  2694 |       y: 59
+  2695 |     }
+  2696 |   });
+  2697 |   await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium text-center" and text()="initials"]')).not.toBeVisible();
+  2698 |   await page.getByRole('button', { name: 'Next' }).click();
+  2699 | });
+  2700 | test('Verify that initials widgets Copy widget next to current function correctly in request signature.', async ({ page }) => {
+  2701 |   const commonSteps = new CommonSteps(page);
+  2702 |   // Step 1: Navigate to Base URL and log in
+  2703 |   await commonSteps.navigateToBaseUrl();
+  2704 |   await commonSteps.login();
+  2705 | //const title = await page.title()
+  2706 |   //Expects page to have a heading with the name of dashboard.
+  2707 | //expect(title).toBe('Dashboard - OpenSign™');
+  2708 |
+  2709 | await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  2710 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  2711 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  2712 | await page.locator('input[type="file"]').click();
+  2713 | const fileChooser = await fileChooserPromise;
+  2714 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
+  2715 | await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  2716 | await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
+  2717 | await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
+  2718 | await page.locator('input[name="Name"]').click();
+  2719 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  2720 | await page.getByRole('button', { name: 'Next' }).click();
+  2721 | await page.waitForLoadState("networkidle");
+  2722 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  2723 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  2724 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  2725 | await page.locator('//span[normalize-space()=\'signature\']').hover();
+  2726 | await page.mouse.down();
+  2727 | await page.mouse.move(600, 300)
+  2728 | await page.mouse.up();
+  2729 | try {
+  2730 |   const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+  2731 |
+  2732 |   for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  2733 |       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  2734 |       
+  2735 |           console.log("signature widget dragged and dropped");
+  2736 |           break; // Exit the loop if successfully clicked
+  2737 |       } else {
+  2738 |           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  2739 |   
+  2740 |           await page.locator('//span[normalize-space()="signature"]').hover();
+  2741 |           await page.mouse.down();
+  2742 |           await page.mouse.move(800, 300);
+  2743 |           await page.mouse.up();
+  2744 |           
+  2745 |           // Wait a bit before checking again
+  2746 |           await page.waitForTimeout(1000);
+  2747 |       }
+  2748 |   
+  2749 |       if (i === 5) {
+  2750 |           console.log("signature widget did not become visible on the document after multiple attempts.");
+  2751 |       }
+  2752 |   }
+  2753 | } catch (error) {
+  2754 |   console.log("Element not found or not interactable, continuing execution.");
+  2755 |  
+  2756 | }  await page.locator('//span[normalize-space()="initials"]').hover();
+  2757 | await page.mouse.down();
+  2758 | await page.mouse.move(800, 370);
+  2759 | await page.mouse.up();
+  2760 |
+  2761 | while (true) {
+  2762 |   await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+  2763 |   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
+  2764 |   if (isVisible) {
+  2765 |       console.log('"Copy widget to" is visible. Stopping the loop.');
+  2766 |       break; // Exit loop once the element is visible
+  2767 |   }
+  2768 |   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
+  2769 | }
+  2770 | await page.getByText('Next to current widget').click();
+  2771 | await page.getByRole('button', { name: 'Apply' }).click();
+> 2772 | await expect(page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[@class="font-medium text-center" and text()="initials"]')).toBeVisible();
+       |                                                                                                                                                                      ^ Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+  2773 |   
+  2774 | await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium text-center" and text()="initials"]')).toBeVisible();
+  2775 |
+  2776 | await page.getByRole('button', { name: 'Next' }).click();
+  2777 |
+  2778 |   //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+  2779 |   await page.getByRole('button', { name: 'Send' }).click();
+  2780 | });/*
+  2781 | test('Verify that text widgets settings for Name, Job Title, Company, Text, and Email function correctly in request signature.', async ({ page }) => {
+  2782 |   const commonSteps = new CommonSteps(page);
+  2783 |   // Step 1: Navigate to Base URL and log in
+  2784 |   await commonSteps.navigateToBaseUrl();
+  2785 |   await commonSteps.login();
+  2786 | //const title = await page.title()
+  2787 |   //Expects page to have a heading with the name of dashboard.
+  2788 | //expect(title).toBe('Dashboard - OpenSign™');
+  2789 | await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  2790 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  2791 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  2792 | await page.locator('input[type="file"]').click();
+  2793 | const fileChooser = await fileChooserPromise;
+  2794 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
+  2795 | await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  2796 | await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
+  2797 | await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
+  2798 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  2799 | await page.getByRole('button', { name: 'Next' }).click();
+  2800 | await page.waitForLoadState("networkidle");
+  2801 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  2802 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  2803 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  2804 | await page.locator('//span[normalize-space()=\'signature\']').hover();
+  2805 | await page.mouse.down();
+  2806 | await page.mouse.move(600, 300)
+  2807 | await page.mouse.up();
+  2808 | try {
+  2809 |   const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+  2810 |
+  2811 |   for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  2812 |       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  2813 |       
+  2814 |           console.log("signature widget dragged and dropped");
+  2815 |           break; // Exit the loop if successfully clicked
+  2816 |       } else {
+  2817 |           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  2818 |           await page.locator('//span[normalize-space()="signature"]').hover();
+  2819 |           await page.mouse.down();
+  2820 |           await page.mouse.move(800, 300);
+  2821 |           await page.mouse.up();
+  2822 |           
+  2823 |           // Wait a bit before checking again
+  2824 |           await page.waitForTimeout(1000);
+  2825 |       }
+  2826 |   
+  2827 |       if (i === 5) {
+  2828 |           console.log("signature widget did not become visible on the document after multiple attempts.");
+  2829 |       }
+  2830 |   }
+  2831 | } catch (error) {
+  2832 |   console.log("Element not found or not interactable, continuing execution.");
+  2833 |  
+  2834 | }
+  2835 | await page.locator('//span[normalize-space()=\'name\']').hover();
+  2836 | await page.mouse.down();
+  2837 | await page.mouse.move(600, 400)
+  2838 | await page.mouse.up();
+  2839 | while (true) {
+  2840 |   await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
+  2841 |   const isVisible = await page.locator('//h3[text()="Widget info"]').isVisible();
+  2842 |   
+  2843 |   if (isVisible) {
+  2844 |       console.log('"Copy widget to" is visible. Stopping the loop.');
+  2845 |       break; // Exit loop once the element is visible
+  2846 |   }
+  2847 |
+  2848 |   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
+  2849 | }
+  2850 | await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
+  2851 | await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
+  2852 |   await page.getByRole('button', { name: 'Save' }).click();
+  2853 |   const fontSize = await page.locator("//div[@class='signYourselfBlock react-draggable react-draggable-dragged']//span[text()='name']")
+  2854 |   .evaluate(el => getComputedStyle(el).fontSize);
+  2855 | const color = await page.locator("//div[@class='signYourselfBlock react-draggable react-draggable-dragged']//span[text()='name']")
+  2856 |   .evaluate(el => getComputedStyle(el).color);
+  2857 |
+  2858 | console.log(`Font Size: ${fontSize}, Color: ${color}`);
+  2859 |
+  2860 | if (fontSize === '15.6924px' && color === 'rgb(0, 0, 255)') {
+  2861 |   console.log('Test Passed: Font size and color are correct.');
+  2862 | } else {
+  2863 |   throw new Error(`Test Failed: Expected Font Size: 15.6924px, Color: blue but got Font Size: ${fontSize}, Color: ${color}`);
+  2864 | }
+  2865 | await page.locator('//span[normalize-space()=\'job title\']').hover();
+  2866 | await page.mouse.down();
+  2867 | await page.mouse.move(600, 480)
+  2868 | await page.mouse.up();
+  2869 | await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
+  2870 | await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
+  2871 | await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
+  2872 |   await page.getByRole('button', { name: 'Save' }).click();
+```

@@ -1,0 +1,217 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SignupPage >> Verify that a user can sign up with a Teams plan and validate the details in the user profile.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Signup.spec.js:295:1
+
+# Error details
+
+```
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: "2026-07-10"
+Received: "2026-07-09"
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Signup.spec.js:427:25
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - text: "New feature: Protect your account with Two-Factor Authentication (2FA) and enjoy the future of login with Passkeys — no passwords needed. — Setup now."
+  - img
+  - text: 
+  - button ""
+  - img "logo"
+  - text: TEAM
+  - button ""
+  - img "img"
+  - button "Mathew W Karl"
+  - button ""
+  - list:
+    - listitem:  Docs
+    - listitem:  Profile
+    - listitem:  Change password
+    - listitem:  Console
+    - listitem:  Billing
+    - listitem:  Verify document
+    - listitem:
+      - text:  Dark mode BETA
+      - checkbox
+    - listitem:  Log Out
+- complementary:
+  - img "Profile"
+  - paragraph: Mathew W Karl
+  - paragraph: OpenSign pvt. ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- text: Billing
+- superscript: "?"
+- tablist:
+  - tab " My plan"
+  - tab " Invoices"
+- listitem:
+  - heading "teams-yearly" [level=3]
+  - img "logo"
+  - text: Rs.100
+  - paragraph: Billed Yearly
+  - text: Exclusive Access to advanced features.
+  - list:
+    - listitem: feature1
+    - listitem: feature2
+    - listitem: feature3
+    - listitem: feature4
+- text: "active Next billing date : 2026-07-10"
+- contentinfo:
+  - complementary:
+    - paragraph: "All rights reserved © 2025 OpenSign™ ( version: v2.26.0 )"
+```
+
+# Test source
+
+```ts
+  327 | // Locate the iframe and switch to its content
+  328 | // Switch to the iframe by index number (e.g., the second iframe)
+  329 | const index = 3; // Change this to the desired index
+  330 | const iframe = allFrames[index];
+  331 | await iframe.click('//input[@name=\'cardnumber\']');
+  332 | await iframe.fill('//input[@name=\'cardnumber\']', '4242424242424242'); 
+  333 | const indexExpDateFrame = 4; 
+  334 |   const iframesExpDate = allFrames[indexExpDateFrame];
+  335 |   await iframesExpDate.click('//input[@name=\'exp-date\']');
+  336 |   await iframesExpDate.fill('//input[@name=\'exp-date\']', '0728'); 
+  337 |
+  338 |   const indexcvvFrame= 5;
+  339 |   const iframecvvFrame = allFrames[indexcvvFrame];
+  340 |   await iframecvvFrame.click('//input[@name=\'cvc\']');
+  341 |   await iframecvvFrame.fill('//input[@name=\'cvc\']', '709'); 
+  342 |   await page.getByRole('button', { name: 'Pay Rs.100.00' }).click();
+  343 |   test.setTimeout(280 * 1000);
+  344 |
+  345 |  await page.getByLabel('Close').click();
+  346 |  await page.locator('//div[@id=\'profile-menu\']//parent::div[text()=\'PRO\']').isVisible();
+  347 |  await page.getByRole('button', { name: '' }).click();
+  348 |   await page.getByText('Profile').click();
+  349 |   await page.getByLabel('Close').click();
+  350 |  
+  351 | //here we are verifing the admin user details under profile section
+  352 | await expect(page.locator('#renderList')).toContainText('Admin');
+  353 | await expect(page.getByRole('list')).toContainText('Name:');
+  354 | await expect(page.getByRole('list')).toContainText('Mathew Wade');
+  355 | await expect(page.getByRole('list')).toContainText('Phone:');
+  356 | await expect(page.getByRole('list')).toContainText('8238988998');
+  357 | await expect(page.getByRole('list')).toContainText('Email :');
+  358 | await expect(page.getByRole('list')).toContainText(email);
+  359 | await expect(page.getByRole('list')).toContainText('Company:');
+  360 | await expect(page.getByRole('list')).toContainText('qikAi pvt ltd');
+  361 | await expect(page.getByRole('list')).toContainText('Job title:');
+  362 | await expect(page.getByRole('list')).toContainText('Hr Execative');
+  363 | await expect(page.getByRole('list')).toContainText('Is email verified:');
+  364 | await expect(page.getByRole('list')).toContainText('Not verified(verify)');
+  365 | await expect(page.getByRole('list')).toContainText('Public profile :');
+  366 | await expect(page.getByRole('list')).toContainText('Tagline :');
+  367 | await expect(page.getByRole('list')).toContainText('Disable documentId :');
+  368 | const elementCount = await page.getByRole('list').filter({ hasText: 'Upgrade now' }).count();
+  369 | expect(elementCount).toBe(0);
+  370 | await expect(page.getByRole('list')).toContainText('Language:');
+  371 | await page.getByRole('button', { name: 'Edit' }).click();
+  372 |   await page.locator('li').filter({ hasText: 'Name:' }).getByRole('textbox').fill('Mathew W Karl');
+  373 |   await page.locator('li').filter({ hasText: 'Phone:' }).getByRole('textbox').fill('8806607524');
+  374 |   await page.locator('li').filter({ hasText: 'Company:' }).getByRole('textbox').fill('OpenSign pvt. ltd');
+  375 |   await page.locator('li').filter({ hasText: 'Job title:' }).getByRole('textbox').fill('Quality Analyst');
+  376 |   const PropubprofUsername = `pravin${Math.random().toString(16).substring(2, 8)}`;
+  377 |   await page.getByPlaceholder('enter user name').fill(PropubprofUsername);
+  378 |   await page.getByPlaceholder('enter tagline').fill('Seal the deal openly');
+  379 |   await page.getByRole('button', { name: 'Save' }).click();
+  380 |   await expect(page.locator('#renderList')).toContainText('Admin');
+  381 |   await expect(page.getByRole('list')).toContainText('Name:');
+  382 |   await expect(page.getByRole('list')).toContainText('Mathew W Karl');
+  383 |   await expect(page.getByRole('list')).toContainText('Phone:');
+  384 |   await expect(page.getByRole('list')).toContainText('8806607524');
+  385 |   await expect(page.getByRole('list')).toContainText('Email :');
+  386 |   //await expect(page.getByRole('list')).toContainText(loginCredentials.FreeplanUsername);
+  387 |   await expect(page.getByRole('list')).toContainText('Company:');
+  388 |   await expect(page.getByRole('list')).toContainText('OpenSign pvt. ltd');
+  389 |   await expect(page.getByRole('list')).toContainText('Job title:');
+  390 |   await expect(page.getByRole('list')).toContainText('Quality Analyst');
+  391 |   await expect(page.getByRole('list')).toContainText('Is email verified:');
+  392 |   await expect(page.getByRole('list')).toContainText('Not verified(verify)');
+  393 |   await expect(page.getByRole('list')).toContainText('Public profile :');
+  394 |   await expect(page.getByRole('list')).toContainText(PropubprofUsername);
+  395 |   await expect(page.getByRole('list')).toContainText('Tagline :');
+  396 |   await expect(page.getByRole('list')).toContainText('Seal the deal openly');
+  397 |   await expect(page.getByRole('list')).toContainText('Disable documentId :');
+  398 |   const elementCount1 = await page.getByRole('list').filter({ hasText: 'Upgrade now' }).count();
+  399 |   expect(elementCount1).toBe(0);
+  400 |   await expect(page.getByRole('list')).toContainText('Language:');
+  401 |   await page.getByRole('button', { name: '' }).click();
+  402 |   await page.getByText('Billing').click();
+  403 |   await expect(page.getByRole('heading')).toContainText('teams-yearly');
+  404 |   await expect(page.locator('#renderList')).toContainText('Billed Yearly');
+  405 |   await expect(page.locator('#renderList')).toContainText('Exclusive Access to advanced features.');
+  406 |   await expect(page.locator('#renderList')).toContainText('active');
+  407 |  // Get date from the locator
+  408 |  const text = await page.locator('//span[@class="op-text-primary font-medium"]').textContent();   
+  409 |     if (!text) {
+  410 |         throw new Error('No date text found in the locator');
+  411 |     }
+  412 |     // Parse text to a Date object (handle different date formats if necessary)
+  413 |     let date = new Date(text.trim());
+  414 |     if (isNaN(date.getTime())) {
+  415 |         throw new Error(`Invalid date format: ${text}`);
+  416 |     }
+  417 |     // Format the date as YYYY-MM-DD
+  418 |     let BillingformattedDate = date.toISOString().split('T')[0];
+  419 |     console.log('Formatted Date:', BillingformattedDate);
+  420 |     let currentDate = new Date();
+  421 |   // Add one year
+  422 |   let nextYearDate = new Date();
+  423 |   nextYearDate.setFullYear(currentDate.getFullYear() + 1);
+  424 |   // Format the date as YYYY-MM-DD (or any format you need)
+  425 |   let formattedDate = nextYearDate.toISOString().split('T')[0];
+  426 |   console.log('Date after one year:', formattedDate);
+> 427 |   expect(formattedDate).toBe(BillingformattedDate); 
+      |                         ^ Error: expect(received).toBe(expected) // Object.is equality
+  428 | });
+  429 |
+  430 | test('Verify that users cannot sign up with an already registered email address.', async ({ page }) => {
+  431 |   const commonSteps = new CommonSteps(page);
+  432 |   // Step 1: Navigate to Base URL and log in
+  433 |   await commonSteps.navigateToBaseUrl();
+  434 |   await page.getByRole('button', { name: 'Create account' }).click();
+  435 |   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
+  436 |   await fillSignupForm(page, {
+  437 |     name: 'Mathew Lowrence',
+  438 |     email: 'pravin+y4@nxglabs.in',
+  439 |     phone: '8888778888',
+  440 |     company: 'Qik Class Pvt. Ltd',
+  441 |     jobTitle: 'Manager',
+  442 |     password: 'Nsg@12345',
+  443 |   });
+  444 |   page.on('dialog', async (dialog) => {
+  445 |     expect(dialog.message()).toBe('Verification mail has been sent to your E-mail!');
+  446 |     await dialog.accept();
+  447 |   });
+  448 |   await page.locator(locators.registerButton).click();
+  449 | });
+  450 | });
+  451 |
+  452 |
+```

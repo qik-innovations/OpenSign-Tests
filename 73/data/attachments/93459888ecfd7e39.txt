@@ -1,0 +1,5 @@
+Browser: chromium, Version: 134.0.6998.35, OS: linux
+count out for sign old188
+signature widget dragged and dropped
+Text found: 189
+✅ Out for signature card count increased by one, which is correct.
