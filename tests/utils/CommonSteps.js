@@ -11,11 +11,11 @@ if (!BASEURL) {
 
 const locators = {
   createAccountButton: 'button[name="Create account"]',
-  nameInput: 'input[placeholder="Full Name"]',
-  emailInput: '#email',
+  nameInput: 'input[type="text"]',
+  emailInput: '//input[@id="email" and @type="email"]',
   phoneInput: 'input[type="tel"]',
-  companyInput: 'input[placeholder="Company"]',
-  jobTitleInput: 'input[placeholder="Job Title"]',
+  companyInput: 'input[type="text"]',
+  jobTitleInput: 'input[type="text"]',
   passwordInput: 'input[name="password"]',
   termsCheckbox: 'input[id="termsandcondition"]',
   registerButton: '//button[contains(.,\'Register\')]',
@@ -30,11 +30,11 @@ const locators = {
 };
 
 const fillSignupForm = async (page, { name, email, phone, company, jobTitle, password }) => {
-  await page.locator(locators.nameInput).fill(name);
+  await page.locator(locators.nameInput).first().fill(name);
   await page.locator(locators.emailInput).fill(email);
   await page.locator(locators.phoneInput).fill(phone);
-  await page.locator(locators.companyInput).fill(company);
-  await page.locator(locators.jobTitleInput).fill(jobTitle);
+  await page.locator(locators.companyInput).nth(1).fill(company);
+  await page.locator(locators.jobTitleInput).nth(2).fill(jobTitle);
   await page.locator(locators.passwordInput).fill(password);
   await page.locator(locators.termsCheckbox).click();
 };
