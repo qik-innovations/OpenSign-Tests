@@ -49,7 +49,7 @@ test('Verify that revoked document from the In Progress document is available on
     await page.getByPlaceholder('Reason (optional)').fill('Invalid document');
     await page.getByRole('button', { name: 'Yes' }).click();
     await expect(page.locator('#renderList')).toContainText('Record revoked successfully!');
-    await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Documents"]').click();
+    await page.locator('//span[@class="flex items-center mb-0.5" and text()="Documents"]').click();
     await page.getByRole('menuitem', { name: 'Declined' }).click();
     await expect(page.locator('#renderList')).toContainText('Declined documents');
 await expect(page.locator('thead')).toContainText('Title');
