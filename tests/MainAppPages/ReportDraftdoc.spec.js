@@ -13,8 +13,9 @@ test('Verify that the unfinished SignYourSelf document is available in the Draft
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
-  await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
-  await page.locator('input[name="Name"]').fill('Draft doc rpt Sample offer letter');
+  await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 });
+const doctitle = await commonSteps.fillDocumentTitleWithTimestamp('sample draft doc.')
+  await page.locator('input[name="Name"]').fill(doctitle);
   await page.locator('input[name="Note"]').fill('Note Draft doc rpt');
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
@@ -80,7 +81,7 @@ await expect(page.locator('.p-2 > .font-semibold').first()).toContainText('Draft
   await page.getByRole('button', { name: 'Yes' }).click();
   await expect(page.locator('#renderList')).toContainText('Record deleted successfully!');
   try {
-    await expect(page.locator('tbody')).toContainText('Draft doc rpt Sample offer letter');
+    await expect(page.locator('tbody')).toContainText(doctitle);
 } catch (error) {
     console.log("Document not found in the table, successfully Deleted!");
 }
@@ -187,25 +188,14 @@ try {
   console.log("Element not found or not interactable, continuing execution.");
  
 }
- await page.locator('//span[normalize-space()="stamp"]').hover();
- await page.mouse.down();
- await page.mouse.move(600, 360)
- await page.mouse.up();
- const fileChooserPromise1 = page.waitForEvent('filechooser');
- await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
- const fileChooser1 = await fileChooserPromise1;
- await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
- await page.locator("//button[normalize-space()='Save']").click();
- await page.locator('//span[normalize-space()="initials"]').hover();
- await page.mouse.down();
- await page.mouse.move(600, 420)
- await page.mouse.up();
- await page.locator("//button[normalize-space()='Save']").click();
- await page.locator('//span[normalize-space()="date"]').hover();
- await page.mouse.down();
- await page.mouse.move(600, 550)
- await page.mouse.up();
- await page.locator("//button[normalize-space()='Finish']").click();
+ await commonSteps.dragAndDrop('stamp', 600, 360);
+ await commonSteps.uploadStamp();
+ await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('initials',600, 450);
+ await commonSteps.ClickSavebuttonSignerModal();
+ await commonSteps.dragAndDrop('date',600, 500)
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.clickFinishButtonOnPlaceholder();
  await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
    await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
 
