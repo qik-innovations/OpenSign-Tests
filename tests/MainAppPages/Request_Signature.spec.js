@@ -221,7 +221,7 @@ await commonSteps.fillTextField('text input', '120 wood street sanfransisco');
  await commonSteps.uploadImage();
  await commonSteps.clickNextButtonInSignerModal();
   await commonSteps.fillEmailField('demo@gmail.com', 'anderson.k@opensignlabs.com');
-await commonSteps.clickFinishButtonInSignerModal();
+await commonSteps.clickDoneButtonInSignerModal();
 await commonSteps.clickFinishButtonInSignerModal();
   await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
@@ -277,17 +277,17 @@ await commonSteps.dragAndDrop('text input', 600, 450);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariabletextinputID = await commonSteps.getElementIdByWidgetName('text input');
   console.log('Widget element ID:', VariabletextinputID);
-  await commonSteps.dragAndDrop('cells', 750, 380);
+  await commonSteps.dragAndDrop('cells', 850, 450);
   //const VariableCellsID = await commonSteps.getElementIdByWidgetName('cells');
  // console.log('Widget element ID:', VariableCellsID);
-await commonSteps.dragAndDrop('checkbox', 600, 500);
+await commonSteps.dragAndDrop('checkbox', 850, 500);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('dropdown', 600, 550);
+await commonSteps.dragAndDrop('dropdown', 850, 550);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('radio button', 600, 600);
+await commonSteps.dragAndDrop('radio button', 650, 500);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('image', 600, 650);
-await commonSteps.dragAndDrop('email', 600, 700);
+await commonSteps.dragAndDrop('image', 650, 450);
+await commonSteps.dragAndDrop('email', 700, 300);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariableemailID = await commonSteps.getElementIdByWidgetName('demo@gmail.com');
   console.log('Widget element ID:', VariableemailID);
@@ -327,19 +327,16 @@ await commonStepsPage1.fillTextField('text input', '120 wood street sanfransisco
 await commonStepsPage1.clickNextButtonInSignerModal();
 await commonStepsPage1.fillCellWidgetsInModal('7', '8', '2', '3', '1');
 await commonStepsPage1.clickNextButtonInSignerModal();
-await commonStepsPage1.selectFromDropdown('myDropdown', 'Option-2');
-await commonStepsPage1.clickNextButtonInSignerModal();
 await commonStepsPage1.selectCheckbox('Option-1');
+await commonStepsPage1.clickNextButtonInSignerModal();
+await commonStepsPage1.selectFromDropdown('myDropdown', 'Option-2');
 await commonStepsPage1.clickNextButtonInSignerModal();
 await commonStepsPage1.selectRadioButton('Option-1');
 await commonStepsPage1.clickNextButtonInSignerModal();
-await page1.locator('//div[contains(text(),"image")]').click();
 await commonStepsPage1.uploadImage();
 await commonStepsPage1.clickNextButtonInSignerModal();
-await commonStepsPage1.clickCloseButtonInSignerModal();
-await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariableemailID}']//textarea[1]`).click();
 await commonStepsPage1.fillEmailField('demo@gmail.com', 'anderson.k@opensignlabs.com')
-await commonStepsPage1.clickFinishButtonInSignerModal();
+await commonStepsPage1.clickDoneButtonInSignerModal();
 await commonStepsPage1.clickFinishButtonInSignerModal();
 await expect(page1.locator('//h1[text()="The document has been signed successfully!"]')).toContainText('The document has been signed successfully!',{ timeout: 90000 });
 /*await page1.getByRole('button', { name: 'Print' }).click();
@@ -666,58 +663,63 @@ const Signer1VariableemailID = await page.evaluate(() => {
 await page.getByRole('button', { name: 'Next' }).click();
 await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 //await page.locator('//span[@class=" hidden md:block ml-1 " and text()="Copy link"]').click();
-await page.locator('div').filter({ hasText: /^andyamaya@nxglabs\.inCopy link$/ }).getByRole('button').click();
+await page.locator('div').filter({ hasText: /^andyamaya@nxglabs\.inCopy link$/ }).getByRole('button').first().click();
 const copiedUrl1 = await page.locator('//p[@id="copyUrl"]').evaluate(el => el.textContent.trim());
 //await page.locator('//span[@class=" hidden md:block ml-1 " and text()="Copy link"]').click();
-await page.locator('div').filter({ hasText: /^pravin\+travis@nxglabs\.inCopy link$/ }).getByRole('button').click();
+await page.locator('div').filter({ hasText: /^pravin\+travis@nxglabs\.inCopy link$/ }).getByRole('button').first().click();
 const copiedUrl2 = await page.locator('//p[@id="copyUrl"]').evaluate(el => el.textContent.trim());
 const page1 = await page.context().newPage();
 await page1.goto(copiedUrl1);
-await page1.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
-await page1.getByRole('button', { name: 'Agree & Continue' }).click();
+  const commonStepspage1 = new CommonSteps(page1);
+await commonStepspage1.validateAndAcceptTerms();
 await page1.waitForLoadState("networkidle");
 await page1.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page1.locator('//div[@id="container"]//div[text()="signature"]').click();
-await page1.mouse.move(600, 350)
-await page1.mouse.down();
-await page1.mouse.move(600, 350)
-await page1.mouse.move(600, 400)
-await page1.mouse.up();
-// Optionally save changes
-await page1.locator("//button[normalize-space()='Save']").click();
+await commonStepspage1.drawSignature();
+await commonStepspage1.clickNextButtonInSignerModal();
+await commonStepspage1.clickCloseButtonInSignerModal();
 await page1.locator('//div[@id="container"]//div[text()="stamp"]').click();
-const fileChooserPromise1 = page1.waitForEvent('filechooser');
-await page1.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
-await page1.locator("//button[normalize-space()='Save']").click();
+await commonStepspage1.uploadStamp();
+await commonStepspage1.clickNextButtonInSignerModal();
+await commonStepspage1.clickCloseButtonInSignerModal();
 await page1.locator('//div[@id="container"]//div[text()="initials"]').click();
-await page1.mouse.move(650, 350)
-await page1.mouse.down();
-await page1.mouse.move(700, 380)
-await page1.mouse.up();
-await page1.locator("//button[normalize-space()='Save']").click();
-await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariablenameID}']//textarea[1]`).fill('Mark Anderson');
-await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariablejobtitleID}']//textarea[1]`).fill('Quality analyst');
-await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariablecompanyID}']//textarea[1]`).fill('OpenSign pvt. ltd');
-await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariabletextinputID}']//textarea[1]`).fill('120 wood street sanfransisco');
-await page1.locator('#myDropdown').selectOption('option-2');
-await page1.getByRole('radio', { name: 'option-1' }).check();
-await page1.getByRole('checkbox', { name: 'option-1' }).check();
+await commonStepspage1.drawInitials();
+await commonStepspage1.clickNextButtonInSignerModal();
+await commonStepspage1.clickCloseButtonInSignerModal();
+await page1.locator(`//div[contains(@class,'signYourselfBlock') and contains(@class,'react-draggable') and @id='${VariablenameID}']//textarea[1]`).click({ force: true });
+await commonStepspage1.fillTextField('name','Mark Andrews');
+await commonStepspage1.clickNextButtonInSignerModal();
+await commonStepspage1.clickCloseButtonInSignerModal();
+await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariablejobtitleID}']//textarea[1]`).click({ force: true });
+await commonStepspage1.fillTextField('job title','Quality Analyst');
+await commonStepspage1.clickNextButtonInSignerModal();
+await commonStepspage1.clickCloseButtonInSignerModal();
+await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariablecompanyID}']//textarea[1]`).click({ force: true });
+await commonStepspage1.fillTextField('company','OpenSignlabs pvt ltd');
+await commonStepspage1.clickNextButtonInSignerModal();
+await commonStepspage1.clickCloseButtonInSignerModal();
+await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariabletextinputID}']//textarea[1]`).click({ force: true });
+await commonStepspage1.fillTextField('text input','120 wood street sanfransisco');
+await commonStepspage1.clickNextButtonInSignerModal();
+await commonStepspage1.selectCheckbox('Option-1');
+await commonStepspage1.clickNextButtonInSignerModal();
+await commonStepspage1.selectFromDropdown('myDropdown','Option-2')
+await commonStepspage1.clickNextButtonInSignerModal();
+await commonStepspage1.selectRadioButton('Option-2');
+await commonStepspage1.clickNextButtonInSignerModal();
+await commonStepspage1.clickCloseButtonInSignerModal();
 await page1.locator('//div[contains(text(),"image")]').click();
-const fileChooserPromise2 = page1.waitForEvent('filechooser');
-await page1.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
-await page1.locator("//button[normalize-space()='Save']").click();
-await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariableemailID}']//textarea[1]`).fill('anderson@oepnsignlabs.com');
-await page1.getByRole('button', { name: 'Finish' }).click();
+await commonStepspage1.uploadImage();
+await commonStepspage1.clickNextButtonInSignerModal();
+await commonStepspage1.fillEmailField('demo@gmail.com','andrew@nxglabs.in')
+await commonStepspage1.clickDoneButtonInSignerModal();
+await commonStepspage1.clickFinishButtonInSignerModal();
 await page1.getByText('The document has been successfully signed by you!').click();
 const page2 = await page.context().newPage();
+  const commonStepspage2 = new CommonSteps(page2);
 await page2.goto(copiedUrl2);
 await page2.waitForLoadState("networkidle");
-await page2.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
-await page2.getByRole('button', { name: 'Agree & Continue' }).click();
+await commonStepspage2.validateAndAcceptTerms();
 //await expect(page2.getByRole('paragraph')).toContainText('List of signers who have already signed the document .');
 //await page2.locator('.sc-gsFSXq > button:nth-child(3)').click();
 //await expect(page2.getByRole('paragraph')).toContainText('Click any of the placeholders appearing on the document to sign. You will then see options to draw your signature, type it, or upload an image .');
@@ -732,40 +734,42 @@ await page2.locator('canvas').nth(1).click({
 });
 await page2.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page2.locator('//div[@id="container"]//div[text()="signature"]').click();
-await page2.mouse.move(600, 350)
-await page2.mouse.down();
-await page2.mouse.move(600, 350)
-await page2.mouse.move(600, 400)
-await page2.mouse.up();
+await commonStepspage2.drawSignature();
 // Optionally save changes
-await page2.locator("//button[normalize-space()='Save']").click();
-await page2.locator('//div[@id="container"]//div[text()="stamp"]').click();
-const fileChooserPromise3 = page2.waitForEvent('filechooser');
-await page2.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser3 = await fileChooserPromise3;
-await fileChooser3.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
-await page2.locator("//button[normalize-space()='Save']").click();
-await page2.locator('//div[@id="container"]//div[text()="initials"]').click();
-await page2.mouse.move(650, 350)
-await page2.mouse.down();
-await page2.mouse.move(700, 380)
-await page2.mouse.up();
-await page2.locator("//button[normalize-space()='Save']").click();
-await page2.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${Signer1VariablenameID}']//textarea[1]`).fill('Mark Anderson');
-await page2.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${Signer1VariablejobtitleID}']//textarea[1]`).fill('Quality analyst');
-await page2.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${Signer1VariablecompanyID}']//textarea[1]`).fill('OpenSign pvt. ltd');
-await page2.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${Signer1VariabletextinputID}']//textarea[1]`).fill('120 wood street sanfransisco');
-await page2.locator('#myDropdown').selectOption('option-2');
-await page2.getByRole('radio', { name: 'option-1' }).check();
-await page2.getByRole('checkbox', { name: 'option-1' }).check();
+await commonStepspage2.clickNextButtonInSignerModal();
+await commonStepspage2.uploadStamp();
+await commonStepspage2.clickNextButtonInSignerModal();
+await commonStepspage2.drawInitials();
+await commonStepspage2.clickNextButtonInSignerModal();
+await commonStepspage2.clickCloseButtonInSignerModal();
+await page2.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${Signer1VariablenameID}']//textarea[1]`).click({ force: true });
+await commonStepspage2.fillTextField('name','Mark Anderson');
+await commonStepspage2.clickNextButtonInSignerModal();
+await commonStepspage2.clickCloseButtonInSignerModal();
+await page2.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${Signer1VariablejobtitleID}']//textarea[1]`).click({ force: true });
+await commonStepspage2.fillTextField('job title','Manager');
+await commonStepspage2.clickNextButtonInSignerModal();
+await commonStepspage2.clickCloseButtonInSignerModal();
+await page2.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${Signer1VariablecompanyID}']//textarea[1]`).click({ force: true });
+await commonStepspage2.fillTextField('company','OpenSign pvt. ltd');
+await commonStepspage2.clickNextButtonInSignerModal();
+await commonStepspage2.clickCloseButtonInSignerModal();
+await page2.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${Signer1VariabletextinputID}']//textarea[1]`).click({ force: true });
+await commonStepspage2.fillTextField('text input','120 wood street sanfransisco');
+await commonStepspage2.clickNextButtonInSignerModal();
+await commonStepspage2.selectCheckbox('Option-1');
+await commonStepspage2.clickNextButtonInSignerModal();
+await commonStepspage2.selectFromDropdown('myDropdown','Option-2')
+await commonStepspage2.clickNextButtonInSignerModal();
+await commonStepspage2.selectRadioButton('Option-2');
+await commonStepspage2.clickNextButtonInSignerModal();
+await commonStepspage2.clickCloseButtonInSignerModal();
 await page2.locator('//div[contains(text(),"image")]').click();
-const fileChooserPromise4 = page2.waitForEvent('filechooser');
-await page2.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser4 = await fileChooserPromise4;
-await fileChooser4.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
-await page2.locator("//button[normalize-space()='Save']").click();
-await page2.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${Signer1VariableemailID}']//textarea[1]`).fill('anderson@opepnsignlabs.com');
-await page2.getByRole('button', { name: 'Finish' }).click();
+await commonStepspage2.uploadImage();
+await commonStepspage2.clickNextButtonInSignerModal();
+await commonStepspage2.fillEmailField('demo@gmail.com','karlmark@opensignlabs.com')
+await commonStepspage2.clickDoneButtonInSignerModal();
+await commonStepspage2.clickFinishButtonInSignerModal();
 await expect(page2.locator('//h1[text()="The document has been signed successfully!"]')).toContainText('The document has been signed successfully!',{ timeout: 180000 });
 
 });
@@ -1029,21 +1033,16 @@ await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you
 await page.locator('//span[@class=" hidden md:block ml-1 " and text()="Copy link"]').click();
 const copiedUrl = await page.locator('//p[@id="copyUrl"]').evaluate(el => el.textContent.trim());
 const page1 = await page.context().newPage();
+const commonStepspage1 = new CommonSteps(page1);
 await page1.goto(copiedUrl);
-await page1.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
-await page1.getByRole('button', { name: 'Agree & Continue' }).click();
+await commonStepspage1.validateAndAcceptTerms();
 await page1.waitForLoadState("networkidle");
 await expect(page1.getByRole('paragraph')).not.toBeVisible();
 await page1.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page1.locator('//div[@id="container"]//div[text()="signature"]').click();
-
-await page1.mouse.down();
-await page1.mouse.move(150, 128)
-await page1.mouse.move(160, 138)
-await page1.mouse.up();
-// Optionally save changes
-await page1.locator("//button[normalize-space()='Save']").click();
-await page1.getByRole('button', { name: 'Finish' }).click();
+await commonStepspage1.drawSignature();
+await commonStepspage1.clickDoneButtonInSignerModal();
+await commonStepspage1.clickFinishButtonInSignerModal();
 });
 test('Verify that the signer redireced to the url if redirect url is set.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
@@ -1113,20 +1112,17 @@ await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you
 await page.locator('//span[@class=" hidden md:block ml-1 " and text()="Copy link"]').click();
 const copiedUrl = await page.locator('//p[@id="copyUrl"]').evaluate(el => el.textContent.trim());
 const page1 = await page.context().newPage();
+  const commonStepspage1 = new CommonSteps(page1);
 await page1.goto(copiedUrl);
-await page1.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
-await page1.getByRole('button', { name: 'Agree & Continue' }).click();
+await commonStepspage1.validateAndAcceptTerms();
 await page1.waitForLoadState("networkidle");
 await expect(page1.getByRole('paragraph')).not.toBeVisible();
 await page1.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page1.locator('//div[@id="container"]//div[text()="signature"]').click();
-await page1.mouse.down();
-await page1.mouse.move(150, 128)
-await page1.mouse.move(160, 138)
-await page1.mouse.up();
+await commonStepspage1.drawSignature();
 // Optionally save changes
-await page1.locator("//button[normalize-space()='Save']").click();
-await page1.getByRole('button', { name: 'Finish' }).click();
+await commonStepspage1.clickDoneButtonInSignerModal();
+await commonStepspage1.clickFinishButtonInSignerModal();
 
 });
 test('Verify that the signer can add the widget if the allowed modification set to enabled.', async ({ page }) => {
@@ -1195,20 +1191,17 @@ await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you
 await page.locator('//span[@class=" hidden md:block ml-1 " and text()="Copy link"]').click();
 const copiedUrl = await page.locator('//p[@id="copyUrl"]').evaluate(el => el.textContent.trim());
 const page1 = await page.context().newPage();
+  const commonStepspage1 = new CommonSteps(page1);
 await page1.goto(copiedUrl);
-await page1.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
-await page1.getByRole('button', { name: 'Agree & Continue' }).click();
+await commonStepspage1.validateAndAcceptTerms();
 await page1.waitForLoadState("networkidle");
 await expect(page1.getByRole('paragraph')).not.toBeVisible();
 await page1.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page1.locator('//div[@id="container"]//div[text()="signature"]').click();
-await page1.mouse.down();
-await page1.mouse.move(150, 128)
-await page1.mouse.move(160, 138)
-await page1.mouse.up();
+await commonStepspage1.drawSignature();
 // Optionally save changes
-await page1.locator("//button[normalize-space()='Save']").click();
-await page1.getByRole('button', { name: 'Finish' }).click();
+await commonStepspage1.clickDoneButtonInSignerModal();
+await commonStepspage1.clickFinishButtonInSignerModal();
 
 });
 test('Verify that the signature settings function correctly for the signature widget on the request signature page.', async ({ page }) => {
@@ -1269,16 +1262,19 @@ try {
   console.log("Element not found or not interactable, continuing execution.");
  
 }
-await page.locator('//div[@class="flex items-stretch justify-center"]//i[@class="fa-light fa-gear icon"]').click();
+await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
 await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first().uncheck();
-  await page.getByRole('textbox').fill('Signature Draw remove');
+  await page.getByRole('textbox').fill('Signature Draw removed');
   await page.getByRole('button', { name: 'Save' }).click();
-  await page.locator('//div[@class="flex items-stretch justify-center"]//i[@class="fa-light fa-gear icon"]').click();
+  await page.locator("//div[@class='flex items-stretch justify-center']//div[text()='Signature Draw removed']").click();
+  await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first()).not.toBeChecked();
-  await expect(page.getByRole('textbox')).toHaveValue('Signature Draw remove');
+  await expect(page.getByRole('textbox')).toHaveValue('Signature Draw removed');
   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(1).uncheck();
+    await page.getByRole('textbox').fill('Signature type removed');
   await page.getByRole('button', { name: 'Save' }).click();
-  await page.locator('//div[@class="flex items-stretch justify-center"]//i[@class="fa-light fa-gear icon"]').click();
+    await page.locator("//div[@class='flex items-stretch justify-center']//div[text()='Signature type removed']").click();
+await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(1)).not.toBeChecked();
   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(2).uncheck();
   page.once('dialog', dialog => {
@@ -1290,7 +1286,8 @@ await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @ty
   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(3).uncheck();
   await page.getByRole('textbox').fill('only upload type enabled');
   await page.getByRole('button', { name: 'Save' }).click();
-  await page.locator('//div[@class="flex items-stretch justify-center"]//i[@class="fa-light fa-gear icon"]').click();
+  await page.locator("//div[@class='flex items-stretch justify-center']//div[text()='only upload type enabled']").click();
+ await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first()).not.toBeChecked();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(1)).not.toBeChecked();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(3)).not.toBeChecked();
@@ -1349,58 +1346,23 @@ await fileChooser2.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_
     }
   });
 
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 150)
-await page.mouse.up();
-
-await page.locator('//span[normalize-space()=\'stamp\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 200)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'initials\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 250)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'name\']').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 300)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'job title\']').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 320)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'company\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 340)
-await page.mouse.up();
-
-await page.locator('//span[normalize-space()=\'date\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 360)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'text input\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 380)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'checkbox\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 400)
-await page.mouse.up();
-page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('//span[normalize-space()=\'image\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 430)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'email\']').hover();
-await page.mouse.down();
-
-await page.mouse.move(600, 450)
-await page.mouse.up();
+await commonSteps.dragAndDrop('signature',600, 170);
+await commonSteps.dragAndDrop('stamp',600, 230);
+await commonSteps.dragAndDrop('initials',600, 260);
+await commonSteps.dragAndDrop('name',600, 300);
+await commonSteps.dragAndDrop('job title',600, 330);
+await commonSteps.dragAndDrop('company',600, 360);
+await commonSteps.dragAndDrop('date',600, 380);
+await commonSteps.dragAndDrop('text input',600, 400);
+await commonSteps.dragAndDrop('checkbox',600, 420);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('dropdown',600, 450);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('radio button',600, 500);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('image',800, 450);
+await commonSteps.dragAndDrop('email',800, 500);
 await page.getByRole('button', { name: 'Next' }).click();
-
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 await page.getByRole('button', { name: 'Send' }).click();
 });
@@ -1667,7 +1629,7 @@ try {
 
 
 while (true) {
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
@@ -1679,7 +1641,7 @@ while (true) {
   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
 }
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[@class="font-medium" and text()="signature"]')).toBeVisible();
+  await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).toBeVisible();
   await page.locator('canvas').nth(1).click({
     position: {
       x: 49,
@@ -1761,7 +1723,7 @@ try {
 
 
 while (true) {
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+ await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
@@ -1774,23 +1736,22 @@ while (true) {
 }
 await page.getByText('All pages but last').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[@class="font-medium" and text()="signature"]')).toBeVisible();
+    await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).toBeVisible();
   await page.locator('canvas').nth(1).click({
     position: {
       x: 49,
       y: 71
     }
   });
-  await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).toBeVisible();
+   await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).toBeVisible();
   await page.locator('canvas').nth(2).click({
     position: {
       x: 65,
       y: 59
     }
   });
-  await expect(page.locator('xpath=//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).not.toBeVisible();
+   await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).not.toBeVisible();
   await page.getByRole('button', { name: 'Next' }).click();
-
   //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
   await page.getByRole('button', { name: 'Send' }).click();
 });
@@ -1857,7 +1818,7 @@ try {
  
 }
 while (true) {
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   if (isVisible) {
       console.log('"Copy widget to" is visible. Stopping the loop.');
@@ -1867,7 +1828,7 @@ while (true) {
 }
 await page.getByText('All pages but first').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).toBeVisible();
+    await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).toBeVisible();
   await page.locator('canvas').nth(1).click({
     position: {
       x: 49,
@@ -1881,7 +1842,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
       y: 59
     }
   });
-  await expect(page.locator('xpath=//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).not.toBeVisible();
+   await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).not.toBeVisible();
   await page.getByRole('button', { name: 'Next' }).click();
 
   //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
@@ -1945,7 +1906,7 @@ try {
  
 }
 while (true) {
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+ await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   if (isVisible) {
       console.log('"Copy widget to" is visible. Stopping the loop.');
@@ -1955,10 +1916,13 @@ while (true) {
 }
 await page.getByText('Next to current widget').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-//await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]')).toBeVisible();
+// XPath that targets every “signature” block inside a draggable widget
+const signatureLocator = page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="signature"]');
+// Count the matches
+const count = await signatureLocator.count();
+// ✅ Test passes if count > 1, fails otherwise
+expect(count).toBeGreaterThan(1);
   await page.getByRole('button', { name: 'Next' }).click();
-
-  //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
   await page.getByRole('button', { name: 'Send' }).click();
 });
 test('Verify that stamp widget Copy widget to all pages function correctly in request signature.', async ({ page }) => {
@@ -2023,7 +1987,7 @@ await page.mouse.down();
 await page.mouse.move(600, 370)
 await page.mouse.up();
 while (true) {
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+ await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
   if (isVisible) {
@@ -2034,7 +1998,7 @@ while (true) {
   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
 }
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[@class="font-medium" and text()="stamp"]')).toBeVisible();
+  await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="stamp"]')).toBeVisible();
   await page.locator('canvas').nth(1).click({
     position: {
       x: 49,
@@ -2050,7 +2014,6 @@ await page.getByRole('button', { name: 'Apply' }).click();
   });
   await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="stamp"]')).toBeVisible();
   await page.getByRole('button', { name: 'Next' }).click();
-
   //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
   await page.getByRole('button', { name: 'Send' }).click();
 });
@@ -2098,7 +2061,7 @@ try {
   
           await page.locator('//span[normalize-space()="signature"]').hover();
           await page.mouse.down();
-          await page.mouse.move(800, 300);
+          await page.mouse.move(600, 300);
           await page.mouse.up();
           
           // Wait a bit before checking again
@@ -2116,11 +2079,10 @@ try {
 
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 300)
+await page.mouse.move(600, 400)
 await page.mouse.up();
 while (true) {
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
-  
+ await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
   if (isVisible) {
@@ -2132,7 +2094,7 @@ while (true) {
 }
 await page.getByText('All pages but last').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[@class="font-medium" and text()="stamp"]')).toBeVisible();
+  await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="stamp"]')).toBeVisible();
   await page.locator('canvas').nth(1).click({
     position: {
       x: 49,
@@ -2215,7 +2177,7 @@ await page.locator('//span[normalize-space()="stamp"]').hover();
           await page.mouse.move(800, 360);
           await page.mouse.up();
 while (true) {
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   if (isVisible) {
       console.log('"Copy widget to" is visible. Stopping the loop.');
@@ -2304,7 +2266,7 @@ await page.mouse.move(800, 370);
 await page.mouse.up();
 
 while (true) {
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+ await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   if (isVisible) {
       console.log('"Copy widget to" is visible. Stopping the loop.');
@@ -2314,9 +2276,12 @@ while (true) {
 }
 await page.getByText('Next to current widget').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="stamp"]')).toBeVisible();
-  await page.getByRole('button', { name: 'Next' }).click();
-
+  const signatureLocator = page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium" and text()="stamp"]');
+// Count the matches
+const count = await signatureLocator.count();
+// ✅ Test passes if count > 1, fails otherwise
+expect(count).toBeGreaterThan(1);
+await page.getByRole('button', { name: 'Next' }).click();
   //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
   await page.getByRole('button', { name: 'Send' }).click();
 });/*
@@ -2478,7 +2443,7 @@ await page.mouse.down();
 await page.mouse.move(600, 370)
 await page.mouse.up();
 while (true) {
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
   if (isVisible) {
@@ -2574,7 +2539,7 @@ await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
 while (true) {
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+ await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
@@ -2670,7 +2635,7 @@ await page.locator('//span[normalize-space()="initials"]').hover();
           await page.mouse.move(800, 360);
           await page.mouse.up();
 while (true) {
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   if (isVisible) {
       console.log('"Copy widget to" is visible. Stopping the loop.');
@@ -2759,7 +2724,7 @@ await page.mouse.move(800, 370);
 await page.mouse.up();
 
 while (true) {
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   if (isVisible) {
       console.log('"Copy widget to" is visible. Stopping the loop.');
@@ -3013,72 +2978,86 @@ try {
   console.log("Element not found or not interactable, continuing execution.");
  
 }
-await page.locator('//span[normalize-space()=\'name\']').hover();
+// Copy and verify "name"
+await page.locator('//span[normalize-space()="name"]').hover();
 await page.mouse.down();
-await page.mouse.move(600, 300)
+await page.mouse.move(600, 300);
 await page.mouse.up();
- await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='name']")).toBeVisible();
-  await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
-  await expect(page.locator("//div[@class='signYourselfBlock react-draggable react-draggable-dragged']//span[text()='name']")).toBeVisible();
-  await page.locator('//span[normalize-space()=\'job title\']').hover();
+await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='name']")).toBeVisible();
+await page.locator("//i[contains(@class,'fa-light') and contains(@class,'fa-copy')]").click();
+const nameCount = await page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='name']").count();
+expect(nameCount).toBeGreaterThan(1);
+
+// Copy and verify "job title"
+await page.locator('//span[normalize-space()="job title"]').hover();
 await page.mouse.down();
-await page.mouse.move(600, 350)
+await page.mouse.move(600, 350);
 await page.mouse.up();
 await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='job title']")).toBeVisible();
-  await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
-    // Verify that there are now two matching elements
-    await expect(page.locator("//div[@class='signYourselfBlock react-draggable react-draggable-dragged']//span[text()='job title']")).toBeVisible();
-  await page.locator('//span[normalize-space()=\'company\']').hover();
+await page.locator("//i[contains(@class,'fa-light') and contains(@class,'fa-copy')]").click();
+const jobTitleCount = await page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='job title']").count();
+expect(jobTitleCount).toBeGreaterThan(1);
+
+// Copy and verify "company"
+await page.locator('//span[normalize-space()="company"]').hover();
 await page.mouse.down();
-await page.mouse.move(600, 400)
+await page.mouse.move(600, 400);
 await page.mouse.up();
- await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='company']")).toBeVisible();
-  await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
-    // Verify that there are now two matching elements
-    await expect(page.locator("//div[@class='signYourselfBlock react-draggable react-draggable-dragged']//span[text()='job title']")).toBeVisible();
-    await page.locator('//span[normalize-space()=\'checkbox\']').hover();
-    await page.mouse.down();
-    await page.mouse.move(600, 450)
-    await page.mouse.up();
-    await page.locator("//button[normalize-space()='Save']").click(); 
-      await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
-        // Verify that there are now two matching elements
-        const checkboxElements = await page.locator('//div[@class="signYourselfBlock react-draggable"]//div[1]//label[text()="option-1"]/preceding-sibling::input[@type="checkbox"]').count();
-        expect(checkboxElements).toBeGreaterThan(1);
-        await page.locator('//span[normalize-space()=\'radio button\']').hover();
-    await page.mouse.down();
-    await page.mouse.move(680, 450)
-    await page.mouse.up();
-    await page.locator("//button[normalize-space()='Save']").click(); 
-      await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
-        // Verify that there are now two matching elements
-        const RadiobuttonElements = await page.locator('//div[@class="signYourselfBlock react-draggable"]//div[1]//label[text()="option-1"]/preceding-sibling::input[@type="radio"]').count();
-        expect(RadiobuttonElements).toBeGreaterThan(1);
-        await page.locator('//span[normalize-space()=\'dropdown\']').hover();
-        await page.mouse.down();
-        await page.mouse.move(750, 550)
-        await page.mouse.up();
-        await page.locator("//button[normalize-space()='Save']").click(); 
-          await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
-            // Verify that there are now two matching elements
-            const dropdownElements = await page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="select-none-cls flex justify-between items-center" and text()="dropdown"]').count();
-            expect(dropdownElements).toBeGreaterThan(1);
-    await page.locator('//span[normalize-space()=\'image\']').hover();
-    await page.mouse.down();
-    await page.mouse.move(600, 500)
-    await page.mouse.up();
-    await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//div[text()='image']")).toBeVisible();
-      await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
+await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='company']")).toBeVisible();
+await page.locator("//i[contains(@class,'fa-light') and contains(@class,'fa-copy')]").click();
+const companyCount = await page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='company']").count();
+expect(companyCount).toBeGreaterThan(1);
+// Copy and verify "checkbox"
+await page.locator('//span[normalize-space()="checkbox"]').hover();
+await page.mouse.down();
+await page.mouse.move(600, 450);
+await page.mouse.up();
+await page.locator("//button[normalize-space()='Save']").click();
+
+await page.locator("//i[contains(@class,'fa-light') and contains(@class,'fa-copy')]").click();
+const checkboxCount = await page.locator('//input[@type="checkbox" and @name="Option-1"]').count();
+expect(checkboxCount).toBeGreaterThan(1);
+
+// Copy and verify "radio button"
+await page.locator('//span[normalize-space()="radio button"]').hover();
+await page.mouse.down();
+await page.mouse.move(680, 450);
+await page.mouse.up();
+await page.locator("//button[normalize-space()='Save']").click();
+await page.locator("//i[contains(@class,'fa-light') and contains(@class,'fa-copy')]").dblclick();
+const radioCount = await page.locator('//input[@type="radio" and @name="option-1"]').count();
+expect(radioCount).toBeGreaterThan(1);
+
+// Copy and verify "dropdown"
+await page.locator('//span[normalize-space()="dropdown"]').hover();
+await page.mouse.down();
+await page.mouse.move(750, 550);
+await page.mouse.up();
+await page.locator("//button[normalize-space()='Save']").click();
+await page.locator("//i[contains(@class,'fa-light') and contains(@class,'fa-copy')]").dblclick();
+const dropdownCount = await page.locator("//div[@class='signYourselfBlock react-draggable']//div[text()='dropdown']").count();
+expect(dropdownCount).toBeGreaterThan(1);
+
+// Copy and verify "image"
+await page.locator('//span[normalize-space()="image"]').hover();
+await page.mouse.down();
+await page.mouse.move(600, 500);
+await page.mouse.up();
+await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//div[text()='image']")).toBeVisible();
+await page.locator("//i[contains(@class,'fa-light') and contains(@class,'fa-copy')]").click();
+const imageCount = await page.locator("//div[@class='signYourselfBlock react-draggable']//div[text()='image']").count();
+expect(imageCount).toBeGreaterThan(1);
+await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").dblclick();
       //verify the copied element to be visible
-        await expect(page.locator("//div[@class='signYourselfBlock react-draggable react-draggable-dragged']//div[text()='image']")).toBeVisible();
+        await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//div[text()='image']")).toBeVisible();
   await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 550)
 await page.mouse.up();
 await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='email']")).toBeVisible();
-  await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
+await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").dblclick();
    // Verify that there are now two matching elements
-   await expect(page.locator("//div[@class='signYourselfBlock react-draggable react-draggable-dragged']//span[text()='email']")).toBeVisible();
+   await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='email']")).toBeVisible();
     await page.getByRole('button', { name: 'Next' }).click();
     //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
     await page.getByRole('button', { name: 'Send' }).click();

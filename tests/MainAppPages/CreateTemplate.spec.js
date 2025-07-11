@@ -517,6 +517,7 @@ await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+await page.waitForTimeout(20000);
 await page.getByRole('button', { name: '+ Add role' }).click();
   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
@@ -552,16 +553,19 @@ try {
   console.log("Element not found or not interactable, continuing execution.");
  
 }
-await page.locator('//div[@class="flex items-stretch justify-center"]//i[@class="fa-light fa-gear icon"]').click();
+await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
 await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first().uncheck();
-  await page.getByRole('textbox').fill('Signature Draw remove');
+  await page.getByRole('textbox').fill('Signature Draw removed');
   await page.getByRole('button', { name: 'Save' }).click();
-  await page.locator('//div[@class="flex items-stretch justify-center"]//i[@class="fa-light fa-gear icon"]').click();
+  await page.locator("//div[@class='flex items-stretch justify-center']//div[text()='Signature Draw removed']").click();
+  await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first()).not.toBeChecked();
-  await expect(page.getByRole('textbox')).toHaveValue('Signature Draw remove');
+  await expect(page.getByRole('textbox')).toHaveValue('Signature Draw removed');
   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(1).uncheck();
+    await page.getByRole('textbox').fill('Signature type removed');
   await page.getByRole('button', { name: 'Save' }).click();
-  await page.locator('//div[@class="flex items-stretch justify-center"]//i[@class="fa-light fa-gear icon"]').click();
+    await page.locator("//div[@class='flex items-stretch justify-center']//div[text()='Signature type removed']").click();
+await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(1)).not.toBeChecked();
   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(2).uncheck();
   page.once('dialog', dialog => {
@@ -573,7 +577,8 @@ await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @ty
   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(3).uncheck();
   await page.getByRole('textbox').fill('only upload type enabled');
   await page.getByRole('button', { name: 'Save' }).click();
-  await page.locator('//div[@class="flex items-stretch justify-center"]//i[@class="fa-light fa-gear icon"]').click();
+  await page.locator("//div[@class='flex items-stretch justify-center']//div[text()='only upload type enabled']").click();
+ await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first()).not.toBeChecked();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(1)).not.toBeChecked();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(3)).not.toBeChecked();
@@ -761,18 +766,17 @@ await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'vi
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.waitForLoadState("networkidle");
 await expect(page.locator('#renderList')).toContainText('1 of 3');
-  await page.locator('canvas').nth(1).click({
+   await page.locator('canvas').nth(1).click({
     position: {
-      x: 92,
-      y: 83
+      x: 49,
+      y: 35
     }
   });
-  await expect(page.locator('#renderList')).toContainText('2 of 3');
   await page.getByTitle('Rotate right').locator('i').click();
   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
     - text: Pages
     - button "+ Add pages"
-    - text: +     
+    - text: +      
     - button
     - text: 2 of 3
     - button
@@ -782,13 +786,13 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
     - text: Roles
     - superscript: "?"
     - button "+ Add role"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   checkbox   dropdown   radio button   image   email 
+    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   cells   checkbox   dropdown   radio button   image   email 
     `);
   await page.getByTitle('Rotate right').locator('i').click();
   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
     - text: Pages
     - button "+ Add pages"
-    - text: +     
+    - text: +      
     - button
     - text: 2 of 3
     - button
@@ -798,19 +802,19 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
     - text: Roles
     - superscript: "?"
     - button "+ Add role"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   checkbox   dropdown   radio button   image   email 
+    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   cells   checkbox   dropdown   radio button   image   email 
     `);
   await page.locator('canvas').nth(2).click({
     position: {
-      x: 85,
-      y: 18
+      x: 52,
+      y: 74
     }
   });
   await page.getByTitle('Rotate left').locator('i').click();
   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
     - text: Pages
     - button "+ Add pages"
-    - text: +     
+    - text: +      
     - button
     - text: 3 of 3
     - button [disabled]
@@ -820,7 +824,7 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
     - text: Roles
     - superscript: "?"
     - button "+ Add role"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   checkbox   dropdown   radio button   image   email 
+    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   cells   checkbox   dropdown   radio button   image   email 
     `);
     await page.getByRole('button', { name: '+ Add role' }).click();
     await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
@@ -867,19 +871,16 @@ await page.mouse.move(800, 200)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'name\']').hover();
 await page.mouse.down();
-
 await page.mouse.move(600, 260)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'job title\']').hover();
 await page.mouse.down();
-
 await page.mouse.move(700, 260)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'company\']').hover();
 await page.mouse.down();
 await page.mouse.move(800, 260)
 await page.mouse.up();
-
 await page.locator('//span[normalize-space()=\'date\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 290)
@@ -899,7 +900,6 @@ await page.mouse.move(600, 350)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
-
 await page.mouse.move(700, 350)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
