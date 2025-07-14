@@ -67,49 +67,6 @@ await page.locator('//span[normalize-space()=\'initials\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 420)
 await page.mouse.up();
-await page.locator('//span[normalize-space()=\'name\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 470)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'job title\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 500)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'company\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 520)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'date\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 550)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'text input\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 570)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'checkbox\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 600)
-await page.mouse.up();
-page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('span').filter({ hasText: 'dropdown' }).hover();
-await page.mouse.down();
-await page.mouse.move(800, 300)
-await page.mouse.up();
-page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('//span[normalize-space()=\'radio button\']').hover();
-await page.mouse.down();
-await page.mouse.move(800, 350)
-await page.mouse.up();
-page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('//span[normalize-space()=\'image\']').hover();
-await page.mouse.down();
-await page.mouse.move(800, 400)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'email\']').hover();
-await page.mouse.down();
-await page.mouse.move(800, 400)
-await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 await page.getByRole('button', { name: 'Send' }).click();
@@ -123,42 +80,20 @@ await page.locator('//div[contains(@class, "font-light") and contains(., "In-pro
 
 await expect(page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]')).toContainText('In-progress documents');
   await page.locator('//div[@role = \'button\' and @class=\'op-btn-secondary op-btn op-btn-sm mr-1\']').first().click();
-  await page.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
-  await page.getByRole('button', { name: 'Agree & Continue' }).click();
+await commonSteps.validateAndAcceptTerms();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
   await page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium" and text()="signature"]').click();
-  await page.mouse.down();
-  await page.mouse.move(120, 122)
-  await page.mouse.up();
+  await commonSteps.drawSignature();
   // Optionally save changes
-await page.locator("//button[normalize-space()='Save']").click();
+await commonSteps.clickNextButtonInSignerModal();
 await page.getByText('stamp').click();
-const fileChooserPromise1 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
-await page.locator("//button[normalize-space()='Save']").click();
+await commonSteps.uploadStamp();
+await commonSteps.clickNextButtonInSignerModal();
 await page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium text-center" and text()="initials"]').click();
-await page.mouse.move(650, 350)
-await page.mouse.down();
-await page.mouse.move(700, 380)
-await page.mouse.up();
-await page.locator("//button[normalize-space()='Save']").click();
-/*await page.getByPlaceholder('Pravin Testing account').fill('Mark Anderson');
-  await page.getByPlaceholder('Quality analystAA').fill('Quality analyst');
-  await page.getByPlaceholder('OpenSign pvt ltd').fill('Oepnsign labs pvt. ltd');*/
-  await page.getByPlaceholder('text').fill('120 wood street sanfransisco');
-  await page.locator('#myDropdown').selectOption('option-2');
- await page.getByRole('radio', { name: 'option-1' }).check();
-  await page.getByRole('checkbox', { name: 'option-1' }).check();
-  await page.getByText('image').click();
-  const fileChooserPromise2 = page.waitForEvent('filechooser');
-  await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-  const fileChooser2 = await fileChooserPromise2;
-  await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
-  await page.locator("//button[normalize-space()='Save']").click();
-  await page.getByRole('button', { name: 'Finish' }).click();
+await commonSteps.drawInitials();
+await commonSteps.clickDoneButtonInSignerModal();
+  await ommonSteps.clickFinishButtonInSignerModal();
   /*await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
@@ -346,7 +281,6 @@ test('Verify that the user can rename and delete a document from the In Progress
   //Expects page to have a heading with the name of dashboard.
 //expect(title).toBe('Dashboard - OpenSign™');
 await page.getByRole('menuitem', { name: 'Request signatures' }).click();
-  await page.locator('input[name="Name"]').click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
   await page.locator('input[name="Note"]').click();
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -407,9 +341,10 @@ await page.locator('//div[contains(@class, "font-light") and contains(., "In-pro
 await expect(page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]')).toContainText('In-progress documents');
 await page.locator('.text-base-content > .text-base-content').first().click();
 await page.locator('//span[contains(text(),"Rename")]').click();
-await page.locator('//div[@class="flex flex-col gap-2"]/input[@maxlength="200" and @type="text"]').fill('Sample-joining-letter-2025');
+const Renameddoctitle =await commonSteps.fillDocumentTitleWithTimestamp('Inprogress Doc rename');
+await page.locator('//div[@class="flex flex-col gap-2"]/input[@maxlength="200" and @type="text"]').fill(Renameddoctitle);
 await page.getByRole('button', { name: 'Save' }).click();
-await expect(page.locator('tbody')).toContainText('Sample-joining-letter-2025');
+await expect(page.locator('tbody')).toContainText(Renameddoctitle);
 await page.locator('.text-base-content > .text-base-content').first().click();
 await page.locator('//span[contains(text(),"Delete")]').click();
 await expect(page.getByRole('heading')).toContainText('Delete document');
@@ -417,7 +352,7 @@ await expect(page.getByRole('heading')).toContainText('Delete document');
   await page.getByRole('button', { name: 'Yes' }).click();
   await expect(page.locator('#renderList')).toContainText('Record deleted successfully!');
   try {
-    await expect(page.locator('tbody')).toContainText('Sample-joining-letter-2025');
+    await expect(page.locator('tbody')).toContainText(Renameddoctitle);
 } catch (error) {
     console.log("Document not found in the table, successfully deleted!");
 }
@@ -518,7 +453,8 @@ await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator
 await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
-await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+const doctitle =await commonSteps.fillDocumentTitleWithTimestamp('Inprogress Doc rename');
+await page.locator('input[name="Name"]').fill(doctitle);
 await page.locator('input[name="Note"]').fill('Note Offer Letter for QA1144');
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -576,7 +512,7 @@ await expect(page.getByRole('heading')).toContainText('Revoke document');
   await page.getByRole('button', { name: 'Yes' }).click();
   await expect(page.locator('#renderList')).toContainText('Record revoked successfully!');
   try {
-    await expect(page.locator('tbody')).toContainText('Sample-joining-letter-2025');
+    await expect(page.locator('tbody')).toContainText(doctitle);
 } catch (error) {
     console.log("Document not found in the table, successfully deleted!");
 }

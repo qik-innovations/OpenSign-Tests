@@ -116,16 +116,23 @@ export class CommonSteps {
     expect(title).toBe('Dashboard - OpenSign™');
     console.log(`✅ Signup successful. User: ${loginCredentials.FreeplanUsername}`);
   }
-
+  //// Generate random title starting with current date-time
+async fillDocumentTitleWithTimestamp(prefix) {
+  const now = new Date();
+  const formattedDateTime = now.toISOString().replace(/[:.]/g, '-');
+  const title = `${formattedDateTime} ${prefix}`;
+  console.log(`Document Title: ${title}`);
+  return title;
+}
   // ↓↓↓ ADDED ALL CommonMethods METHODS ↓↓↓
   async validateAndAcceptTerms() {
     const page = this.page;
     await allure.step('Agree to Digital Signing Agreement', async () => {
-      await expect(page.getByRole('button', { name: 'Agree & Continue' })).toBeVisible({ timeout: 120000 });
+      await expect(page.getByRole('button', { name: 'I confirm & agree to continue' })).toBeVisible({ timeout: 120000 });
       await expect(page.locator('body')).toContainText('I confirm that I have read and understood the Electronic Record and Signature Disclosure and consent to use electronic records and signatures.');
       await expect(page.locator("//div[@class='mt-2  text-base-content']//span[@class='text-[11px]']")).toContainText('Note: Agreeing to this does not mean you are signing the document immediately. This only allows you to review the document electronically. You will have the opportunity to read it in full and decide whether to sign it afterward.');
-      await page.locator('//span[@class="text-red-500 text-sm font-bold" and text()="X"]').click();
-      await page.getByRole('button', { name: 'Agree & Continue' }).click();
+      await page.locator('//div[@data-tut="IsAgree"]').click({ force: true });
+      await page.getByRole('button', { name: 'I confirm & agree to continue' }).click();
     });
   }
   async getElementIdByWidgetName(widgetName) {
@@ -178,7 +185,34 @@ const rowLocator = page.locator(`//div[@class='signYourselfBlock react-draggable
       console.log("Error while verifying signature widget drag-drop:", error);
     }
   }
+async dragDropSignaturewidgetInSignyourselfPage(WidgetName,x, y){
+    const { page } = this;
 
+    await page.waitForLoadState("networkidle");
+    await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+    await page.waitForLoadState("networkidle");
+    await this.dragAndDrop(WidgetName,x, y);
+    try {
+      const saveButton = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
+      for (let i = 0; i < 5; i++) {
+        if (await saveButton.isVisible() && await saveButton.isEnabled()) {
+          await saveButton.click();
+          console.log("Save button clicked!");
+          break;
+        } else {
+          console.log(`Attempt ${i + 1}: Save button not visible, retrying drag and drop...`);
+          await this.dragAndDrop(WidgetName,x, y);
+          await page.waitForTimeout(1000);
+        }
+
+        if (i === 4) {
+          console.log("Save button did not become visible after multiple attempts.");
+        }
+      }
+    } catch (error) {
+      console.log("Element not found or not interactable, continuing execution.");
+    }
+  }
 async drawSignature() {
     const page = this.page;
     await allure.step('Sign Signature Widget', async () => {
@@ -425,7 +459,10 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
     await this.page.getByRole('button', { name: '✕' }).click();
     console.log('Close button in signer modal clicked.');
   }
-
+ async clickDoneButtonInSignerModal() {
+    await this.page.locator('#selectSignerModal').getByRole('button', { name: 'Done' }).click();
+    console.log('Done button in signer modal clicked.');
+  }
   async clickFinishButtonInSignerModal() {
     await this.page.locator('#selectSignerModal').getByRole('button', { name: 'Finish' }).click();
     console.log('Finish button in signer modal clicked.');

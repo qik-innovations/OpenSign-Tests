@@ -257,37 +257,7 @@ await page.locator('input[name="Note"]').fill('Note Draft doc rpt');
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(800, 300);
-        await page.mouse.up();
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-}
+await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature',600,300);
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 // Wait up to 90 seconds for the text to appear
 await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
@@ -306,60 +276,15 @@ await expect(page.locator('//div[@data-tut="tourreport3"]//td[4]').first()).toCo
 await expect(page.locator('//div[@data-tut="tourreport3"]//td[5]').first()).toContainText('Pravin Testing account');  
 await page.locator('//div[@data-tut="tourreport3"]//div[@role="button"and @title="Edit"]').first().click();
 await page.waitForSelector('#container > .react-pdf__Document', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
-
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(800, 300);
-        await page.mouse.up();
-        
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-}
-await page.locator('//span[normalize-space()="stamp"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 360)
-await page.mouse.up();
-const fileChooserPromise1 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
-await page.locator("//button[normalize-space()='Save']").click();
-await page.locator('//span[normalize-space()="initials"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 420)
-await page.mouse.up();
-await page.locator("//button[normalize-space()='Save']").click();
-await page.locator('//span[normalize-space()="date"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 550)
-await page.mouse.up();
-await page.locator("//button[normalize-space()='Finish']").click();
+await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature',600,300);
+await commonSteps.dragAndDrop('stamp',600,360);
+await commonSteps.uploadStamp();
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('initials',600,420);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('date',600,550);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
  await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
 
@@ -482,9 +407,7 @@ await expect(page.locator('//div[@data-tut="tourreport1"]//div[@class="font-semi
 await expect(page.locator('//div[@data-tut="tourreport1"]//td[2]').first()).toContainText('Download');
 await expect(page.locator('//div[@data-tut="tourreport1"]//td[3]').first()).toContainText('Pravin Testing account');  
 await page.locator('//div[@data-tut="tourreport1"]//div[@role="button"and @title="SIGN"]').first().click();
-// Now assert the text
-await page.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
-await page.getByRole('button', { name: 'Agree & Continue' }).click();
+await commonSteps.validateAndAcceptTerms();
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//div[contains(text(),"signature")]').click();
@@ -492,21 +415,13 @@ await page.mouse.down();
 await page.mouse.move(120, 122)
 await page.mouse.up();
 // Optionally save changes
-await page.locator("//button[normalize-space()='Save']").click();
-//div[contains(text(),'signature')]
-await page.locator('//div[contains(text(),"stamp")]').click();
-const fileChooserPromise1 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
-await page.locator("//button[normalize-space()='Save']").click();
-await page.locator('//div[contains(text(),"initials")]').click();
-await page.mouse.move(650, 350)
-await page.mouse.down();
-await page.mouse.move(700, 380)
-await page.mouse.up();
-await page.locator("//button[normalize-space()='Save']").click();
-await page.getByRole('button', { name: 'Finish' }).click();
+await commonSteps.clickNextButtonInSignerModal();
+    await commonSteps.uploadStamp();
+await commonSteps.clickNextButtonInSignerModal();
+await commonSteps.drawInitials();
+await commonSteps.clickNextButtonInSignerModal();
+await commonSteps.clickDoneButtonInSignerModal();
+await commonSteps.clickFinishButtonInSignerModal();
 await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
 await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
 await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
@@ -563,52 +478,10 @@ await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
-
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-    
-        console.log("signature widget dragged and dropped");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(800, 300);
-        await page.mouse.up();
-        
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("signature widget did not become visible on the document after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-}
-await page.locator('//span[normalize-space()=\'stamp\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 360)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'initials\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 420)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'name\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 470)
-await page.mouse.up();
+ await commonSteps.dragAndDropSignatureWidget('signature',600,200);
+  await commonSteps.dragAndDrop('stamp',600,360);
+  await commonSteps.dragAndDrop('initials',600,420);
+   await commonSteps.dragAndDrop('name',600,470);
 await page.getByRole('button', { name: 'Next' }).click();
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 await page.getByRole('button', { name: 'Send' }).click();
@@ -643,7 +516,7 @@ test('Verify that the document created from a template appears in the Recently S
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+  await page.getByRole('button', { name: ' Templates' }).click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
@@ -655,50 +528,16 @@ test('Verify that the document created from a template appears in the Recently S
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.waitForLoadState("networkidle");
   await page.getByRole('button', { name: '+ Add role' }).click();
   await page.getByPlaceholder('Role 1').fill('HR');
   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
-  await page.locator('//span[normalize-space()=\'signature\']').hover();
-  await page.mouse.down();
-  await page.mouse.move(600, 200)
-  await page.mouse.up();
-  try {
-    const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
-  
-    for (let i = 0; i < 5; i++) { // Retry up to 5 times
-        if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        
-            console.log("signature widget dragged and dropped");
-            break; // Exit the loop if successfully clicked
-        } else {
-            console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
-    
-            await page.locator('//span[normalize-space()="signature"]').hover();
-            await page.mouse.down();
-            await page.mouse.move(600, 200);
-            await page.mouse.up();
-            
-            // Wait a bit before checking again
-            await page.waitForTimeout(1000);
-        }
-    
-        if (i === 5) {
-            console.log("signature widget did not become visible on the document after multiple attempts.");
-        }
-    }
-  } catch (error) {
-    console.log("Element not found or not interactable, continuing execution.");
-   
-  }
-
+  await commonSteps.dragAndDropSignatureWidget('signature',600,200);
 await page.getByRole('button', { name: 'Next' }).click();
   //await expect(page.getByRole('heading')).toContainText('Create document');
   await page.getByRole('button', { name: 'Create document' }).click();
   await page.locator('.css-n9qnu9').click();
   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
- 
   await page.getByRole('button', { name: ' Next' }).click();
   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
   await page.getByRole('button', { name: 'Send' }).click();
@@ -724,7 +563,7 @@ test('Verify that the document created from a template bulksend appears in the R
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+  await page.getByRole('button', { name: ' Templates' }).click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
@@ -736,46 +575,12 @@ test('Verify that the document created from a template bulksend appears in the R
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.waitForLoadState("networkidle");
   await page.getByRole('button', { name: '+ Add role' }).click();
   await page.getByPlaceholder('Role 1').fill('HR');
   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
-  await page.locator('//span[normalize-space()=\'signature\']').hover();
-  await page.mouse.down();
-  await page.mouse.move(600, 200)
-  await page.mouse.up();
-  try {
-    const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
-  
-    for (let i = 0; i < 5; i++) { // Retry up to 5 times
-        if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        
-            console.log("signature widget dragged and dropped");
-            break; // Exit the loop if successfully clicked
-        } else {
-            console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
-    
-            await page.locator('//span[normalize-space()="signature"]').hover();
-            await page.mouse.down();
-            await page.mouse.move(600, 200);
-            await page.mouse.up();
-            
-            // Wait a bit before checking again
-            await page.waitForTimeout(1000);
-        }
-    
-        if (i === 5) {
-            console.log("signature widget did not become visible on the document after multiple attempts.");
-        }
-    }
-  } catch (error) {
-    console.log("Element not found or not interactable, continuing execution.");
-   
-  }
-
+    await commonSteps.dragAndDropSignatureWidget('signature',600,200);
 await page.getByRole('button', { name: 'Next' }).click();
- // await expect(page.getByRole('heading')).toContainText('Create document');
   await page.locator('//dialog[@id="selectSignerModal"]//button[text()="Bulk send"]').click();
   await page.locator('//dialog[@id="selectSignerModal"]//input[@type="email" and @placeholder="Enter Email..."]').fill("andyamaya@nxglabs.in");
   await page.locator('//dialog[@id="selectSignerModal"]//span[text()="Send"]').click();
@@ -803,8 +608,8 @@ test('Verify that the user can rename and delete a document from the dashboard R
   //Expects page to have a heading with the name of dashboard.
 //expect(title).toBe('Dashboard - OpenSign™');
 await page.getByRole('menuitem', { name: 'Request signatures' }).click();
-  await page.locator('input[name="Name"]').click();
-  await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+const doctitle = await commonSteps.fillDocumentTitleWithTimestamp('Rename document');
+  await page.locator('input[name="Name"]').fill(doctitle );
   await page.locator('input[name="Note"]').click();
   const fileChooserPromise = page.waitForEvent('filechooser');
 await page.locator('input[type="file"]').click();
@@ -863,9 +668,10 @@ await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
 await page.locator('//div[@data-tut="tourreport2"]//i[@class="fa-light fa-ellipsis-vertical fa-lg"]').first().click();
 await page.locator('//span[contains(text(),"Rename")]').click();
-await page.locator('//div[@class="flex flex-col gap-2"]/input[@maxlength="200" and @type="text"]').fill('Sample-joining-letter-2025');
+const docrename = await commonSteps.fillDocumentTitleWithTimestamp();
+await page.locator('//div[@class="flex flex-col gap-2"]/input[@maxlength="200" and @type="text"]').fill(docrename);
 await page.getByRole('button', { name: 'Save' }).click();
-await expect(page.locator('//div[@data-tut="tourreport2"]//tr[1]//div[@class="font-semibold break-words"]')).toContainText('Sample-joining-letter-2025');
+await expect(page.locator('//div[@data-tut="tourreport2"]//tr[1]//div[@class="font-semibold break-words"]')).toContainText(docrename);
 await page.locator('//div[@data-tut="tourreport2"]//i[@class="fa-light fa-ellipsis-vertical fa-lg"]').first().click();
 await page.locator('//span[contains(text(),"Delete")]').click();
 await expect(page.getByRole('heading')).toContainText('Delete document');
@@ -873,7 +679,7 @@ await expect(page.getByRole('heading')).toContainText('Delete document');
   await page.getByRole('button', { name: 'Yes' }).click();
   await expect(page.locator('#renderList')).toContainText('Record deleted successfully!');
   try {
-    await expect(page.locator('//div[@data-tut="tourreport2"]//tr[1]//div[@class="font-semibold break-words"]')).toContainText('Sample-joining-letter-2025');
+    await expect(page.locator('//div[@data-tut="tourreport2"]//tr[1]//div[@class="font-semibold break-words"]')).toContainText(docrename);
 } catch (error) {
     console.log("Document not found in the table, successfully deleted!");
 }
@@ -974,6 +780,9 @@ await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+//// Generate random title starting with current date-time
+const documentTitle = await commonSteps.fillDocumentTitleWithTimestamp('Revoke document');
+ await page.locator('input[name="Name"]').fill(documentTitle);
 await page.locator('input[name="Note"]').fill('Note Offer Letter for QA1144');
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
@@ -1030,7 +839,7 @@ await expect(page.getByRole('heading')).toContainText('Revoke document');
   await page.getByRole('button', { name: 'Yes' }).click();
   await expect(page.locator('#renderList')).toContainText('Record revoked successfully!');
   try {
-    await expect(page.locator('tbody')).toContainText('Offer Letter for QA1144');
+    await expect(page.locator('tbody')).toContainText(documentTitle);
 } catch (error) {
     console.log("Document not found in the table, successfully deleted!");
 }

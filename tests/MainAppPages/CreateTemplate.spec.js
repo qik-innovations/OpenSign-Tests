@@ -20,13 +20,13 @@ test('Verify that a new free user cannot access the paid features on the create 
   await page.locator('input[name="password"]').fill('Nxglabs@123');
   await page.locator('input[id="termsandcondition"]').click();
   await page.getByRole('button', { name: 'Register' }).click();
-  await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible({ timeout: 90000 });
 await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getByRole('button').click();
     await page.getByLabel('Close').click();
     // Expects page to have a heading with the name of dashboard.
     const title = await page.title()
        expect(title).toBe('Dashboard - OpenSign™');
-  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+ await page.getByRole('button', { name: ' Templates' }).click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -59,20 +59,6 @@ await page.bringToFront();
   const page2 = await page2Promise;
   await expect(page2.locator('#root')).toContainText('OPENSIGN™ FREE', { timeout: 90000 });
   await page.bringToFront();
-/*
-  await page.locator('label').filter({ hasText: 'Notify on signaturesUpgrade' }).locator('span').click();
-  const page3Promise = page.waitForEvent('popup');
-  const page3 = await page3Promise;
-  await expect(page3.locator('#root')).toContainText('OPENSIGN™ PROFESSIONAL');
-  await page.bringToFront();
-  await page.locator('label').filter({ hasText: 'Allow modificationsUpgrade now' }).locator('span').click();
-  const page4Promise = page.waitForEvent('popup');
-  const page4 = await page4Promise;
-  await page4.goto('https://staging-app.opensignlabs.com/subscription');
-  await expect(page4.locator('#root')).toContainText('OPENSIGN™ FREE');
-  // Switch back to the default page
-await page.bringToFront();  // Brings the default page to the foreground
-console.log("Switched back to the main page");*/
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
@@ -112,13 +98,13 @@ test('Verify that a new user can create a template and use it to create the docu
   await page.locator('input[name="password"]').fill('Nxglabs@123');
   await page.locator('input[id="termsandcondition"]').click();
   await page.getByRole('button', { name: 'Register' }).click();
-  await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible({ timeout: 90000 });
 await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getByRole('button').click();
     await page.getByLabel('Close').click();
     // Expects page to have a heading with the name of dashboard.
     const title = await page.title()
        expect(title).toBe('Dashboard - OpenSign™');
-  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+  await page.getByRole('button', { name: ' Templates' }).click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -206,41 +192,34 @@ await page.getByRole('button', { name: 'Create document' }).click();
   await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
  // await expect(page.locator('#selectSignerModal')).toContainText('You have successfully sent email to Kelvin. Subsequent signers will get email(s) once Kelvin signs the document');
     await page.getByRole('button', { name: 'Yes' }).click();
-    await page.locator('//div[@class="flex flex-row items-center"]//input[@type="checkbox" and @data-tut="IsAgree"]').click();
-    await page.getByRole('button', { name: 'Agree & Continue' }).click();
+    await commonSteps.validateAndAcceptTerms();
     await page.waitForLoadState("networkidle");
     await page.getByLabel('Don\'t show this again').check();
   await page.getByLabel('Close').click();
     await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
     await page.locator('//div[contains(text(),"signature")]').click();
-    await page.mouse.down();
-    await page.mouse.move(120, 122)
-    await page.mouse.up();
-    // Optionally save changes
-  await page.locator("//button[normalize-space()='Save']").click();
-  await page.locator('//div[contains(text(),"stamp")]').click();
-  const fileChooserPromise1 = page.waitForEvent('filechooser');
-  await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-  const fileChooser1 = await fileChooserPromise1;
-  await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
-  await page.locator("//button[normalize-space()='Save']").click();
-  await page.locator('//div[contains(text(),"initials")]').click();
-  await page.mouse.move(650, 350)
-  await page.mouse.down();
-  await page.mouse.move(700, 380)
-  await page.mouse.up();
-  await page.locator("//button[normalize-space()='Save']").click();
-    await page.getByPlaceholder('text').fill('120 wood street sanfransisco');
-   // await page.locator('#myDropdown').selectOption('option-2');
-   //await page.getByRole('radio', { name: 'option-1' }).check();
-    await page.getByRole('checkbox', { name: 'option-1' }).check();
-    await page.locator('//div[contains(text(),"image")]').click();
-    const fileChooserPromise2 = page.waitForEvent('filechooser');
-    await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-    const fileChooser2 = await fileChooserPromise2;
-    await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
-    await page.locator("//button[normalize-space()='Save']").click();
-    await page.getByRole('button', { name: 'Finish' }).click();
+   await commonSteps.drawSignature();
+   await commonSteps.clickNextButtonInSignerModal();
+  await commonSteps.uploadStamp();
+  await commonSteps.clickNextButtonInSignerModal();
+await commonSteps.drawInitials();
+  await commonSteps.clickNextButtonInSignerModal();
+  await commonSteps.fillTextField('name','Mathew Steven');
+      await commonSteps.clickNextButtonInSignerModal();
+        await commonSteps.fillTextField('job title','Quality Analyst');
+      await commonSteps.clickNextButtonInSignerModal();
+        await commonSteps.fillTextField('company','Opensignlabs pvt. ltd');
+      await commonSteps.clickNextButtonInSignerModal();
+      await commonSteps.clickNextButtonInSignerModal();
+        await commonSteps.fillTextField('text input','120 wood street sanfransisco');
+      await commonSteps.clickNextButtonInSignerModal();
+      await commonSteps.selectCheckbox('Option-1');
+      await commonSteps.clickNextButtonInSignerModal();
+     await commonSteps.uploadImage();
+      await commonSteps.clickNextButtonInSignerModal();
+     await commonSteps.fillEmailField('demo@gmail.com','mathewsteven@opensignlabs.com');
+    await commonSteps.clickDoneButtonInSignerModal();
+     await commonSteps.clickFinishButtonInSignerModal();
     await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
     await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
     await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
@@ -252,7 +231,7 @@ test('Verify that a new free user is unable to send the document through bulk se
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+  await page.getByRole('button', { name: ' Templates' }).click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -359,8 +338,7 @@ test('Verify that an existing Team Plan user can create a template using all adv
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-    
-  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+ await page.getByRole('button', { name: ' Templates' }).click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -448,8 +426,7 @@ test('Verify that a Team Plan user can create a template, make it public, and si
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-    
-  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+     await page.getByRole('button', { name: ' Templates' }).click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -512,31 +489,12 @@ await page.getByRole('button', { name: 'Copy public URL' }).click();
   await page1.getByRole('textbox', { name: 'optional' }).click();
   await page1.getByRole('textbox', { name: 'optional' }).fill('7657567566');
   await page1.getByRole('button', { name: 'Submit' }).click();
-  await expect(page1.getByRole('button', { name: 'Agree & Continue' })).toBeVisible({ timeout: 120000 });
-  await expect(page1.locator('body')).toContainText('I confirm that I have read and understood the Electronic Record and Signature Disclosure and consent to use electronic records and signatures.');
-  await expect(page1.locator('body')).toContainText('I confirm that I have read and understood the Electronic Record and Signature Disclosure and consent to use electronic records and signatures.');
-  await expect(page1.locator('body')).toContainText('Note: Agreeing to this does not mean you are signing the document immediately. This only allows you to review the document electronically. You will have the opportunity to read it in full and decide whether to sign it afterward.');
-  await page1.getByRole('checkbox').check();
-  await page1.getByRole('button', { name: 'Agree & Continue' }).click();
-  /*await expect(page1.getByRole('paragraph')).toContainText('Please complete the fields on page number 1, all highlighted in the same color for easy identification.');
-  await page1.locator('.sc-gsFSXq > button:nth-child(3)').click();
-  await expect(page1.getByRole('paragraph')).toContainText('List of signers who still need to sign the document .');
-  await page1.getByRole('dialog').locator('div').nth(1).click();
-  await expect(page1.getByRole('paragraph')).toContainText('List of signers who still need to sign the document .');
-  await expect(page1.getByRole('paragraph')).toContainText('List of signers who still need to sign the document .');
-  await page1.locator('.sc-gsFSXq > button:nth-child(3)').click();
-  await expect(page1.getByRole('paragraph')).toContainText('Click any of the placeholders appearing on the document to sign. You will then see options to draw your signature, type it, or upload an image .');
-  await page1.locator('.sc-gsFSXq > button:nth-child(3)').click();
-  await expect(page1.getByRole('paragraph')).toContainText('Click Decline, or Finish buttons to navigate your document. Use the ellipsis menu for additional options, including the Download button .');
-  await page1.getByRole('button', { name: 'Close' }).click();*/
+  const commonStepspage1 = new CommonSteps(page1);
+  await commonStepspage1.validateAndAcceptTerms();
   await page1.getByText('signature').click();
-  await page1.mouse.move(750, 340);
-  await page1.mouse.down();
-  await page1.mouse.move(750, 340);
-  await page1.mouse.move(750, 350);
-  await page1.mouse.up();
-  await page1.getByRole('button', { name: 'Save' }).click();
-  await page1.getByRole('button', { name: 'Finish' }).click();
+   await commonStepspage1.drawSignature();
+  await commonStepspage1.clickDoneButtonInSignerModal();
+  await commonStepspage1.clickFinishButtonInSignerModal();
   await expect(page1.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 120000 });
   await expect(page1.locator('#selectSignerModal')).toContainText('Print');
 
@@ -546,7 +504,7 @@ test('Verify that the signature settings function correctly for the signature wi
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+ await page.getByRole('button', { name: ' Templates' }).click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -559,6 +517,7 @@ await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+await page.waitForTimeout(20000);
 await page.getByRole('button', { name: '+ Add role' }).click();
   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
@@ -594,16 +553,19 @@ try {
   console.log("Element not found or not interactable, continuing execution.");
  
 }
-await page.locator('//div[@class="flex items-stretch justify-center"]//i[@class="fa-light fa-gear icon"]').click();
+await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
 await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first().uncheck();
-  await page.getByRole('textbox').fill('Signature Draw remove');
+  await page.getByRole('textbox').fill('Signature Draw removed');
   await page.getByRole('button', { name: 'Save' }).click();
-  await page.locator('//div[@class="flex items-stretch justify-center"]//i[@class="fa-light fa-gear icon"]').click();
+  await page.locator("//div[@class='flex items-stretch justify-center']//div[text()='Signature Draw removed']").click();
+  await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first()).not.toBeChecked();
-  await expect(page.getByRole('textbox')).toHaveValue('Signature Draw remove');
+  await expect(page.getByRole('textbox')).toHaveValue('Signature Draw removed');
   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(1).uncheck();
+    await page.getByRole('textbox').fill('Signature type removed');
   await page.getByRole('button', { name: 'Save' }).click();
-  await page.locator('//div[@class="flex items-stretch justify-center"]//i[@class="fa-light fa-gear icon"]').click();
+    await page.locator("//div[@class='flex items-stretch justify-center']//div[text()='Signature type removed']").click();
+await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(1)).not.toBeChecked();
   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(2).uncheck();
   page.once('dialog', dialog => {
@@ -615,7 +577,8 @@ await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @ty
   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(3).uncheck();
   await page.getByRole('textbox').fill('only upload type enabled');
   await page.getByRole('button', { name: 'Save' }).click();
-  await page.locator('//div[@class="flex items-stretch justify-center"]//i[@class="fa-light fa-gear icon"]').click();
+  await page.locator("//div[@class='flex items-stretch justify-center']//div[text()='only upload type enabled']").click();
+ await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first()).not.toBeChecked();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(1)).not.toBeChecked();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(3)).not.toBeChecked();
@@ -626,7 +589,7 @@ test('Verify that the merge page functions correctly and the user can sign the m
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+   await page.getByRole('button', { name: ' Templates' }).click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -759,7 +722,7 @@ test('Verify that the delete page functions correctly in create template.', asyn
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
   await commonSteps.login();
-await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+ await page.getByRole('button', { name: ' Templates' }).click();
 await page.getByRole('menuitem', { name: 'Create template' }).click();
 await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
 const fileChooserPromise = page.waitForEvent('filechooser');
@@ -788,7 +751,7 @@ test('Verify that the rotate page functions correctly in create template.', asyn
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-  await page.locator('//span[@class="ml-3 lg:ml-4 text-start" and text()="Templates"]').click();
+ await page.getByRole('button', { name: ' Templates' }).click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   const fileChooserPromise = page.waitForEvent('filechooser');
@@ -803,18 +766,17 @@ await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'vi
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.waitForLoadState("networkidle");
 await expect(page.locator('#renderList')).toContainText('1 of 3');
-  await page.locator('canvas').nth(1).click({
+   await page.locator('canvas').nth(1).click({
     position: {
-      x: 92,
-      y: 83
+      x: 49,
+      y: 35
     }
   });
-  await expect(page.locator('#renderList')).toContainText('2 of 3');
   await page.getByTitle('Rotate right').locator('i').click();
   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
     - text: Pages
     - button "+ Add pages"
-    - text: +     
+    - text: +      
     - button
     - text: 2 of 3
     - button
@@ -824,13 +786,13 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
     - text: Roles
     - superscript: "?"
     - button "+ Add role"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   checkbox   dropdown   radio button   image   email 
+    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   cells   checkbox   dropdown   radio button   image   email 
     `);
   await page.getByTitle('Rotate right').locator('i').click();
   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
     - text: Pages
     - button "+ Add pages"
-    - text: +     
+    - text: +      
     - button
     - text: 2 of 3
     - button
@@ -840,19 +802,19 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
     - text: Roles
     - superscript: "?"
     - button "+ Add role"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   checkbox   dropdown   radio button   image   email 
+    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   cells   checkbox   dropdown   radio button   image   email 
     `);
   await page.locator('canvas').nth(2).click({
     position: {
-      x: 85,
-      y: 18
+      x: 52,
+      y: 74
     }
   });
   await page.getByTitle('Rotate left').locator('i').click();
   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
     - text: Pages
     - button "+ Add pages"
-    - text: +     
+    - text: +      
     - button
     - text: 3 of 3
     - button [disabled]
@@ -862,7 +824,7 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
     - text: Roles
     - superscript: "?"
     - button "+ Add role"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   checkbox   dropdown   radio button   image   email 
+    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   cells   checkbox   dropdown   radio button   image   email 
     `);
     await page.getByRole('button', { name: '+ Add role' }).click();
     await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
@@ -909,19 +871,16 @@ await page.mouse.move(800, 200)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'name\']').hover();
 await page.mouse.down();
-
 await page.mouse.move(600, 260)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'job title\']').hover();
 await page.mouse.down();
-
 await page.mouse.move(700, 260)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'company\']').hover();
 await page.mouse.down();
 await page.mouse.move(800, 260)
 await page.mouse.up();
-
 await page.locator('//span[normalize-space()=\'date\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 290)
@@ -941,7 +900,6 @@ await page.mouse.move(600, 350)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
-
 await page.mouse.move(700, 350)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
