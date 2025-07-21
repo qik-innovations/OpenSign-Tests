@@ -1746,7 +1746,7 @@ await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
 await page.getByText('Option-1Option-').click();
   await commonSteps.clickCloseButtonInSignerModal();
-  await page.locator('//i[@class="fa-light fa-gear icon"]').click();
+  await page.locator('//i[@class="fa-light fa-gear icon text-[#188ae2] right-[29px] -top-[19px] z-[99] pointer-events-auto"]').click();
   const isVisible = await page.locator('//h3[text()="Checkbox"]').isVisible();
   
   if (isVisible) {
@@ -1757,7 +1757,7 @@ await page.getByText('Option-1Option-').click();
   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
 }
  await expect(page.locator('form')).toContainText('Name *');
-  await expect(page.locator("//dialog[@class=' op-modal op-modal-open']//input[@id='title']")).toHaveValue('Checkbox');
+  await expect(page.locator("//dialog[@class=' op-modal op-modal-open']//input[@id='title']")).toHaveValue('checkbox-1');
   await expect(page.locator('form')).toContainText('Options');
   await expect(page.getByRole('textbox').nth(1)).toHaveValue('Option-1');
   await expect(page.getByRole('textbox').nth(2)).toHaveValue('Option-2');

@@ -22,7 +22,7 @@ test('Verify that new user can create and send the document for request signatur
   await page.locator('input[id="termsandcondition"]').click();
   await page.getByRole('button', { name: 'Register' }).click();
   await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible();
-await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getByRole('button').click();
+  await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getByRole('button').click();
     await page.getByLabel('Close').click();
     // Expects page to have a heading with the name of dashboard.
     const title = await page.title()
@@ -3680,10 +3680,10 @@ try {
 
 await page.locator('//span[normalize-space()=\'text input\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 300)
+await page.mouse.move(600, 500)
 await page.mouse.up();
 while (true) {
-  await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
+  await page.locator('//i[@class="fa-light fa-copy icon text-[#188ae2] right-[12px] -top-[18px] "]').dblclick();
   
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
@@ -3696,7 +3696,7 @@ while (true) {
 }
 await page.getByText('All pages but last').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[@class="select-none-cls"]//span[text()="text input"]')).toBeVisible();
+  await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="select-none-cls"]//span[text()="text input"]')).toBeVisible();
   await page.locator('canvas').nth(1).click({
     position: {
       x: 49,

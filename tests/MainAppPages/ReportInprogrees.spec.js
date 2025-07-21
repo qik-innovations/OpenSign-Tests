@@ -84,16 +84,12 @@ await commonSteps.validateAndAcceptTerms();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
   await page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium" and text()="signature"]').click();
-  await commonSteps.drawSignature();
   // Optionally save changes
 await commonSteps.clickNextButtonInSignerModal();
-await page.getByText('stamp').click();
 await commonSteps.uploadStamp();
 await commonSteps.clickNextButtonInSignerModal();
-await page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium text-center" and text()="initials"]').click();
-await commonSteps.drawInitials();
 await commonSteps.clickDoneButtonInSignerModal();
-  await ommonSteps.clickFinishButtonInSignerModal();
+  await commonSteps.clickFinishButtonInSignerModal();
   /*await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();

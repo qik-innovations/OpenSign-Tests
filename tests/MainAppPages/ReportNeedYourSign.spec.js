@@ -125,8 +125,7 @@ await page.locator('//div[contains(@class, "font-light") and contains(., "Need y
 // Now assert the text
 await expect(page.locator('//div[contains(@class, "font-light") and contains(., "Need your sign")]')).toContainText('Need your sign');
   await page.locator('.op-btn-primary').first().click();
-  await page.locator('//input[@type="checkbox" and @data-tut="IsAgree"]').click();
-  await page.getByRole('button', { name: 'Agree & Continue' }).click();
+  await commonSteps.validateAndAcceptTerms();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
   await page.locator('//div[contains(text(),"signature")]').click();
@@ -134,36 +133,30 @@ await expect(page.locator('//div[contains(@class, "font-light") and contains(., 
   await page.mouse.move(120, 122)
   await page.mouse.up();
   // Optionally save changes
-await page.locator("//button[normalize-space()='Save']").click();
+await commonSteps.clickNextButtonInSignerModal();
 //div[contains(text(),'signature')]
-await page.locator('//div[contains(text(),"stamp")]').click();
-const fileChooserPromise1 = page.waitForEvent('filechooser');
-await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-const fileChooser1 = await fileChooserPromise1;
-await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/stamp.jpg'));
-await page.locator("//button[normalize-space()='Save']").click();
-await page.locator('//div[contains(text(),"initials")]').click();
-await page.mouse.move(650, 350)
-await page.mouse.down();
-await page.mouse.move(700, 380)
-await page.mouse.up();
-await page.locator("//button[normalize-space()='Save']").click();
-/*await page.getByPlaceholder('name').fill('Mark Anderson');
-  await page.getByPlaceholder('job title').click();
-  await page.getByPlaceholder('job title').fill('Quality analyst');
-  await page.getByPlaceholder('company').click();
-  await page.getByPlaceholder('company').fill('Opensign labs pvt. ltd');*/
-  await page.getByPlaceholder('text').fill('120 wood street sanfransisco');
-  await page.locator('#myDropdown').selectOption('option-2');
- await page.getByRole('radio', { name: 'option-1' }).check();
-  await page.getByRole('checkbox', { name: 'option-1' }).check();
-  await page.getByText('image').click();
-  const fileChooserPromise2 = page.waitForEvent('filechooser');
-  await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
-  const fileChooser2 = await fileChooserPromise2;
-  await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/DesignerImage.png'));
-  await page.locator("//button[normalize-space()='Save']").click();
-  await page.getByRole('button', { name: 'Finish' }).click();
+await commonSteps.uploadStamp();
+await commonSteps.clickNextButtonInSignerModal();
+await commonSteps.clickNextButtonInSignerModal();
+await commonSteps.fillTextField('name','Mark Anderson');
+await commonSteps.clickNextButtonInSignerModal();
+await commonSteps.fillTextField('job title','Quality analyst');
+await commonSteps.clickNextButtonInSignerModal();
+await commonSteps.fillTextField('company','Opensign labs pvt. ltd');
+    await commonSteps.clickNextButtonInSignerModal();
+    await commonSteps.clickNextButtonInSignerModal();
+  await commonSteps.fillTextField('text input','120 wood street Sanfransisco');
+    await commonSteps.clickNextButtonInSignerModal();
+    await commonSteps.selectCheckbox('Option-1');
+ await commonSteps.clickNextButtonInSignerModal();
+     await commonSteps.selectFromDropdown('myDropdown','Option-1');
+    await commonSteps.clickNextButtonInSignerModal();
+ await commonSteps.selectRadioButton('Option-1');
+    await commonSteps.clickNextButtonInSignerModal();
+  await commonSteps.uploadImage();
+   await commonSteps.clickNextButtonInSignerModal();
+  await commonSteps.clickDoneButtonInSignerModal();
+await commonSteps.clickFinishButtonInSignerModal();
   await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
