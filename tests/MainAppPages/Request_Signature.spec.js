@@ -229,7 +229,7 @@ await commonSteps.clickFinishButtonInSignerModal();
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Download' })).toBeVisible();
   await page.getByRole('button', { name: '✕' }).click();
 });
-test('Verify that a user can create a document, send it for a signature request, and signer can successfully sign the document.', async ({ page }) => {
+test('Verify that a user can create a document1, send it for a signature request, and signer can successfully sign the document.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
@@ -286,7 +286,7 @@ await commonSteps.dragAndDrop('dropdown', 850, 550);
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('radio button', 650, 500);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('image', 650, 450);
+await commonSteps.dragAndDrop('image', 650, 300);
 await commonSteps.dragAndDrop('email', 700, 300);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariableemailID = await commonSteps.getElementIdByWidgetName('demo@gmail.com');
@@ -1441,35 +1441,38 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
   });
   await expect(page.locator('#renderList')).toContainText('2 of 3');
   await page.getByTitle('Rotate right').locator('i').click();
-  await page.getByTitle('Rotate right').locator('i').click();
- /* await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+ await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
     - text: Pages
     - button "+ Add pages"
-    - text: +     
+    - text: +      
     - button
     - text: 2 of 3
     - button
     - button "Back"
     - button "Next"
-    - text: Recipients A Andy amaya andyamaya@nxglabs.in 
+    - text: Recipients P Prefill by you
+    - separator
+    - text: N Nadews pravin+andrews@nxglabs.in 
     - separator
     - button "+ Add recipients"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text   text input   checkbox   dropdown   radio button   image   email 
-    `);*/
+    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   cells   checkbox   dropdown   radio button   image   email 
+    `);
   await page.getByTitle('Rotate right').locator('i').click();
   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
     - text: Pages
     - button "+ Add pages"
-    - text: +     
+    - text: +      
     - button
     - text: 2 of 3
     - button
     - button "Back"
     - button "Next"
-    - text: Recipients A Andy amaya andyamaya@nxglabs.in 
+    - text: Recipients P Prefill by you
+    - separator
+    - text: N Nadews pravin+andrews@nxglabs.in 
     - separator
     - button "+ Add recipients"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text   text input   checkbox   dropdown   radio button   image   email 
+    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   cells   checkbox   dropdown   radio button   image   email 
     `);
   await page.locator('#renderList div').filter({ hasText: 'PagesAdd pages2 of' }).first().click();
   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
