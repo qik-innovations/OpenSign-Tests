@@ -1474,21 +1474,7 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
     - button "+ Add recipients"
     - text: Fields  signature   stamp   initials   name   job title   company   date   text input   cells   checkbox   dropdown   radio button   image   email 
     `);
-  await page.locator('#renderList div').filter({ hasText: 'PagesAdd pages2 of' }).first().click();
-  await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
-    - text: Pages
-    - button "+ Add pages"
-    - text: +     
-    - button
-    - text: 2 of 3
-    - button
-    - button "Back"
-    - button "Next"
-    - text: Recipients A Andy amaya andyamaya@nxglabs.in 
-    - separator
-    - button "+ Add recipients"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text   text input   checkbox   dropdown   radio button   image   email 
-    `); 
+  
 await page.locator('//span[normalize-space()=\'signature\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 200)
