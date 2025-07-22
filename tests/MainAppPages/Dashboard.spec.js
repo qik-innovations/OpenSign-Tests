@@ -10,7 +10,6 @@ test('Verify that the Sign yourself card click functions correctly and redirects
     await commonSteps.login();
     await expect(page.locator('//div[text()="Sign yourself"]//parent::div[@class="text-gray-500 text-xs mt-1"]'))
   .toBeVisible({ timeout: 120000 });
-
 await expect(page.locator('//div[text()="Sign yourself"]//parent::div[@class="text-gray-500 text-xs mt-1"]'))
   .toContainText('Use this option to sign the document yourself without adding others');
     await page.getByText('Sign yourselfUse this option').click();
@@ -82,8 +81,7 @@ await expect(page.locator('//div[text()="Request signatures"]//parent::div[@clas
     await page.getByRole('button', { name: 'Next' }).click();
     await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
     await page.waitForLoadState("networkidle");
-    await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-      
+    await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });    
       await page.locator('//span[normalize-space()="signature"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
@@ -327,8 +325,8 @@ test('Verify that owner can create the document and sign it from the dashboard r
   //Expects page to have a heading with the name of dashboard.
 //expect(title).toBe('Dashboard - OpenSign™');
 await page.getByRole('menuitem', { name: 'Request signatures' }).click();
-  await page.locator('input[name="Name"]').click();
-  await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  const Renameddoctitle =await commonSteps.fillDocumentTitleWithTimestamp('Recent signatures rquest');
+   await page.locator('input[name="Name"]').fill(Renameddoctitle);
   const fileChooserPromise = page.waitForEvent('filechooser');
 await page.locator('input[type="file"]').click();
 const fileChooser = await fileChooserPromise;
@@ -348,7 +346,6 @@ await page.mouse.move(600, 300)
 await page.mouse.up();
 try {
 const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
-
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
     if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
     
@@ -535,10 +532,10 @@ await page.waitForLoadState("networkidle");
   await commonSteps.dragAndDropSignatureWidget('signature',600,200);
 await page.getByRole('button', { name: 'Next' }).click();
   //await expect(page.getByRole('heading')).toContainText('Create document');
-  await page.getByRole('button', { name: 'Create document' }).click();
+  await page.getByRole('button', { name: 'Use Template' }).click();
   await page.locator('.css-n9qnu9').click();
   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-  await page.getByRole('button', { name: ' Next' }).click();
+  await page.locator("//dialog[@id='selectSignerModal']//span[text()='Next']").click();
   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
   await page.getByRole('button', { name: 'Send' }).click();
   await page.getByRole('menuitem', { name: 'Dashboard' }).click();

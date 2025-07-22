@@ -22,7 +22,7 @@ test('Verify that new user can create and send the document for request signatur
   await page.locator('input[id="termsandcondition"]').click();
   await page.getByRole('button', { name: 'Register' }).click();
   await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible();
-await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getByRole('button').click();
+  await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getByRole('button').click();
     await page.getByLabel('Close').click();
     // Expects page to have a heading with the name of dashboard.
     const title = await page.title()
@@ -229,7 +229,7 @@ await commonSteps.clickFinishButtonInSignerModal();
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Download' })).toBeVisible();
   await page.getByRole('button', { name: '✕' }).click();
 });
-test('Verify that a user can create a document, send it for a signature request, and signer can successfully sign the document.', async ({ page }) => {
+test('Verify that a user can create a document1, send it for a signature request, and signer can successfully sign the document.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
@@ -286,7 +286,7 @@ await commonSteps.dragAndDrop('dropdown', 850, 550);
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('radio button', 650, 500);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('image', 650, 450);
+await commonSteps.dragAndDrop('image', 650, 300);
 await commonSteps.dragAndDrop('email', 700, 300);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariableemailID = await commonSteps.getElementIdByWidgetName('demo@gmail.com');
@@ -1441,51 +1441,40 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
   });
   await expect(page.locator('#renderList')).toContainText('2 of 3');
   await page.getByTitle('Rotate right').locator('i').click();
-  await page.getByTitle('Rotate right').locator('i').click();
- /* await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+ await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
     - text: Pages
     - button "+ Add pages"
-    - text: +     
+    - text: +      
     - button
     - text: 2 of 3
     - button
     - button "Back"
     - button "Next"
-    - text: Recipients A Andy amaya andyamaya@nxglabs.in 
+    - text: Recipients P Prefill by you
+    - separator
+    - text: N Nadews pravin+andrews@nxglabs.in 
     - separator
     - button "+ Add recipients"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text   text input   checkbox   dropdown   radio button   image   email 
-    `);*/
-  await page.getByTitle('Rotate right').locator('i').click();
-  await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
-    - text: Pages
-    - button "+ Add pages"
-    - text: +     
-    - button
-    - text: 2 of 3
-    - button
-    - button "Back"
-    - button "Next"
-    - text: Recipients A Andy amaya andyamaya@nxglabs.in 
-    - separator
-    - button "+ Add recipients"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text   text input   checkbox   dropdown   radio button   image   email 
+    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   cells   checkbox   dropdown   radio button   image   email 
     `);
-  await page.locator('#renderList div').filter({ hasText: 'PagesAdd pages2 of' }).first().click();
+  await page.getByTitle('Rotate right').locator('i').click();
   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
     - text: Pages
     - button "+ Add pages"
-    - text: +     
+    - text: +      
     - button
     - text: 2 of 3
     - button
     - button "Back"
     - button "Next"
-    - text: Recipients A Andy amaya andyamaya@nxglabs.in 
+    - text: Recipients P Prefill by you
+    - separator
+    - text: N Nadews pravin+andrews@nxglabs.in 
     - separator
     - button "+ Add recipients"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text   text input   checkbox   dropdown   radio button   image   email 
-    `); 
+    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   cells   checkbox   dropdown   radio button   image   email 
+    `);
+  
 await page.locator('//span[normalize-space()=\'signature\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 200)
@@ -3680,10 +3669,10 @@ try {
 
 await page.locator('//span[normalize-space()=\'text input\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 300)
+await page.mouse.move(600, 500)
 await page.mouse.up();
 while (true) {
-  await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
+  await page.locator('//i[@class="fa-light fa-copy icon text-[#188ae2] right-[12px] -top-[18px] "]').dblclick();
   
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
@@ -3696,7 +3685,7 @@ while (true) {
 }
 await page.getByText('All pages but last').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[@class="select-none-cls"]//span[text()="text input"]')).toBeVisible();
+  await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="select-none-cls"]//span[text()="text input"]')).toBeVisible();
   await page.locator('canvas').nth(1).click({
     position: {
       x: 49,

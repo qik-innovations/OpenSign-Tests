@@ -70,7 +70,7 @@ await expect(page.locator('thead')).toContainText('Title');
   await expect(page.locator('thead')).toContainText('File');
   await expect(page.locator('thead')).toContainText('Owner');
   await expect(page.locator('thead')).toContainText('Signers');
-await expect(page.locator('.p-2 > .font-semibold').first()).toContainText('Draft doc rpt Sample offer letter');
+await expect(page.locator('.p-2 > .font-semibold').first()).toContainText(doctitle);
  await expect(page.locator('td:nth-child(2)').first()).toContainText('Note Draft doc rpt');
  await expect(page.locator('td:nth-child(3)').first()).toContainText('OpenSign™ Drive'); 
  await expect(page.locator('td:nth-child(4)').first()).toContainText('Download');
