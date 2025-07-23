@@ -6,7 +6,7 @@ const loginCredentials = {
   FreeplanUsername: '',
   FreePlanpassword: '',
   //global veriables user name and password for Pro-plan user
-  ProplanUsername: 'pravin+stevadwart@nxglabs.in',
+  ProplanUsername: 'pravin+proplan@nxglabs.in',
   ProPlanpassword: 'Nxglabs@123',
     //global veriables user name and password for Teams-plan user
   email: process.env.LOGIN_EMAIL || 'pravin+testaccount@nxglabs.in',

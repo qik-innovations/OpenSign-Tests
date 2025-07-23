@@ -82,7 +82,7 @@ console.log("Radio button disabled on Edit template details:", EnableotpisDisabl
   await page.getByRole('button', { name: 'Submit' }).click();
 
 });
-test('Verify that a new user can create a template and use it to create the document for selfsign', async ({ page }) => {
+test('Verify that a new user can create a template and use it to create the document for selfsign.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
@@ -158,7 +158,6 @@ await page.locator('//span[normalize-space()=\'company\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 520)
 await page.mouse.up();
-
 await page.locator('//span[normalize-space()=\'date\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 550)
@@ -181,13 +180,13 @@ await page.mouse.down();
 await page.mouse.move(800, 580)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
-await page.getByRole('button', { name: 'Create document' }).click();
+await page.getByRole('button', { name: 'Use Template' }).click();
   await page.locator('.css-n9qnu9').first().click();
   await page.locator('#selectSignerModal').getByText('HR').click();
   await page.locator('#selectSignerModal div').filter({ hasText: /^HR$/ }).getByRole('button').click();
   await page.getByLabel('Add yourself').check();
   await page.getByRole('button', { name: 'Submit' }).click();
-  await page.getByRole('button', { name: ' Next' }).click();
+  await page.locator('#selectSignerModal').getByRole('button', { name: 'Next' }).click();
   await page.getByRole('button', { name: 'Send' }).click();
   await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
  // await expect(page.locator('#selectSignerModal')).toContainText('You have successfully sent email to Kelvin. Subsequent signers will get email(s) once Kelvin signs the document');
@@ -584,7 +583,7 @@ await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(3)).not.toBeChecked();
   await expect(page.getByRole('textbox')).toHaveValue('only upload type enabled');
 }); 
-test('Verify that the merge page functions correctly and the user can sign the merged document in the crerate template.', async ({ page }) => {
+test('Verify that the merge page functions correctly and the user can sign the merged document in the create template.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
@@ -710,10 +709,10 @@ await page.mouse.move(600, 540)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
  // await expect(page.locator('//h3[text()="Create document"]')).toContainText('Create document');
- await page.locator('//button[text()="Create document" and @class= "op-btn op-btn-sm op-btn-primary"]').click();
+ await page.locator('//button[text()="Use Template" and @class= "op-btn op-btn-sm op-btn-primary"]').click();
   await page.locator('.css-n9qnu9').click();
   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-  await page.getByRole('button', { name: ' Next' }).click();
+  await page.locator('#selectSignerModal').getByRole('button', { name: 'Next' }).click();
   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
   await page.getByRole('button', { name: 'Send' }).click();
 });
@@ -903,9 +902,8 @@ await page.mouse.down();
 await page.mouse.move(700, 350)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
-  await expect(page.locator('//h3[text()="Create document"]')).toContainText('Create document');
-  await page.getByRole('button', { name: 'Create document' }).click();
+  await page.getByRole('button', { name: 'Use Template' }).click();
   await page.locator('.css-n9qnu9').click();
   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
-  await page.getByRole('button', { name: ' Next' }).click();
+  await page.locator('#selectSignerModal').getByRole('button', { name: 'Next' }).click();
 });});

@@ -45,8 +45,8 @@ test.describe('Console app - Mail Page Access Validation', () => {
     await page.locator(CONSOLE_OPTION).click();
     const page1 = await page1Promise;
 
-    await expect(page1.locator(PROFILE_NAME)).toContainText('Mathew Steven', { timeout: 120000 });
-    await expect(page1.locator(PROFILE_DOMAIN)).toContainText('OpenSign Lab');
+    await expect(page1.locator(PROFILE_NAME)).toContainText('Pro plan User', { timeout: 120000 });
+    await expect(page1.locator(PROFILE_DOMAIN)).toContainText('OpenSign');
 
     await page1.getByRole('menuitem', { name: 'Mail' }).click();
 

@@ -48,8 +48,8 @@ test.describe('Console app - Branding Access Validation', () => {
     await page.locator(CONSOLE_OPTION).click();
     const page1 = await page1Promise;
 
-    await expect(page1.locator(PROFILE_NAME)).toContainText('Mathew Steven', { timeout: 120000 });
-    await expect(page1.locator(PROFILE_DOMAIN)).toContainText('OpenSign Lab', { timeout: 120000 });
+    await expect(page1.locator(PROFILE_NAME)).toContainText('Pro plan User', { timeout: 120000 });
+    await expect(page1.locator(PROFILE_DOMAIN)).toContainText('OpenSign', { timeout: 120000 });
 
     await page1.getByRole('menuitem', { name: 'Branding' }).click({ timeout: 120000 });
 

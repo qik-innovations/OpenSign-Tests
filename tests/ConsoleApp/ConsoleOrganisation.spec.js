@@ -36,8 +36,8 @@ test('Verify that Professional plan user cannot access the Organisations page in
     await page.getByText('Console').click();
     const page1 = await page1Promise;
 //verify the profile name on the profile
-await expect(page1.locator('#root')).toContainText('Mathew Steven', { timeout: 120000 });
-await expect(page1.locator('#root')).toContainText('OpenSign Lab');
+await expect(page1.locator('#root')).toContainText('Pro plan User', { timeout: 120000 });
+await expect(page1.locator('#root')).toContainText('OpenSign');
   await page1.getByRole('button', { name: ' Teams' }).click();
   await page1.getByRole('menuitem', { name: 'Organizations' }).click();
     const title = await page1.title();

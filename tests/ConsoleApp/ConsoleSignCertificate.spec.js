@@ -39,8 +39,8 @@ test('Verify that Professional plan user cannot access the Signing certificate p
     await page.getByText('Console').click();
     const page1 = await page1Promise;
 //verify the profile name on the profile
-await expect(page1.locator('#root')).toContainText('Mathew Steven', { timeout: 120000 });
-await expect(page1.locator('#root')).toContainText('OpenSign Lab');
+await expect(page1.locator('#root')).toContainText('Pro plan User', { timeout: 120000 });
+await expect(page1.locator('#root')).toContainText('OpenSign');
   await page1.getByRole('menuitem', { name: 'Signing certificate' }).click();
     const title = await page1.title();
     if (title === 'Signing certificate - OpenSign™') {

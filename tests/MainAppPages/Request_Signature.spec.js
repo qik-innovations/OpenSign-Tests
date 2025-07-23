@@ -2443,7 +2443,7 @@ while (true) {
   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
 }
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[@class="font-medium text-center" and text()="initials"]')).toBeVisible();
+  await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium text-center" and text()="initials"]')).toBeVisible();
   await page.locator('canvas').nth(1).click({
     position: {
       x: 49,
@@ -2459,7 +2459,6 @@ await page.getByRole('button', { name: 'Apply' }).click();
   });
   await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium text-center" and text()="initials"]')).toBeVisible();
   await page.getByRole('button', { name: 'Next' }).click();
-
   //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
   await page.getByRole('button', { name: 'Send' }).click();
 });
@@ -2541,7 +2540,7 @@ while (true) {
 }
 await page.getByText('All pages but last').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[@class="font-medium text-center" and text()="initials"]')).toBeVisible();
+  await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium text-center" and text()="initials"]')).toBeVisible();
   await page.locator('canvas').nth(1).click({
     position: {
       x: 49,
@@ -2723,7 +2722,7 @@ while (true) {
 }
 await page.getByText('Next to current widget').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-await expect(page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[@class="font-medium text-center" and text()="initials"]')).toBeVisible();
+await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium text-center" and text()="initials"]')).toBeVisible();
   
 await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium text-center" and text()="initials"]')).toBeVisible();
 
@@ -3138,8 +3137,8 @@ while (true) {
 //await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
  await page.getByRole('button', { name: 'Save' }).click();
  
- const fontSize = await page.locator('(//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[1]//input[@type="checkbox"])[1]').evaluate(el => window.getComputedStyle(el).fontSize);
- const color = await page.locator('(//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[1]//input[@type="checkbox"])[1]').evaluate(el => getComputedStyle(el).color);
+ const fontSize = await page.locator('(//div[@class="signYourselfBlock react-draggable"]//div[1]//input[@type="checkbox"])[1]').evaluate(el => window.getComputedStyle(el).fontSize);
+ const color = await page.locator('(//div[@class="signYourselfBlock react-draggable"]//div[1]//input[@type="checkbox"])[1]').evaluate(el => getComputedStyle(el).color);
 
 console.log(`Font Size: ${fontSize}, Color: ${color}`);
 
