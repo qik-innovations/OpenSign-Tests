@@ -131,7 +131,6 @@ async fillDocumentTitleWithTimestamp(prefix) {
       await expect(page.getByRole('button', { name: 'I confirm & agree to continue' })).toBeVisible({ timeout: 120000 });
       await expect(page.locator('body')).toContainText('I confirm that I have read and understood the Electronic Record and Signature Disclosure and consent to use electronic records and signatures.');
       await expect(page.locator("//div[@class='mt-2  text-base-content']//span[@class='text-[11px]']")).toContainText('Note: Agreeing to this does not mean you are signing the document immediately. This only allows you to review the document electronically. You will have the opportunity to read it in full and decide whether to sign it afterward.');
-      await page.locator('//div[@data-tut="IsAgree"]').click({ force: true });
       await page.getByRole('button', { name: 'I confirm & agree to continue' }).click();
     });
   }
