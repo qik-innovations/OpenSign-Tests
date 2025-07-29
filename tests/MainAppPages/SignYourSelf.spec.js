@@ -449,7 +449,8 @@ while (true) {
     await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="signature"]').click();
      // Close the signer modal if it's open
     await commonSteps.clickCloseButtonInSignerModal();
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+    
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   if (isVisible) {
       console.log('"Copy widget to" is visible. Stopping the loop.');
@@ -531,7 +532,7 @@ while (true) {
   await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="signature"]').click();
      // Close the signer modal if it's open
     await commonSteps.clickCloseButtonInSignerModal();
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   if (isVisible) {
       console.log('"Copy widget to" is visible. Stopping the loop.');
@@ -614,7 +615,7 @@ console.log("Element not found or not interactable, continuing execution.");
     await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="signature"]').click();
        // Close the signer modal if it's open
     await commonSteps.clickCloseButtonInSignerModal();
-    await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+    await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').click();
     const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
     
     if (isVisible) {
@@ -695,7 +696,7 @@ while (true) {
   await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="signature"]').click();
      // Close the signer modal if it's open
     await commonSteps.clickCloseButtonInSignerModal();
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
   if (isVisible) {
@@ -767,7 +768,7 @@ while (true) {
   await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="stamp"]').click();
      // Close the signer modal if it's open
     await commonSteps.clickCloseButtonInSignerModal();
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
   if (isVisible) {
@@ -849,7 +850,7 @@ await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
     await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="stamp"]').click();
       await commonSteps.clickCloseButtonInSignerModal();
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   if (isVisible) {
       console.log('"Copy widget to" is visible. Stopping the loop.');
@@ -939,7 +940,7 @@ await commonSteps.ClickSavebuttonSignerModal();
   while (true) {
      await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="stamp"]').click();
       await commonSteps.clickCloseButtonInSignerModal();
-    await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+    await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').click();
     
     const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
     
@@ -1023,7 +1024,7 @@ await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
    await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="stamp"]').click();
       await commonSteps.clickCloseButtonInSignerModal();
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').click();
   
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
@@ -1166,7 +1167,7 @@ await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
    await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="initials"]').click();
       await commonSteps.clickCloseButtonInSignerModal();
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   if (isVisible) {
       console.log('"Copy widget to" is visible. Stopping the loop.');
@@ -1246,7 +1247,7 @@ await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
   await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="initials"]').click();
       await commonSteps.clickCloseButtonInSignerModal();
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').click();
   
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
@@ -1336,7 +1337,7 @@ await commonSteps.ClickSavebuttonSignerModal();
   while (true) {
     await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="initials"]').click();
       await commonSteps.clickCloseButtonInSignerModal();
-    await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+    await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').click();
     
     const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
     
@@ -1419,7 +1420,7 @@ await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
   await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="initials"]').click();
       await commonSteps.clickCloseButtonInSignerModal();
-  await page.locator('//i[@class="fa-light fa-copy icon"]').click();
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').click();
   
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
@@ -1488,7 +1489,7 @@ console.log("Element not found or not interactable, continuing execution.");
 await commonSteps.dragAndDrop('name', 600, 300);
 await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
-  await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
+  await page.locator('//div[contains(@class, "signYourselfBlock")]//i[contains(@class, "fa-gear")]').dblclick();
   const isVisible = await page.locator('//h3[text()="Text field"]').isVisible();
   if (isVisible) {
       console.log('"Copy widget to" is visible. Stopping the loop.');
@@ -1513,7 +1514,7 @@ if (roundedFontSize === '15px' && color === 'rgb(0, 0, 255)') {
 }
 await commonSteps.dragAndDrop('job title', 600, 400);
 await commonSteps.ClickSavebuttonSignerModal();
-await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
+await page.locator('//div[contains(@class, "signYourselfBlock")]//i[contains(@class, "fa-gear")]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
   await page.getByRole('button', { name: 'Save' }).click();
@@ -1532,7 +1533,7 @@ if (roundedFontSizejobtitle === '15px' && color === 'rgb(0, 0, 255)') {
 }
 await commonSteps.dragAndDrop('company', 600, 500);
 await commonSteps.ClickSavebuttonSignerModal();
-await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
+await page.locator('//div[contains(@class, "signYourselfBlock")]//i[contains(@class, "fa-gear")]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
   await page.getByRole('button', { name: 'Save' }).click();
@@ -1555,7 +1556,7 @@ if (roundedFontSizecmp === '15px' && color === 'rgb(0, 0, 255)') {
 await commonSteps.dragAndDrop('text', 600, 600);
 await commonSteps.fillTextField('text','20 wood street sanfransisco');
 await commonSteps.ClickSavebuttonSignerModal();
-await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
+await page.locator('//div[contains(@class, "signYourselfBlock")]//i[contains(@class, "fa-gear")]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
   await page.getByRole('button', { name: 'Save' }).click();
@@ -1577,7 +1578,7 @@ if (roundedFontSizetext === '15px' && color === 'rgb(0, 0, 255)'){
 }
 await commonSteps.dragAndDrop('email', 600, 700);
 await commonSteps.ClickSavebuttonSignerModal();
-await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
+await page.locator('//div[contains(@class, "signYourselfBlock")]//i[contains(@class, "fa-gear")]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
   await page.getByRole('button', { name: 'Save' }).click();
@@ -1649,20 +1650,20 @@ console.log("Element not found or not interactable, continuing execution.");
 await commonSteps.dragAndDrop('name', 600, 300);
  await expect(page.locator("//textarea[text()='Pravin Testing account']")).toBeVisible();
   await commonSteps.ClickSavebuttonSignerModal();
-  await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
    const nameElements = await page.locator("//textarea[text()='Pravin Testing account']").count();
     expect(nameElements).toBeGreaterThan(1);
  await commonSteps.dragAndDrop('job title', 600, 350);
  await commonSteps.ClickSavebuttonSignerModal();
 await expect(page.locator("//textarea[text()='Quality analystAA']")).toBeVisible();
-  await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
     // Verify that there are now two matching elements
     const JobTitleElements = await page.locator("//textarea[text()='Quality analystAA']").count();
     expect(JobTitleElements).toBeGreaterThan(1);
 await commonSteps.dragAndDrop('company', 600, 400);
 await commonSteps.ClickSavebuttonSignerModal();
  await expect(page.locator("//textarea[text()='OpenSign pvt ltd']")).toBeVisible();
-  await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
     // Verify that there are now two matching elements
     const companyElements = await page.locator("//textarea[text()='OpenSign pvt ltd']").count();
     expect(companyElements).toBeGreaterThan(1);
@@ -1671,7 +1672,7 @@ await commonSteps.ClickSavebuttonSignerModal();
    await commonSteps.ClickSavebuttonSignerModal();
    await page.getByText('Option-1Option-').click();
    await commonSteps.clickCloseButtonInSignerModal();
-      await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
+      await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
         // Verify that there are now two matching elements
         const checkboxElements = await page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[1]//input[@type="checkbox"]').count();
         expect(checkboxElements).toBeGreaterThan(1);
@@ -1680,13 +1681,13 @@ await commonSteps.ClickSavebuttonSignerModal();
    await commonSteps.ClickSavebuttonSignerModal();
       await page.locator('//img[@alt="image"]').click();
       await commonSteps.clickCloseButtonInSignerModal();
-      await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
+      await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
         // Verify that there are now two matching elements
         const imageElements = await page.locator('//img[@alt="image"]').count();
         expect(imageElements).toBeGreaterThan(1);
   await commonSteps.dragAndDrop('email', 600, 550);
   await commonSteps.ClickSavebuttonSignerModal();
-  await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
    // Verify that there are now two matching elements
     const emailElements = await page.locator("//textarea[text()='pravin+testaccount@nxglabs.in']").count();
     expect(emailElements).toBeGreaterThan(1);
@@ -1842,7 +1843,7 @@ await commonSteps.dragAndDrop('text', 600, 300);
 await commonSteps.fillTextField('text', '20 wood street sanfransisco');
 await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
-  await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
   
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
@@ -1926,7 +1927,7 @@ await commonSteps.dragAndDrop('text', 600, 300);
 await commonSteps.fillTextField('text', '20 wood street sanfransisco');
 await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
-  await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
   
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
@@ -2015,7 +2016,7 @@ await commonSteps.dragAndDrop('text', 600, 300);
 await commonSteps.fillTextField('text', '20 wood street sanfransisco');
 await commonSteps.ClickSavebuttonSignerModal();
   while (true) {
-    await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
+    await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
     
     const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
     
@@ -2097,7 +2098,7 @@ await commonSteps.dragAndDrop('text', 600, 300);
 await commonSteps.fillTextField('text', '20 wood street sanfransisco');
   await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
-  await page.locator('//i[@class="fa-light fa-copy icon"]').dblclick();
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
   
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
@@ -2165,8 +2166,10 @@ await fileChooser2.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_
       y: 49
     }
   });
-await commonSteps.dragAndDrop('signature', 600, 200);
-
+await page.waitForLoadState("networkidle");
+await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await page.waitForLoadState("networkidle");
+await commonSteps.dragAndDrop('signature', 600, 250);
 try {
   const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
 
@@ -2177,7 +2180,7 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
         break; // Exit the loop if successfully clicked
     } else {
         console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
+        await commonSteps.dragAndDrop('signature', 600, 250);
         // Wait a bit before checking again
         await page.waitForTimeout(1000);
     }
@@ -2190,26 +2193,26 @@ for (let i = 0; i < 5; i++) { // Retry up to 5 times
 console.log("Element not found or not interactable, continuing execution.");
 
 } 
-await commonSteps.dragAndDrop('stamp', 600, 250);
+await commonSteps.dragAndDrop('stamp', 600, 300);
 await commonSteps.uploadStamp();
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('initials', 600, 300);
+await commonSteps.dragAndDrop('initials', 600, 350);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('name', 600,330);
+await commonSteps.dragAndDrop('name', 600,380);
 await commonSteps.fillTextField('please enter text', 'Pravin Testing account');
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('job title', 600, 380);
+await commonSteps.dragAndDrop('job title', 600, 400);
 await commonSteps.fillTextField('please enter text', 'Quality analystAA');
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('company', 600, 420);
+await commonSteps.dragAndDrop('company', 600, 430);
 await commonSteps.fillTextField('please enter text', 'OpenSign pvt ltd');
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('date', 600, 450);
+await commonSteps.dragAndDrop('date', 600, 460);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('text', 600, 480);
+await commonSteps.dragAndDrop('text', 600, 500);
 await commonSteps.fillTextField('text', '20 wood street sanfransisco');
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('checkbox', 600, 520);
+await commonSteps.dragAndDrop('checkbox', 600, 530);
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('image', 600, 570);
 await commonSteps.uploadImage();
