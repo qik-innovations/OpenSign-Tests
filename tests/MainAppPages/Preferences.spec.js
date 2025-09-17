@@ -3,6 +3,8 @@ const { test, expect } = require('@playwright/test');
 const path = require('path');
 const CommonSteps = require('../utils/CommonSteps');
 test.describe('Preferences', () => {
+  const ROOT_SELECTOR = '#root';
+const RENDER_LIST_SELECTOR = '#renderList';
 test('Verify that New free user can save the general preferences.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
@@ -56,4 +58,59 @@ test('Verify that a new free user cannot save email preferences is prompted to u
     await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences ?' })).toBeVisible();
   await page.getByText('Email').click();
   await page.getByRole('button', { name: 'Upgrade now' }).nth(1).click();
-});});
+});
+test('Free user is prompted to upgrade when accessing the Mail page.', async ({ page }) => {
+    const commonSteps = new CommonSteps(page);
+    await commonSteps.navigateToBaseUrl();
+    await commonSteps.NewUserlogin();
+    await page.getByRole('button', { name: ' Settings' }).click();
+    await page.getByRole('menuitem', { name: 'Preferences' }).click();
+    const title = await page.title();
+    if (title === 'Preferences - OpenSign™') {
+      console.log('Page title is correct: Preferences - OpenSign™');
+    } else {
+      console.error(`Page title is incorrect. Expected: "Preferences - OpenSign™", Got: "${title}"`);
+    }
+    await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences ?' })).toBeVisible();
+    await expect(page.locator(RENDER_LIST_SELECTOR)).toContainText('Upgrade now');
+    await expect(page.locator(RENDER_LIST_SELECTOR)).toMatchAriaSnapshot('- button "Upgrade now"');
+  });
+
+  test('Profession plan user can access the Email page.', async ({ page }) => {
+    const commonSteps = new CommonSteps(page);
+    await commonSteps.navigateToBaseUrl();
+    await commonSteps.ProfessionPlanUserlogin();
+    await page.getByRole('button', { name: ' Settings' }).click();
+    await page.getByRole('menuitem', { name: 'Preferences' }).click();
+    const title = await page.title();
+    if (title === 'Preferences - OpenSign™') {
+      console.log('Page title is correct: Preferences - OpenSign™');
+    } else {
+      console.error(`Page title is incorrect. Expected: "Preferences - OpenSign™", Got: "${title}"`);
+    }
+    await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences ?' })).toBeVisible();
+    await expect(page.locator(ROOT_SELECTOR)).toContainText('PRO');
+    await expect(page.getByRole('heading')).toContainText('OpenSign™ Email Settings');
+    await expect(page.locator(RENDER_LIST_SELECTOR)).toContainText('OpenSign™ default SMTP');
+  });
+
+  test('Team plan user can access the Email page.', async ({ page }) => {
+    const commonSteps = new CommonSteps(page);
+    await commonSteps.navigateToBaseUrl();
+    await commonSteps.login();
+await page.getByRole('button', { name: ' Settings' }).click();
+    await page.getByRole('menuitem', { name: 'Preferences' }).click();
+    const title = await page.title();
+    if (title === 'Preferences - OpenSign™') {
+      console.log('Page title is correct: Preferences - OpenSign™');
+    } else {
+      console.error(`Page title is incorrect. Expected: "Preferences - OpenSign™", Got: "${title}"`);
+    }
+    await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences ?' })).toBeVisible();
+    await expect(page.locator(ROOT_SELECTOR)).toContainText('Pravin Testing account');
+    await expect(page.locator(ROOT_SELECTOR)).toContainText('TEAM');
+    await expect(page.getByRole('heading')).toContainText('OpenSign™ Email Settings');
+    await expect(page.locator(RENDER_LIST_SELECTOR)).toContainText('OpenSign™ default SMTP');
+  });
+
+});

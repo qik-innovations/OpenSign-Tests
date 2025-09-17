@@ -56,12 +56,13 @@ export class CommonSteps {
   async navigateToBaseUrl() {
     await this.page.goto(BASEURL, { timeout: 120000 });
   }
+  //This is the generic login method for the user who will test the teams plan features excluding custom storage for custome storage user we have separate method loginForCustomStorgeUser()
   async login() {
     await this.page.locator('#email').fill(loginCredentials.email);
     await this.page.locator('#password').fill(loginCredentials.password);
     await this.page.getByRole('button', { name: 'Login' }).click();
   }
-
+//This methof is specifically for the user who will test the Profession plan features
   async ProfessionPlanUserlogin() {
     await this.page.locator('#email').fill(loginCredentials.ProplanUsername);
     await this.page.locator('#password').fill(loginCredentials.ProPlanpassword);
@@ -79,7 +80,12 @@ export class CommonSteps {
       await this.page.getByRole('button', { name: 'Login' }).click();
     }
   }
-
+  //This login method is specifically for the user who will test custom storage functionality 
+async loginForCustomStorgeUser() {
+    await this.page.locator('#email').fill(loginCredentials.CustomStorageUser_Username);
+    await this.page.locator('#password').fill(loginCredentials.CustomStorageUser_Password);
+    await this.page.getByRole('button', { name: 'Login' }).click();
+  }
   async verifyPageTitle(expectedTitle) {
     const title = await this.page.title();
     if (title === expectedTitle) {

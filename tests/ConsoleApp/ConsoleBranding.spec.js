@@ -34,7 +34,7 @@ test.describe('Console app - Branding Access Validation', () => {
       console.error(`Page title is incorrect. Expected: "Branding - OpenSign™", Got: "${title}"`);
     }
 
-    await expect(page1.locator(UPGRADE_ENTERPRISE_BUTTON)).toContainText('Upgrade to enterprise plan', { timeout: 120000 });
+    await expect(page1.locator(UPGRADE_ENTERPRISE_BUTTON)).toContainText('Upgrade to enterprise Plan', { timeout: 120000 });
   });
 
   test('Profession plan user is prompted to upgrade when accessing the Branding page.', async ({ page }) => {
@@ -61,7 +61,7 @@ test.describe('Console app - Branding Access Validation', () => {
     }
 
     await expect(page1.locator(PLAN_BADGE)).toContainText('PRO', { timeout: 120000 });
-    await expect(page1.locator(UPGRADE_ENTERPRISE_BUTTON)).toContainText('Upgrade to enterprise plan', { timeout: 120000 });
+    await expect(page1.locator(UPGRADE_ENTERPRISE_BUTTON)).toContainText('Upgrade to enterprise Plan', { timeout: 120000 });
   });
 
   test('Team plan user is prompted to upgrade when accessing the Branding page.', async ({ page }) => {
@@ -88,7 +88,7 @@ test.describe('Console app - Branding Access Validation', () => {
     }
 
     await expect(page1.locator(PLAN_BADGE)).toContainText('TEAM', { timeout: 120000 });
-    await expect(page1.locator(UPGRADE_ENTERPRISE_BUTTON)).toContainText('Upgrade to enterprise plan', { timeout: 120000 });
+    await expect(page1.locator(UPGRADE_ENTERPRISE_BUTTON)).toContainText('Upgrade to enterprise Plan', { timeout: 120000 });
   });
 
 });

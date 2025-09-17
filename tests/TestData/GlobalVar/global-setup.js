@@ -11,6 +11,9 @@ const loginCredentials = {
     //global veriables user name and password for Teams-plan user
   email: process.env.LOGIN_EMAIL || 'pravin+testaccount@nxglabs.in',
   password: process.env.LOGIN_PASSWORD || 'Nxglabs@123',
+  //global veriables user name and password for the user who will test custom storage functionality
+  CustomStorageUser_Username:'peter.mark1093@gmail.com',
+  CustomStorageUser_Password:'Nxglabs@123',
 };
 
 // Ensure directory exists before writing the file
