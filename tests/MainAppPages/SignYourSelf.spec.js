@@ -389,7 +389,7 @@ await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('signature', 600, 400);
 await page.locator('//div[@class="flex justify-center"]//span[ text()="Type"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.locator('//div[@class="flex justify-center"]//span[ text()="Type"]').click();
-await page.locator('//div[@class="flex justify-between items-center tabWidth"]//input[@placeholder="Your signature"]').fill('Mat henry');
+await page.locator('#selectSignerModal input[placeholder="Your signature"]').fill('Mat henry');
 await page.getByText('Mat henry').nth(3).click();
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.clickFinishButtonOnPlaceholder();

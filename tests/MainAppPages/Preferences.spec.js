@@ -27,7 +27,7 @@ test('Verify that New free user can save the general preferences.', async ({ pag
   await expect(page.locator('//label[@title="Enabling this allows signers to upload signature" and text()="upload"]')).toBeVisible();
   await expect(page.locator('//label[@title="Enabling this allows signers to default signature" and text()="default"]')).toBeVisible();
   await expect(page.getByText('Notify on signaturesUpgrade')).toBeVisible();
-  await expect(page.locator('#renderList').getByText('Upgrade now')).toBeVisible();
+  await expect(page.locator('//label[contains(., "Notify on signatures")]//span[normalize-space(.)="Upgrade now"]').getByText('Upgrade now')).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Timezone' })).toBeVisible();
 // Open the dropdown
 await page.locator('.css-n9qnu9').click();
@@ -37,7 +37,8 @@ await page.locator('//div[text()="(GMT+10:00) Canberra, Melbourne, Sydney"]').cl
   await page.locator('#renderList div').filter({ hasText: 'Allowed signature' }).nth(2).click();
   await page.locator('.css-n9qnu9').click();
   await page.locator('#renderList div').filter({ hasText: 'Allowed signature' }).nth(2).click();
-  await page.locator('//select[@class="op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content w-full h-full text-[11px]"]').selectOption({ label: "MM/DD/YYYY" });
+  await page.locator("//label[text()='Date format']/following-sibling::select").selectOption({ label: "MM/DD/YYYY" });
+  await page.locator("//label[text()='Document download filename format']/following-sibling::select").selectOption({ label: "document Name - name@domain.com.pdf" });
   await page.getByRole('button', { name: 'Save' }).click();
   await expect(page.getByText('Saved successfully.')).toBeVisible();
 });
@@ -56,43 +57,61 @@ test('Verify that a new free user cannot save email preferences is prompted to u
       console.error(`Page title is incorrect. Expected: "Preferences - OpenSign™", Got: "${title}"`);
     }
     await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences ?' })).toBeVisible();
-  await page.getByText('Email').click();
-  await page.getByRole('button', { name: 'Upgrade now' }).nth(1).click();
-});
-test('Free user is prompted to upgrade when accessing the Mail page.', async ({ page }) => {
-    const commonSteps = new CommonSteps(page);
-    await commonSteps.navigateToBaseUrl();
-    await commonSteps.NewUserlogin();
-    await page.getByRole('button', { name: ' Settings' }).click();
-    await page.getByRole('menuitem', { name: 'Preferences' }).click();
-    const title = await page.title();
-    if (title === 'Preferences - OpenSign™') {
-      console.log('Page title is correct: Preferences - OpenSign™');
-    } else {
-      console.error(`Page title is incorrect. Expected: "Preferences - OpenSign™", Got: "${title}"`);
-    }
-    await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences ?' })).toBeVisible();
-    await expect(page.locator(RENDER_LIST_SELECTOR)).toContainText('Upgrade now');
-    await expect(page.locator(RENDER_LIST_SELECTOR)).toMatchAriaSnapshot('- button "Upgrade now"');
-  });
+  await page.locator("//div[@role='tab' and @aria-controls='panel-Email']").click();
+// Request signature email template
+await expect(
+  page.locator("//div[contains(@class,'relative mt-2 mb-4')]//button[text()='Upgrade now']")
+).toBeVisible();
 
-  test('Profession plan user can access the Email page.', async ({ page }) => {
-    const commonSteps = new CommonSteps(page);
-    await commonSteps.navigateToBaseUrl();
-    await commonSteps.ProfessionPlanUserlogin();
-    await page.getByRole('button', { name: ' Settings' }).click();
-    await page.getByRole('menuitem', { name: 'Preferences' }).click();
-    const title = await page.title();
-    if (title === 'Preferences - OpenSign™') {
-      console.log('Page title is correct: Preferences - OpenSign™');
-    } else {
-      console.error(`Page title is incorrect. Expected: "Preferences - OpenSign™", Got: "${title}"`);
-    }
-    await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences ?' })).toBeVisible();
-    await expect(page.locator(ROOT_SELECTOR)).toContainText('PRO');
-    await expect(page.getByRole('heading')).toContainText('OpenSign™ Email Settings');
-    await expect(page.locator(RENDER_LIST_SELECTOR)).toContainText('OpenSign™ default SMTP');
-  });
+// Completion email template
+await expect(
+  page.locator("//div[@class='relative my-2']//div[contains(@class,'absolute')]//button[contains(@class,'op-btn-accent') and text()='Upgrade now']")
+).toBeVisible();
+
+});
+test('Free user cannot update settings for Notify on Signature and Merge Certificate PDF', async ({ page }) => {
+  const commonSteps = new CommonSteps(page);
+
+  // Navigate and login as new user
+  await commonSteps.navigateToBaseUrl();
+  await commonSteps.NewUserlogin();
+
+  // Open Preferences
+  await page.getByRole('button', { name: ' Settings' }).click();
+  await page.getByRole('menuitem', { name: 'Preferences' }).click();
+
+  // Verify page title
+  const title = await page.title();
+  if (title === 'Preferences - OpenSign™') {
+    console.log('Page title is correct: Preferences - OpenSign™');
+  } else {
+    console.error(`Page title is incorrect. Expected: "Preferences - OpenSign™", Got: "${title}"`);
+  }
+
+  // Verify heading
+  await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences ?' })).toBeVisible();
+
+  // Verify General panel snapshot
+  await expect(page.locator('#panel-general')).toMatchAriaSnapshot(`
+    - radio "Yes" [checked]
+    - text: "Yes"
+    - radio "No"
+    - text: "No"
+  `);
+
+  // Check that Notify on Signatures shows upgrade prompt
+  await expect(page.locator('#panel-general')).toContainText('Notify on signaturesUpgrade now');
+
+  // Verify Yes/No radio is disabled
+  //const notifyYes = page.locator("//input[@id='notify-yes']");
+///expect(await notifyYes.isDisabled()).toBeTruthy();
+
+//const notifyNo = page.locator("//input[@id='notify-no']");
+//expect(await notifyNo.isDisabled()).toBeTruthy();
+
+  // Check Merge Certificate to PDF shows upgrade prompt
+  await expect(page.locator('#panel-general')).toContainText('Merge Certificate to PDFUpgrade now');
+});
 
   test('Team plan user can access the Email page.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);

@@ -50,11 +50,14 @@ test('Verify that user can add a new contact.', async ({ page }) => {
         await page.locator("//div[contains(@class, 'cursor-pointer') and contains(@class, 'flex') and .//i[contains(@class, 'fa-square-plus')]]").click();
         await page.getByLabel('Name *').fill('Pravin Shej');
         await page.getByLabel('Email *').fill(Randomemail);
-        await page.getByPlaceholder('optional').fill('0924820934');
+        await page.locator("//dialog[@id='selectSignerModal']//button[contains(@class,'op-link-secondary') and normalize-space(text())='Optional details']").click();
+        await page.locator("//dialog[@id='selectSignerModal']//input[@id='phone']").fill('924820934');
+await page.locator("//dialog[@id='selectSignerModal']//input[@id='company']").fill('Nxg Labs');
+        await page.locator("//dialog[@id='selectSignerModal']//input[@id='jobTitle']").fill('QA Lead');
         await page.getByRole('button', { name: 'Submit' }).click();
         await page.locator("//input[@placeholder='Search contacts…']").fill("Pravin Shej");
         await expect(page.locator('tbody')).toContainText(Randomemail);
-        await expect(page.locator('tbody')).toContainText('0924820934');
+        await expect(page.locator('tbody')).toContainText('924820934');
         console.log(`P Shej ${Randomemail}`);
         await page.getByRole('row', { name: `Pravin Shej ${Randomemail}` }).getByRole('button').nth(1).click();
         await page.getByRole('button', { name: 'Yes' }).click(); 
