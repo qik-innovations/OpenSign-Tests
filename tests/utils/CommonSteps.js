@@ -56,20 +56,30 @@ export class CommonSteps {
   async navigateToBaseUrl() {
     await this.page.goto(BASEURL, { timeout: 120000 });
   }
+  //This is the generic login method for the user who will test the teams plan features excluding custom storage for custome storage user we have separate method loginForCustomStorgeUser()
   async login() {
+    /*
+    await this.page.locator('#username').fill(loginCredentials.email);
+    await this.page.locator('#password').fill(loginCredentials.password);
+    await this.page.locator('#kc-login').click();*/
     await this.page.locator('#email').fill(loginCredentials.email);
     await this.page.locator('#password').fill(loginCredentials.password);
     await this.page.getByRole('button', { name: 'Login' }).click();
   }
-
+//This methof is specifically for the user who will test the Profession plan features
   async ProfessionPlanUserlogin() {
-    await this.page.locator('#email').fill(loginCredentials.ProplanUsername);
+    /*
+    await this.page.locator('#username').fill(loginCredentials.ProplanUsername);
+    await this.page.locator('#password').fill(loginCredentials.ProPlanpassword);
+    await this.page.locator('#kc-login').click();
+    */
+   await this.page.locator('#email').fill(loginCredentials.ProplanUsername);
     await this.page.locator('#password').fill(loginCredentials.ProPlanpassword);
     await this.page.getByRole('button', { name: 'Login' }).click();
   }
 
   async NewUserlogin() {
-    if (!loginCredentials.FreeplanUsername) {
+      if (!loginCredentials.FreeplanUsername) {
       console.log('FreeplanUsername is empty. Running signup test...');
       await this.signupTestFreeUser(this.page);
     } else {
@@ -79,7 +89,12 @@ export class CommonSteps {
       await this.page.getByRole('button', { name: 'Login' }).click();
     }
   }
-
+  //This login method is specifically for the user who will test custom storage functionality 
+async loginForCustomStorgeUser() {
+    await this.page.locator('#username').fill(loginCredentials.CustomStorageUser_Username);
+    await this.page.locator('#password').fill(loginCredentials.CustomStorageUser_Password);
+    await this.page.locator('#kc-login').click();
+  }
   async verifyPageTitle(expectedTitle) {
     const title = await this.page.title();
     if (title === expectedTitle) {
@@ -131,7 +146,6 @@ async fillDocumentTitleWithTimestamp(prefix) {
       await expect(page.getByRole('button', { name: 'I confirm & agree to continue' })).toBeVisible({ timeout: 120000 });
       await expect(page.locator('body')).toContainText('I confirm that I have read and understood the Electronic Record and Signature Disclosure and consent to use electronic records and signatures.');
       await expect(page.locator("//div[@class='mt-2  text-base-content']//span[@class='text-[11px]']")).toContainText('Note: Agreeing to this does not mean you are signing the document immediately. This only allows you to review the document electronically. You will have the opportunity to read it in full and decide whether to sign it afterward.');
-      await page.locator('//div[@data-tut="IsAgree"]').click({ force: true });
       await page.getByRole('button', { name: 'I confirm & agree to continue' }).click();
     });
   }

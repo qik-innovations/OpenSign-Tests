@@ -34,7 +34,7 @@ test.describe('Console app - Branding Access Validation', () => {
       console.error(`Page title is incorrect. Expected: "Branding - OpenSign™", Got: "${title}"`);
     }
 
-    await expect(page1.locator(UPGRADE_ENTERPRISE_BUTTON)).toContainText('Upgrade to enterprise plan', { timeout: 120000 });
+    await expect(page1.locator(UPGRADE_ENTERPRISE_BUTTON)).toContainText('Upgrade to enterprise Plan', { timeout: 120000 });
   });
 
   test('Profession plan user is prompted to upgrade when accessing the Branding page.', async ({ page }) => {
@@ -48,8 +48,8 @@ test.describe('Console app - Branding Access Validation', () => {
     await page.locator(CONSOLE_OPTION).click();
     const page1 = await page1Promise;
 
-    await expect(page1.locator(PROFILE_NAME)).toContainText('Mathew Steven', { timeout: 120000 });
-    await expect(page1.locator(PROFILE_DOMAIN)).toContainText('OpenSign Lab', { timeout: 120000 });
+    await expect(page1.locator(PROFILE_NAME)).toContainText('Pro plan User', { timeout: 120000 });
+    await expect(page1.locator(PROFILE_DOMAIN)).toContainText('OpenSign', { timeout: 120000 });
 
     await page1.getByRole('menuitem', { name: 'Branding' }).click({ timeout: 120000 });
 
@@ -61,7 +61,7 @@ test.describe('Console app - Branding Access Validation', () => {
     }
 
     await expect(page1.locator(PLAN_BADGE)).toContainText('PRO', { timeout: 120000 });
-    await expect(page1.locator(UPGRADE_ENTERPRISE_BUTTON)).toContainText('Upgrade to enterprise plan', { timeout: 120000 });
+    await expect(page1.locator(UPGRADE_ENTERPRISE_BUTTON)).toContainText('Upgrade to enterprise Plan', { timeout: 120000 });
   });
 
   test('Team plan user is prompted to upgrade when accessing the Branding page.', async ({ page }) => {
@@ -88,7 +88,7 @@ test.describe('Console app - Branding Access Validation', () => {
     }
 
     await expect(page1.locator(PLAN_BADGE)).toContainText('TEAM', { timeout: 120000 });
-    await expect(page1.locator(UPGRADE_ENTERPRISE_BUTTON)).toContainText('Upgrade to enterprise plan', { timeout: 120000 });
+    await expect(page1.locator(UPGRADE_ENTERPRISE_BUTTON)).toContainText('Upgrade to enterprise Plan', { timeout: 120000 });
   });
 
 });
