@@ -536,7 +536,68 @@ async ClickSavebuttonSignerModal() {
 
     console.log('All values filled in cell widgets.');
   }
+  async ClickCopyOption() {
+  const page = this.page;
+
+  // Click on the copy icon
+  await page.locator('//i[contains(@class,"fa-copy") and contains(@class,"icon")]').click();
+
+  // Check if the "Copy widget to" modal is visible
+  const isVisible = await page
+    .locator('//h3[text()="Copy widget to"]')
+    .isVisible()
+    .catch(() => false);
+
+  if (isVisible) {
+    console.log('"Copy widget to" is visible. Stopping the loop.');
+    return true;
+  }
+
+  // Small delay between attempts (optional)
+}
+ async waitAndPlaceSignatureAndClickSave(fieldName, x, y) {
+  const page = this.page;
+
+  // Wait for PDF document and signature field to load completely
+  await page.waitForLoadState("networkidle");
+  await page.waitForSelector('//div[@class="react-pdf__Document"]', { timeout: 90000 });
+
+  await page.waitForLoadState("networkidle");
+  await page.locator(`//span[normalize-space()="${fieldName}"]`)
+            .waitFor({ state: 'visible', timeout: 90000 });
+
+  await page.waitForLoadState("networkidle");
+
+  // Drag and drop the field onto the document
+  await this.dragAndDrop(fieldName, x, y);
+
+  // Retry clicking Save button inside selectSignerModal
+  try {
+    const saveButton = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
+
+    for (let i = 0; i < 5; i++) {
+      if (await saveButton.isVisible() && await saveButton.isEnabled()) {
+        await saveButton.click();
+        console.log("Save button clicked successfully!");
+        break;
+      } else {
+        console.log(`Attempt ${i + 1}: Save button not visible, retrying...`);
+
+        // Repeat drag-and-drop to trigger Save button visibility
+        await this.dragAndDrop(fieldName, x, y);
+
+        await page.waitForTimeout(1000); // small delay
+      }
+
+      if (i === 4) {
+        console.log("Save button did not become visible after multiple attempts.");
+      }
+    }
+
+  } catch (error) {
+    console.log("Error clicking Save button, continuing execution.", error);
+  }
+}
 }
 
 module.exports = CommonSteps;
-
