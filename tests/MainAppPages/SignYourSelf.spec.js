@@ -40,8 +40,6 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   await page.waitForLoadState("networkidle");
   await page.locator('svg > rect:nth-child(3)').click();
   await page.getByLabel('Close').click();
-  await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-  await page.waitForLoadState("networkidle");
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await actions.waitForNetworkIdle();
@@ -73,7 +71,7 @@ try {
   console.log("Element not found or not interactable, continuing execution.");
  
 }
-await commonSteps.dragAndDrop('stamp', 600, 250);
+await commonSteps.dragAndDrop('stamp', 400, 250);
 await commonSteps.uploadStamp();
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('initials', 600, 300);
@@ -151,35 +149,7 @@ await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForLoadState("networkidle");
-  await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-  await page.waitForLoadState("networkidle");
-  await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-  await page.waitForLoadState("networkidle");
-  await commonSteps.dragAndDrop('signature', 600, 200);
-try {
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-  for (let i = 0; i < 5; i++) { // Retry up to 5 times
-      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-          await rowLocator.click();
-          console.log("Save button clicked!");
-          break; // Exit the loop if successfully clicked
-      } else {
-          console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-  await commonSteps.dragAndDrop('signature', 600, 200);
-    
-          // Wait a bit before checking again
-          await page.waitForTimeout(2000);
-      }
-  
-      if (i === 5) {
-          console.log("Save button did not become visible after multiple attempts.");
-      }
-  }
-} catch (error) {
-  console.log("Element not found or not interactable, continuing execution.");
- 
-}
+  await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await commonSteps.dragAndDrop('stamp', 600, 250);
 await commonSteps.uploadStamp();
 await commonSteps.ClickSavebuttonSignerModal();
@@ -413,70 +383,51 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-
-try {
-const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
-
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
+// Loop until the copy widget modal becomes visible
 while (true) {
-    await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="signature"]').click();
-     // Close the signer modal if it's open
-    await commonSteps.clickCloseButtonInSignerModal();
-    
-  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').click();
-  const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
-  if (isVisible) {
-      console.log('"Copy widget to" is visible. Stopping the loop.');
-      break; // Exit loop once the element is visible
+  // Click on the signature widget
+  await page
+    .locator('//div[@class="flex items-stretch justify-center"]//img[@alt="signature"]')
+    .click();
+
+  // Close signer modal if visible
+  await commonSteps.clickCloseButtonInSignerModal();
+
+  // Attempt to open the Copy option and check if modal appears
+  const isCopyModalVisible = await commonSteps.ClickCopyOption();
+
+  // Break the loop if the modal appeared
+  if (isCopyModalVisible) {
+    break;
   }
 
-  await page.waitForTimeout(500); // Small delay to prevent rapid clicking
+  // Small delay to prevent excessively fast interactions
+  await page.waitForTimeout(500);
 }
+
+// Apply the widget copy action
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.getByRole('img', { name: 'signature' })).toBeVisible();
-  await page.locator('canvas').nth(1).click({
-    position: {
-      x: 49,
-      y: 71
-    }
-  });
-  await expect(page.getByRole('img', { name: 'signature' })).toBeVisible();
-  await page.locator('canvas').nth(2).click({
-    position: {
-      x: 65,
-      y: 59
-    }
-  });
-  await expect(page.getByRole('img', { name: 'signature' })).toBeVisible();
+
+// Validate signature visibility in different canvases
+await expect(page.getByRole('img', { name: 'signature' })).toBeVisible();
+
+await page.locator('canvas').nth(1).click({
+  position: { x: 49, y: 71 }
+});
+await expect(page.getByRole('img', { name: 'signature' })).toBeVisible();
+
+await page.locator('canvas').nth(2).click({
+  position: { x: 65, y: 59 }
+});
+await expect(page.getByRole('img', { name: 'signature' })).toBeVisible();
+
+// Complete signing
 await commonSteps.clickFinishButtonOnPlaceholder();
+
+// Verify completion message
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
+
 });
 test('Verify that signature widgets Copy widget to all pages but last function correctly in Sign Yourself.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
@@ -496,51 +447,29 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-
-try {
-  // Attempt to find the Save button in the modal
-  // and click it if it becomes visible and enabled 
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
-
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
+// Loop until the copy widget modal becomes visible
 while (true) {
-  await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="signature"]').click();
-     // Close the signer modal if it's open
-    await commonSteps.clickCloseButtonInSignerModal();
-  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').click();
-  const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
-  if (isVisible) {
-      console.log('"Copy widget to" is visible. Stopping the loop.');
-      break; // Exit loop once the element is visible
+  // Click on the signature widget
+  await page
+    .locator('//div[@class="flex items-stretch justify-center"]//img[@alt="signature"]')
+    .click();
+
+  // Close signer modal if visible
+  await commonSteps.clickCloseButtonInSignerModal();
+
+  // Attempt to open the Copy option and check if modal appears
+  const isCopyModalVisible = await commonSteps.ClickCopyOption();
+
+  // Break the loop if the modal appeared
+  if (isCopyModalVisible) {
+    break;
   }
 
-  await page.waitForTimeout(500); // Small delay to prevent rapid clicking
+  // Small delay to prevent excessively fast interactions
+  await page.waitForTimeout(500);
 }
+
 await page.getByRole('radio', { name: 'All pages but last' }).check();
 await page.getByRole('button', { name: 'Apply' }).click();
   await expect(page.getByRole('img', { name: 'signature' })).toBeVisible();
@@ -578,44 +507,13 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await page.locator('canvas').nth(2).click({
-  position: {
-    x: 65,
-    y: 59
-  }
-});
-await commonSteps.dragAndDrop('signature', 600, 200);
-try {  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
   while (true) {
     await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="signature"]').click();
        // Close the signer modal if it's open
     await commonSteps.clickCloseButtonInSignerModal();
-    await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').click();
+    await commonSteps.ClickCopyOption();
+    //await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').click();
     const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
     
     if (isVisible) {
@@ -641,7 +539,12 @@ await page.getByRole('button', { name: 'Apply' }).click();
       y: 59
     }
   });
-  await expect(page.getByRole('img', { name: 'signature' })).not.toBeVisible();
+ const count = await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="signature"]').count();
+
+if (count === 1) {
+    console.log('Only one signature widget is present on the first page as expected');
+}
+
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
@@ -663,35 +566,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-try {
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
-
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 while (true) {
   await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="signature"]').click();
      // Close the signer modal if it's open
@@ -732,35 +607,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-
-try {
-    const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await commonSteps.dragAndDrop('stamp', 600, 250);
 await commonSteps.uploadStamp();
 await commonSteps.ClickSavebuttonSignerModal();
@@ -815,35 +662,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-
-try {
-      const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await commonSteps.dragAndDrop('stamp', 600, 250);
 await commonSteps.uploadStamp();
 await commonSteps.ClickSavebuttonSignerModal();                            
@@ -897,35 +716,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-
-try {
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await page.locator('canvas').nth(2).click({
   position: {
     x: 65,
@@ -989,35 +780,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-
-try {
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await commonSteps.dragAndDrop('stamp', 600, 250);
 await commonSteps.uploadStamp();
 await commonSteps.ClickSavebuttonSignerModal();
@@ -1061,35 +824,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-try {
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await commonSteps.dragAndDrop('initials', 600, 300);
 await page.locator('//div[@class="flex justify-center"]//span[text()="Draw"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.locator('//div[@class="flex justify-center"]//span[text()="Draw"]').click();
@@ -1108,7 +843,7 @@ await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('initials', 600, 500);
 await page.locator('//div[@class="flex justify-center"]//span[text()="Type"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.locator('//div[@class="flex justify-center"]//span[text()="Type"]').click();
-await page.locator('//div[@class="flex justify-between items-center tabWidth"]//input[@placeholder="Your initials"]').fill('Ps');
+await page.locator('//dialog[@id="selectSignerModal"]//input[@placeholder="Your initials"]').fill('Ps');
 await page.getByText('Ps').nth(3).click();
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.clickFinishButtonOnPlaceholder();
@@ -1132,36 +867,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-
-try {
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await commonSteps.dragAndDrop('initials', 600, 300);
 await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
@@ -1213,35 +919,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-try {
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await commonSteps.dragAndDrop('initials', 600, 300);
 await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
@@ -1296,34 +974,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-try {
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await page.locator('canvas').nth(2).click({
   position: {
     x: 65,
@@ -1386,35 +1037,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-try {
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await commonSteps.dragAndDrop('initials', 600, 300);
 await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
@@ -1459,33 +1082,7 @@ await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-try {
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await commonSteps.dragAndDrop('name', 600, 300);
 await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
@@ -1507,7 +1104,7 @@ const color = await page.locator("//textarea[text()='Pravin Testing account']")
 console.log(`Font Size: ${fontSize}, Color: ${color}`);
 // Extract the integer part and append 'px'
 let roundedFontSize = parseInt(fontSize) + 'px';
-if (roundedFontSize === '15px' && color === 'rgb(0, 0, 255)') {
+if (roundedFontSize === '19px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
   throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSize}, Color: ${color}`);
@@ -1526,7 +1123,7 @@ console.log(`Font Size: ${fontSizeJotitle}, Color: ${colorJotitle}`);
 // Extract the integer part and append 'px'
 let roundedFontSizejobtitle = parseInt(fontSizeJotitle) + 'px';
 
-if (roundedFontSizejobtitle === '15px' && color === 'rgb(0, 0, 255)') {
+if (roundedFontSizejobtitle === '19px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
   throw new Error(`Test Failed: Expected Font Size: 15.px, Color: blue but got Font Size: ${fontSizeJotitle}, Color: ${colorJotitle}`);
@@ -1548,7 +1145,7 @@ console.log(`Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
 // Extract the integer part and append 'px'
 let roundedFontSizecmp = parseInt(fontSizecompany) + 'px';
 
-if (roundedFontSizecmp === '15px' && color === 'rgb(0, 0, 255)') {
+if (roundedFontSizecmp === '19px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
   throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
@@ -1571,7 +1168,7 @@ console.log(`Font Size: ${fontSizetext }, Color: ${colortext}`);
 // Extract the integer part and append 'px'
 let roundedFontSizetext = parseInt(fontSizetext) + 'px';
 
-if (roundedFontSizetext === '15px' && color === 'rgb(0, 0, 255)'){
+if (roundedFontSizetext === '19px' && color === 'rgb(0, 0, 255)'){
   console.log('Test Passed: Font size and color are correct.');
 } else {
   throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizetext }, Color: ${colortext }`);
@@ -1591,7 +1188,7 @@ console.log(`Font Size: ${fontSizeemail}, Color: ${coloremail}`);
 // Extract the integer part and append 'px'
 let roundedFontSizeemail = parseInt(fontSizeemail) + 'px';
 
-if (roundedFontSizeemail === '15px' && color === 'rgb(0, 0, 255)') {
+if (roundedFontSizeemail === '19px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
   throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizeemail }, Color: ${coloremail }`);
@@ -1675,7 +1272,7 @@ await commonSteps.ClickSavebuttonSignerModal();
       await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
         // Verify that there are now two matching elements
         const checkboxElements = await page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[1]//input[@type="checkbox"]').count();
-        expect(checkboxElements).toBeGreaterThan(1);
+  expect(checkboxElements).toBeGreaterThan(1);
    await commonSteps.dragAndDrop('image', 600, 500);
    await commonSteps.uploadImage();
    await commonSteps.ClickSavebuttonSignerModal();
@@ -1712,37 +1309,8 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-
-try {
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
-await commonSteps.dragAndDrop('checkbox', 600, 300);
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
+await commonSteps.dragAndDrop('checkbox', 600, 500);
 await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
 await page.getByText('Option-1Option-').click();
@@ -1758,14 +1326,16 @@ await page.getByText('Option-1Option-').click();
   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
 }
  await expect(page.locator('form')).toContainText('Name *');
-  await expect(page.locator("//dialog[@class=' op-modal op-modal-open']//input[@id='title']")).toHaveValue('checkbox-1');
+await expect(
+  page.locator("//dialog[@class=' op-modal op-modal-open']//input[@id='title']")
+).toHaveValue(/checkbox/i);
   await expect(page.locator('form')).toContainText('Options');
   await expect(page.getByRole('textbox').nth(1)).toHaveValue('Option-1');
   await expect(page.getByRole('textbox').nth(2)).toHaveValue('Option-2');
   await page.locator('#selectSignerModal i').nth(2).click();
   await page.getByRole('textbox').nth(3).click();
   await page.getByRole('textbox').nth(3).fill('Option-3');
-  await page.locator("(//select[contains(@class, 'op-select')])[1]").selectOption('18');
+  await page.locator("(//select[contains(@class, 'op-select')])[1]").selectOption('16');
   await page.locator("(//select[contains(@class, 'op-select')])[2]").selectOption('blue');
 //await page.locator('//dialog[@id="selectSignerModal"]//div[@class="flex items-center mt-3 mb-3"]').selectOption('18');
 //await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
@@ -1778,7 +1348,7 @@ const roundedFontSize = Math.round(parseFloat(fontSize)) + 'px';
 
 console.log(`Font Size: ${roundedFontSize}, Color: ${color}`);
 
-if (roundedFontSize === '15px' && color === 'rgb(0, 0, 255)') {
+if (roundedFontSize === '17px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
   throw new Error(`Test Failed: Expected Font Size: 16px, Color: blue but got Font Size: ${roundedFontSize}, Color: ${color}`);
@@ -1809,36 +1379,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-
-try {
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await commonSteps.dragAndDrop('text', 600, 300);
 await commonSteps.fillTextField('text', '20 wood street sanfransisco');
 await commonSteps.ClickSavebuttonSignerModal();
@@ -1892,37 +1433,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-
-try {
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await commonSteps.dragAndDrop('text', 600, 300);
 await commonSteps.fillTextField('text', '20 wood street sanfransisco');
 await commonSteps.ClickSavebuttonSignerModal();
@@ -1976,36 +1487,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-
-try {
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await page.locator('canvas').nth(2).click({
   position: {
     x: 65,
@@ -2065,35 +1547,7 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 200);
-try {
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await commonSteps.dragAndDrop('text', 600, 300);
 await commonSteps.fillTextField('text', '20 wood street sanfransisco');
   await commonSteps.ClickSavebuttonSignerModal();
@@ -2166,33 +1620,7 @@ await fileChooser2.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_
       y: 49
     }
   });
-await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.waitForLoadState("networkidle");
-await commonSteps.dragAndDrop('signature', 600, 250);
-try {
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 250);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await commonSteps.dragAndDrop('stamp', 600, 300);
 await commonSteps.uploadStamp();
 await commonSteps.ClickSavebuttonSignerModal();
@@ -2292,65 +1720,48 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
   });
   await expect(page.locator('#renderList')).toContainText('2 of 3');
   await page.getByTitle('Rotate right').locator('i').click();
-  await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
-    - text: Pages
-    - button "+ Add pages"
-    - text: +      
-    - button
-    - text: 2 of 3
-    - button
-    - button "Back"
-    - button "Finish"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text   cells   checkbox   image   email 
-    `);
+   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+     - text: Pages
+     - button "+ Add pages"
+     - text: +      
+     - button
+     - text: 2 of 3
+     - button
+     - button "Back"
+     - button "Finish"
+     - text: Widgets
+     - superscript: "?"
+     - list "Add widgets": " signature   stamp   initials   number #  name   job title   company   email   date   text   cells   checkbox   image "
+     `);
   await page.getByTitle('Rotate right').locator('i').click();
-   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
-    - text: Pages
-    - button "+ Add pages"
-    - text: +      
-    - button
-    - text: 2 of 3
-    - button
-    - button "Back"
-    - button "Finish"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text   cells   checkbox   image   email 
-    `);
+  await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+     - text: Pages
+     - button "+ Add pages"
+     - text: +      
+     - button
+     - text: 2 of 3
+     - button
+     - button "Back"
+     - button "Finish"
+     - text: Widgets
+     - superscript: "?"
+     - list "Add widgets": " signature   stamp   initials   number #  name   job title   company   email   date   text   cells   checkbox   image "
+     `);
   await page.getByTitle('Rotate left').locator('i').click();
-   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
-    - text: Pages
-    - button "+ Add pages"
-    - text: +      
-    - button
-    - text: 2 of 3
-    - button
-    - button "Back"
-    - button "Finish"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text   cells   checkbox   image   email 
-    `);
-await commonSteps.dragAndDrop('signature', 600, 150);
-
-try {
-  const rowLocator = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-        await rowLocator.click();
-        console.log("Save button clicked!");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-        await commonSteps.dragAndDrop('signature', 600, 200);
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("Save button did not become visible after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-} 
+  await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+     - text: Pages
+     - button "+ Add pages"
+     - text: +      
+     - button
+     - text: 2 of 3
+     - button
+     - button "Back"
+     - button "Finish"
+     - text: Widgets
+     - superscript: "?"
+     - list "Add widgets": " signature   stamp   initials   number #  name   job title   company   email   date   text   cells   checkbox   image "
+     `);
+await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 150);
 await commonSteps.dragAndDrop('stamp', 600, 250);
 await commonSteps.uploadStamp();
 await commonSteps.ClickSavebuttonSignerModal();
