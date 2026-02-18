@@ -90,8 +90,8 @@ const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
                       `${today.getDate().toString().padStart(2, '0')}/` + 
                       `${today.getFullYear()}`;
 console.log('Today\'s date:', formattedDate);  // Extract day number as text
-await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
-//await commonSteps.selectCalendarDateByLabel();
+//await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
+await commonSteps.clickDateFieldOnTheSignerPad_Without_date();
 // Function to get the day with the appropriate suffix
 function getDayWithSuffix(day) {
   if (day >= 11 && day <= 13) return `${day}th`;
@@ -170,8 +170,8 @@ const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
                       `${today.getFullYear()}`;
 
 console.log('Today\'s date:', formattedDate);  // Extract day number as text
-await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
-
+//await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
+await commonSteps.clickDateFieldOnTheSignerPad_Without_date();
 // Function to get the day with the appropriate suffix
 
 function getDayWithSuffix(day) {
@@ -273,6 +273,34 @@ await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('company', 600, 430);
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('date', 600, 460);
+// Get today's date
+const today = new Date();
+// Format the date as MM/DD/YYYY
+const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
+                      `${today.getDate().toString().padStart(2, '0')}/` + 
+                        `${today.getFullYear()}`;
+console.log('Today\'s date:', formattedDate);  // Extract day number as text
+await commonSteps.clickDateFieldOnTheSignerPad_Without_date();
+// Function to get the day with the appropriate suffix
+function getDayWithSuffix(day) {
+  if (day >= 11 && day <= 13) return `${day}th`;
+  switch (day % 10) {
+    case 1: return `${day}st`;
+
+    case 2: return `${day}nd`;  
+    case 3: return `${day}rd`;
+    default: return `${day}th`;
+  }   
+}
+// Calculate the target date (today + 2 days)
+today.setDate(today.getDate() + 2);
+const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g., "Friday" 
+const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
+const day = today.getDate();                                            // e.g., 2
+const year = today.getFullYear();                                       // e.g., 2025
+const dayWithSuffix = getDayWithSuffix(day);
+const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
+await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('text', 600, 490);
 await commonSteps.fillTextField('text','20 wood street sanfransisco');
@@ -1248,12 +1276,18 @@ await commonSteps.dragAndDrop('name', 600, 300);
  await expect(page.locator("//textarea[text()='Pravin Testing account']")).toBeVisible();
   await commonSteps.ClickSavebuttonSignerModal();
   await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
+   await page.locator(`//dialog[@id='selectSignerModal']//label[normalize-space()='Next to current widget']//input[@type='radio']`).click();
+  await commonSteps.ClickApplybuttonSignerModal();
+  console.log('Apply button in signer modal clicked.');
    const nameElements = await page.locator("//textarea[text()='Pravin Testing account']").count();
     expect(nameElements).toBeGreaterThan(1);
  await commonSteps.dragAndDrop('job title', 600, 350);
  await commonSteps.ClickSavebuttonSignerModal();
 await expect(page.locator("//textarea[text()='Quality analystAA']")).toBeVisible();
   await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
+  await page.locator(`//dialog[@id='selectSignerModal']//label[normalize-space()='Next to current widget']//input[@type='radio']`).click();
+  await commonSteps.ClickApplybuttonSignerModal();
+  console.log('Apply button in signer modal clicked.');
     // Verify that there are now two matching elements
     const JobTitleElements = await page.locator("//textarea[text()='Quality analystAA']").count();
     expect(JobTitleElements).toBeGreaterThan(1);
@@ -1261,6 +1295,9 @@ await commonSteps.dragAndDrop('company', 600, 400);
 await commonSteps.ClickSavebuttonSignerModal();
  await expect(page.locator("//textarea[text()='OpenSign pvt ltd']")).toBeVisible();
   await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
+  await page.locator(`//dialog[@id='selectSignerModal']//label[normalize-space()='Next to current widget']//input[@type='radio']`).click();
+  await commonSteps.ClickApplybuttonSignerModal();
+  console.log('Apply button in signer modal clicked.');
     // Verify that there are now two matching elements
     const companyElements = await page.locator("//textarea[text()='OpenSign pvt ltd']").count();
     expect(companyElements).toBeGreaterThan(1);
@@ -1270,6 +1307,9 @@ await commonSteps.ClickSavebuttonSignerModal();
    await page.getByText('Option-1Option-').click();
    await commonSteps.clickCloseButtonInSignerModal();
       await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
+      await page.locator(`//dialog[@id='selectSignerModal']//label[normalize-space()='Next to current widget']//input[@type='radio']`).click();
+  await commonSteps.ClickApplybuttonSignerModal();
+  console.log('Apply button in signer modal clicked.');
         // Verify that there are now two matching elements
         const checkboxElements = await page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[1]//input[@type="checkbox"]').count();
   expect(checkboxElements).toBeGreaterThan(1);
@@ -1279,12 +1319,18 @@ await commonSteps.ClickSavebuttonSignerModal();
       await page.locator('//img[@alt="image"]').click();
       await commonSteps.clickCloseButtonInSignerModal();
       await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
+  await page.locator(`//dialog[@id='selectSignerModal']//label[normalize-space()='Next to current widget']//input[@type='radio']`).click();
+  await commonSteps.ClickApplybuttonSignerModal();
+  console.log('Apply button in signer modal clicked.');
         // Verify that there are now two matching elements
         const imageElements = await page.locator('//img[@alt="image"]').count();
         expect(imageElements).toBeGreaterThan(1);
   await commonSteps.dragAndDrop('email', 600, 550);
   await commonSteps.ClickSavebuttonSignerModal();
   await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
+   await page.locator(`//dialog[@id='selectSignerModal']//label[normalize-space()='Next to current widget']//input[@type='radio']`).click();
+  await commonSteps.ClickApplybuttonSignerModal();
+  console.log('Apply button in signer modal clicked.');
    // Verify that there are now two matching elements
     const emailElements = await page.locator("//textarea[text()='pravin+testaccount@nxglabs.in']").count();
     expect(emailElements).toBeGreaterThan(1);
@@ -1381,7 +1427,7 @@ await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 
 await page.getByRole('button', { name: 'Next' }).click();
 await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await commonSteps.dragAndDrop('text', 600, 300);
-await commonSteps.fillTextField('text', '20 wood street sanfransisco');
+await commonSteps.fillTextField('text', '120 wood street sf');
 await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
   await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
@@ -1397,21 +1443,11 @@ while (true) {
 }
 await page.getByRole('button', { name: 'Apply' }).click();
 
-  await expect(page.locator("//textarea[text()='20 wood street sanfransisco']")).toBeVisible();
-  await page.locator('canvas').nth(1).click({
-    position: {
-      x: 49,
-      y: 71
-    }
-  });
-  await expect(page.locator("//span[text()='20 wood street sanfransisco']")).toBeVisible();
-  await page.locator('canvas').nth(2).click({
-    position: {
-      x: 65,
-      y: 59
-    }
-  });
-  await expect(page.locator("//span[text()='20 wood street sanfransisco']")).toBeVisible();
+  await expect(page.locator("//textarea[text()='120 wood street sf']")).toBeVisible();
+  await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='2']`).click();
+await expect(page.locator("//textarea[@readonly]")).toHaveValue("120 wood street sf");
+    await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='3']`).click();
+await expect(page.locator("//textarea[@readonly]")).toHaveValue("120 wood street sf");
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
@@ -1452,20 +1488,10 @@ while (true) {
 await page.getByRole('radio', { name: 'All pages but last' }).check();
 await page.getByRole('button', { name: 'Apply' }).click();
 await expect(page.locator("//textarea[text()='20 wood street sanfransisco']")).toBeVisible();
-  await page.locator('canvas').nth(1).click({
-    position: {
-      x: 49,
-      y: 71
-    }
-  });
- await expect(page.locator("//span[text()='20 wood street sanfransisco']")).toBeVisible();
-  await page.locator('canvas').nth(2).click({
-    position: {
-      x: 65,
-      y: 59
-    }
-  });
-  await expect(page.locator("//span[text()='20 wood street sanfransisco']")).not.toBeVisible();
+   await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='2']`).click();
+   await expect(page.locator("//textarea[@readonly]")).toHaveValue("20 wood street sanfransisco");
+    await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='3']`).click();
+await expect(page.locator("//textarea[@readonly]")).not.toHaveValue("20 wood street sanfransisco");
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
@@ -1488,12 +1514,7 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
-await page.locator('canvas').nth(2).click({
-  position: {
-    x: 65,
-    y: 59
-  }
-});
+    await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='3']`).click();
 await commonSteps.dragAndDrop('text', 600, 300);
 await commonSteps.fillTextField('text', '20 wood street sanfransisco');
 await commonSteps.ClickSavebuttonSignerModal();
@@ -1512,20 +1533,10 @@ await commonSteps.ClickSavebuttonSignerModal();
   await page.getByText('All pages but first').click();
 await page.getByRole('button', { name: 'Apply' }).click();
  await expect(page.locator("//textarea[text()='20 wood street sanfransisco']")).toBeVisible();
-  await page.locator('canvas').nth(1).click({
-    position: {
-      x: 49,
-      y: 71
-    }
-  });
-await expect(page.locator("//span[text()='20 wood street sanfransisco']")).toBeVisible();
-  await page.locator('canvas').nth(0).click({
-    position: {
-      x: 65,
-      y: 59
-    }
-  });
-  await expect(page.locator("//span[text()='20 wood street sanfransisco']")).not.toBeVisible();
+    await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='2']`).click();
+await expect(page.locator("//textarea[@readonly]")).toHaveValue("20 wood street sanfransisco");
+  await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='1']`).click();
+await expect(page.locator("//textarea[@readonly]")).not.toHaveValue("20 wood street sanfransisco");
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
@@ -1565,8 +1576,8 @@ while (true) {
 }
 await page.getByText('Next to current widget').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-await expect(page.locator("//span[text()='20 wood street sanfransisco']")).toBeVisible();
-await expect(page.locator("//textarea[text()='20 wood street sanfransisco']")).toBeVisible();
+await expect(page.locator("//textarea[@readonly and @placeholder='text']")).toBeVisible();
+await expect(page.locator("//textarea[@readonly and (not(@placeholder) or @placeholder!='text')]")).toHaveValue("20 wood street sanfransisco");
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
@@ -1602,24 +1613,12 @@ await expect(page.locator('#renderList')).toContainText('1 of 1');
   const fileChooser2 = await fileChooserPromise2;
 await fileChooser2.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
   await expect(page.locator('#renderList')).toContainText('1 of 4');
-  await page.locator('canvas').nth(1).click({
-    position: {
-      x: 69,
-      y: 42
-    }
-  });
-  await page.locator('canvas').nth(2).click({
-    position: {
-      x: 47,
-      y: 53
-    }
-  });
-  await page.locator('canvas').nth(3).click({
-    position: {
-      x: 65,
-      y: 49
-    }
-  });
+   await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='2']`).click();
+     await expect(page.locator('#renderList')).toContainText('2 of 4');
+  await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='3']`).click();
+   await expect(page.locator('#renderList')).toContainText('3 of 4');
+  await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='4']`).click();
+     await expect(page.locator('#renderList')).toContainText('4 of 4');
 await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await commonSteps.dragAndDrop('stamp', 600, 300);
 await commonSteps.uploadStamp();
@@ -1635,10 +1634,37 @@ await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('company', 600, 430);
 await commonSteps.fillTextField('please enter text', 'OpenSign pvt ltd');
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('date', 600, 460);
-await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('text', 600, 500);
 await commonSteps.fillTextField('text', '20 wood street sanfransisco');
+await commonSteps.dragAndDrop('date', 600, 520);
+const today = new Date();
+// Format the date as MM/DD/YYYY
+const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
+                      `${today.getDate().toString().padStart(2, '0')}/` + 
+                      `${today.getFullYear()}`;
+console.log('Today\'s date:', formattedDate);  // Extract day number as text
+//await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
+await commonSteps.clickDateFieldOnTheSignerPad_Without_date();
+// Function to get the day with the appropriate suffix
+function getDayWithSuffix(day) {
+  if (day >= 11 && day <= 13) return `${day}th`;
+  switch (day % 10) {
+    case 1: return `${day}st`;
+
+    case 2: return `${day}nd`;  
+    case 3: return `${day}rd`;
+    default: return `${day}th`;
+  }   
+}
+// Calculate the target date (today + 2 days)
+today.setDate(today.getDate() + 2);
+const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g., "Friday" 
+const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
+const day = today.getDate();                                            // e.g., 2
+const year = today.getFullYear();                                       // e.g., 2025
+const dayWithSuffix = getDayWithSuffix(day);
+const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
+await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('checkbox', 600, 530);
 await commonSteps.ClickSavebuttonSignerModal();
@@ -1712,12 +1738,7 @@ await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
 await expect(page.locator('#renderList')).toContainText('1 of 3');
-  await page.locator('canvas').nth(1).click({
-    position: {
-      x: 80,
-      y: 133
-    }
-  });
+   await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='2']`).click();
   await expect(page.locator('#renderList')).toContainText('2 of 3');
   await page.getByTitle('Rotate right').locator('i').click();
    await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
@@ -1777,6 +1798,34 @@ await commonSteps.dragAndDrop('company', 600, 370);
 await commonSteps.fillTextField('please enter text', 'OpenSign pvt ltd');
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('date', 600, 390);
+const today = new Date();
+// Format the date as MM/DD/YYYY
+const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
+                      `${today.getDate().toString().padStart(2, '0')}/` + 
+                      `${today.getFullYear()}`;
+console.log('Today\'s date:', formattedDate);  // Extract day number as text
+//await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
+await commonSteps.clickDateFieldOnTheSignerPad_Without_date();
+// Function to get the day with the appropriate suffix
+function getDayWithSuffix(day) {
+  if (day >= 11 && day <= 13) return `${day}th`;
+  switch (day % 10) {
+    case 1: return `${day}st`;
+
+    case 2: return `${day}nd`;  
+    case 3: return `${day}rd`;
+    default: return `${day}th`;
+  }   
+}
+// Calculate the target date (today + 2 days)
+today.setDate(today.getDate() + 2);
+const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g., "Friday" 
+const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
+const day = today.getDate();                                            // e.g., 2
+const year = today.getFullYear();                                       // e.g., 2025
+const dayWithSuffix = getDayWithSuffix(day);
+const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
+await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('text', 600, 400);
 await commonSteps.fillTextField('text', '20 wood street sanfransisco');

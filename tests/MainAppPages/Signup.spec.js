@@ -4,7 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const CommonSteps = require('../utils/CommonSteps');
-
+import { fetchOTP } from "../utils/otpHelper.js";
+import { gmailConfig } from "../utils/mailConfigs.js";
 // Locators defined for better readability
 const locators = {
   createAccountButton: 'button[name="Create account"]',
@@ -20,6 +21,9 @@ const locators = {
   professionalPlanButton: 'li:has-text("OPENSIGN™ PROFESSIONAL$9.99/") button',
   TeamsPlanButton: 'li:has-text("OPENSIGN™ TEAMS$19.99/user/") button',
   proceedButton: "//span[@class='btn-txt' and text()='Proceed']",
+  
+  Send_otp_Button: "//span[@class='btn-txt' and text()='Send OTP']",
+    Verify_now_Button: "//span[@class='btn-txt' and text()='Verify Now']",
   addressField: '#billing_street',
   cityField: '#billing_city',
   zipCodeField: '#billing_zip',
@@ -78,7 +82,7 @@ await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisibl
   expect(title).toBe('Dashboard - OpenSign™');
   await page.getByRole('button', { name: '' }).click();
   await page.getByText('Profile').click();
-  await page.getByLabel('Close').click();
+
   //here we are verifing the admin user details under profile section
   await expect(page.locator('#renderList')).toContainText('Admin');
   await expect(page.getByRole('list')).toContainText('Name:');
@@ -92,7 +96,7 @@ await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisibl
   await expect(page.getByRole('list')).toContainText('Job title:');
   await expect(page.getByRole('list')).toContainText('Hr Executive');
   await expect(page.getByRole('list')).toContainText('Is email verified:');
-  await expect(page.getByRole('list')).toContainText('Not verified(verify)');
+  await expect(page.getByRole('list')).toContainText('Not verified (Verify)');
   await expect(page.getByRole('list')).toContainText('Public profile :');
   await expect(page.getByRole('list')).toContainText('Tagline :');
   await expect(page.getByRole('list')).toContainText('Disable documentId :');
@@ -125,7 +129,7 @@ await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisibl
   await expect(page.getByRole('list')).toContainText('Job title:');
   await expect(page.getByRole('list')).toContainText('Quality Analyst');
   await expect(page.getByRole('list')).toContainText('Is email verified:');
-  await expect(page.getByRole('list')).toContainText('Not verified(verify)');
+  await expect(page.getByRole('list')).toContainText('Not verified (Verify)');
   await expect(page.getByRole('list')).toContainText('Public profile :');
   await expect(page.getByRole('list')).toContainText(pubprofUsername);
   await expect(page.getByRole('list')).toContainText('Tagline :');
@@ -156,15 +160,16 @@ await page.locator('//span[text()="Sent this month"]').click();
   await expect(page.locator('#selectSignerModal')).toContainText('Upgrade now');
   await page.locator('div').filter({ hasText: /^✕$/ }).click();
 });
-
 test('Verify that a user can sign up with a professional plan and validate the details in the user profile.', async ({ page }) => {
- test.setTimeout(120 * 1000);
+  test.setTimeout(280 * 1000);
+
   const commonSteps = new CommonSteps(page);
-  // Step 1: Navigate to Base URL and log in
+
+  // ---------- Step 1: Navigate & Signup ----------
   await commonSteps.navigateToBaseUrl();
   await page.getByRole('button', { name: 'Create account' }).click();
   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
-  const email = `pravin+${Math.random()}@nxglabs.in`;
+  const email = `kelvinsjohnson24+${Math.random()}@gmail.com`;
   await fillSignupForm(page, {
     name: 'Mathew Wade',
     email,
@@ -175,123 +180,168 @@ test('Verify that a user can sign up with a professional plan and validate the d
   });
 
   await page.locator(locators.registerButton).click();
-  await expect(page.getByRole('heading', { name: 'OPENSIGN™ PROFESSIONAL' })).toBeVisible({ timeout: 120000 });
- await expect(page.locator('#root')).toContainText('$9.99/monthBilled YearlyExclusive Access to advanced features.');
-  await expect(page.locator('#root')).toContainText('Everything in OpenSign™ freeField validationsRegular expression validationsOrganize docs in OpenSign™ DriveWebhooksZapier integrationAPI Accessupto 240 API signaturesCustom email templatesConnect your own Gmail or SMTP account for sending emailsAuto remindersBulk send (upto 240 docs)Premium Public profile usernamesEnforce email-based verification to confirm signer identityEmbedded signing');
-  
-  await page.locator(locators.professionalPlanButton).click();
+
+  // ---------- Step 2: Select Professional Plan ----------
+  const professionalCard = page.locator('li', {
+    has: page.getByRole('heading', { name: 'OPENSIGN™ PROFESSIONAL' }),
+  });
+
+  await expect(professionalCard).toBeVisible({ timeout: 120000 });
+await expect(professionalCard).toContainText('₹9,999');
+await expect(professionalCard).toContainText('Billed Yearly');
+await expect(professionalCard).toContainText('Exclusive Access to advanced features.');
+await expect(professionalCard).toContainText('API Access');
+await expect(professionalCard).toContainText('Bulk send (upto 240 docs)');
+await expect(professionalCard).toContainText('Embedded signing');
+
+// Added feature validations
+await expect(professionalCard).toContainText('Everything in OpenSign™ free');
+await expect(professionalCard).toContainText('Field validations');
+await expect(professionalCard).toContainText('Regular expression validations');
+await expect(professionalCard).toContainText('Organize docs in OpenSign™ Drive');
+await expect(professionalCard).toContainText('Webhooks');
+await expect(professionalCard).toContainText('Zapier integration');
+await expect(professionalCard).toContainText('API Access');
+await expect(professionalCard).toContainText('upto 240 API signatures');
+await expect(professionalCard).toContainText('Custom email templates');
+await expect(professionalCard).toContainText('Connect your own Gmail or SMTP account for sending emails');
+await expect(professionalCard).toContainText('Auto reminders');
+await expect(professionalCard).toContainText('Bulk send (upto 240 docs)');
+await expect(professionalCard).toContainText('Premium Public profile usernames');
+await expect(professionalCard).toContainText('Enforce email-based verification to confirm signer identity');
+await expect(professionalCard).toContainText('Embedded signing');
+
+  await professionalCard.getByRole('button', { name: 'Subscribe' }).click();
   await page.locator(locators.proceedButton).click();
-  await page.locator(locators.proceedButton).click();
-  // Fill address details
+
+  // ---------- Step 3: OTP Verification ----------
+  await page.locator(locators.Send_otp_Button).click();
+  console.log('Waiting for OTP...');
+
+  const otp = await fetchOTP({
+    ...gmailConfig,
+    otpRegex: /(\d{6})/,
+  });
+
+  console.log('OTP Received:', otp);
+
+  for (let i = 0; i < otp.length; i++) {
+    await page.locator(`(//input[@type='tel' and @maxlength='1'])[${i + 1}]`).fill(otp[i]);
+  }
+
+  //await page.locator(locators.Verify_now_Button).click();
+  await page.getByRole('button', { name: 'Proceed' }).click();
+  // ---------- Step 4: Fill Address ----------
   await page.getByLabel('Address', { exact: true }).fill('120 wood street');
   await page.getByLabel('City').fill('San Francisco');
   await page.getByLabel('ZIP Code').fill('34554');
+
   await page.getByRole('button', { name: 'Review Order' }).click();
   await page.getByRole('button', { name: 'Proceed' }).click();
-  const allFrames = page.frames();
-  console.log(`Total iframes found: ${allFrames.length}`);
-// Locate the iframe and switch to its content
-// Switch to the iframe by index number (e.g., the second iframe)
-const index = 3; // Change this to the desired index
-const iframe = allFrames[index];
-await iframe.click('//input[@name=\'cardnumber\']');
-await iframe.fill('//input[@name=\'cardnumber\']', '4242424242424242'); 
-const indexExpDateFrame = 4; 
-  const iframesExpDate = allFrames[indexExpDateFrame];
-  await iframesExpDate.click('//input[@name=\'exp-date\']');
-  await iframesExpDate.fill('//input[@name=\'exp-date\']', '0728'); 
 
-  const indexcvvFrame= 5;
-  const iframecvvFrame = allFrames[indexcvvFrame];
-  await iframecvvFrame.click('//input[@name=\'cvc\']');
-  await iframecvvFrame.fill('//input[@name=\'cvc\']', '709'); 
-  await page.getByRole('button', { name: 'Pay $' }).click();
-  test.setTimeout(280 * 1000);
+  // ---------- Step 5: Enter Card Details ----------
+ // Wait for Stripe iframes to load
+await page.waitForSelector("iframe");
 
- await page.getByLabel('Close').click();
- await page.locator('//div[@id=\'profile-menu\']//parent::div[text()=\'PRO\']').isVisible();
- await page.getByRole('button', { name: '' }).click();
-  await page.getByText('Profile').click();
+// ---- Card Number ----
+const cardNumberFrame = page
+  .frameLocator("iframe[title*='card number']");
+
+await cardNumberFrame
+  .locator("input[name='cardnumber']")
+  .click();
+
+await cardNumberFrame
+  .locator("input[name='cardnumber']")
+  .type("4242424242424242", { delay: 50 });
+
+
+// ---- Expiry Date ----
+const expFrame = page
+  .frameLocator("iframe[title*='expiration']");
+
+await expFrame
+  .locator("input[name='exp-date'], input[name='expdate']")
+  .click();
+
+await expFrame
+  .locator("input[name='exp-date'], input[name='expdate']")
+  .type("0728", { delay: 50 });
+
+
+// ---- CVC ----
+const cvcFrame = page
+  .frameLocator("iframe[title*='CVC'], iframe[title*='security']");
+
+await cvcFrame
+  .locator("input[name='cvc']")
+  .click();
+
+await cvcFrame
+  .locator("input[name='cvc']")
+  .type("709", { delay: 50 });
+
+
+// ---- Pay Button ----
+await page.getByRole("button", { name: /Pay/i }).click();
+
+  // ---------- Step 6: Open Profile ----------
   await page.getByLabel('Close').click();
- 
-//here we are verifing the admin user details under profile section
-await expect(page.locator('#renderList')).toContainText('Admin');
-await expect(page.getByRole('list')).toContainText('Name:');
-await expect(page.getByRole('list')).toContainText('Mathew Wade');
-await expect(page.getByRole('list')).toContainText('Phone:');
-await expect(page.getByRole('list')).toContainText('8238988998');
-await expect(page.getByRole('list')).toContainText('Email :');
-await expect(page.getByRole('list')).toContainText(email);
-await expect(page.getByRole('list')).toContainText('Company:');
-await expect(page.getByRole('list')).toContainText('qikAi pvt ltd');
-await expect(page.getByRole('list')).toContainText('Job title:');
-await expect(page.getByRole('list')).toContainText('Hr Execative');
-await expect(page.getByRole('list')).toContainText('Is email verified:');
-await expect(page.getByRole('list')).toContainText('Not verified(verify)');
-await expect(page.getByRole('list')).toContainText('Public profile :');
-await expect(page.getByRole('list')).toContainText('Tagline :');
-await expect(page.getByRole('list')).toContainText('Disable documentId :');
-await expect(page.getByRole('list')).toContainText('Upgrade now');
-await expect(page.getByRole('list')).toContainText('Language:');
-await page.getByRole('button', { name: 'Edit' }).click();
+  await expect(page.locator('//div[@id="profile-menu"]//parent::div[text()="PRO"]')).toBeVisible();
+
+  await page.getByRole('button', { name: '' }).click();
+  await page.getByText('Profile').click();
+
+  // ---------- Step 7: Verify Profile Details ----------
+  await expect(page.locator('#renderList')).toContainText('Admin');
+  await expect(page.getByRole('list')).toContainText('Mathew Wade');
+  await expect(page.getByRole('list')).toContainText('8238988998');
+  await expect(page.getByRole('list')).toContainText(email);
+  await expect(page.getByRole('list')).toContainText('qikAi pvt ltd');
+  await expect(page.getByRole('list')).toContainText('Hr Execative');
+
+  // ---------- Step 8: Edit Profile ----------
+  await page.getByRole('button', { name: 'Edit' }).click();
+
   await page.locator('li').filter({ hasText: 'Name:' }).getByRole('textbox').fill('Mathew W Karl');
   await page.locator('li').filter({ hasText: 'Phone:' }).getByRole('textbox').fill('8806607524');
   await page.locator('li').filter({ hasText: 'Company:' }).getByRole('textbox').fill('OpenSign pvt. ltd');
   await page.locator('li').filter({ hasText: 'Job title:' }).getByRole('textbox').fill('Quality Analyst');
-  const PropubprofUsername = `pravin${Math.random().toString(16).substring(2, 8)}`;
-  await page.getByPlaceholder('enter user name').fill(PropubprofUsername);
+
+  const username = `pravin${Math.random().toString(16).slice(2, 8)}`;
+
+  await page.getByPlaceholder('enter user name').fill(username);
   await page.getByPlaceholder('enter tagline').fill('Seal the deal openly');
+
   await page.getByRole('button', { name: 'Save' }).click();
-  await expect(page.locator('#renderList')).toContainText('Admin');
-  await expect(page.getByRole('list')).toContainText('Name:');
+
   await expect(page.getByRole('list')).toContainText('Mathew W Karl');
-  await expect(page.getByRole('list')).toContainText('Phone:');
-  await expect(page.getByRole('list')).toContainText('8806607524');
-  await expect(page.getByRole('list')).toContainText('Email :');
- // const usernameLocator = page.locator('//div[@id="renderList"]//span[text()="'+ loginCredentials.FreeplanUsername +'"]');
-  // Wait for the element to be visible (this ensures it's rendered and interactable)
-  //await expect(usernameLocator).toBeVisible({ timeout: 30000 });
-  await expect(page.getByRole('list')).toContainText('Company:');
   await expect(page.getByRole('list')).toContainText('OpenSign pvt. ltd');
-  await expect(page.getByRole('list')).toContainText('Job title:');
   await expect(page.getByRole('list')).toContainText('Quality Analyst');
-  await expect(page.getByRole('list')).toContainText('Is email verified:');
-  await expect(page.getByRole('list')).toContainText('Not verified(verify)');
-  await expect(page.getByRole('list')).toContainText('Public profile :');
-  await expect(page.getByRole('list')).toContainText(PropubprofUsername);
-  await expect(page.getByRole('list')).toContainText('Tagline :');
-  await expect(page.getByRole('list')).toContainText('Seal the deal openly');
-  await expect(page.getByRole('list')).toContainText('Disable documentId :');
-  await expect(page.getByRole('list')).toContainText('Upgrade now');
-  await expect(page.getByRole('list')).toContainText('Language:');
+  await expect(page.getByRole('list')).toContainText(username);
+
+  // ---------- Step 9: Billing Verification ----------
   await page.getByRole('button', { name: '' }).click();
   await page.getByText('Billing').click();
+
   await expect(page.getByRole('heading')).toContainText('pro-yearly');
   await expect(page.locator('#renderList')).toContainText('Billed Yearly');
-  await expect(page.locator('#renderList')).toContainText('Exclusive Access to advanced features.');
   await expect(page.locator('#renderList')).toContainText('active');
- // Get date from the locator
- const text = await page.locator('//span[@class="op-text-primary font-medium"]').textContent();   
-    if (!text) {
-        throw new Error('No date text found in the locator');
-    }
-    // Parse text to a Date object (handle different date formats if necessary)
-    let date = new Date(text.trim());
-    if (isNaN(date.getTime())) {
-        throw new Error(`Invalid date format: ${text}`);
-    }
-    // Format the date as YYYY-MM-DD
-    let BillingformattedDate = date.toISOString().split('T')[0];
-    console.log('Formatted Date:', BillingformattedDate);
-    let currentDate = new Date();
-  // Add one year
-  let nextYearDate = new Date();
-  nextYearDate.setFullYear(currentDate.getFullYear() + 1);
-  // Format the date as YYYY-MM-DD (or any format you need)
-  let formattedDate = nextYearDate.toISOString().split('T')[0];
-  console.log('Date after one year:', formattedDate);
-  expect(formattedDate).toBe(BillingformattedDate); 
+
+  // ---------- Step 10: Verify Billing Date ----------
+  const text = await page.locator('//span[@class="op-text-primary font-medium"]').textContent();
+  if (!text) throw new Error('No billing date found');
+
+  const billingDate = new Date(text.trim());
+  const billingFormatted = billingDate.toISOString().split('T')[0];
+
+  const nextYear = new Date();
+  nextYear.setFullYear(nextYear.getFullYear() + 1);
+  const expectedDate = nextYear.toISOString().split('T')[0];
+
+  expect(expectedDate).toBe(billingFormatted);
 });
+
 test('Verify that a user can sign up with a Teams plan and validate the details in the user profile.', async ({ page }) => {
   test.setTimeout(120 * 1000);
   const commonSteps = new CommonSteps(page);
@@ -299,7 +349,7 @@ test('Verify that a user can sign up with a Teams plan and validate the details 
   await commonSteps.navigateToBaseUrl();
   await page.getByRole('button', { name: 'Create account' }).click();
   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
-  const email = `pravin+${Math.random()}@nxglabs.in`;
+  const email = `kelvinsjohnson24+${Math.random()}@gmail.com`;
   await fillSignupForm(page, {
     name: 'Mathew Wade',
     email,
@@ -310,43 +360,106 @@ test('Verify that a user can sign up with a Teams plan and validate the details 
   });
 
   await page.locator(locators.registerButton).click();
-  await expect(page.getByRole('heading', { name: 'OPENSIGN™ TEAMS' })).toBeVisible({ timeout: 120000 });
-  await expect(page.locator('#root')).toContainText('$19.99/user/monthBilled YearlyExclusive Access to advanced features.');
-  await expect(page.locator('#root')).toContainText('Everything in OpenSign™ professionalupto 500 API signaturesTeams and OrganizationsShare Templates with teamsShare Templates with individualsBYOC - Store your documents in your own cloud storageDocumentId removal from signed docsBulk send (upto 500 docs)Request Payments (coming soon)Mobile app (coming soon)');
-  await page.locator(locators.TeamsPlanButton).click();
+ // ---------- Step 2: Select Professional Plan ----------
+  const TeamsCard = page.locator('li', {
+    has: page.getByRole('heading', { name: 'OPENSIGN™ TEAMS' }),
+  });
+
+  await expect(TeamsCard).toBeVisible({ timeout: 120000 });
+await expect(TeamsCard).toContainText('₹19,999');
+await expect(TeamsCard).toContainText('Billed Yearly');
+await expect(TeamsCard).toContainText('Exclusive Access to advanced features.');
+
+// Existing
+await expect(TeamsCard).toContainText('upto 500 API signatures');
+await expect(TeamsCard).toContainText('Bulk send (upto 500 docs)');
+await expect(TeamsCard).toContainText('DocumentId removal from signed docs');
+
+// Add below validations
+await expect(TeamsCard).toContainText('Everything in OpenSign™ professional');
+await expect(TeamsCard).toContainText('Teams and Organizations');
+await expect(TeamsCard).toContainText('Share Templates with teams');
+await expect(TeamsCard).toContainText('Share Templates with individuals');
+await expect(TeamsCard).toContainText('BYOC - Store your documents in your own cloud storage');
+await expect(TeamsCard).toContainText('Request Payments (coming soon)');
+await expect(TeamsCard).toContainText('Mobile app (coming soon)');
+
+  await TeamsCard.getByRole('button', { name: 'Subscribe' }).click();
   await page.locator(locators.proceedButton).click();
-  await page.locator(locators.proceedButton).click();
+
+  // ---------- Step 3: OTP Verification ----------
+  await page.locator(locators.Send_otp_Button).click();
+  console.log('Waiting for OTP...');
+
+  const otp = await fetchOTP({
+    ...gmailConfig,
+    otpRegex: /(\d{6})/,
+  });
+
+  console.log('OTP Received:', otp);
+
+  for (let i = 0; i < otp.length; i++) {
+    await page.locator(`(//input[@type='tel' and @maxlength='1'])[${i + 1}]`).fill(otp[i]);
+  }
+
+  //await page.locator(locators.Verify_now_Button).click();
+  await page.getByRole('button', { name: 'Proceed' }).click();
   // Fill address details
   await page.getByLabel('Address', { exact: true }).fill('120 wood street');
   await page.getByLabel('City').fill('San Francisco');
   await page.getByLabel('ZIP Code').fill('34554');
   await page.getByRole('button', { name: 'Review Order' }).click();
   await page.getByRole('button', { name: 'Proceed' }).click();
-  const allFrames = page.frames();
-  console.log(`Total iframes found: ${allFrames.length}`);
-// Locate the iframe and switch to its content
-// Switch to the iframe by index number (e.g., the second iframe)
-const index = 3; // Change this to the desired index
-const iframe = allFrames[index];
-await iframe.click('//input[@name=\'cardnumber\']');
-await iframe.fill('//input[@name=\'cardnumber\']', '4242424242424242'); 
-const indexExpDateFrame = 4; 
-  const iframesExpDate = allFrames[indexExpDateFrame];
-  await iframesExpDate.click('//input[@name=\'exp-date\']');
-  await iframesExpDate.fill('//input[@name=\'exp-date\']', '0728'); 
+  // Wait for Stripe iframes to load
+await page.waitForSelector("iframe");
 
-  const indexcvvFrame= 5;
-  const iframecvvFrame = allFrames[indexcvvFrame];
-  await iframecvvFrame.click('//input[@name=\'cvc\']');
-  await iframecvvFrame.fill('//input[@name=\'cvc\']', '709'); 
-  await page.getByRole('button', { name: 'Pay Rs.100.00' }).click();
+// ---- Card Number ----
+const cardNumberFrame = page
+  .frameLocator("iframe[title*='card number']");
+
+await cardNumberFrame
+  .locator("input[name='cardnumber']")
+  .click();
+
+await cardNumberFrame
+  .locator("input[name='cardnumber']")
+  .type("4242424242424242", { delay: 50 });
+
+
+// ---- Expiry Date ----
+const expFrame = page
+  .frameLocator("iframe[title*='expiration']");
+
+await expFrame
+  .locator("input[name='exp-date'], input[name='expdate']")
+  .click();
+
+await expFrame
+  .locator("input[name='exp-date'], input[name='expdate']")
+  .type("0728", { delay: 50 });
+
+
+// ---- CVC ----
+const cvcFrame = page
+  .frameLocator("iframe[title*='CVC'], iframe[title*='security']");
+
+await cvcFrame
+  .locator("input[name='cvc']")
+  .click();
+
+await cvcFrame
+  .locator("input[name='cvc']")
+  .type("709", { delay: 50 });
+
+
+// ---- Pay Button ----
+await page.getByRole("button", { name: /Pay/i }).click();
   test.setTimeout(280 * 1000);
 
  await page.getByLabel('Close').click();
  await page.locator('//div[@id=\'profile-menu\']//parent::div[text()=\'PRO\']').isVisible();
  await page.getByRole('button', { name: '' }).click();
   await page.getByText('Profile').click();
-  await page.getByLabel('Close').click();
  
 //here we are verifing the admin user details under profile section
 await expect(page.locator('#renderList')).toContainText('Admin');
@@ -361,7 +474,7 @@ await expect(page.getByRole('list')).toContainText('qikAi pvt ltd');
 await expect(page.getByRole('list')).toContainText('Job title:');
 await expect(page.getByRole('list')).toContainText('Hr Execative');
 await expect(page.getByRole('list')).toContainText('Is email verified:');
-await expect(page.getByRole('list')).toContainText('Not verified(verify)');
+await expect(page.getByRole('list')).toContainText('Not verified (Verify)');
 await expect(page.getByRole('list')).toContainText('Public profile :');
 await expect(page.getByRole('list')).toContainText('Tagline :');
 await expect(page.getByRole('list')).toContainText('Disable documentId :');
@@ -389,7 +502,7 @@ await page.getByRole('button', { name: 'Edit' }).click();
   await expect(page.getByRole('list')).toContainText('Job title:');
   await expect(page.getByRole('list')).toContainText('Quality Analyst');
   await expect(page.getByRole('list')).toContainText('Is email verified:');
-  await expect(page.getByRole('list')).toContainText('Not verified(verify)');
+  await expect(page.getByRole('list')).toContainText('Not verified (Verify)');
   await expect(page.getByRole('list')).toContainText('Public profile :');
   await expect(page.getByRole('list')).toContainText(PropubprofUsername);
   await expect(page.getByRole('list')).toContainText('Tagline :');

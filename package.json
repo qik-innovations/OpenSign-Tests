@@ -16,8 +16,11 @@
   "dependencies": {
     "axios": "^1.7.0",
     "clipboardy": "^4.0.0",
-    "dotenv": "^16.4.7",
+    "dotenv": "^16.6.1",
     "google-auth-library": "^9.10.0",
+    "imap-simple": "^5.1.0",
+    "mailosaur": "^10.0.0",
+    "mailparser": "^3.9.3",
     "play_wright": "file:"
   },
   "directories": {

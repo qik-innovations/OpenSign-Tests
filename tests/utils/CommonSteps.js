@@ -446,6 +446,13 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
       await page.locator(`//div[@class='flex justify-center']//div[@class='react-datepicker__input-container']//div[contains(text(), '${dateString}')]`).click({ force: true });
       console.log(`Date field with value '${dateString}' clicked on the signer modal.`);
     });
+  } 
+  async clickDateFieldOnTheSignerPad_Without_date() {
+    const page = this.page;
+    await allure.step(`click on the date field on the signer pad`, async () => {
+      await page.locator(`//div[@class='flex justify-center']//div[@class='react-datepicker__input-container']//div[contains(text(), 'Select date')]`).click({ force: true });
+      console.log(`Date field clicked on the signer modal.`);
+    });
   }
   async selectCalendarDateByLabel(label) {
     const page = this.page;
@@ -490,7 +497,10 @@ async ClickSavebuttonSignerModal() {
   await this.page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`).click();
     console.log('Save button in signer modal clicked.');
   }
-
+async ClickApplybuttonSignerModal() {
+  await this.page.locator(`//dialog[@id='selectSignerModal']//button[text()='Apply']`).click();
+    console.log('Apply button in signer modal clicked.');
+  }
   async dragAndDrop(label, x, y) {
     const locator = this.page.locator(`//div[@data-tut="addWidgets"]//span[normalize-space()="${label}"]`);
     await locator.hover();
