@@ -4,6 +4,8 @@ const CommonSteps = require('../utils/CommonSteps');
 const PageActions = require('../utils/PageActions');
 const path = require('path');
 const exp = require('constants');
+const { fetchOTP } = require('../utils/otpHelper');
+const { gmailConfig } = require('../utils/mailConfigs');
 test.describe('Request signature', () => {
 test('Verify that new user can create and send the document for request signature.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
@@ -37,7 +39,6 @@ test('Verify that new user can create and send the document for request signatur
   await page.locator('form i').nth(2).click();
   await page.getByLabel('Name *').fill('Karl Mark');
   await page.getByLabel('Email *').fill('karlmark1954@gmail.com');
-  await page.getByPlaceholder('optional').fill('768768768766');
   await page.getByRole('button', { name: 'Submit' }).click();
     await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
@@ -149,22 +150,19 @@ await commonSteps.dragAndDrop('job title', 600, 370);
 await commonSteps.dragAndDrop('company', 600, 400);
 await commonSteps.dragAndDrop('date', 600, 430);
 await commonSteps.dragAndDrop('text input', 600, 450);
-await commonSteps.dragAndDrop('cells', 700, 380);
 await commonSteps.dragAndDrop('checkbox', 600, 500);
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('dropdown', 600, 550);
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('radio button', 600, 600);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('image', 700, 400);
-await commonSteps.dragAndDrop('email', 700, 450);
+await commonSteps.dragAndDrop('image', 600, 630);
+await commonSteps.dragAndDrop('email', 600, 690);
+await commonSteps.dragAndDrop('cells', 600, 730);
 await page.getByRole('button', { name: 'Next' }).click();
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
-await page.getByRole('button', { name: 'Send' }).click();
-await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
-await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
-  await page.getByRole('button', { name: 'Yes' }).click();
+await expect(page.locator('//h3[text()=\'Next step: Sign your document ?\']')).toContainText('Next step: Sign your document ?');
+await page.getByRole('button', { name: 'Sign now' }).click();
   await commonSteps.validateAndAcceptTerms();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
@@ -187,7 +185,8 @@ const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
                       `${today.getDate().toString().padStart(2, '0')}/` + 
                       `${today.getFullYear()}`;
 console.log('Today\'s date:', formattedDate);  // Extract day number as text
-await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
+await commonSteps.clickDateFieldOnTheSignerPad_Without_date();
+//await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
 function getDayWithSuffix(day) {
   if (day >= 11 && day <= 13) return `${day}th`;
   switch (day % 10) {
@@ -208,10 +207,8 @@ const dayWithSuffix = getDayWithSuffix(day);
 const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
 await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
   await commonSteps.clickNextButtonInSignerModal();
-await commonSteps.fillTextField('text input', '120 wood street sanfransisco');
+await commonSteps.fillTextField('text', '120 wood street sanfransisco');
   await commonSteps.clickNextButtonInSignerModal();
-  await commonSteps.fillCellWidgetsInModal('7', '8', '2', '3', '1');
-   await commonSteps.clickNextButtonInSignerModal();
   await commonSteps.selectCheckbox('Option-1');
   await commonSteps.clickNextButtonInSignerModal();
   await commonSteps.selectFromDropdown('myDropdown', 'Option-2');
@@ -221,6 +218,8 @@ await commonSteps.fillTextField('text input', '120 wood street sanfransisco');
  await commonSteps.uploadImage();
  await commonSteps.clickNextButtonInSignerModal();
   await commonSteps.fillEmailField('demo@gmail.com', 'anderson.k@opensignlabs.com');
+     await commonSteps.clickNextButtonInSignerModal();
+    await commonSteps.fillCellWidgetsInModal('7', '8', '2', '3', '1');
 await commonSteps.clickDoneButtonInSignerModal();
 await commonSteps.clickFinishButtonInSignerModal();
   await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
@@ -229,7 +228,7 @@ await commonSteps.clickFinishButtonInSignerModal();
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Download' })).toBeVisible();
   await page.getByRole('button', { name: '✕' }).click();
 });
-test('Verify that a user can create a document1, send it for a signature request, and signer can successfully sign the document.', async ({ page }) => {
+test('Verify that a user can create a document, send it for a signature request, and signer can successfully sign the document.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
@@ -257,44 +256,43 @@ await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 9
 await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
 await commonSteps.dragAndDrop('stamp', 600, 250);
 await commonSteps.dragAndDrop('initials', 600, 300);
-await commonSteps.dragAndDrop('name', 600, 350);
+await commonSteps.dragAndDrop('name', 600, 330);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
   // Call the method with widget name 'name'
   const VariablenameID = await commonSteps.getElementIdByWidgetName('name');
   console.log('Widget element ID:', VariablenameID);
-await commonSteps.dragAndDrop('job title', 600, 370);
+await commonSteps.dragAndDrop('job title', 600, 350);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariablejobtitleID = await commonSteps.getElementIdByWidgetName('job title');
   console.log('Widget element ID:', VariablejobtitleID);
-await commonSteps.dragAndDrop('company', 600, 400);
+await commonSteps.dragAndDrop('company', 600, 370);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariablecompanyID = await commonSteps.getElementIdByWidgetName('company');
   console.log('Widget element ID:', VariablecompanyID);
-await commonSteps.dragAndDrop('date', 600, 430);
+await commonSteps.dragAndDrop('date', 600, 390);
 //const VariabledateID = await commonSteps.getElementIdByWidgetName('date');
   //console.log('Widget element ID:', VariabledateID);
-await commonSteps.dragAndDrop('text input', 600, 450);
+await commonSteps.dragAndDrop('text input', 600, 410);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariabletextinputID = await commonSteps.getElementIdByWidgetName('text input');
   console.log('Widget element ID:', VariabletextinputID);
-  await commonSteps.dragAndDrop('cells', 850, 450);
   //const VariableCellsID = await commonSteps.getElementIdByWidgetName('cells');
  // console.log('Widget element ID:', VariableCellsID);
-await commonSteps.dragAndDrop('checkbox', 850, 500);
+await commonSteps.dragAndDrop('checkbox', 600, 430);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('dropdown', 850, 550);
+await commonSteps.dragAndDrop('dropdown', 600, 460);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('radio button', 650, 500);
+await commonSteps.dragAndDrop('radio button', 600, 490);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('image', 650, 300);
-await commonSteps.dragAndDrop('email', 700, 300);
+await commonSteps.dragAndDrop('image', 600, 530);
+await commonSteps.dragAndDrop('email', 600, 570);
+  await commonSteps.dragAndDrop('cells', 600, 600);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariableemailID = await commonSteps.getElementIdByWidgetName('demo@gmail.com');
   console.log('Widget element ID:', VariableemailID);
 await page.getByRole('button', { name: 'Next' }).click();
 await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
-
-await page.locator('//span[@class=" hidden md:block ml-1 " and text()="Copy link"]').click();
+ await page.locator('//span[text()="Copy link"]').click();
 const copiedUrl = await page.locator('//p[@id="copyUrl"]').evaluate(el => el.textContent.trim());
 const page1 = await page.context().newPage();
 await page1.goto(copiedUrl);
@@ -309,23 +307,45 @@ await commonStepsPage1.uploadStamp()
 await commonStepsPage1.clickNextButtonInSignerModal();
 await commonStepsPage1.drawInitials();
 await commonStepsPage1.clickNextButtonInSignerModal();
-await commonStepsPage1.clickCloseButtonInSignerModal()
-await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariablenameID}']//textarea[1]`).click({ force: true });
+//await commonStepsPage1.clickCloseButtonInSignerModal()
+//await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariablenameID}']//textarea[1]`).click({ force: true });
 await commonStepsPage1.fillTextField('name', 'Mark Anderson');
 await commonStepsPage1.clickNextButtonInSignerModal();
-await commonStepsPage1.clickCloseButtonInSignerModal();
-await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariablejobtitleID}']//textarea[1]`).click({ force: true });
+//await commonStepsPage1.clickCloseButtonInSignerModal();
+//await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariablejobtitleID}']//textarea[1]`).click({ force: true });
 await commonStepsPage1.fillTextField('job title', 'Quality analyst');
 await commonStepsPage1.clickNextButtonInSignerModal();
-await commonStepsPage1.clickCloseButtonInSignerModal();
-await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariablecompanyID}']//textarea[1]`).click({ force: true });
 await commonStepsPage1.fillTextField('company', 'Oepnsign labs pvt. ltd');
 await commonStepsPage1.clickNextButtonInSignerModal();
-await commonStepsPage1.clickCloseButtonInSignerModal();
-await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariabletextinputID}']//textarea[1]`).click({ force: true });
-await commonStepsPage1.fillTextField('text input', '120 wood street sanfransisco');
+const today = new Date();
+// Format the date as MM/DD/YYYY
+const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
+                      `${today.getDate().toString().padStart(2, '0')}/` + 
+                      `${today.getFullYear()}`;
+console.log('Today\'s date:', formattedDate);  // Extract day number as text
+await commonStepsPage1.clickDateFieldOnTheSignerPad_Without_date();
+//await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
+function getDayWithSuffix(day) {
+  if (day >= 11 && day <= 13) return `${day}th`;
+  switch (day % 10) {
+    case 1: return `${day}st`;
+
+    case 2: return `${day}nd`;  
+    case 3: return `${day}rd`;
+    default: return `${day}th`;
+  }   
+}
+// Calculate the target date (today + 2 days)
+today.setDate(today.getDate() + 2);
+const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g., "Friday" 
+const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
+const day = today.getDate();                                            // e.g., 2
+const year = today.getFullYear();                                       // e.g., 2025
+const dayWithSuffix = getDayWithSuffix(day);
+const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
+await commonStepsPage1.selectCalendarDateByLabel(ariaLabelValue);
 await commonStepsPage1.clickNextButtonInSignerModal();
-await commonStepsPage1.fillCellWidgetsInModal('7', '8', '2', '3', '1');
+await commonStepsPage1.fillTextField('text', '120 wood street sanfransisco');
 await commonStepsPage1.clickNextButtonInSignerModal();
 await commonStepsPage1.selectCheckbox('Option-1');
 await commonStepsPage1.clickNextButtonInSignerModal();
@@ -336,6 +356,173 @@ await commonStepsPage1.clickNextButtonInSignerModal();
 await commonStepsPage1.uploadImage();
 await commonStepsPage1.clickNextButtonInSignerModal();
 await commonStepsPage1.fillEmailField('demo@gmail.com', 'anderson.k@opensignlabs.com')
+await commonStepsPage1.clickNextButtonInSignerModal();
+await commonStepsPage1.fillCellWidgetsInModal('7', '8', '2', '3', '1');
+await commonStepsPage1.clickDoneButtonInSignerModal();
+await commonStepsPage1.clickFinishButtonInSignerModal();
+await expect(page1.locator('//h1[text()="The document has been signed successfully!"]')).toContainText('The document has been signed successfully!',{ timeout: 90000 });
+/*await page1.getByRole('button', { name: 'Print' }).click();
+const downloadPromise = page1.waitForEvent('download');
+await page1.getByRole('button', { name: 'Certificate' }).click();
+const download = await downloadPromise;
+await page1.getByRole('button', { name: 'Download' }).click();
+  const download1Promise = page1.waitForEvent('download');
+  await page1.locator('#selectSignerModal').getByRole('button', { name: 'Download' }).click();
+  const download1 = await download1Promise;
+  await page1.getByRole('button', { name: 'Download' }).click();
+  await page1.getByText('Download pdf + Certificate').click();
+  const download2Promise = page1.waitForEvent('download');
+  await page1.locator('#selectSignerModal').getByRole('button', { name: 'Download' }).click();
+  const download2 = await download2Promise;
+  const download3Promise = page1.waitForEvent('download');*/
+});
+test('Verify that a user can create a document with enable otp true and send it for a signature request, and signer can sign the document.', async ({ page }) => {
+  const commonSteps = new CommonSteps(page);
+  // Step 1: Navigate to Base URL and log in
+  await commonSteps.navigateToBaseUrl();
+  await commonSteps.login();
+await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  await page.locator('input[name="Name"]').click();
+  await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  await page.locator('input[name="Note"]').click();
+  const fileChooserPromise = page.waitForEvent('filechooser');
+await page.locator('input[type="file"]').click();
+const fileChooser = await fileChooserPromise;
+await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+await page.getByRole('option', { name: 'kelvin Johnson req1<kelvinsjohnson24+req1@gmail.' }).waitFor({ timeout: 90000 });
+await page.getByRole('option', { name: 'kelvin Johnson req1<kelvinsjohnson24+req1@gmail.' }).click();
+await page.locator('input[name="Name"]').click();
+ await page.getByText('Advanced options').click();
+await page.locator('input[name="IsEnableOTP"]').first().click();
+await page.getByRole('button', { name: 'Next' }).click();
+await page.waitForLoadState("networkidle");
+await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+await commonSteps.dragAndDropSignatureWidget('signature', 600, 150);
+await commonSteps.dragAndDrop('stamp', 600, 200);
+await commonSteps.dragAndDrop('initials', 600, 250);
+await commonSteps.dragAndDrop('name', 600, 300);
+//here we are copying the widget id to use while signing teh document through the guest signatrue flow
+  // Call the method with widget name 'name'
+  const VariablenameID = await commonSteps.getElementIdByWidgetName('name');
+  console.log('Widget element ID:', VariablenameID);
+await commonSteps.dragAndDrop('job title', 600, 320);
+//here we are copying the widget id to use while signing teh document through the guest signatrue flow
+const VariablejobtitleID = await commonSteps.getElementIdByWidgetName('job title');
+  console.log('Widget element ID:', VariablejobtitleID);
+await commonSteps.dragAndDrop('company', 600, 340);
+//here we are copying the widget id to use while signing teh document through the guest signatrue flow
+const VariablecompanyID = await commonSteps.getElementIdByWidgetName('company');
+  console.log('Widget element ID:', VariablecompanyID);
+await commonSteps.dragAndDrop('date', 600, 360);
+//const VariabledateID = await commonSteps.getElementIdByWidgetName('date');
+  //console.log('Widget element ID:', VariabledateID);
+await commonSteps.dragAndDrop('text input', 600, 390);
+//here we are copying the widget id to use while signing teh document through the guest signatrue flow
+const VariabletextinputID = await commonSteps.getElementIdByWidgetName('text input');
+  console.log('Widget element ID:', VariabletextinputID);
+  //const VariableCellsID = await commonSteps.getElementIdByWidgetName('cells');
+ // console.log('Widget element ID:', VariableCellsID);
+await commonSteps.dragAndDrop('checkbox', 600, 420);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('dropdown', 600, 450);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('radio button', 600, 470);
+await commonSteps.ClickSavebuttonSignerModal();
+await commonSteps.dragAndDrop('image', 600, 500);
+await commonSteps.dragAndDrop('email', 600, 550);
+ await commonSteps.dragAndDrop('cells', 600, 600);
+//here we are copying the widget id to use while signing teh document through the guest signatrue flow
+await page.getByRole('button', { name: 'Next' }).click();
+await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+    await page.locator('//span[text()="Copy link"]').click();
+   const copiedUrl = await page.locator('//p[@id="copyUrl"]').evaluate(el => el.textContent?.trim() || '');
+const page1 = await page.context().newPage();
+await page1.goto(copiedUrl);
+const commonStepsPage1 = new CommonSteps(page1);
+ // ---------- Step 3: OTP Verification ----------
+// Verify Heading
+  const heading = page1.locator("//h1[normalize-space()='Welcome back!']");
+  await expect(heading).toBeVisible();
+
+  // Verify Paragraph / Legend
+  const legendText = page1.locator("//legend[contains(normalize-space(),'verification code via Email')]");
+  await expect(legendText).toBeVisible();
+
+  // Verify Email Input Field
+  const emailInput = page1.locator("//input[@type='email' and @name='email']");
+  await expect(emailInput).toHaveValue('kelvinsjohnson24+req1@gmail.com');
+const emailValue = await emailInput.inputValue(); 
+console.log('Email input value:', emailValue); // Debug log to check the email value
+  // Click Get Verification Code button
+  const getCodeBtn = page1.locator("//button[.//text()[normalize-space()='Get verification code']]");
+  await getCodeBtn.click();
+  console.log('Waiting for OTP...');
+  const otp = await fetchOTP({
+    ...gmailConfig,
+     otpRegex: /\b(\d{4})\b/, // Assuming OTP is a 4-digit code
+    expectedTo: emailValue // Ensure we only process OTP emails sent to our generated address
+  });
+  console.log('OTP Received:', otp);
+    await page1.locator(`//input[@placeholder="Enter verification code received over email"]`).fill(otp);
+    await page1.locator('//button[text()="Verify" and @type="submit"]').click();
+await commonStepsPage1.validateAndAcceptTerms();
+await page1.waitForLoadState("networkidle");
+await page1.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+await commonStepsPage1.clickSignatureWidgetAndDraw();
+// Optionally save changes
+await commonStepsPage1.clickNextButtonInSignerModal();
+await commonStepsPage1.uploadStamp()
+await commonStepsPage1.clickNextButtonInSignerModal();
+await commonStepsPage1.drawInitials();
+await commonStepsPage1.clickNextButtonInSignerModal();
+await commonStepsPage1.fillTextField('name', 'Mark Anderson');
+await commonStepsPage1.clickNextButtonInSignerModal();
+await commonStepsPage1.fillTextField('job title', 'Quality analyst');
+await commonStepsPage1.clickNextButtonInSignerModal();
+await commonStepsPage1.fillTextField('company', 'Oepnsign labs pvt. ltd');
+await commonStepsPage1.clickNextButtonInSignerModal();
+const today = new Date();
+// Format the date as MM/DD/YYYY
+const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
+                      `${today.getDate().toString().padStart(2, '0')}/` + 
+                      `${today.getFullYear()}`;
+console.log('Today\'s date:', formattedDate);  // Extract day number as text
+await commonStepsPage1.clickDateFieldOnTheSignerPad_Without_date();
+//await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
+function getDayWithSuffix(day) {
+  if (day >= 11 && day <= 13) return `${day}th`;
+  switch (day % 10) {
+    case 1: return `${day}st`;
+
+    case 2: return `${day}nd`;  
+    case 3: return `${day}rd`;
+    default: return `${day}th`;
+  }   
+}
+// Calculate the target date (today + 2 days)
+today.setDate(today.getDate() + 2);
+const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g., "Friday" 
+const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
+const day = today.getDate();                                            // e.g., 2
+const year = today.getFullYear();                                       // e.g., 2025
+const dayWithSuffix = getDayWithSuffix(day);
+const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
+await commonStepsPage1.selectCalendarDateByLabel(ariaLabelValue);
+await commonStepsPage1.clickNextButtonInSignerModal();
+await commonStepsPage1.fillTextField('text', '120 wood street sanfransisco');
+await commonStepsPage1.clickNextButtonInSignerModal();
+await commonStepsPage1.selectCheckbox('Option-1');
+await commonStepsPage1.clickNextButtonInSignerModal();
+await commonStepsPage1.selectFromDropdown('myDropdown', 'Option-2');
+await commonStepsPage1.clickNextButtonInSignerModal();
+await commonStepsPage1.selectRadioButton('Option-1');
+await commonStepsPage1.clickNextButtonInSignerModal();
+await commonStepsPage1.uploadImage();
+await commonStepsPage1.clickNextButtonInSignerModal();
+await commonStepsPage1.fillEmailField('demo@gmail.com', 'anderson.k@opensignlabs.com');
+await commonStepsPage1.clickNextButtonInSignerModal();
+await commonStepsPage1.fillCellWidgetsInModal('7', '8', '2', '3', '1');
 await commonStepsPage1.clickDoneButtonInSignerModal();
 await commonStepsPage1.clickFinishButtonInSignerModal();
 await expect(page1.locator('//h1[text()="The document has been signed successfully!"]')).toContainText('The document has been signed successfully!',{ timeout: 90000 });

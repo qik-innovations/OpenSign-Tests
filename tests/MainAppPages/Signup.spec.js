@@ -221,6 +221,7 @@ await expect(professionalCard).toContainText('Embedded signing');
   const otp = await fetchOTP({
     ...gmailConfig,
     otpRegex: /(\d{6})/,
+    expectedTo: email // Ensure we only process OTP emails sent to our generated address
   });
 
   console.log('OTP Received:', otp);
@@ -253,7 +254,7 @@ await cardNumberFrame
 
 await cardNumberFrame
   .locator("input[name='cardnumber']")
-  .type("4242424242424242", { delay: 50 });
+  .type("4242424242424242", { delay: 100 });
 
 
 // ---- Expiry Date ----
@@ -266,8 +267,7 @@ await expFrame
 
 await expFrame
   .locator("input[name='exp-date'], input[name='expdate']")
-  .type("0728", { delay: 50 });
-
+  .type("0728", { delay: 100 });
 
 // ---- CVC ----
 const cvcFrame = page
@@ -279,7 +279,7 @@ await cvcFrame
 
 await cvcFrame
   .locator("input[name='cvc']")
-  .type("709", { delay: 50 });
+  .type("709", { delay: 100 });
 
 
 // ---- Pay Button ----
@@ -394,6 +394,7 @@ await expect(TeamsCard).toContainText('Mobile app (coming soon)');
   const otp = await fetchOTP({
     ...gmailConfig,
     otpRegex: /(\d{6})/,
+    expectedTo: email // Ensure we only process OTP emails sent to our generated address
   });
 
   console.log('OTP Received:', otp);
@@ -423,8 +424,7 @@ await cardNumberFrame
 
 await cardNumberFrame
   .locator("input[name='cardnumber']")
-  .type("4242424242424242", { delay: 50 });
-
+  .type("4242424242424242", { delay: 100 });
 
 // ---- Expiry Date ----
 const expFrame = page
@@ -436,8 +436,7 @@ await expFrame
 
 await expFrame
   .locator("input[name='exp-date'], input[name='expdate']")
-  .type("0728", { delay: 50 });
-
+  .type("0728", { delay: 100 });
 
 // ---- CVC ----
 const cvcFrame = page
@@ -449,7 +448,7 @@ await cvcFrame
 
 await cvcFrame
   .locator("input[name='cvc']")
-  .type("709", { delay: 50 });
+  .type("709", { delay: 100 });
 
 
 // ---- Pay Button ----
