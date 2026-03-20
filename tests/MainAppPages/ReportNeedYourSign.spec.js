@@ -30,11 +30,10 @@ test('Verify that owner can create the document and sign it from the need your s
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.locator('//span[normalize-space()=\'signature\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 300)
+await page.mouse.move(600, 250)
 await page.mouse.up();
 try {
-  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
-
+  const rowLocator = page.locator('//div[contains(@class,"signYourselfBlock")]//div[contains(@class,"font-medium") and normalize-space(.)="signature-1"]');
   for (let i = 0; i < 5; i++) { // Retry up to 5 times
       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
       
@@ -45,7 +44,7 @@ try {
   
           await page.locator('//span[normalize-space()="signature"]').hover();
           await page.mouse.down();
-          await page.mouse.move(800, 300);
+          await page.mouse.move(600, 250);
           await page.mouse.up();
           
           // Wait a bit before checking again
@@ -62,62 +61,61 @@ try {
 }
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 360)
+await page.mouse.move(600, 300)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'initials\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 420)
+await page.mouse.move(600, 340)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'name\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 470)
+await page.mouse.move(600, 370)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'job title\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 500)
+await page.mouse.move(600, 390)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'company\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 520)
+await page.mouse.move(600, 420)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'date\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 550)
+await page.mouse.move(600, 450)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'text input\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 570)
+await page.mouse.move(600, 470)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'checkbox\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 600)
+await page.mouse.move(600, 500)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('span').filter({ hasText: 'dropdown' }).hover();
 await page.mouse.down();
-await page.mouse.move(800, 300)
+await page.mouse.move(600, 530)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'radio button\']').hover();
 await page.mouse.down();
-await page.mouse.move(800, 350)
+await page.mouse.move(600, 550)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'image\']').hover();
 await page.mouse.down();
-await page.mouse.move(800, 400)
+await page.mouse.move(600, 590)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
-await page.mouse.move(800, 400)
+await page.mouse.move(600, 650)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
-//await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
-await page.getByRole('button', { name: 'Send' }).click();
-await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
-await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
-  await page.getByRole('button', { name: 'No' }).click();
+   await page.locator("//div[i[contains(@class,'fa-envelope')] and .//span[text()='Send to Email']]").click();
+  await page.getByRole('button', { name: 'Send' }).click();
+  await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
+  await expect(page.locator('#selectSignerModal')).toContainText('Subsequent signers will get email(s) once you sign the document.');
+  await page.locator("//dialog[@id='selectSignerModal']//button[normalize-space()='No']").click();
   await page.getByRole('button', { name: ' Documents' }).click();
   await page.getByRole('menuitem', { name: 'Need your sign' }).click();
  // Wait up to 90 seconds for the text to appear
@@ -144,8 +142,36 @@ await commonSteps.fillTextField('job title','Quality analyst');
 await commonSteps.clickNextButtonInSignerModal();
 await commonSteps.fillTextField('company','Opensign labs pvt. ltd');
     await commonSteps.clickNextButtonInSignerModal();
+   const today = new Date();
+// Format the date as MM/DD/YYYY
+const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
+                      `${today.getDate().toString().padStart(2, '0')}/` + 
+                      `${today.getFullYear()}`;
+console.log('Today\'s date:', formattedDate);  // Extract day number as text
+//await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
+await commonSteps.clickDateFieldOnTheSignerPad_Without_date();
+// Function to get the day with the appropriate suffix
+function getDayWithSuffix(day) {
+  if (day >= 11 && day <= 13) return `${day}th`;
+  switch (day % 10) {
+    case 1: return `${day}st`;
+
+    case 2: return `${day}nd`;  
+    case 3: return `${day}rd`;
+    default: return `${day}th`;
+  }   
+}
+// Calculate the target date (today + 2 days)
+today.setDate(today.getDate() + 2);
+const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g., "Friday" 
+const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
+const day = today.getDate();                                            // e.g., 2
+const year = today.getFullYear();                                       // e.g., 2025
+const dayWithSuffix = getDayWithSuffix(day);
+const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
+await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
     await commonSteps.clickNextButtonInSignerModal();
-  await commonSteps.fillTextField('text input','120 wood street Sanfransisco');
+  await commonSteps.fillTextField('text','120 wood street Sanfransisco');
     await commonSteps.clickNextButtonInSignerModal();
     await commonSteps.selectCheckbox('Option-1');
  await commonSteps.clickNextButtonInSignerModal();
@@ -164,7 +190,7 @@ await commonSteps.clickFinishButtonInSignerModal();
   await page.getByRole('button', { name: '✕' }).click();
 });
 
-test('Verify the column names and the document details on the need your signature report.', async ({ page }) => {
+test('Verify the column name and the document details on the need your signature report.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
@@ -191,10 +217,10 @@ await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'vi
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.locator('//span[normalize-space()=\'signature\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 300)
+await page.mouse.move(600, 250)
 await page.mouse.up();
 try {
-  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+ const rowLocator = page.locator('//div[contains(@class,"signYourselfBlock")]//div[contains(@class,"font-medium") and normalize-space(.)="signature-1"]');
 
   for (let i = 0; i < 5; i++) { // Retry up to 5 times
       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -206,7 +232,7 @@ try {
   
           await page.locator('//span[normalize-space()="signature"]').hover();
           await page.mouse.down();
-          await page.mouse.move(800, 300);
+          await page.mouse.move(600, 250);
           await page.mouse.up();
           
           // Wait a bit before checking again
@@ -221,64 +247,13 @@ try {
   console.log("Element not found or not interactable, continuing execution.");
  
 }
-await page.locator('//span[normalize-space()=\'stamp\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 360)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'initials\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 420)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'name\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 470)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'job title\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 500)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'company\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 520)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'date\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 550)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'text input\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 570)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'checkbox\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 600)
-await page.mouse.up();
-page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('span').filter({ hasText: 'dropdown' }).hover();
-await page.mouse.down();
-await page.mouse.move(800, 300)
-await page.mouse.up();
-page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('//span[normalize-space()=\'radio button\']').hover();
-await page.mouse.down();
-await page.mouse.move(800, 350)
-await page.mouse.up();
-page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('//span[normalize-space()=\'image\']').hover();
-await page.mouse.down();
-await page.mouse.move(800, 400)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'email\']').hover();
-await page.mouse.down();
-await page.mouse.move(800, 400)
-await page.mouse.up();
+
 await page.getByRole('button', { name: 'Next' }).click();
-//await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
-await page.getByRole('button', { name: 'Send' }).click();
-await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
-await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
-await page.getByRole('button', { name: 'No' }).click();
+   await page.locator("//div[i[contains(@class,'fa-envelope')] and .//span[text()='Send to Email']]").click();
+  await page.getByRole('button', { name: 'Send' }).click();
+  await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
+  await expect(page.locator('#selectSignerModal')).toContainText('Subsequent signers will get email(s) once you sign the document.');
+  await page.locator("//dialog[@id='selectSignerModal']//button[normalize-space()='No']").click();
 await page.getByRole('button', { name: ' Documents' }).click();
 await page.getByRole('menuitem', { name: 'Need your sign' }).click();
 // Wait up to 90 seconds for the text to appear

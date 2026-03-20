@@ -569,7 +569,7 @@ await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'vi
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.locator('//span[normalize-space()=\'signature\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 300)
+await page.mouse.move(600, 300);
 await page.mouse.up();
 try {
   const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
@@ -601,15 +601,15 @@ try {
 }
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 360)
+await page.mouse.move(600, 360);
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'initials\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 420)
+await page.mouse.move(600, 420);
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'name\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 470)
+await page.mouse.move(600, 470);
 await page.mouse.up();
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariablenameID = await page.evaluate(() => {
@@ -623,7 +623,7 @@ const VariablenameID = await page.evaluate(() => {
 });
 await page.locator('//span[normalize-space()=\'job title\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 500)
+await page.mouse.move(600, 500);
 await page.mouse.up();
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariablejobtitleID = await page.evaluate(() => {
@@ -637,7 +637,7 @@ const VariablejobtitleID = await page.evaluate(() => {
 });
 await page.locator('//span[normalize-space()=\'company\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 520)
+await page.mouse.move(600, 520);
 await page.mouse.up();
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariablecompanyID = await page.evaluate(() => {
@@ -651,11 +651,11 @@ const VariablecompanyID = await page.evaluate(() => {
 });
 await page.locator('//span[normalize-space()=\'date\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 550)
+await page.mouse.move(600, 550);
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'text input\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 570)
+await page.mouse.move(600, 570);
 await page.mouse.up();
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariabletextinputID = await page.evaluate(() => {
@@ -669,26 +669,26 @@ const VariabletextinputID = await page.evaluate(() => {
 });
 await page.locator('//span[normalize-space()=\'checkbox\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 600)
+await page.mouse.move(600, 600);
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('span').filter({ hasText: 'dropdown' }).hover();
 await page.mouse.down();
-await page.mouse.move(800, 300)
+await page.mouse.move(800, 300);
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'radio button\']').hover();
 await page.mouse.down();
-await page.mouse.move(800, 400)
+await page.mouse.move(800, 400);
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'image\']').hover();
 await page.mouse.down();
-await page.mouse.move(800, 500)
+await page.mouse.move(800, 500);
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
-await page.mouse.move(800, 470)
+await page.mouse.move(800, 470);
 await page.mouse.up();
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariableemailID = await page.evaluate(() => {
@@ -716,7 +716,7 @@ await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'vi
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.locator('//span[normalize-space()=\'signature\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 300)
+await page.mouse.move(600, 300);
 await page.mouse.up();
 try {
   const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
@@ -748,15 +748,15 @@ try {
 }
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 360)
+await page.mouse.move(600, 360);
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'initials\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 420)
+await page.mouse.move(600, 420);
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'name\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 470)
+await page.mouse.move(600, 470);
 await page.mouse.up();
 //here we are copying the widget id to use while signing the document through the guest signatrue flow
 const Signer1VariablenameID = await page.evaluate(() => {
@@ -770,7 +770,7 @@ const Signer1VariablenameID = await page.evaluate(() => {
 });
 await page.locator('//span[normalize-space()=\'job title\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 500)
+await page.mouse.move(600, 500);
 await page.mouse.up();
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const Signer1VariablejobtitleID = await page.evaluate(() => {
@@ -784,7 +784,7 @@ const Signer1VariablejobtitleID = await page.evaluate(() => {
 });
 await page.locator('//span[normalize-space()=\'company\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 520)
+await page.mouse.move(600, 520);
 await page.mouse.up();
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const Signer1VariablecompanyID = await page.evaluate(() => {
@@ -798,11 +798,11 @@ const Signer1VariablecompanyID = await page.evaluate(() => {
 });
 await page.locator('//span[normalize-space()=\'date\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 550)
+await page.mouse.move(600, 550);
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'text input\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 570)
+await page.mouse.move(600, 570);
 await page.mouse.up();
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const Signer1VariabletextinputID = await page.evaluate(() => {

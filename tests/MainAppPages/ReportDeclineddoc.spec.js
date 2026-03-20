@@ -33,11 +33,11 @@ test('Verify that revoked document from the In Progress document is available on
   await page.mouse.move(600, 300)
   await page.mouse.up();
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.getByRole('button', { name: 'Send' }).click();
-  await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
+  await page.locator("//div[i[contains(@class,'fa-envelope')] and .//span[text()='Send to Email']]").click();
+    await page.getByRole('button', { name: 'Send' }).click();
   await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-  await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
-  await page.getByRole('button', { name: 'No' }).click();
+  await expect(page.locator('#selectSignerModal')).toContainText('Subsequent signers will get email(s) once you sign the document.');
+  await page.locator("//dialog[@id='selectSignerModal']//button[normalize-space()='No']").click();
   // Wait up to 90 seconds for the text to appear
   await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
   // Now assert the text
@@ -49,6 +49,7 @@ test('Verify that revoked document from the In Progress document is available on
     await page.getByPlaceholder('Reason (optional)').fill('Invalid document');
     await page.getByRole('button', { name: 'Yes' }).click();
     await expect(page.locator('#renderList')).toContainText('Record revoked successfully!');
+
     await page.locator('//span[@class="flex items-center mb-0.5" and text()="Documents"]').click();
     await page.getByRole('menuitem', { name: 'Declined' }).click();
     await expect(page.locator('#renderList')).toContainText('Declined documents');
@@ -66,7 +67,8 @@ await expect(page.locator('.p-2 > .font-semibold').first()).toContainText('Offer
  await page.locator('//div[@role="button"and @title="View"]').first().click();
  await expect(page.getByRole('heading')).toContainText('Document declined');
  await expect(page.getByRole('dialog')).toContainText('You can not sign this document as it has been declined/revoked. Declined/revoked by : pravin+testaccount@nxglabs.in Reason : Invalid document');
-    await page.getByRole('menuitem', { name: 'Declined' }).click();
+    await page.locator("//div[contains(@class,'flex-none')]//button[i[contains(@class,'fa-bars')]]").click();
+ await page.getByRole('menuitem', { name: 'Declined' }).click();
     await expect(page.locator('#renderList')).toContainText('Declined documents');
  await page.locator('//div[@role="button"and @title="Delete"]').first().click();
  await expect(page.getByRole('heading')).toContainText('Delete document');
