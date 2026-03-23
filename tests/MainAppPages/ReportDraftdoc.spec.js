@@ -57,7 +57,7 @@ try {
   console.log("Element not found or not interactable, continuing execution.");
  
 }
-
+await page.locator("//div[contains(@class,'flex-none')]//button[i[contains(@class,'fa-bars')]]").click();
 await page.getByRole('button', { name: ' Documents' }).click();
 await page.getByRole('menuitem', { name: 'Drafts' }).click();
 // Wait up to 90 seconds for the text to appear
@@ -134,6 +134,7 @@ try {
   console.log("Element not found or not interactable, continuing execution.");
  
 }
+await page.locator("//div[contains(@class,'flex-none')]//button[i[contains(@class,'fa-bars')]]").click();
 await page.getByRole('button', { name: ' Documents' }).click();
 await page.getByRole('menuitem', { name: 'Drafts' }).click();
 // Wait up to 90 seconds for the text to appear
@@ -193,8 +194,6 @@ try {
  await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('initials',600, 450);
  await commonSteps.ClickSavebuttonSignerModal();
- await commonSteps.dragAndDrop('date',600, 500)
-await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.clickFinishButtonOnPlaceholder();
  await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
    await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');

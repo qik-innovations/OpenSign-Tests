@@ -3,5 +3,6 @@ export const gmailConfig = {
   password: "ffeq marb jddn sgep",
   host: "imap.gmail.com",
   port: 993,
-  tls: true
+  tls: true,
+  expectedTo: ""
 };

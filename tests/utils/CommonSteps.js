@@ -180,7 +180,7 @@ async dragAndDropSignatureWidget(WidgetName,x, y) {
     // First drag and drop
     await this.dragAndDrop(WidgetName, x, y);
     try {     
-const rowLocator = page.locator(`//div[@class='signYourselfBlock react-draggable']//div[@class='font-medium' and text()='signature']`);
+const rowLocator = page.locator(`//div[@class='signYourselfBlock react-draggable']//div[@class='font-medium' and text()='signature-1']`);
       for (let i = 0; i < 5; i++) {
         if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
           console.log("Signature widget dragged and dropped successfully.");
@@ -259,7 +259,7 @@ async drawSignature() {
   }
   async clickSignatureWidgetAndDraw() {
     const page = this.page;
-    await page.locator('//div[@id="container"]//div[text()="signature"]').click();
+    await page.locator('//div[@id="container"]//div[text()="signature-1"]').click();
     console.log('Signature widget clicked');
     await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').click();
@@ -284,7 +284,7 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
 
   async clickStampWidgetAndUpload() {
     const page = this.page;
-    await page.locator('//div[@id="container"]//div[text()="stamp"]').click();
+    await page.locator('//div[@id="container"]//div[text()="stamp-1"]').click();
     console.log('Stamp widget clicked on the placeholder.');
     await this.uploadStamp();
   }
@@ -303,7 +303,7 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
 
   async clickInitialsWidgetAndDraw() {
     const page = this.page;
-    await page.locator('//div[@id="container"]//div[text()="initials"]').click();
+    await page.locator('//div[@id="container"]//div[text()="initials-1"]').click();
     console.log('Initials widget clicked on the placeholder.');
     await this.drawInitials();
   }
@@ -328,7 +328,7 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
 
   async clickImageWidgetAndUpload() {
     const page = this.page;
-    await page.locator('//div[contains(text(),"image")]').click();
+    await page.locator('//div[contains(text(),"image-1")]').click();
     console.log('Image widget clicked on the placeholder.');
     await this.uploadImage();
   }

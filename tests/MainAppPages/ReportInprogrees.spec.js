@@ -33,8 +33,7 @@ await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
 try {
-  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
-
+ const rowLocator = page.locator('//div[contains(@class,"signYourselfBlock")]//div[contains(@class,"font-medium") and normalize-space(.)="signature-1"]');
   for (let i = 0; i < 5; i++) { // Retry up to 5 times
       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
       
@@ -67,23 +66,19 @@ await page.locator('//span[normalize-space()=\'initials\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 420)
 await page.mouse.up();
-await page.getByRole('button', { name: 'Next' }).click();
-//await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
-await page.getByRole('button', { name: 'Send' }).click();
-await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
-await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
-  await page.getByRole('button', { name: 'No' }).click();
- // Wait up to 90 seconds for the text to appear
-await page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]').waitFor({ state: 'visible', timeout: 90000 });
-// Now assert the text
-
+  await page.getByRole('button', { name: 'Next' }).click();
+   await page.locator("//div[i[contains(@class,'fa-envelope')] and .//span[text()='Send to Email']]").click();
+  await page.getByRole('button', { name: 'Send' }).click();
+  await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
+  await expect(page.locator('#selectSignerModal')).toContainText('Subsequent signers will get email(s) once you sign the document.');
+  await page.locator("//dialog[@id='selectSignerModal']//button[normalize-space()='No']").click();
+  await page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]')).toContainText('In-progress documents');
   await page.locator('//div[@role = \'button\' and @class=\'op-btn-secondary op-btn op-btn-sm mr-1\']').first().click();
 await commonSteps.validateAndAcceptTerms();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-  await page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium" and text()="signature"]').click();
+  await page.locator('//div[contains(@class,"select-none-cls")]//div[contains(@class,"font-medium") and normalize-space(.)="signature-1"]').click();
   // Optionally save changes
 await commonSteps.clickNextButtonInSignerModal();
 await commonSteps.uploadStamp();
@@ -127,7 +122,7 @@ await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
 try {
-  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+   const rowLocator = page.locator('//div[contains(@class,"signYourselfBlock")]//div[contains(@class,"font-medium") and normalize-space(.)="signature-1"]');
 
   for (let i = 0; i < 5; i++) { // Retry up to 5 times
       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -205,16 +200,13 @@ await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
 await page.mouse.move(800, 400)
 await page.mouse.up();
-await page.getByRole('button', { name: 'Next' }).click();
-//await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
-await page.getByRole('button', { name: 'Send' }).click();
-await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
-await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
-await page.getByRole('button', { name: 'No' }).click();
-// Wait up to 90 seconds for the text to appear
-await page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]').waitFor({ state: 'visible', timeout: 90000 });
-// Now assert the text
+ await page.getByRole('button', { name: 'Next' }).click();
+   await page.locator("//div[i[contains(@class,'fa-envelope')] and .//span[text()='Send to Email']]").click();
+  await page.getByRole('button', { name: 'Send' }).click();
+  await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
+  await expect(page.locator('#selectSignerModal')).toContainText('Subsequent signers will get email(s) once you sign the document.');
+  await page.locator("//dialog[@id='selectSignerModal']//button[normalize-space()='No']").click();
+  await page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]')).toContainText('In-progress documents');
 await expect(page.locator('thead')).toContainText('Title');
   await expect(page.locator('thead')).toContainText('Note');
@@ -297,8 +289,7 @@ await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
 try {
-  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
-
+const rowLocator = page.locator('//div[contains(@class,"signYourselfBlock")]//div[contains(@class,"font-medium") and normalize-space(.)="signature-1"]');
   for (let i = 0; i < 5; i++) { // Retry up to 5 times
       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
       
@@ -325,16 +316,14 @@ try {
  
 }
 await page.getByRole('button', { name: 'Next' }).click();
-//await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
-await page.getByRole('button', { name: 'Send' }).click();
-await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
-await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
-await page.getByRole('button', { name: 'No' }).click();
-// Wait up to 90 seconds for the text to appear
-await page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]').waitFor({ state: 'visible', timeout: 90000 });
-// Now assert the text
+   await page.locator("//div[i[contains(@class,'fa-envelope')] and .//span[text()='Send to Email']]").click();
+  await page.getByRole('button', { name: 'Send' }).click();
+  await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
+  await expect(page.locator('#selectSignerModal')).toContainText('Subsequent signers will get email(s) once you sign the document.');
+  await page.locator("//dialog[@id='selectSignerModal']//button[normalize-space()='No']").click();
+  await page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]')).toContainText('In-progress documents');
+await expect(page.locator('thead')).toContainText('Title');
 await page.locator('.text-base-content > .text-base-content').first().click();
 await page.locator('//span[contains(text(),"Rename")]').click();
 const Renameddoctitle =await commonSteps.fillDocumentTitleWithTimestamp('Inprogress Doc rename');
@@ -384,8 +373,7 @@ await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
 try {
-  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
-
+  const rowLocator = page.locator('//div[contains(@class,"signYourselfBlock")]//div[contains(@class,"font-medium") and normalize-space(.)="signature-1"]');
   for (let i = 0; i < 5; i++) { // Retry up to 5 times
       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
       
@@ -412,15 +400,12 @@ try {
  
 }
 await page.getByRole('button', { name: 'Next' }).click();
-//await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
-await page.getByRole('button', { name: 'Send' }).click();
-await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
-await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
-await page.getByRole('button', { name: 'No' }).click();
-// Wait up to 90 seconds for the text to appear
-await page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]').waitFor({ state: 'visible', timeout: 90000 });
-// Now assert the text
+   await page.locator("//div[i[contains(@class,'fa-envelope')] and .//span[text()='Send to Email']]").click();
+  await page.getByRole('button', { name: 'Send' }).click();
+  await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
+  await expect(page.locator('#selectSignerModal')).toContainText('Subsequent signers will get email(s) once you sign the document.');
+  await page.locator("//dialog[@id='selectSignerModal']//button[normalize-space()='No']").click();
+  await page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]')).toContainText('In-progress documents');
 await page.locator('.text-base-content > .text-base-content').first().click();
 await page.locator('//span[contains(text(),"Resend")]').click();
@@ -462,7 +447,7 @@ await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
 try {
-  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+const rowLocator = page.locator('//div[contains(@class,"signYourselfBlock")]//div[contains(@class,"font-medium") and normalize-space(.)="signature-1"]');
 
   for (let i = 0; i < 5; i++) { // Retry up to 5 times
       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -490,15 +475,12 @@ try {
  
 }
 await page.getByRole('button', { name: 'Next' }).click();
-//await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
-await page.getByRole('button', { name: 'Send' }).click();
-await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
-await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
-await page.getByRole('button', { name: 'No' }).click();
-// Wait up to 90 seconds for the text to appear
-await page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]').waitFor({ state: 'visible', timeout: 90000 });
-// Now assert the text
+   await page.locator("//div[i[contains(@class,'fa-envelope')] and .//span[text()='Send to Email']]").click();
+  await page.getByRole('button', { name: 'Send' }).click();
+  await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
+  await expect(page.locator('#selectSignerModal')).toContainText('Subsequent signers will get email(s) once you sign the document.');
+  await page.locator("//dialog[@id='selectSignerModal']//button[normalize-space()='No']").click();
+  await page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]')).toContainText('In-progress documents');
 await page.locator('.text-base-content > .text-base-content').first().click();
 await page.locator('//span[contains(text(),"Revoke")]').click();

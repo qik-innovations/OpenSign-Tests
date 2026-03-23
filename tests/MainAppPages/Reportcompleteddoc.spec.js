@@ -64,6 +64,7 @@ try {
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 await page.locator('//button[normalize-space()="Close"]').click();
+await page.locator("//div[contains(@class,'flex-none')]//button[i[contains(@class,'fa-bars')]]").click();
 await page.getByRole('button', { name: ' Documents' }).click();
 await page.getByRole('menuitem', { name: 'Completed' }).click();
 // Wait up to 90 seconds for the text to appear
@@ -188,6 +189,7 @@ try {
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
 await page.locator('//button[normalize-space()="Close"]').click();
+await page.locator("//div[contains(@class,'flex-none')]//button[i[contains(@class,'fa-bars')]]").click();
 await page.getByRole('button', { name: ' Documents' }).click();
 await page.getByRole('menuitem', { name: 'Completed' }).click();
 // Wait up to 90 seconds for the text to appear
