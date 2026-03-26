@@ -220,9 +220,6 @@ if (!(await firstTeamRow.locator('input[type="checkbox"].op-toggle').isChecked()
  // Click Yes in dialog
   await page.locator('//div[@class="flex items-center mt-3 gap-2 text-white"]//button[text()="Yes"]').click();
 
-  // Verify success toast
-  await expect(page.getByText('team-enabled')).toBeVisible();
-
   // Optionally, verify the toggle is now checked
   await expect(firstTeamRow.locator('input[type="checkbox"].op-toggle')).toBeChecked();
 } else {

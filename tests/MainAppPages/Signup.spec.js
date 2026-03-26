@@ -233,9 +233,11 @@ await expect(professionalCard).toContainText('Embedded signing');
   //await page.locator(locators.Verify_now_Button).click();
   await page.getByRole('button', { name: 'Proceed' }).click();
   // ---------- Step 4: Fill Address ----------
-  await page.getByLabel('Address', { exact: true }).fill('120 wood street');
-  await page.getByLabel('City').fill('San Francisco');
-  await page.getByLabel('ZIP Code').fill('34554');
+
+await page.locator('#billing_street').fill('120 wood street');
+await page.selectOption('[name="billing_state_code"]', { label: 'California' });
+  await page.locator('#billing_city').fill('San Francisco');
+  await page.locator('#billing_zip').fill('34554');
 
   await page.getByRole('button', { name: 'Review Order' }).click();
   await page.getByRole('button', { name: 'Proceed' }).click();
@@ -406,9 +408,10 @@ await expect(TeamsCard).toContainText('Mobile app (coming soon)');
   //await page.locator(locators.Verify_now_Button).click();
   await page.getByRole('button', { name: 'Proceed' }).click();
   // Fill address details
-  await page.getByLabel('Address', { exact: true }).fill('120 wood street');
-  await page.getByLabel('City').fill('San Francisco');
-  await page.getByLabel('ZIP Code').fill('34554');
+await page.locator('#billing_street').fill('120 wood street');
+await page.selectOption('[name="billing_state_code"]', { label: 'California' });
+  await page.locator('#billing_city').fill('San Francisco');
+  await page.locator('#billing_zip').fill('34554');
   await page.getByRole('button', { name: 'Review Order' }).click();
   await page.getByRole('button', { name: 'Proceed' }).click();
   // Wait for Stripe iframes to load

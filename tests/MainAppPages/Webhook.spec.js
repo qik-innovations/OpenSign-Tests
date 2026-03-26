@@ -18,9 +18,9 @@ test('Verify that free user cannot add the live webhook.', async ({ page }) => {
       console.error(`Page title is incorrect. Expected: "Webhook - OpenSign™", Got: "${title}"`);
     }
     await page.getByText('Live Webhook:').click();
-  await page.locator('li').filter({ hasText: 'Live Webhook: _____Add webhook' }).getByRole('button').click();
-  await page.getByText('Upgrade now to set webhook1').click();
-  await expect(page.getByText('Upgrade now to set webhook1')).toBeVisible();
+  await page.locator("(//button[text()='Add webhook'])[1]").click();
+  await page.getByText('Upgrade now to set webhook').click();
+  await expect(page.getByText('Upgrade now to set webhook')).toBeVisible();
   await page.getByLabel('Close').click();
 });
 test('Verify that free user can add the sandbox webhook.', async ({ page }) => {
@@ -47,7 +47,8 @@ test('Verify that free user can add the sandbox webhook.', async ({ page }) => {
     } else {
       console.error(`Page title is incorrect. Expected: "Webhook - OpenSign™", Got: "${title1}"`);
     }
-  await page.locator('li').filter({ hasText: 'Sandbox Webhook: _____Add' }).getByRole('button').click();
+
+await page.locator('div').filter({ hasText: /^Sandbox Webhook:/ }).getByRole('button', { name: 'Add webhook' }).click();
   await page.getByPlaceholder('Enter webhook url').click();
   await expect(page.getByRole('heading', { name: 'Add webhook' })).toBeVisible();
   await page.getByText('Sandbox Webhook', { exact: true }).click();

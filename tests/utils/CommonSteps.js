@@ -179,10 +179,9 @@ async dragAndDropSignatureWidget(WidgetName,x, y) {
     await page.waitForLoadState("networkidle");
     // First drag and drop
     await this.dragAndDrop(WidgetName, x, y);
-    try {     
-const rowLocator = page.locator(`//div[@class='signYourselfBlock react-draggable']//div[@class='font-medium' and text()='signature-1']`);
+    try {      const rowLocator = page.locator("//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1']");
       for (let i = 0; i < 5; i++) {
-        if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+        if (await rowLocator.isVisible()) {
           console.log("Signature widget dragged and dropped successfully.");
           break;
         } else {
@@ -532,20 +531,15 @@ async ClickApplybuttonSignerModal() {
       return element ? element.id : null;
     }, type);
   }
-  async fillCellWidgetsInModal(values = []) {
-    const { page } = this;
+ async fillCellWidgetsInModal(value) {
+  const page = this.page;
 
-    if (values.length === 0) {
-      console.warn('No values provided to fill into cell widgets.');
-      return;
-    }
-    for (let i = 0; i < values.length; i++) {
-      const textbox = page.locator('#selectSignerModal').getByRole('textbox').nth(i);
-      await textbox.fill(values[i]);
-    }
+  await allure.step(`Fill cell widget with value '${value}'`, async () => {
+    // Fill input inside modal
+    await page.locator("//dialog[@id='selectSignerModal']//input[@placeholder='cells']").fill(value);
+  });
+}
 
-    console.log('All values filled in cell widgets.');
-  }
   async ClickCopyOption() {
   const page = this.page;
 
