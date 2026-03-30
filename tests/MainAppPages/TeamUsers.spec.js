@@ -25,7 +25,7 @@ test('Verify admin user can add a team user if user has a Teams plan', async ({ 
   }
 
   // Step 4: Handle 'Proceed' button if present
-  const proceedButton = page.locator("//form//button[@class='op-btn op-btn-primary w-full' and normalize-space(text())='Proceed']");
+  const proceedButton = page.locator("//form//button[@class='op-btn op-btn-primary w-full' and normalize-space(text())='Proceed']").waitFor({ timeout: 90000 });
   if (await proceedButton.count() > 0) {
     await proceedButton.click();
     console.log("Clicked 'Proceed' button");
