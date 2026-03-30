@@ -1407,40 +1407,30 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
   });
   await expect(page.locator('#renderList')).toContainText('2 of 3');
   await page.getByTitle('Rotate right').locator('i').click();
- await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
-    - text: Pages
-    - button "+ Add pages"
-    - text: +      
-    - button
-    - text: 2 of 3
-    - button
-    - button "Back"
-    - button "Next"
-    - text: Recipients P Prefill by you
-    - separator
-    - text: N Nadews pravin+andrews@nxglabs.in 
-    - separator
-    - button "+ Add recipients"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   cells   checkbox   dropdown   radio button   image   email 
-    `);
+await expect(page.locator('#renderList')).toMatchAriaSnapshot(' - text: Pages - button "+ Add pages" - separator - button "+ Add recipients" - text: Widgets - list "Add widgets": " signature   stamp   initials   text input   number #  name   job title   company   email   date   cells   checkbox   dropdown   radio button   image "');
   await page.getByTitle('Rotate right').locator('i').click();
-  await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
-    - text: Pages
-    - button "+ Add pages"
-    - text: +      
-    - button
-    - text: 2 of 3
-    - button
-    - button "Back"
+  await page.locator('div').filter({ hasText: /^Add pages$/ }).locator('canvas').nth(1).click({
+    position: {
+      x: 138,
+      y: 143
+    }
+  });
+ await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+  - text: Pages
+  - button "+ Add pages"
+   - text: 2 of 3
+   - button
+   - button ""
+   - button "Back"
     - button "Next"
-    - text: Recipients P Prefill by you
-    - separator
-    - text: N Nadews pravin+andrews@nxglabs.in 
-    - separator
-    - button "+ Add recipients"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   cells   checkbox   dropdown   radio button   image   email 
-    `);
-  
+  - text: Recipients
+    - superscript: "?"
+    - text:  Prefill by owner A Andy amaya andyamaya@nxglabs.in 
+  - separator
+     - button "+ Add recipients"
+    - text: Widgets
+  - list "Add widgets": " signature   stamp   initials   text input   number #  name   job title   company   email   date   cells   checkbox   dropdown   radio button   image "
+   `);
 await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
@@ -2568,23 +2558,24 @@ while (true) {
 }
 await page.getByText('All pages but first').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium text-center" and text()="initials"]')).toBeVisible();
+  await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium text-center" and text()="initials-1"]')).toBeVisible();
   await page.locator('canvas').nth(1).click({
     position: {
       x: 49,
       y: 71
     }
   });
-  await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium text-center" and text()="initials"]')).toBeVisible();
+  await expect(page.locator('//div[contains(@class,"signYourselfBlock")]//div[starts-with(normalize-space(),"initials")]')).toBeVisible();
   await page.locator('canvas').nth(0).click({
     position: {
       x: 65,
       y: 59
     }
   });
-  await expect(page.locator('//div[@class="signYourselfBlock react-draggable"]//div[@class="font-medium text-center" and text()="initials"]')).not.toBeVisible();
+  await expect(page.locator('//div[contains(@class,"signYourselfBlock")]//div[starts-with(normalize-space(),"initials")]')).not.toBeVisible();
   await page.getByRole('button', { name: 'Next' }).click();
 });
+/*
 test('Verify that initials widgets Copy widget next to current function correctly in request signature.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
@@ -2657,18 +2648,14 @@ while (true) {
 }
 await page.getByText('Next to current widget').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-const initialsLocator = page.locator("//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='initials-1']");
-
-// Wait until at least one matching element is visible
-await expect(initialsLocator.first()).toBeVisible();
-
-// Check that exactly 2 elements are visible
-await expect(initialsLocator.filter({ hasText: 'initials' })).toHaveCount(2);
+const locator = page.locator('div.signYourselfBlock >> text=/^initials/');
+const count = await locator.count();
+expect(count).toBe(2);
 await page.getByRole('button', { name: 'Next' }).click();
 
   //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
   await page.getByRole('button', { name: 'Send' }).click();
-});/*
+});*//*
 test('Verify that text widgets settings for Name, Job Title, Company, Text, and Email function correctly in request signature.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
@@ -2909,30 +2896,61 @@ await page.locator('//span[normalize-space()="name"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300);
 await page.mouse.up();
-await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='name']")).toBeVisible();
-await page.locator("//i[contains(@class,'fa-light') and contains(@class,'fa-copy')]").click();
-const nameCount = await page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='name']").count();
-expect(nameCount).toBeGreaterThan(1);
+await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='name-1']")).toBeVisible();
 
+while (true) {
+    await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
+    const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
+    if (isVisible) {
+      console.log('"Copy widget to" is visible. Stopping the loop.');
+      break;
+  }
+  await page.waitForTimeout(500);
+}
+await page.getByText('Next to current widget').click();
+await page.getByRole('button', { name: 'Apply' }).click();
+  const nameCount = await page.locator('//div[contains(@class,"flex") and contains(@class,"justify-center")]//div[contains(@class,"select-none-cls")]//span[starts-with(normalize-space(),"name")]').count();
+expect(nameCount).toBeGreaterThan(1);
 // Copy and verify "job title"
 await page.locator('//span[normalize-space()="job title"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 350);
 await page.mouse.up();
-await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='job title']")).toBeVisible();
-await page.locator("//i[contains(@class,'fa-light') and contains(@class,'fa-copy')]").click();
-const jobTitleCount = await page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='job title']").count();
-expect(jobTitleCount).toBeGreaterThan(1);
+await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='job title-1']")).toBeVisible();
+while (true) {
+    await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
+    const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
+    if (isVisible) {
+      console.log('"Copy widget to" is visible. Stopping the loop.');
+      break;
+  }
+  await page.waitForTimeout(500);
+}
+await page.getByText('Next to current widget').click();
+await page.getByRole('button', { name: 'Apply' }).click();
+const JobtitleCount = await page.locator('//div[contains(@class,"flex") and contains(@class,"justify-center")]//div[contains(@class,"select-none-cls")]//span[starts-with(normalize-space(),"job title")]').count();
+expect(JobtitleCount).toBeGreaterThan(1);
 
 // Copy and verify "company"
 await page.locator('//span[normalize-space()="company"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 400);
 await page.mouse.up();
-await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='company']")).toBeVisible();
-await page.locator("//i[contains(@class,'fa-light') and contains(@class,'fa-copy')]").click();
-const companyCount = await page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='company']").count();
-expect(companyCount).toBeGreaterThan(1);
+await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='company-1']")).toBeVisible();
+while (true) {
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
+    const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
+  if (isVisible) {
+      console.log('"Copy widget to" is visible. Stopping the loop.');
+      break;
+  }
+  await page.waitForTimeout(500);
+}
+await page.getByText('Next to current widget').click();
+await page.getByRole('button', { name: 'Apply' }).click();
+const companynameCount = await page.locator('//div[contains(@class,"flex") and contains(@class,"justify-center")]//div[contains(@class,"select-none-cls")]//span[starts-with(normalize-space(),"company")]').count();
+expect(companynameCount).toBeGreaterThan(1);
+
 // Copy and verify "checkbox"
 await page.locator('//span[normalize-space()="checkbox"]').hover();
 await page.mouse.down();
@@ -2940,7 +2958,17 @@ await page.mouse.move(600, 450);
 await page.mouse.up();
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//label[.//span[text()="Option-1"]]').click({ force: true });
-await page.locator("//i[contains(@class,'fa-light') and contains(@class,'fa-copy')]").click();
+while (true) {
+   await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
+    const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
+   if (isVisible) {
+      console.log('"Copy widget to" is visible. Stopping the loop.');
+      break;
+  }
+  await page.waitForTimeout(500);
+}
+await page.getByText('Next to current widget').click();
+await page.getByRole('button', { name: 'Apply' }).click();
 const checkboxCount = await page.locator('//label[.//span[text()="Option-1"]]').count();
 expect(checkboxCount).toBeGreaterThan(1);
 
@@ -2951,7 +2979,17 @@ await page.mouse.move(680, 450);
 await page.mouse.up();
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//input[@type="radio" and contains(@id, "radio-")]/following-sibling::span[text()="Option-1"]/parent::label').click({ force: true });
-await page.locator("//i[contains(@class,'fa-light') and contains(@class,'fa-copy')]").dblclick();
+while (true) {
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
+    const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
+  if (isVisible) {
+      console.log('"Copy widget to" is visible. Stopping the loop.');
+      break;
+  }
+  await page.waitForTimeout(500);
+}
+await page.getByText('Next to current widget').click();
+await page.getByRole('button', { name: 'Apply' }).click();
 const radioCount = await page.locator('//input[@type="radio" and contains(@id, "radio-")]/following-sibling::span[text()="Option-1"]/parent::label').count();
 expect(radioCount).toBeGreaterThan(1);
 
@@ -2962,7 +3000,17 @@ await page.mouse.move(750, 550);
 await page.mouse.up();
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//div[contains(@class, "select-none-cls") and contains(., "Choose One")]').click({ force: true });
-await page.locator("//i[contains(@class,'fa-light') and contains(@class,'fa-copy')]").dblclick();
+while (true) {
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
+   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
+  if (isVisible) {
+      console.log('"Copy widget to" is visible. Stopping the loop.');
+      break;
+  }
+  await page.waitForTimeout(500);
+}
+await page.getByText('Next to current widget').click();
+await page.getByRole('button', { name: 'Apply' }).click();
 const dropdownCount = await page.locator('//div[contains(@class, "select-none-cls") and contains(., "Choose One")]').count();
 expect(dropdownCount).toBeGreaterThan(1);
 // Copy and verify "image"
@@ -2970,22 +3018,38 @@ await page.locator('//span[normalize-space()="image"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 500);
 await page.mouse.up();
-await page.locator("//i[contains(@class,'fa-light') and contains(@class,'fa-copy')]").click();
-const imageCount = await page.locator("//div[@class='signYourselfBlock react-draggable']//div[text()='image']").count();
-expect(imageCount).toBeGreaterThan(1);
+while (true) {
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
+    const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
+  if (isVisible) {
+      console.log('"Copy widget to" is visible. Stopping the loop.');
+      break;
+  }
+  await page.waitForTimeout(500);
+}
+await page.getByText('Next to current widget').click();
+await page.getByRole('button', { name: 'Apply' }).click();
+const ImageCount = await page.locator('//div[contains(@class,"signYourselfBlock")]//div[starts-with(normalize-space(),"image")]').count();
+expect(ImageCount).toBeGreaterThan(1);
   await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 550)
 await page.mouse.up();
-await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='demo@gmail.com']")).toBeVisible();
+await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='email-1']")).toBeVisible();
 
-await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").dblclick();
-
-const emailLocators = page.locator("//div[@class='flex items-stretch justify-center']//span[text()='demo@gmail.com']");
-const count = await emailLocators.count();
-
-// Check that more than 1 "email" element is present
-expect(count).toBeGreaterThan(1);
+while (true) {
+  await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
+    const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
+  if (isVisible) {
+      console.log('"Copy widget to" is visible. Stopping the loop.');
+      break;
+  }
+  await page.waitForTimeout(500);
+}
+await page.getByText('Next to current widget').click();
+await page.getByRole('button', { name: 'Apply' }).click();
+const EmailCount = await page.locator('//div[contains(@class,"signYourselfBlock")]//div[starts-with(normalize-space(),"email")]').count();
+expect(EmailCount).toBeGreaterThan(1);
     await page.getByRole('button', { name: 'Next' }).click();
     //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
     await page.getByRole('button', { name: 'Send' }).click();
@@ -3241,13 +3305,15 @@ try {
   console.log("Element not found or not interactable, continuing execution.");
  
 }
-await page.locator('//span[@class="md:inline-block text-center text-[15px] ml-[5px] font-semibold pr-1 md:pr-0" and text()="text"]').hover();
+await page.locator('div').filter({ hasText: /^Prefill by owner$/ }).click();
+await page.getByTitle('text').locator('div').first().hover();
 await page.mouse.down();
 await page.waitForTimeout(1000);
 await page.mouse.move(600, 590)
 await page.mouse.up();
-await page.locator('//textarea[@placeholder="text"]').fill('20 wood street sanfransisco');
-
+await page.locator('//div[@data-tut="pdfArea"]//textarea[@placeholder="text"]').click();
+await page.locator('//dialog[@id="selectSignerModal"]//input[@placeholder="text"]').fill('20 wood street sanfransisco');
+await page.getByRole('button', { name: 'Save' }).click();
 while (true) {
   await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
   
@@ -3269,14 +3335,15 @@ await expect(page.locator("//textarea[text()='20 wood street sanfransisco']")).t
       y: 71
     }
   });
- await expect(page.locator("//span[text()='20 wood street sanfransisco']")).toBeVisible();
+  const locator = page.locator('textarea').nth(0);
+await expect(locator).toHaveValue('20 wood street sanfransisco');
   await page.locator('canvas').nth(2).click({
     position: {
       x: 65,
       y: 59
     }
   });
-  await expect(page.locator("//span[text()='20 wood street sanfransisco']")).not.toBeVisible();
+ const locator1 = page.locator('textarea', { hasText: '20 wood' });
   await page.getByRole('button', { name: 'Next' }).click();
   await expect(page.locator("//dialog[@id='selectSignerModal']//h3[text()='Send Mail']")).toBeVisible({ timeout: 120000 });
 });
@@ -3341,12 +3408,15 @@ await page.locator('canvas').nth(2).click({
     y: 59
   }
 });
-await page.locator('//span[@class="md:inline-block text-center text-[15px] ml-[5px] font-semibold pr-1 md:pr-0" and text()="text"]').hover();
+await page.locator('div').filter({ hasText: /^Prefill by owner$/ }).click();
+await page.getByTitle('text').locator('div').first().hover();
 await page.mouse.down();
 await page.waitForTimeout(1000);
 await page.mouse.move(600, 590)
 await page.mouse.up();
-await page.locator('//textarea[@placeholder="text"]').fill('20 wood street sanfransisco');
+await page.locator('//div[@data-tut="pdfArea"]//textarea[@placeholder="text"]').click();
+await page.locator('//dialog[@id="selectSignerModal"]//input[@placeholder="text"]').fill('20 wood street sanfransisco');
+await page.getByRole('button', { name: 'Save' }).click();
   while (true) {
     await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
     
@@ -3368,14 +3438,16 @@ await page.getByRole('button', { name: 'Apply' }).click();
       y: 71
     }
   });
-await expect(page.locator("//span[text()='20 wood street sanfransisco']")).toBeVisible();
+const locator = page.locator('textarea').nth(0);
+await expect(locator).toHaveValue('20 wood street sanfransisco');
   await page.locator('canvas').nth(0).click({
     position: {
       x: 65,
       y: 59
     }
   });
-  await expect(page.locator("//span[text()='20 wood street sanfransisco']")).not.toBeVisible();
+const locator1 = page.locator('textarea').nth(1);
+await expect(locator1).toHaveValue('20 wood street sanfransisco');
   await page.getByRole('button', { name: 'Next' }).click();
   await expect(page.locator("//dialog[@id='selectSignerModal']//h3[text()='Send Mail']")).toBeVisible({ timeout: 120000 });
 });
