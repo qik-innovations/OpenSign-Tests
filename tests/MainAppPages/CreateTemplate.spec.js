@@ -381,7 +381,7 @@ await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
 try {
-  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature-1"]');
 
   for (let i = 0; i < 5; i++) { // Retry up to 5 times
       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -447,7 +447,7 @@ await page.waitForLoadState("networkidle");
   await page.mouse.move(600, 300)
   await page.mouse.up();
   try {
-    const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+    const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature-1"]');
   
     for (let i = 0; i < 5; i++) { // Retry up to 5 times
         if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -525,7 +525,7 @@ await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
 try {
-  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature-1"]');
 
   for (let i = 0; i < 5; i++) { // Retry up to 5 times
       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -603,9 +603,8 @@ await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'vi
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.waitForLoadState("networkidle");
 await expect(page.locator('#renderList')).toContainText('1 of 1');
-  await page.locator('#container div').first().click();
   const fileChooserPromise2 = page.waitForEvent('filechooser');
-  await page.getByTitle('Add pages').nth(1).click();
+  await page.getByRole('button', { name: '+ Add pages' }).click();
   const fileChooser2 = await fileChooserPromise2;
 await fileChooser2.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
   await expect(page.locator('#renderList')).toContainText('1 of 4');
@@ -636,7 +635,7 @@ await fileChooser2.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_
   await page.mouse.move(600, 200)
   await page.mouse.up();
   try {
-    const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+    const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature-1"]');
   
     for (let i = 0; i < 5; i++) { // Retry up to 5 times
         if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
@@ -736,7 +735,7 @@ await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'vi
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.waitForLoadState("networkidle");
 await expect(page.locator('#renderList')).toContainText('1 of 3');
-  await page.locator('#container div').first().click();
+ await page.locator('div').filter({ hasText: /^Add pages$/ }).locator('canvas').nth(1);
   await page.getByTitle('Delete page').locator('i').click();
   await expect(page.getByRole('heading')).toContainText('Delete page');
   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to delete this page?');
@@ -833,7 +832,7 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
     await page.mouse.move(600, 200)
     await page.mouse.up();
     try {
-      const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+      const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature-1"]');
     
       for (let i = 0; i < 5; i++) { // Retry up to 5 times
           if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {

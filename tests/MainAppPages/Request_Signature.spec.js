@@ -1088,11 +1088,10 @@ await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
 await page.getByRole('button', { name: 'Next' }).click();
 await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
-
-await page.locator('//span[@class=" hidden md:block ml-1 " and text()="Copy link"]').click();
+await page.locator('//span[@class="hidden md:block ml-1 " and text()="Copy link"]').click();
 const copiedUrl = await page.locator('//p[@id="copyUrl"]').evaluate(el => el.textContent.trim());
 const page1 = await page.context().newPage();
 const commonStepspage1 = new CommonSteps(page1);
@@ -1101,8 +1100,7 @@ await commonStepspage1.validateAndAcceptTerms();
 await page1.waitForLoadState("networkidle");
 await expect(page1.getByRole('paragraph')).not.toBeVisible();
 await page1.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page1.locator('//div[@id="container"]//div[text()="signature"]').click();
-await commonStepspage1.drawSignature();
+await commonStepspage1.clickSignatureWidgetAndDraw();
 await commonStepspage1.clickDoneButtonInSignerModal();
 await commonStepspage1.clickFinishButtonInSignerModal();
 });
@@ -1128,18 +1126,18 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFo
 await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
 await page.locator('input[name="Name"]').click();
 await page.getByText('Advanced options').click();
-await page.locator('input[name="RedirectUrl"]').fill('https://webhook-test.com/');
+await page.locator('input[name="RedirectUrl"]').fill('https://docs.opensignlabs.com/');
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
 await page.getByRole('button', { name: 'Next' }).click();
 await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 
-await page.locator('//span[@class=" hidden md:block ml-1 " and text()="Copy link"]').click();
+await page.locator('//span[@class="hidden md:block ml-1 " and text()="Copy link"]').click();
 const copiedUrl = await page.locator('//p[@id="copyUrl"]').evaluate(el => el.textContent.trim());
 const page1 = await page.context().newPage();
   const commonStepspage1 = new CommonSteps(page1);
@@ -1148,12 +1146,12 @@ await commonStepspage1.validateAndAcceptTerms();
 await page1.waitForLoadState("networkidle");
 await expect(page1.getByRole('paragraph')).not.toBeVisible();
 await page1.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page1.locator('//div[@id="container"]//div[text()="signature"]').click();
-await commonStepspage1.drawSignature();
+await commonStepspage1.clickSignatureWidgetAndDraw();
 // Optionally save changes
 await commonStepspage1.clickDoneButtonInSignerModal();
 await commonStepspage1.clickFinishButtonInSignerModal();
-
+//validate that the page is redirected to the specified URL after signing the document
+await expect(page1).toHaveURL('https://docs.opensignlabs.com/', { timeout: 90000 });
 });
 test('Verify that the signer can add the widget if the allowed modification set to enabled.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
@@ -1182,11 +1180,11 @@ await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
 await page.getByRole('button', { name: 'Next' }).click();
 await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 
-await page.locator('//span[@class=" hidden md:block ml-1 " and text()="Copy link"]').click();
+await page.locator('//span[@class="hidden md:block ml-1 " and text()="Copy link"]').click();
 const copiedUrl = await page.locator('//p[@id="copyUrl"]').evaluate(el => el.textContent.trim());
 const page1 = await page.context().newPage();
   const commonStepspage1 = new CommonSteps(page1);
@@ -1195,8 +1193,7 @@ await commonStepspage1.validateAndAcceptTerms();
 await page1.waitForLoadState("networkidle");
 await expect(page1.getByRole('paragraph')).not.toBeVisible();
 await page1.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page1.locator('//div[@id="container"]//div[text()="signature"]').click();
-await commonStepspage1.drawSignature();
+await commonStepspage1.clickSignatureWidgetAndDraw();
 // Optionally save changes
 await commonStepspage1.clickDoneButtonInSignerModal();
 await commonStepspage1.clickFinishButtonInSignerModal();
@@ -1228,7 +1225,7 @@ await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
 await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
 await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first().uncheck();
   await page.getByRole('textbox').fill('Signature Draw removed');
@@ -1312,7 +1309,7 @@ await fileChooser2.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_
       y: 49
     }
   });
-commonSteps.dragAndDropSignatureWidget('signature', 600, 170);
+await commonSteps.dragAndDropSignatureWidget('signature', 600, 170);
 await commonSteps.dragAndDrop('stamp',600, 230);
 await commonSteps.dragAndDrop('initials',600, 260);
 await commonSteps.dragAndDrop('name',600, 300);
