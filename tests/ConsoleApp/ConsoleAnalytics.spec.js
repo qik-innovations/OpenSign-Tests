@@ -9,7 +9,7 @@ const PROFILE_NAME = '//div[@id="root"]//p[@class="text-[14px] font-bold text-ba
 const PROFILE_DOMAIN = '//div[@id="root"]//p[@class="cursor-pointer text-[12px] text-base-content mt-2"]';
 const UPGRADE_BUTTON = '//div[@class="relative"]//button[@class="op-btn op-btn-accent shadow-lg"]';
 const PLAN_BADGE = '//div[@id="profile-menu"]//div[@class="cursor-pointer"]//div[1]';
-const DOCUMENTS_SIGNED = '//div[text()="Documents signed"]';
+const DOCUMENTS_COUNT = '//div[text()="Documents count"]';
 const TEMPLATES_COUNT = '//div[text()="Templates count"]';
 const EMAILS_SENT = '//div[text()="Emails sent"]';
 const STORAGE_USED = '//div[text()="Storage used"]';
@@ -55,7 +55,7 @@ test.describe('Console analytics', () => {
     }
     //Validate elements on the Analytics page for PRO plan user
     await expect(page1.locator(PLAN_BADGE)).toContainText('PRO');
-    await expect(page1.locator(DOCUMENTS_SIGNED)).toContainText('Documents signed');
+    await expect(page1.locator(DOCUMENTS_COUNT)).toContainText('Documents count');
     await expect(page1.locator(TEMPLATES_COUNT)).toContainText('Templates count');
     await expect(page1.locator(EMAILS_SENT)).toContainText('Emails sent');
     await expect(page1.locator(GREEN_CHART).first()).toBeVisible();
@@ -85,7 +85,7 @@ test.describe('Console analytics', () => {
     }
 
     await expect(page1.locator(PLAN_BADGE)).toContainText('TEAM');
-    await expect(page1.locator(DOCUMENTS_SIGNED)).toContainText('Documents signed');
+    await expect(page1.locator(DOCUMENTS_COUNT)).toContainText('Documents count');
     await expect(page1.locator(TEMPLATES_COUNT)).toContainText('Templates count');
     await expect(page1.locator(EMAILS_SENT)).toContainText('Emails sent');
     await expect(page1.locator(STORAGE_USED)).toContainText('Storage used', { timeout: 120000 });
