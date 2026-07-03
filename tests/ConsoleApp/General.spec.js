@@ -20,6 +20,35 @@ async function openConsoleGeneral(page) {
   return page1;
 }
 
+function consoleSettingToggle(page, settingName) {
+  return page
+    .locator('#renderList')
+    .locator(`xpath=.//label[contains(normalize-space(.), "${settingName}")]/following-sibling::div//input[@type="checkbox"]`);
+}
+
+async function openPreferences(page) {
+  await page.getByRole('button', { name: /Settings/i }).click();
+  await page.getByRole('menuitem', { name: /Preferences/i }).click();
+  await expect(page.getByRole('heading', { name: /OpenSign™ Preferences ?/i })).toBeVisible({ timeout: 60000 });
+}
+
+async function openEmailPreferences(page) {
+  const emailTab = page.getByRole('tab', { name: /Email/i });
+  await expect(emailTab).toBeVisible({ timeout: 60000 });
+  await emailTab.click();
+  await expect(emailTab).toHaveAttribute('aria-selected', 'true', { timeout: 60000 });
+  await expect(page.getByRole('tabpanel')).toBeVisible({ timeout: 60000 });
+}
+
+async function expectEmailPreferencesGuidance(page) {
+  const panel = page.getByRole('tabpanel');
+  await expect(panel).toContainText(/individual users customize their own email templates/i);
+  await expect(panel).toContainText(/Console/i);
+  await expect(panel).toContainText(/General/i);
+  await expect(panel).toContainText(/company-wide email templates/i);
+  await expect(panel).toContainText(/Mail/i);
+}
+
 test.describe('Console app - General page', () => {
   test('Verify that a free user cannot access the General page and is prompted to upgrade.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
@@ -47,13 +76,15 @@ test.describe('Console app - General page', () => {
     await expect(page1.locator('#renderList')).toContainText(/default/i);
 
     const typedOptionLabel = page1.locator('label[for="checkbox-typed"]');
+    const typedOptionCheckbox = page1.locator('#checkbox-typed');
     await expect(typedOptionLabel).toBeVisible({ timeout: 60000 });
-    await typedOptionLabel.click();
+    if (await typedOptionCheckbox.isChecked()) {
+      await typedOptionLabel.click();
+    }
     await page1.getByRole('button', { name: /Save/i }).click();
 
     await page1.close();
-    await page.getByRole('button', { name: /Settings/i }).click();
-    await page.getByRole('menuitem', { name: /Preferences/i }).click();
+    await openPreferences(page);
 
     const preferencesPanel = page.locator('#root');
     await expect(preferencesPanel).toContainText(/Allowed signature types/i);
@@ -61,6 +92,53 @@ test.describe('Console app - General page', () => {
     await expect(preferencesPanel).toContainText(/upload/i);
     await expect(preferencesPanel).toContainText(/default/i);
     await expect(preferencesPanel).not.toContainText(/typed/i);
+  });
+
+  test('Verify Preferences refresh keeps the Email tab guidance available.', async ({ page }) => {
+    const commonSteps = new CommonSteps(page);
+    await commonSteps.navigateToBaseUrl();
+    await commonSteps.login();
+
+    await openPreferences(page);
+    await openEmailPreferences(page);
+    await expectEmailPreferencesGuidance(page);
+
+    await page.reload();
+    await expect(page.getByRole('heading', { name: /OpenSign™ Preferences ?/i })).toBeVisible({ timeout: 60000 });
+    await openEmailPreferences(page);
+    await expectEmailPreferencesGuidance(page);
+  });
+
+  test('Verify that Allow email template customization is off in Console General and Email Preferences loads.', async ({ page }) => {
+    const commonSteps = new CommonSteps(page);
+    await commonSteps.navigateToBaseUrl();
+    await commonSteps.login();
+
+    const page1 = await openConsoleGeneral(page);
+    await expect(page1.locator('#renderList')).toContainText(/Allow email template customization for users individually/i);
+    const emailTemplateToggle = consoleSettingToggle(page1, 'Allow email template customization for users individually');
+    await expect(emailTemplateToggle).not.toBeChecked();
+    await page1.close();
+
+    await openPreferences(page);
+    await openEmailPreferences(page);
+    await expectEmailPreferencesGuidance(page);
+  });
+
+  test('Verify that Enable individual user smtp settings is off in Console General and Email Preferences loads.', async ({ page }) => {
+    const commonSteps = new CommonSteps(page);
+    await commonSteps.navigateToBaseUrl();
+    await commonSteps.login();
+
+    const page1 = await openConsoleGeneral(page);
+    await expect(page1.locator('#renderList')).toContainText(/Enable individual user smtp settings/i);
+    const smtpSettingsToggle = consoleSettingToggle(page1, 'Enable individual user smtp settings');
+    await expect(smtpSettingsToggle).not.toBeChecked();
+    await page1.close();
+
+    await openPreferences(page);
+    await openEmailPreferences(page);
+    await expectEmailPreferencesGuidance(page);
   });
 
   test('Verify that Team plan user can access the General page and save settings.', async ({ page }) => {
@@ -74,8 +152,18 @@ test.describe('Console app - General page', () => {
     await expect(page1.locator('#renderList')).toContainText(/Allow email template customization for users individually/i);
     await expect(page1.locator('#renderList')).toContainText(/Enable individual user smtp settings/i);
     await expect(page1.locator('#renderList')).toContainText(/Hide live chat widget for signers/i);
+
+    const smtpToggle = consoleSettingToggle(page1, 'Enable individual user smtp settings');
+    await expect(smtpToggle).not.toBeChecked();
+
     await expect(page1.getByRole('button', { name: /Save/i })).toBeVisible();
     await page1.getByRole('button', { name: /Save/i }).click();
+    await page1.close();
+
+    await openPreferences(page);
+    await expect(page.locator('#renderList')).toContainText(/Allowed signature types/i);
+    await openEmailPreferences(page);
+    await expectEmailPreferencesGuidance(page);
   });
 
   test('Verify that professional plan users cannot access the General page.', async ({ page }) => {
