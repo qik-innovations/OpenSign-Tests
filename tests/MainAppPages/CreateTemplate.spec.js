@@ -703,4 +703,5 @@ await page.getByRole('button', { name: 'Next' }).click();
   await page.locator('.css-n9qnu9').click();
   await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
   await page.locator('#selectSignerModal').getByRole('button', { name: 'Next' }).click();
-});});
+});
+});
