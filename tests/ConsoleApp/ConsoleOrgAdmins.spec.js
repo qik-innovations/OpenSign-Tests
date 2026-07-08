@@ -243,4 +243,54 @@ await expect(page1.getByRole('region')).toContainText('You don\'t have access, p
   });
 
 });
+
+test('Verify that Teams plan user can delete OrgAdmin if available', async ({ page }) => {
+  const commonSteps = new CommonSteps(page);
+
+  await commonSteps.navigateToBaseUrl();
+  await commonSteps.login();
+
+  await page.locator('#profile-menu.op-dropdown-open').click();
+  const page1Promise = page.waitForEvent('popup');
+  await page.getByText('Console').click();
+  const page1 = await page1Promise;
+
+  await page1.getByRole('button', { name: ' Teams' }).click();
+  await page1.getByRole('menuitem', { name: 'OrgAdmins' }).click();
+
+  const renderList = page1.locator('#renderList');
+  await expect(renderList).toContainText('OrgAdmins');
+
+  const noData = renderList.getByText('No data found');
+
+  if (await noData.isVisible().catch(() => false)) {
+    throw new Error('No OrgAdmin available to delete, so actual deletion cannot be verified.');
+  }
+
+  const firstRow = page1.locator('tbody tr').first();
+
+  await firstRow.getByRole('button', { name: '' }).click();
+
+  const modal = page1.locator('#selectSignerModal');
+  await expect(modal).toBeVisible();
+  await expect(modal).toContainText('Delete account');
+
+  const modalText = await modal.innerText();
+  const email = modalText.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i)?.[0];
+
+  if (!email) {
+    throw new Error(`Email not found in delete modal. Modal text: ${modalText}`);
+  }
+
+  await modal.getByRole('textbox', { name: /Please type/i }).fill(email);
+
+  await expect(modal.getByRole('button', { name: 'Delete' })).toBeEnabled();
+  await modal.getByRole('button', { name: 'Delete' }).click();
+
+  await expect(
+    page1.getByText('User and all associated data deleted successfully.')
+  ).toBeVisible({ timeout: 60000 });
+
+  await expect(page1.getByRole('row').filter({ hasText: email })).toHaveCount(0);
+});
 });
