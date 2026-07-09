@@ -618,11 +618,11 @@ const VariablecompanyID = await page.evaluate(() => {
 });
 await page.locator('//span[normalize-space()=\'date\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 420);
+await page.mouse.move(600, 430);
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'text input\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 450);
+await page.mouse.move(600, 470);
 await page.mouse.up();
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariabletextinputID = await page.evaluate(() => {
@@ -636,26 +636,26 @@ const VariabletextinputID = await page.evaluate(() => {
 });
 await page.locator('//span[normalize-space()=\'checkbox\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 470);
+await page.mouse.move(600, 490);
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('span').filter({ hasText: 'dropdown' }).hover();
 await page.mouse.down();
-await page.mouse.move(600, 490);
+await page.mouse.move(600, 530);
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'radio button\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 530);
+await page.mouse.move(600, 570);
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'image\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 580);
+await page.mouse.move(600, 610);
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 620);
+await page.mouse.move(600, 670);
 await page.mouse.up();
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariableemailID = await page.evaluate(() => {
@@ -668,27 +668,22 @@ const VariableemailID = await page.evaluate(() => {
   return element ? element.id : null;
 });
 
-await page.locator('canvas').nth(1).click({
-  position: {
-    x: 50,
-    y: 52
-  }
-});
 await page.getByRole('button', { name: '+ Add recipients' }).click();
 await page.locator('//div[@class="css-b62m3t-container"]').click();
 await page.locator('//div[@class="css-b62m3t-container"]//input').fill('tr');
 await page.getByRole('option', { name: 'Travis Mathew<pravin+travis@' }).click();
 await page.getByRole('button', { name: 'Submit' }).click();
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+ await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+commonSteps.dragAndDropSignatureWidget('signature', 600, 350);
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 250);
+await page.mouse.move(600, 400);
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'initials\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 300);
+await page.mouse.move(600, 450);
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'name\']').hover();
 await page.mouse.down();
@@ -734,11 +729,11 @@ const Signer1VariablecompanyID = await page.evaluate(() => {
 });
 await page.locator('//span[normalize-space()=\'date\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 390);
+await page.mouse.move(600, 410);
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'text input\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 410);
+await page.mouse.move(600, 440);
 await page.mouse.up();
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const Signer1VariabletextinputID = await page.evaluate(() => {
@@ -752,26 +747,26 @@ const Signer1VariabletextinputID = await page.evaluate(() => {
 });
 await page.locator('//span[normalize-space()=\'checkbox\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 430)
+await page.mouse.move(600, 470)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('span').filter({ hasText: 'dropdown' }).hover();
 await page.mouse.down();
-await page.mouse.move(600, 450)
+await page.mouse.move(600, 510)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'radio button\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 470)
+await page.mouse.move(600, 550)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'image\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 500)
+await page.mouse.move(600, 590)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 520)
+await page.mouse.move(600, 650)
 await page.mouse.up();
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const Signer1VariableemailID = await page.evaluate(() => {
@@ -797,15 +792,15 @@ await page1.goto(copiedUrl1);
 await commonStepspage1.validateAndAcceptTerms();
 await page1.waitForLoadState("networkidle");
 await page1.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page1.locator('//div[@id="container"]//div[text()="signature"]').click();
+await page1.locator('//div[@id="container"]//div[text()="signature-1"]').click();
 await commonStepspage1.drawSignature();
 await commonStepspage1.clickNextButtonInSignerModal();
 await commonStepspage1.clickCloseButtonInSignerModal();
-await page1.locator('//div[@id="container"]//div[text()="stamp"]').click();
+await page1.locator('//div[@id="container"]//div[text()="stamp-1"]').click();
 await commonStepspage1.uploadStamp();
 await commonStepspage1.clickNextButtonInSignerModal();
 await commonStepspage1.clickCloseButtonInSignerModal();
-await page1.locator('//div[@id="container"]//div[text()="initials"]').click();
+await page1.locator('//div[@id="container"]//div[text()="initials-1"]').click();
 await commonStepspage1.drawInitials();
 await commonStepspage1.clickNextButtonInSignerModal();
 await commonStepspage1.clickCloseButtonInSignerModal();
@@ -831,7 +826,7 @@ await commonStepspage1.clickNextButtonInSignerModal();
 await commonStepspage1.selectRadioButton('Option-2');
 await commonStepspage1.clickNextButtonInSignerModal();
 await commonStepspage1.clickCloseButtonInSignerModal();
-await page1.locator('//div[contains(text(),"image")]').click();
+await page1.locator('//div[contains(text(),"image-1")]').click();
 await commonStepspage1.uploadImage();
 await commonStepspage1.clickNextButtonInSignerModal();
 await commonStepspage1.fillEmailField('demo@gmail.com','andrew@nxglabs.in')
@@ -843,20 +838,9 @@ const page2 = await page.context().newPage();
 await page2.goto(copiedUrl2);
 await page2.waitForLoadState("networkidle");
 await commonStepspage2.validateAndAcceptTerms();
-//await expect(page2.getByRole('paragraph')).toContainText('List of signers who have already signed the document .');
-//await page2.locator('.sc-gsFSXq > button:nth-child(3)').click();
-//await expect(page2.getByRole('paragraph')).toContainText('Click any of the placeholders appearing on the document to sign. You will then see options to draw your signature, type it, or upload an image .');
-//await page2.locator('.sc-gsFSXq > button:nth-child(3)').click();
-//await expect(page2.getByRole('paragraph')).toContainText('Click Decline, or Finish buttons to navigate your document. Use the ellipsis menu for additional options, including the Download button .');
-//await page2.getByRole('button', { name: 'Close' }).click();
-await page2.locator('canvas').nth(1).click({
-  position: {
-    x: 90,
-    y: 56
-  }
-});
 await page2.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page2.locator('//div[@id="container"]//div[text()="signature"]').click();
+await page2.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
+await page2.locator('//div[@id="container"]//div[text()="signature-1"]').click();
 await commonStepspage2.drawSignature();
 // Optionally save changes
 await commonStepspage2.clickNextButtonInSignerModal();
@@ -887,7 +871,7 @@ await commonStepspage2.clickNextButtonInSignerModal();
 await commonStepspage2.selectRadioButton('Option-2');
 await commonStepspage2.clickNextButtonInSignerModal();
 await commonStepspage2.clickCloseButtonInSignerModal();
-await page2.locator('//div[contains(text(),"image")]').click();
+await page2.locator('//div[contains(text(),"image-1")]').click();
 await commonStepspage2.uploadImage();
 await commonStepspage2.clickNextButtonInSignerModal();
 await commonStepspage2.fillEmailField('demo@gmail.com','karlmark@opensignlabs.com')

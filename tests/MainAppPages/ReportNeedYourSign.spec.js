@@ -69,46 +69,46 @@ await page.mouse.move(600, 340)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'name\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 370)
+await page.mouse.move(600, 380)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'job title\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 390)
+await page.mouse.move(600, 410)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'company\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 420)
+await page.mouse.move(600, 440)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'date\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 450)
+await page.mouse.move(600, 470)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'text input\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 470)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'checkbox\']').hover();
-await page.mouse.down();
 await page.mouse.move(600, 500)
 await page.mouse.up();
-page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('span').filter({ hasText: 'dropdown' }).hover();
-await page.mouse.down();
-await page.mouse.move(600, 530)
-await page.mouse.up();
-page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('//span[normalize-space()=\'radio button\']').hover();
+await page.locator('//span[normalize-space()=\'checkbox\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 550)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
+await page.locator('span').filter({ hasText: 'dropdown' }).hover();
+await page.mouse.down();
+await page.mouse.move(600, 570)
+await page.mouse.up();
+page.locator("//button[@type='submit' and text()='Save']").click();
+await page.locator('//span[normalize-space()=\'radio button\']').hover();
+await page.mouse.down();
+await page.mouse.move(600, 600)
+await page.mouse.up();
+page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'image\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 590)
+await page.mouse.move(600, 640)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 650)
+await page.mouse.move(600, 690)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
    await page.locator("//div[i[contains(@class,'fa-envelope')] and .//span[text()='Send to Email']]").click();
