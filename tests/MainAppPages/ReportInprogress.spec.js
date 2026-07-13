@@ -44,7 +44,7 @@ try {
   
           await page.locator('//span[normalize-space()="signature"]').hover();
           await page.mouse.down();
-          await page.mouse.move(800, 300);
+          await page.mouse.move(600, 300);
           await page.mouse.up();
           // Wait a bit before checking again
           await page.waitForTimeout(1000);

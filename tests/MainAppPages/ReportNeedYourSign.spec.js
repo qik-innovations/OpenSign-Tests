@@ -30,7 +30,7 @@ test('Verify that owner can create the document and sign it from the need your s
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await page.locator('//span[normalize-space()=\'signature\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 250)
+await page.mouse.move(600, 200)
 await page.mouse.up();
 try {
   const rowLocator = page.locator('//div[contains(@class,"signYourselfBlock")]//div[contains(@class,"font-medium") and normalize-space(.)="signature-1"]');
@@ -44,7 +44,7 @@ try {
   
           await page.locator('//span[normalize-space()="signature"]').hover();
           await page.mouse.down();
-          await page.mouse.move(600, 250);
+          await page.mouse.move(600, 200);
           await page.mouse.up();
           
           // Wait a bit before checking again
@@ -61,35 +61,35 @@ try {
 }
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 300)
+await page.mouse.move(600, 250)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'initials\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 340)
+await page.mouse.move(600, 300)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'name\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 380)
+await page.mouse.move(600, 360)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'job title\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 410)
+await page.mouse.move(600, 400)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'company\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 440)
+await page.mouse.move(600, 430)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'date\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 470)
+await page.mouse.move(600, 460)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'text input\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 500)
+await page.mouse.move(600, 490)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'checkbox\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 550)
+await page.mouse.move(600, 520)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('span').filter({ hasText: 'dropdown' }).hover();
@@ -99,7 +99,7 @@ await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'radio button\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 600)
+await page.mouse.move(600, 610)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'image\']').hover();
@@ -108,7 +108,7 @@ await page.mouse.move(600, 640)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 690)
+await page.mouse.move(600, 720)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
    await page.locator("//div[i[contains(@class,'fa-envelope')] and .//span[text()='Send to Email']]").click();
