@@ -2225,7 +2225,6 @@ await page.getByRole('button', { name: 'Apply' }).click();
   await expect(page.locator('//div[@data-page-number="1" and @id="container"]//div[contains(@class,"font-medium") and starts-with(normalize-space(),"initials")]')).not.toBeVisible();
   await page.getByRole('button', { name: 'Next' }).click();
 });
-
 test('Verify that initials widgets Copy widget next to current function correctly in request signature.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
@@ -2337,68 +2336,68 @@ await page.locator('//span[normalize-space()=\'job title\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 480)
 await page.mouse.up();
-await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
+await page.locator('//div[contains(@class,"signYourselfBlock")][.//span[normalize-space()="job title-1"]]//i[contains(@class,"fa-gear")]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
   await page.getByRole('button', { name: 'Save' }).click();
  
-  const fontSizeJotitle = await page.locator("//div[@class='signYourselfBlock react-draggable react-draggable-dragged']//span[text()='job title']")
-  .evaluate(el => getComputedStyle(el).fontSize);
+   const widgetJobtitle = page.locator(
+  "//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'select-none-cls')][.//span[normalize-space()='job title-1']]"
+);
 
-const colorJotitle = await page.locator("//div[@class='signYourselfBlock react-draggable react-draggable-dragged']//span[text()='job title']")
-  .evaluate(el => getComputedStyle(el).color);
+const fontSizeJobTitle = await widgetJobtitle.evaluate(el => getComputedStyle(el).fontSize);
+const colorJobTitle = await widgetJobtitle.evaluate(el => getComputedStyle(el).color);
 
-console.log(`Font Size: ${fontSizeJotitle}, Color: ${colorJotitle}`);
+console.log(`Font Size: ${fontSizeJobTitle}, Color: ${colorJobTitle}`);
 
-if (fontSizeJotitle === '19.8649px' && colorJotitle === 'rgb(0, 0, 255)') {
+if (fontSizeJobTitle === '19.8649px' && colorJobTitle === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 19.8649px, Color: blue but got Font Size: ${fontSizeJotitle}, Color: ${colorJotitle}`);
+  throw new Error(`Test Failed: Expected Font Size: 19.8649px, Color: blue but got Font Size: ${fontSizeJobTitle}, Color: ${colorJobTitle}`);
 }
 
 await page.locator('//span[normalize-space()=\'company\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 520)
 await page.mouse.up();
-await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
+await page.locator('//div[contains(@class,"signYourselfBlock")][.//span[normalize-space()="company-1"]]//i[contains(@class,"fa-gear")]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
   await page.getByRole('button', { name: 'Save' }).click();
  
-  const fontSizecompany = await page.locator("//div[@class='signYourselfBlock react-draggable react-draggable-dragged']//span[text()='company']")
-  .evaluate(el => getComputedStyle(el).fontSize);
-
-const colorcompany= await page.locator("//div[@class='signYourselfBlock react-draggable react-draggable-dragged']//span[text()='company']")
-  .evaluate(el => getComputedStyle(el).color);
+ const widgetCompany = page.locator(
+  "//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'select-none-cls')][.//span[normalize-space()='job title-1']]"
+);
+const fontSizecompany = await widgetCompany.evaluate(el => getComputedStyle(el).fontSize);
+const colorcompany = await widgetCompany.evaluate(el => getComputedStyle(el).color);
 
 console.log(`Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
 
-if (fontSizecompany === '15.6924px' && colorcompany === 'rgb(0, 0, 255)') {
+if (fontSizecompany === '19.8649px' && colorcompany === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
   throw new Error(`Test Failed: Expected Font Size: 15.6924px, Color: blue but got Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
 }
 
-await page.locator('//span[@class="md:inline-block text-center text-[15px] ml-[5px] font-semibold pr-1 md:pr-0" and text()="text"]').hover();
+await page.locator('//span[normalize-space()=\'text input\']').hover();
 await page.mouse.down();
 await page.waitForTimeout(1000);
 await page.mouse.move(600, 590)
 await page.mouse.up();
-await page.locator('//textarea[@placeholder="text"]').fill('20 wood street sanfransisco');
-await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
+await page.locator('//div[contains(@class,"signYourselfBlock")][.//span[normalize-space()="text input-1"]]//i[contains(@class,"fa-gear")]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
   await page.getByRole('button', { name: 'Save' }).click();
  
-  const fontSizetext = await page.locator("//div[@class='signYourselfBlock react-draggable react-draggable-dragged']//textarea[text()='20 wood street sanfransisco']")
-  .evaluate(el => getComputedStyle(el).fontSize);
+  const widgetTextinput = page.locator(
+  "//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'select-none-cls')][.//span[normalize-space()='job title-1']]"
+);
+const fontSizeTextInput = await widgetTextinput.evaluate(el => getComputedStyle(el).fontSize);
+const colorTextInput = await widgetTextinput.evaluate(el => getComputedStyle(el).color);
 
-const colortext = await page.locator("//div[@class='signYourselfBlock react-draggable react-draggable-dragged']//textarea[text()='20 wood street sanfransisco']")
-  .evaluate(el => getComputedStyle(el).color);
+console.log(`Font Size: ${fontSizeTextInput }, Color: ${colorTextInput}`);
 
-console.log(`Font Size: ${fontSizetext }, Color: ${colortext}`);
-
-if (fontSizetext === '19.8649px' && colortext  === 'rgb(0, 0, 255)') {
+if (fontSizeTextInput === '19.8649px' && colorTextInput  === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
   throw new Error(`Test Failed: Expected Font Size: 19.8649px, Color: blue but got Font Size: ${fontSizetext }, Color: ${colortext }`);
@@ -2408,15 +2407,15 @@ await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 630)
 await page.mouse.up();
-await page.locator('//i[@class="fa-light fa-gear icon"]').dblclick();
+await page.locator('//div[contains(@class,"signYourselfBlock")][.//span[normalize-space()="email-1"]]//i[contains(@class,"fa-gear")]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
   await page.getByRole('button', { name: 'Save' }).click();
- 
-  const fontSizeemail = await page.locator("//div[@class='signYourselfBlock react-draggable react-draggable-dragged']//span[text()='email']").evaluate(el => getComputedStyle(el).fontSize);
-
-const coloremail = await page.locator("//div[@class='signYourselfBlock react-draggable react-draggable-dragged']//span[text()='email']").evaluate(el => getComputedStyle(el).color);
-
+  const widgetEmail = page.locator(
+  "//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'select-none-cls')][.//span[normalize-space()='job title-1']]"
+);
+const fontSizeemail = await widgetEmail.evaluate(el => getComputedStyle(el).fontSize);
+const coloremail = await widgetEmail.evaluate(el => getComputedStyle(el).color);
 console.log(`Font Size: ${fontSizeemail}, Color: ${coloremail}`);
 
 if (fontSizeemail=== '19.8649px' && coloremail  === 'rgb(0, 0, 255)') {
@@ -2710,7 +2709,7 @@ await page.locator('//span[normalize-space()=\'checkbox\']').hover();
     await page.locator("//button[normalize-space()='Save']").click(); 
     await page.locator('//label[.//span[text()="Option-1"]]').click({ force: true });
 while (true) {
- await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click({ force: true });
+ await page.locator('//div[contains(@class,"signYourselfBlock") and contains(@class,"react-draggable-dragged")]//i[contains(@class,"fa-gear")]').click({ force: true });
   const isVisible = await page.locator('//h3[text()="Checkbox"]').isVisible();
   
   if (isVisible) {
@@ -2743,14 +2742,14 @@ console.log(`Font Size: ${fontSize}, Color: ${color}`);
 const fontSizeValue = parseFloat(fontSize);
 const expectedColor = 'rgb(0, 0, 255)'; // Equivalent to "blue"
 
-if (fontSizeValue > 15.5 && color === expectedColor) {
+if (fontSizeValue > 19.5 && color === expectedColor) {
   console.log('Test Passed: Font size and color are within expected range.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size > 15.5px and Color: ${expectedColor} but got Font Size: ${fontSize}, Color: ${color}`);
+  throw new Error(`Test Failed: Expected Font Size > 19.5px and Color: ${expectedColor} but got Font Size: ${fontSize}, Color: ${color}`);
 }
 
 });
-test('Verify that text widgets Copy widget to all pages function correctly in request signature.', async ({ page }) => {
+test('Verify that prefill text widgets Copy widget to all pages function correctly in request signature.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
@@ -2774,43 +2773,16 @@ await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-  const rowLocator = page.locator("//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1']");
-
-  for (let i = 0; i < 5; i++) { // Retry up to 5 times
-      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-      
-          console.log("signature widget dragged and dropped");
-          break; // Exit the loop if successfully clicked
-      } else {
-          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(800, 300);
-          await page.mouse.up();
-          
-          // Wait a bit before checking again
-          await page.waitForTimeout(1000);
-      }
-  
-      if (i === 5) {
-          console.log("signature widget did not become visible on the document after multiple attempts.");
-      }
-  }
-} catch (error) {
-  console.log("Element not found or not interactable, continuing execution.");
- 
-}
-await page.locator('//span[@class="md:inline-block text-center text-[15px] ml-[5px] font-semibold pr-1 md:pr-0" and text()="text"]').hover();
+await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
+await page.locator('div').filter({ hasText: /^Prefill by owner$/ }).click();
+await page.getByTitle('text').locator('div').first().hover();
 await page.mouse.down();
 await page.waitForTimeout(1000);
 await page.mouse.move(600, 590)
 await page.mouse.up();
-await page.locator('//textarea[@placeholder="text"]').fill('20 wood street sanfransisco');
+await page.locator('//div[@data-tut="pdfArea"]//textarea[@placeholder="text"]').click();
+await page.locator('//dialog[@id="selectSignerModal"]//input[@placeholder="text"]').fill('20 wood street sanfransisco');
+await page.getByRole('button', { name: 'Save' }).click();
 while (true) {
   await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
   
@@ -2823,23 +2795,24 @@ while (true) {
 
   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
 }
+await page.getByText('All pages', { exact: true }).click();
 await page.getByRole('button', { name: 'Apply' }).click();
-
-  await expect(page.locator("//textarea[text()='20 wood street sanfransisco']")).toBeVisible();
+await expect(page.locator("//textarea[text()='20 wood street sanfransisco']")).toBeVisible();
   await page.locator('canvas').nth(1).click({
     position: {
       x: 49,
       y: 71
     }
   });
-  await expect(page.locator("//span[text()='20 wood street sanfransisco']")).toBeVisible();
+  const locator = page.locator('textarea').nth(0);
+await expect(locator).toHaveValue('20 wood street sanfransisco');
   await page.locator('canvas').nth(2).click({
     position: {
       x: 65,
       y: 59
     }
   });
-  await expect(page.locator("//span[text()='20 wood street sanfransisco']")).toBeVisible();
+await expect(locator).toHaveValue('20 wood street sanfransisco');
   await page.getByRole('button', { name: 'Next' }).click();
   await expect(page.locator("//dialog[@id='selectSignerModal']//h3[text()='Send Mail']")).toBeVisible({ timeout: 120000 });
 });
@@ -2964,37 +2937,7 @@ await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-  const rowLocator = page.locator("//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1']");
-
-  for (let i = 0; i < 5; i++) { // Retry up to 5 times
-      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-      
-          console.log("signature widget dragged and dropped");
-          break; // Exit the loop if successfully clicked
-      } else {
-          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(800, 300);
-          await page.mouse.up();
-          
-          // Wait a bit before checking again
-          await page.waitForTimeout(1000);
-      }
-  
-      if (i === 5) {
-          console.log("signature widget did not become visible on the document after multiple attempts.");
-      }
-  }
-} catch (error) {
-  console.log("Element not found or not interactable, continuing execution.");
- 
-}
+await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
 await page.locator('canvas').nth(2).click({
   position: {
     x: 65,
@@ -3002,10 +2945,10 @@ await page.locator('canvas').nth(2).click({
   }
 });
 await page.locator('div').filter({ hasText: /^Prefill by owner$/ }).click();
-await page.getByTitle('text').locator('div').first().hover();
+await page.locator('//div[@title ="text"]//span[text()="text"]').hover();
 await page.mouse.down();
 await page.waitForTimeout(1000);
-await page.mouse.move(600, 590)
+await page.mouse.move(600, 400)
 await page.mouse.up();
 await page.locator('//div[@data-tut="pdfArea"]//textarea[@placeholder="text"]').click();
 await page.locator('//dialog[@id="selectSignerModal"]//input[@placeholder="text"]').fill('20 wood street sanfransisco');
@@ -3031,16 +2974,14 @@ await page.getByRole('button', { name: 'Apply' }).click();
       y: 71
     }
   });
-const locator = page.locator('textarea').nth(0);
-await expect(locator).toHaveValue('20 wood street sanfransisco');
+await expect(page.locator('//div[@data-page-number="2"]//span[text()="20 wood street sanfransisco"]')).toBeVisible();
   await page.locator('canvas').nth(0).click({
     position: {
       x: 65,
       y: 59
     }
   });
-const locator1 = page.locator('textarea').nth(1);
-await expect(locator1).toHaveValue('20 wood street sanfransisco');
+await expect(page.locator('//div[@data-page-number="1"]//span[text()="20 wood street sanfransisco"]')).not.toBeVisible();
   await page.getByRole('button', { name: 'Next' }).click();
   await expect(page.locator("//dialog[@id='selectSignerModal']//h3[text()='Send Mail']")).toBeVisible({ timeout: 120000 });
 });
@@ -3100,7 +3041,7 @@ try {
  
 }
 await page.locator('div').filter({ hasText: /^Prefill by owner$/ }).click();
-await page.getByTitle('text').locator('div').first().hover();
+await page.locator('//div[@title ="text"]//span[text()="text"]').hover();
 await page.mouse.down();
 await page.waitForTimeout(1000);
 await page.mouse.move(600, 590)
@@ -3156,15 +3097,7 @@ test('Verify that textinput field widget Copy widget to all pages function corre
   const pageThumbnails = page.locator('div').filter({ hasText: /^Add pages$/ }).locator('canvas');
 
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-
-  await page.locator('//span[normalize-space()="signature"]').hover();
-  await page.mouse.down();
-  await page.mouse.move(600, 300);
-  await page.mouse.up();
-
-  const rowLocator = page.locator("//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1']");
-  await expect(rowLocator).toBeVisible({ timeout: 15000 });
-
+await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
   await page.locator('//span[normalize-space()="text input"]').hover();
   await page.mouse.down();
   await page.mouse.move(800, 360);
@@ -3284,7 +3217,7 @@ try {
           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
           await page.locator('//span[normalize-space()="signature"]').hover();
           await page.mouse.down();
-          await page.mouse.move(800, 300);
+          await page.mouse.move(600, 300);
           await page.mouse.up();
           
           // Wait a bit before checking again
@@ -3302,7 +3235,7 @@ try {
 
 await page.locator('//span[normalize-space()="text input"]').hover();
 await page.mouse.down();
-await page.mouse.move(800, 360);
+await page.mouse.move(600, 360);
 await page.mouse.up();
 
 const countTextInputsOnPage = async (pageNumber) => page.evaluate((targetPageNumber) => {
@@ -3391,62 +3324,17 @@ test('Verify that textinput field widget Copy widget to all pages but first func
 
   await page.waitForLoadState('networkidle');
   await page.waitForSelector("//div[@class='react-pdf__Document']", { timeout: 90000 });
-
-  const pageThumbnails = page.locator('div').filter({ hasText: /^Add pages$/ }).locator('canvas');
-
-  await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-  await page.locator('//span[normalize-space()="signature"]').hover();
-  await page.mouse.down();
-  await page.mouse.move(600, 300);
-  await page.mouse.up();
-
-  const rowLocator = page.locator("//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1']");
-  await expect(rowLocator).toBeVisible({ timeout: 15000 });
-
+await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
+await page.locator('canvas').nth(2).click({
+  position: {
+    x: 65,
+    y: 59
+  }
+});
   await page.locator('//span[normalize-space()="text input"]').hover();
   await page.mouse.down();
-  await page.mouse.move(800, 360);
+  await page.mouse.move(600, 400);
   await page.mouse.up();
-
-  const countTextInputsOnPage = async (pageNumber) =>
-    page.evaluate((targetPageNumber) => {
-      const pageElement = Array.from(
-        document.querySelectorAll(`.react-pdf__Page[data-page-number="${targetPageNumber}"]`)
-      ).sort(
-        (firstPage, secondPage) =>
-          secondPage.getBoundingClientRect().width - firstPage.getBoundingClientRect().width
-      )[0];
-
-      if (!pageElement) return 0;
-
-      const pageRect = pageElement.getBoundingClientRect();
-
-      const textInputs = Array.from(document.querySelectorAll('.select-none-cls')).filter((widget) =>
-        widget.textContent.trim().startsWith('text input')
-      );
-
-      let count = 0;
-
-      for (const widget of textInputs) {
-        const widgetRect = widget.getBoundingClientRect();
-        const widgetCenterX = widgetRect.left + widgetRect.width / 2;
-        const widgetCenterY = widgetRect.top + widgetRect.height / 2;
-
-        if (
-          widgetCenterX >= pageRect.left &&
-          widgetCenterX <= pageRect.right &&
-          widgetCenterY >= pageRect.top &&
-          widgetCenterY <= pageRect.bottom
-        ) {
-          count += 1;
-        }
-      }
-
-      return count;
-    }, pageNumber);
-
-  await expect.poll(() => countTextInputsOnPage(1), { timeout: 10000 }).toBe(1);
-
   while (true) {
     await page
       .locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]')
@@ -3463,22 +3351,22 @@ test('Verify that textinput field widget Copy widget to all pages but first func
 
   await page.getByText('All pages but first').click();
   await page.getByRole('button', { name: 'Apply' }).click();
-
-  // Page 1 should have only original widget
-  await expect.poll(() => countTextInputsOnPage(1), { timeout: 10000 }).toBe(1);
-
-  // Page 2 should have copied widget
-  await pageThumbnails.nth(1).click({
-    position: { x: 49, y: 71 },
-  });
-  await expect.poll(() => countTextInputsOnPage(2), { timeout: 10000 }).toBe(1);
-
-  // Page 3 should have copied widget
-  await pageThumbnails.nth(2).click({
-    position: { x: 65, y: 59 },
-  });
-  await expect.poll(() => countTextInputsOnPage(3), { timeout: 10000 }).toBe(1);
-
+await expect(page.locator('//div[@data-page-number="3"]//div[contains(@class,"signYourselfBlock")][.//span[normalize-space()="text input-1"]]')).toBeVisible();
+await page.locator('canvas').nth(1).click({
+  position: {
+    x: 65,
+    y: 59
+  }
+});
+await expect(page.locator('//div[@id="container" and @data-page-number="2"]//div[contains(@class,"signYourselfBlock")][.//span[starts-with(normalize-space(), "text input")]]')).toBeVisible();
+ 
+await page.locator('canvas').nth(0).click({
+  position: {
+    x: 65,
+    y: 59
+  }
+});
+await expect(page.locator('//div[@id="container" and @data-page-number="2"]//div[contains(@class,"signYourselfBlock")][.//span[starts-with(normalize-space(), "text input")]]')).not.toBeVisible();
   await page.getByRole('button', { name: 'Next' }).click();
   await expect(page.locator("//dialog[@id='selectSignerModal']//h3[text()='Send Mail']")).toBeVisible({ timeout: 120000 });
 });
