@@ -30,7 +30,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
        expect(title).toBe('Dashboard - OpenSign™');
   await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
-  await page.locator('input[name="Note"]').click();
+await expect(page.locator('input[name="Note"]')).toBeDisabled();
   const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
@@ -437,19 +437,10 @@ while (true) {
 // Apply the widget copy action
 await page.getByRole('button', { name: 'Apply' }).click();
 
-// Validate signature visibility in different canvases
-await expect(page.getByRole('img', { name: 'signature' })).toBeVisible();
+// Validate signature visibility in different pages
+const signatures = page.getByRole('img', { name: 'signature' });
 
-await page.locator('canvas').nth(1).click({
-  position: { x: 49, y: 71 }
-});
-await expect(page.getByRole('img', { name: 'signature' })).toBeVisible();
-
-await page.locator('canvas').nth(2).click({
-  position: { x: 65, y: 59 }
-});
-await expect(page.getByRole('img', { name: 'signature' })).toBeVisible();
-
+await expect(signatures).toHaveCount(3);
 // Complete signing
 await commonSteps.clickFinishButtonOnPlaceholder();
 
@@ -500,21 +491,8 @@ while (true) {
 
 await page.getByRole('radio', { name: 'All pages but last' }).check();
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.getByRole('img', { name: 'signature' })).toBeVisible();
-  await page.locator('canvas').nth(1).click({
-    position: {
-      x: 49,
-      y: 71
-    }
-  });
-  await expect(page.getByRole('img', { name: 'signature' })).toBeVisible();
-  await page.locator('canvas').nth(2).click({
-    position: {
-      x: 65,
-      y: 59
-    }
-  });
-  await expect(page.getByRole('img', { name: 'signature' })).not.toBeVisible();
+  const signatures = page.getByRole('img', { name: 'signature' });
+await expect(signatures).toHaveCount(2);
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
@@ -553,26 +531,9 @@ await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
   }
   await page.getByText('All pages but first').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.getByRole('img', { name: 'signature' })).toBeVisible();
-  await page.locator('canvas').nth(1).click({
-    position: {
-      x: 49,
-      y: 71
-    }
-  });
-  await expect(page.getByRole('img', { name: 'signature' })).toBeVisible();
-  await page.locator('canvas').nth(0).click({
-    position: {
-      x: 65,
-      y: 59
-    }
-  });
- const count = await page.locator('//div[@class="flex items-stretch justify-center"]//img[@alt="signature"]').count();
+ const signatures = page.getByRole('img', { name: 'signature' });
 
-if (count === 1) {
-    console.log('Only one signature widget is present on the first page as expected');
-}
-
+await expect(signatures).toHaveCount(3);
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
@@ -654,21 +615,8 @@ while (true) {
   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
 }
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.getByRole('img', { name: 'stamp' })).toBeVisible();
-  await page.locator('canvas').nth(1).click({
-    position: {
-      x: 49,
-      y: 71
-    }
-  });
-  await expect(page.getByRole('img', { name: 'stamp' })).toBeVisible();
-  await page.locator('canvas').nth(2).click({
-    position: {
-      x: 65,
-      y: 59
-    }
-  });
-  await expect(page.getByRole('img', { name: 'stamp' })).toBeVisible();
+ const stamp = page.getByRole('img', { name: 'stamp' });
+await expect(stamp).toHaveCount(3);
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
@@ -708,21 +656,8 @@ while (true) {
 }
 await page.getByRole('radio', { name: 'All pages but last' }).check();
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.getByRole('img', { name: 'stamp' })).toBeVisible();
-  await page.locator('canvas').nth(1).click({
-    position: {
-      x: 49,
-      y: 71
-    }
-  });
-  await expect(page.getByRole('img', { name: 'stamp' })).toBeVisible();
-  await page.locator('canvas').nth(2).click({
-    position: {
-      x: 65,
-      y: 59
-    }
-  });
-  await expect(page.getByRole('img', { name: 'stamp' })).not.toBeVisible();
+   const stamp = page.getByRole('img', { name: 'stamp' });
+await expect(stamp).toHaveCount(2);
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
@@ -772,21 +707,8 @@ await commonSteps.ClickSavebuttonSignerModal();
   }
   await page.getByText('All pages but first').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.getByRole('img', { name: 'stamp' })).toBeVisible();
-  await page.locator('canvas').nth(1).click({
-    position: {
-      x: 49,
-      y: 71
-    }
-  });
-  await expect(page.getByRole('img', { name: 'stamp' })).toBeVisible();
-  await page.locator('canvas').nth(0).click({
-    position: {
-      x: 65,
-      y: 59
-    }
-  });
-  await expect(page.getByRole('img', { name: 'stamp' })).not.toBeVisible();
+  const stamp = page.getByRole('img', { name: 'stamp' });
+await expect(stamp).toHaveCount(3);
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
@@ -911,21 +833,8 @@ while (true) {
   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
 }
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.getByRole('img', { name: 'initials' })).toBeVisible();
-  await page.locator('canvas').nth(1).click({
-    position: {
-      x: 49,
-      y: 71
-    }
-  });
-  await expect(page.getByRole('img', { name: 'initials' })).toBeVisible();
-  await page.locator('canvas').nth(2).click({
-    position: {
-      x: 65,
-      y: 59
-    }
-  });
-  await expect(page.getByRole('img', { name: 'initials' })).toBeVisible();
+   const initials = page.getByRole('img', { name: 'initials' });
+await expect(initials).toHaveCount(3);
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
@@ -966,21 +875,8 @@ while (true) {
 }
 await page.getByRole('radio', { name: 'All pages but last' }).check();
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.getByRole('img', { name: 'initials' })).toBeVisible();
-  await page.locator('canvas').nth(1).click({
-    position: {
-      x: 49,
-      y: 71
-    }
-  });
-  await expect(page.getByRole('img', { name: 'initials' })).toBeVisible();
-  await page.locator('canvas').nth(2).click({
-    position: {
-      x: 65,
-      y: 59
-    }
-  });
-  await expect(page.getByRole('img', { name: 'initials' })).not.toBeVisible();
+   const initials = page.getByRole('img', { name: 'initials' });
+await expect(initials).toHaveCount(2);
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
@@ -1029,21 +925,8 @@ await commonSteps.ClickSavebuttonSignerModal();
   }
   await page.getByText('All pages but first').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-  await expect(page.getByRole('img', { name: 'initials' })).toBeVisible();
-  await page.locator('canvas').nth(1).click({
-    position: {
-      x: 49,
-      y: 71
-    }
-  });
-  await expect(page.getByRole('img', { name: 'initials' })).toBeVisible();
-  await page.locator('canvas').nth(0).click({
-    position: {
-      x: 65,
-      y: 59
-    }
-  });
-  await expect(page.getByRole('img', { name: 'initials' })).not.toBeVisible();
+   const initials = page.getByRole('img', { name: 'initials' });
+await expect(initials).toHaveCount(3);
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
@@ -1442,12 +1325,9 @@ while (true) {
   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
 }
 await page.getByRole('button', { name: 'Apply' }).click();
-
   await expect(page.locator("//textarea[text()='120 wood street sf']")).toBeVisible();
-  await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='2']`).click();
-await expect(page.locator("//textarea[@readonly]")).toHaveValue("120 wood street sf");
-    await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='3']`).click();
-await expect(page.locator("//textarea[@readonly]")).toHaveValue("120 wood street sf");
+   await expect(page.locator('//div[@data-page-number="2"]//span[@readonly and normalize-space(.)="120 wood street sf"]')).toBeVisible();
+await expect(page.locator('//div[@data-page-number="3"]//span[@readonly and normalize-space(.)="120 wood street sf"]')).toBeVisible();
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
@@ -1488,10 +1368,10 @@ while (true) {
 await page.getByRole('radio', { name: 'All pages but last' }).check();
 await page.getByRole('button', { name: 'Apply' }).click();
 await expect(page.locator("//textarea[text()='20 wood street sanfransisco']")).toBeVisible();
-   await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='2']`).click();
-   await expect(page.locator("//textarea[@readonly]")).toHaveValue("20 wood street sanfransisco");
-    await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='3']`).click();
-await expect(page.locator("//textarea[@readonly]")).not.toHaveValue("20 wood street sanfransisco");
+   await expect(page.locator('//div[@data-page-number="2"]//span[@readonly and normalize-space(.)="20 wood street sanfransisco"]')).toBeVisible();
+await expect(
+  page.locator('//div[@data-page-number="3"]//span[normalize-space(.)="20 wood street sanfransisco"]')
+).toHaveCount(0);
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
@@ -1514,7 +1394,6 @@ await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_T
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
-    await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='3']`).click();
 await commonSteps.dragAndDrop('text', 600, 300);
 await commonSteps.fillTextField('text', '20 wood street sanfransisco');
 await commonSteps.ClickSavebuttonSignerModal();
@@ -1533,10 +1412,8 @@ await commonSteps.ClickSavebuttonSignerModal();
   await page.getByText('All pages but first').click();
 await page.getByRole('button', { name: 'Apply' }).click();
  await expect(page.locator("//textarea[text()='20 wood street sanfransisco']")).toBeVisible();
-    await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='2']`).click();
-await expect(page.locator("//textarea[@readonly]")).toHaveValue("20 wood street sanfransisco");
-  await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='1']`).click();
-await expect(page.locator("//textarea[@readonly]")).not.toHaveValue("20 wood street sanfransisco");
+  await expect(page.locator('//div[@data-page-number="2"]//span[@readonly and normalize-space(.)="20 wood street sanfransisco"]')).toBeVisible();
+await expect(page.locator('//div[@data-page-number="3"]//span[@readonly and normalize-space(.)="20 wood street sanfransisco"]')).toBeVisible();
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });
@@ -1601,31 +1478,40 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
 await expect(page.locator('#renderList')).toContainText('1 of 1');
-  await page.locator('#container div').first().click();
   const fileChooserPromise2 = page.waitForEvent('filechooser');
   await page.getByTitle('Add pages').nth(1).click();
   const fileChooser2 = await fileChooserPromise2;
-await fileChooser2.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
+  await fileChooser2.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
   await expect(page.locator('#renderList')).toContainText('1 of 4');
-   await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='2']`).click();
+await page.locator(
+  "//div[contains(@class,'react-pdf__Document')]//div[@class='react-pdf__Page' and @data-page-number='2']"
+).click();
+
      await expect(page.locator('#renderList')).toContainText('2 of 4');
-  await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='3']`).click();
+     const page3 = page.locator(
+  "//div[contains(@class,'react-pdf__Document')]//div[@class='react-pdf__Page' and @data-page-number='3']"
+);
+
+await page3.scrollIntoViewIfNeeded();
+await page3.first().click();
    await expect(page.locator('#renderList')).toContainText('3 of 4');
-  await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='4']`).click();
+const page4 = page.locator(
+  "//div[contains(@class,'react-pdf__Document')]//div[@class='react-pdf__Page' and @data-page-number='4']"
+);
+await page4.first().click();
      await expect(page.locator('#renderList')).toContainText('4 of 4');
 await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
-await commonSteps.dragAndDrop('stamp', 600, 300);
+await commonSteps.dragAndDrop('stamp', 600, 350);
 await commonSteps.uploadStamp();
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('initials', 600, 350);
+await commonSteps.dragAndDrop('initials', 600, 400);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('name', 600,380);
+await commonSteps.dragAndDrop('name', 600,300);
 await commonSteps.fillTextField('please enter text', 'Pravin Testing account');
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('job title', 600, 400);
@@ -1636,6 +1522,7 @@ await commonSteps.fillTextField('please enter text', 'OpenSign pvt ltd');
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('text', 600, 500);
 await commonSteps.fillTextField('text', '20 wood street sanfransisco');
+await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('date', 600, 520);
 const today = new Date();
 // Format the date as MM/DD/YYYY
@@ -1697,13 +1584,11 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
 await expect(page.locator('#renderList')).toContainText('1 of 3');
-  await page.locator('#container div').first().click();
   await page.getByTitle('Delete page').locator('i').click();
   await expect(page.getByRole('heading')).toContainText('Delete page');
   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to delete this page?');
@@ -1732,16 +1617,16 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.waitForLoadState("networkidle");
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
 await expect(page.locator('#renderList')).toContainText('1 of 3');
-   await page.locator(`//div[contains(@class,'react-pdf__Page') and @data-page-number='2']`).click();
+   await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
   await expect(page.locator('#renderList')).toContainText('2 of 3');
   await page.getByTitle('Rotate right').locator('i').click();
-   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+  await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
+ await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
      - text: Pages
      - button "+ Add pages"
      - text: +      
@@ -1754,7 +1639,9 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
      - superscript: "?"
      - list "Add widgets": " signature   stamp   initials   number #  name   job title   company   email   date   text   cells   checkbox   image "
      `);
+     await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
   await page.getByTitle('Rotate right').locator('i').click();
+    await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
      - text: Pages
      - button "+ Add pages"
@@ -1768,7 +1655,9 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
      - superscript: "?"
      - list "Add widgets": " signature   stamp   initials   number #  name   job title   company   email   date   text   cells   checkbox   image "
      `);
+     await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
   await page.getByTitle('Rotate left').locator('i').click();
+    await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
      - text: Pages
      - button "+ Add pages"

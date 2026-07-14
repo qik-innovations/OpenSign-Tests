@@ -114,12 +114,14 @@ if (!(await toggle.isChecked())) {
   }
 
   // Step 4: Handle 'Proceed' button if present
-  const proceedButton = page.locator("//form//button[@class='op-btn op-btn-primary w-full' and normalize-space(text())='Proceed']");
-  if (await proceedButton.count() > 0) {
-    await proceedButton.click();
-    console.log("Clicked 'Proceed' button");
-  }
+const proceedButton = page.getByRole('button', { name: 'Proceed' });
 
+try {
+  await expect(proceedButton).toBeVisible({ timeout: 90000 });
+  await proceedButton.click();
+} catch {
+  console.log("'Proceed' button did not appear.");
+}
   // Step 5: Fill new user details
   const email = `pravin+${Math.random()}@nxglabs.in`;
   await page.locator('input[name="name"]').waitFor({ timeout: 180000 });

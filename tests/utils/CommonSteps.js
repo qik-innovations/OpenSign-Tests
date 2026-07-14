@@ -90,10 +90,10 @@ export class CommonSteps {
     }
   }
   //This login method is specifically for the user who will test custom storage functionality 
-async loginForCustomStorgeUser() {
-    await this.page.locator('#username').fill(loginCredentials.CustomStorageUser_Username);
+  async loginForCustomStorgeUser() {
+    await this.page.locator('#email').fill(loginCredentials.CustomStorageUser_Username);
     await this.page.locator('#password').fill(loginCredentials.CustomStorageUser_Password);
-    await this.page.locator('#kc-login').click();
+    await this.page.getByRole('button', { name: /login/i }).click();
   }
   async verifyPageTitle(expectedTitle) {
     const title = await this.page.title();

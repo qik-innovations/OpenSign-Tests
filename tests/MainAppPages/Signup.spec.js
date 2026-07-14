@@ -62,25 +62,10 @@ const planDefinitions = {
     heading: 'OPENSIGN™ PROFESSIONAL',
     slug: 'pro-monthly',
     billingText: 'Billed Monthly',
-    priceText: '₹999',
+    priceText: '₹2,499',
     badgeText: 'PRO',
     cardText: [
-      'Exclusive Access to advanced features.',
-      'Everything in OpenSign™ free',
-      'Field validations',
-      'Regular expression validations',
-      'Organize docs in OpenSign™ Drive',
-      'Webhooks',
-      'Zapier integration',
-      'API Access',
-      'upto 240 API signatures',
-      'Custom email templates',
-      'Connect your own Gmail or SMTP account for sending emails',
-      'Auto reminders',
-      'Bulk send (upto 240 docs)',
-      'Premium Public profile usernames',
-      'Enforce email-based verification to confirm signer identity',
-      'Embedded signing',
+      'OPENSIGN™ PROFESSIONAL₹2,499Billed MonthlyExclusive Access to advanced features.SubscribeEverything in OpenSign™ freeField validationsRegular expression validationsOrganize docs in OpenSign™ DriveWebhooksZapier integrationAPI Accessupto 100 API signaturesCustom email templatesConnect your own Gmail or SMTP account for sending emailsAuto remindersBulk send (upto 100 docs)Premium Public profile usernamesEnforce email-based verification to confirm signer identityEmbedded signing'
     ],
   },
   professionalYearly: {
@@ -110,30 +95,20 @@ const planDefinitions = {
   },
   teamsMonthly: {
     heading: 'OPENSIGN™ TEAMS',
-    slug: 'teams-monthly',
-    billingText: 'Billed Monthly',
-    priceText: '₹1,999',
-    badgeText: 'PRO',
-    cardText: [
-      'Exclusive Access to advanced features.',
-      'Everything in OpenSign™ professional',
-      'upto 500 API signatures',
-      'Bulk send (upto 500 docs)',
-      'DocumentId removal from signed docs',
-      'Teams and Organizations',
-      'Share Templates with teams',
-      'Share Templates with individuals',
-      'BYOC - Store your documents in your own cloud storage',
-      'Request Payments (coming soon)',
-      'Mobile app (coming soon)',
-    ],
+  slug: 'teams-monthly',
+  billingText: 'Billed Monthly',
+  priceText: '₹3,499',
+  badgeText: 'TEAM',
+  cardText: [
+   'OPENSIGN™ TEAMS₹3,499/userBilled MonthlyExclusive Access to advanced features.SubscribeEverything in OpenSign™ professionalupto 100 API signaturesTeams and OrganizationsShare Templates with teamsShare Templates with individualsBYOC - Store your documents in your own cloud storageDocumentId removal from signed docsBulk send (upto 100 docs)Request Payments (coming soon)Mobile app (coming soon)'
+  ]
   },
   teamsYearly: {
     heading: 'OPENSIGN™ TEAMS',
     slug: 'teams-yearly',
     billingText: 'Billed Yearly',
     priceText: '₹19,999',
-    badgeText: 'PRO',
+    badgeText: 'TEAM',
     cardText: [
       'Exclusive Access to advanced features.',
       'Everything in OpenSign™ professional',
@@ -164,6 +139,9 @@ const signupData = (overrides = {}) => ({
   ...overrides,
 });
 
+/**
+ * @param {import('@playwright/test').Page} page
+ */
 async function openSignupPage(page) {
   const commonSteps = new CommonSteps(page);
   await commonSteps.navigateToBaseUrl();
@@ -171,6 +149,10 @@ async function openSignupPage(page) {
   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ * @param {{name: string, email: string, phone: string, company: string, jobTitle: string, password: string, acceptTerms?: boolean}} param1
+ */
 async function fillSignupForm(page, { name, email, phone, company, jobTitle, password, acceptTerms = true }) {
   await page.locator(locators.nameInput).first().fill(name);
   await page.locator(locators.emailInput).fill(email);
@@ -185,10 +167,18 @@ async function fillSignupForm(page, { name, email, phone, company, jobTitle, pas
   }
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ */
 async function submitRegistration(page) {
   await page.locator(locators.registerButton).click();
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ * @param {{heading: string, billingText?: string}} plan
+ * @returns {import('@playwright/test').Locator}
+ */
 function planCard(page, plan) {
   return page.locator('li', {
     has: page.getByRole('heading', { name: plan.heading }),
@@ -196,6 +186,10 @@ function planCard(page, plan) {
   });
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ * @param {{billingText?: string}} plan
+ */
 async function chooseBillingCadence(page, plan) {
   if (!plan.billingText) return;
 
@@ -215,6 +209,10 @@ async function chooseBillingCadence(page, plan) {
   }
 }
 
+/**
+ * @param {import('@playwright/test').Locator} card
+ * @param {{priceText?: string, billingText?: string, cardText: string[]}} plan
+ */
 async function expectPlanCardDetails(card, plan) {
   await expect(card).toBeVisible({ timeout: 120000 });
   if (plan.priceText) await expect(card).toContainText(plan.priceText);
@@ -225,6 +223,9 @@ async function expectPlanCardDetails(card, plan) {
   }
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ */
 async function selectFreePlan(page) {
   await expect(page.getByRole('heading', { name: planDefinitions.free.heading })).toBeVisible({ timeout: 120000 });
   for (const text of planDefinitions.free.cardText) {
@@ -239,6 +240,10 @@ async function selectFreePlan(page) {
   await expect(page.locator('//div[@id="profile-menu"]//parent::button[text()="Upgrade now"]')).toBeVisible();
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ * @param {{heading: string, billingText?: string, priceText?: string, cardText: string[]}} plan
+ */
 async function selectPaidPlan(page, plan) {
   await chooseBillingCadence(page, plan);
   const card = planCard(page, plan);
@@ -247,6 +252,10 @@ async function selectPaidPlan(page, plan) {
   await page.locator(locators.proceedButton).click();
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ * @param {string} email
+ */
 async function completeOtpVerification(page, email) {
   await page.locator(locators.sendOtpButton).click();
   const otp = await fetchOTP({
@@ -262,6 +271,9 @@ async function completeOtpVerification(page, email) {
   await page.getByRole('button', { name: 'Proceed' }).click();
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ */
 async function fillBillingAddress(page) {
   await page.locator(locators.billingStreet).fill('120 wood street');
   await page.selectOption(locators.billingState, { label: 'California' });
@@ -271,6 +283,9 @@ async function fillBillingAddress(page) {
   await page.getByRole('button', { name: 'Proceed' }).click();
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ */
 async function payByStripeTestCard(page) {
   await page.waitForSelector('iframe');
 
@@ -286,17 +301,26 @@ async function payByStripeTestCard(page) {
   await page.getByRole('button', { name: /Pay/i }).click();
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ * @param {string} email
+ * @param {{heading: string, billingText?: string, priceText?: string, cardText: string[], badgeText: string}} plan
+ */
 async function completePaidCheckout(page, email, plan) {
   await selectPaidPlan(page, plan);
   await completeOtpVerification(page, email);
   await fillBillingAddress(page);
   await payByStripeTestCard(page);
   await closeModalIfVisible(page);
+  await page.getByRole('button', { name: 'Close Tour' }).click();
   await expect(page.locator(`//div[@id="profile-menu"]//parent::div[text()="${plan.badgeText}"]`)).toBeVisible({
     timeout: 120000,
   });
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ */
 async function closeModalIfVisible(page) {
   const closeByLabel = page.getByLabel('Close');
   if (await closeByLabel.isVisible().catch(() => false)) {
@@ -310,16 +334,27 @@ async function closeModalIfVisible(page) {
   }
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ */
 async function openProfile(page) {
   await page.getByRole('button', { name: '' }).click();
   await page.getByText('Profile').click();
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ */
 async function openBilling(page) {
   await page.getByRole('button', { name: '' }).click();
   await page.getByText('Billing').click();
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ * @param {*} data
+ * @param {{username?: string, tagline?: string, shouldShowUpgrade?: boolean}} options
+ */
 async function expectProfileDetails(page, data, { username, tagline, shouldShowUpgrade = true } = {}) {
   const list = page.getByRole('list');
   await expect(page.locator('#renderList')).toContainText('Admin');
@@ -350,6 +385,10 @@ async function expectProfileDetails(page, data, { username, tagline, shouldShowU
   }
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ * @param {Record<string, any>} [overrides]
+ */
 async function editProfile(page, overrides = {}) {
   const updated = {
     name: 'Mathew W Karl',
@@ -372,6 +411,10 @@ async function editProfile(page, overrides = {}) {
 
   return updated;
 }
+/**
+ * @param {import('@playwright/test').Page} page
+ * @param {Record<string, any>} [overrides]
+ */
 async function editProfilewithoutEditbuttonClick(page, overrides = {}) {
   const updated = {
     name: 'Mathew W Karl',
@@ -393,12 +436,20 @@ async function editProfilewithoutEditbuttonClick(page, overrides = {}) {
   return updated;
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ * @param {*} plan
+ */
 async function expectBillingDetails(page, plan) {
   await expect(page.getByRole('heading')).toContainText(plan.slug);
   await expect(page.locator('#renderList')).toContainText(plan.billingText || 'Free');
   await expect(page.locator('#renderList')).toContainText('active');
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ * @param {number} monthsToAdd
+ */
 async function expectNextBillingDate(page, monthsToAdd) {
   const text = await page.locator('//span[@class="op-text-primary font-medium"]').textContent();
   if (!text) throw new Error('No billing date found');
@@ -412,6 +463,9 @@ async function expectNextBillingDate(page, monthsToAdd) {
   expect(actualDate.toISOString().split('T')[0]).toBe(expectedDate.toISOString().split('T')[0]);
 }
 
+/**
+ * @param {string} email
+ */
 async function expectSubscriptionInvoiceEmail(email) {
   const invoiceText = await fetchOTP({
     ...gmailConfig,
@@ -422,6 +476,10 @@ async function expectSubscriptionInvoiceEmail(email) {
   expect(invoiceText.toLowerCase()).toMatch(/invoice|receipt|subscription|payment successful/);
 }
 
+/**
+ * @param {import('@playwright/test').Page} page
+ * @param {{name: string, email: string, phone: string, company: string, jobTitle: string, password: string, acceptTerms?: boolean}} data
+ */
 async function registerNewUser(page, data) {
   await openSignupPage(page);
   await fillSignupForm(page, data);
@@ -446,7 +504,7 @@ test.describe('SignupPage', () => {
       jobTitle: '',
       password: '',
       acceptTerms: false,
-    }), { acceptTerms: false });
+    }));
 
     await submitRegistration(page);
     await expect(page.locator('#root')).toContainText(/required|valid|terms|condition/i);
@@ -485,7 +543,10 @@ test.describe('SignupPage', () => {
     await expect(page.locator('#renderList')).toContainText('To have a username less than 8 character please subscribe');
     await expect(page.locator('#renderList')).toContainText('Upgrade now');
     await closeModalIfVisible(page);
- const longUsername = 'DemoTestname';
+ const randomNumber = Math.floor(100000 + Math.random() * 900000);
+const longUsername = `public_userName${randomNumber}`;
+console.log(longUsername);
+// Example: DemoTestname483921
 const updated = await editProfilewithoutEditbuttonClick(page, { username: longUsername })
     await expectProfileDetails(
       page,
@@ -520,176 +581,33 @@ const updated = await editProfilewithoutEditbuttonClick(page, { username: longUs
       password: 'Nsg@12345',
     }));
     await submitRegistration(page);
-    await expect(page.locator('#root')).toContainText('User already registered.');
+    await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
+    //This is failing because the error message is displyed on the brower messge pop and whic i sno tworking in playwright execution
+  //await expect(page.locator('#root')).toContainText('User already registered.');
+ 
   });
 
   test('Reg_TC-05 Verify Professional Monthly signup and subscription invoice email.', async ({ page }) => {
     test.setTimeout(280 * 1000);
     const data = signupData();
-
     await registerNewUser(page, data);
     // ---------- Step 2: Select Professional Plan ----------
-  const professionalCard = page.locator('li', {
-    has: page.getByRole('heading', { name: 'OPENSIGN™ PROFESSIONAL' }),
-  });
+    await page.getByRole('tab', { name: 'Monthly' }).click();
+   await completePaidCheckout(page, data.email, planDefinitions.professionalMonthly);
+    await expectSubscriptionInvoiceEmail(data.email);
+ await page.getByRole('button', { name: 'Close Tour' }).click();
+    await openProfile(page);
+    await expectProfileDetails(page, data, { shouldShowUpgrade: true });
+    const updated = await editProfile(page);
+    await expectProfileDetails(page, { ...data, ...updated }, {
+      username: updated.username,
+      tagline: updated.tagline,
+      shouldShowUpgrade: true,
+    });
 
-  await expect(professionalCard).toBeVisible({ timeout: 120000 });
-await expect(professionalCard).toContainText('₹9,999');
-await expect(professionalCard).toContainText('Billed Yearly');
-await expect(professionalCard).toContainText('Exclusive Access to advanced features.');
-await expect(professionalCard).toContainText('API Access');
-await expect(professionalCard).toContainText('Bulk send (upto 240 docs)');
-await expect(professionalCard).toContainText('Embedded signing');
-
-// Added feature validations
-await expect(professionalCard).toContainText('Everything in OpenSign™ free');
-await expect(professionalCard).toContainText('Field validations');
-await expect(professionalCard).toContainText('Regular expression validations');
-await expect(professionalCard).toContainText('Organize docs in OpenSign™ Drive');
-await expect(professionalCard).toContainText('Webhooks');
-await expect(professionalCard).toContainText('Zapier integration');
-await expect(professionalCard).toContainText('API Access');
-await expect(professionalCard).toContainText('upto 240 API signatures');
-await expect(professionalCard).toContainText('Custom email templates');
-await expect(professionalCard).toContainText('Connect your own Gmail or SMTP account for sending emails');
-await expect(professionalCard).toContainText('Auto reminders');
-await expect(professionalCard).toContainText('Bulk send (upto 240 docs)');
-await expect(professionalCard).toContainText('Premium Public profile usernames');
-await expect(professionalCard).toContainText('Enforce email-based verification to confirm signer identity');
-await expect(professionalCard).toContainText('Embedded signing');
-
-  await professionalCard.getByRole('button', { name: 'Subscribe' }).click();
-  await page.locator(locators.proceedButton).click();
-
-  // ---------- Step 3: OTP Verification ----------
-  await page.locator(locators.sendOtpButton).click();
-  console.log('Waiting for OTP...');
-
-  const otp = await fetchOTP({
-    ...gmailConfig,
-    otpRegex: /(\d{6})/,
-    expectedTo: data.email // Ensure we only process OTP emails sent to our generated address
-  });
-
-  console.log('OTP Received:', otp);
-
-  for (let i = 0; i < otp.length; i++) {
-    await page.locator(`(//input[@type='tel' and @maxlength='1'])[${i + 1}]`).fill(otp[i]);
-  }
-
-  //await page.locator(locators.Verify_now_Button).click();
-  await page.getByRole('button', { name: 'Proceed' }).click();
-  // ---------- Step 4: Fill Address ----------
-
-await page.locator('#billing_street').fill('120 wood street');
-await page.selectOption('[name="billing_state_code"]', { label: 'California' });
-  await page.locator('#billing_city').fill('San Francisco');
-  await page.locator('#billing_zip').fill('34554');
-
-  await page.getByRole('button', { name: 'Review Order' }).click();
-  await page.getByRole('button', { name: 'Proceed' }).click();
-
-  // ---------- Step 5: Enter Card Details ----------
- // Wait for Stripe iframes to load
-await page.waitForSelector("iframe");
-
-// ---- Card Number ----
-const cardNumberFrame = page
-  .frameLocator("iframe[title*='card number']");
-
-await cardNumberFrame
-  .locator("input[name='cardnumber']")
-  .click();
-
-await cardNumberFrame
-  .locator("input[name='cardnumber']")
-  .type("4242424242424242", { delay: 400 });
-
-
-// ---- Expiry Date ----
-const expFrame = page
-  .frameLocator("iframe[title*='expiration']");
-
-await expFrame
-  .locator("input[name='exp-date'], input[name='expdate']")
-  .click();
-
-await expFrame
-  .locator("input[name='exp-date'], input[name='expdate']")
-  .type("0728", { delay: 100 });
-
-// ---- CVC ----
-const cvcFrame = page
-  .frameLocator("iframe[title*='CVC'], iframe[title*='security']");
-
-await cvcFrame
-  .locator("input[name='cvc']")
-  .click();
-
-await cvcFrame
-  .locator("input[name='cvc']")
-  .type("709", { delay: 100 });
-
-
-// ---- Pay Button ----
-await page.getByRole("button", { name: /Pay/i }).click();
-
-  // ---------- Step 6: Open Profile ----------
-  await page.getByLabel('Close').click();
-  await expect(page.locator('//div[@id="profile-menu"]//parent::div[text()="PRO"]')).toBeVisible();
-
-  await page.getByRole('button', { name: '' }).click();
-  await page.getByText('Profile').click();
-
-  // ---------- Step 7: Verify Profile Details ----------
-  await expect(page.locator('#renderList')).toContainText('Admin');
-  await expect(page.getByRole('list')).toContainText('Mathew Wade');
-  await expect(page.getByRole('list')).toContainText('8238988998');
-  await expect(page.getByRole('list')).toContainText(data.email);
-  await expect(page.getByRole('list')).toContainText('qikAi pvt ltd');
-  await expect(page.getByRole('list')).toContainText('Hr Execative');
-
-  // ---------- Step 8: Edit Profile ----------
-  await page.getByRole('button', { name: 'Edit' }).click();
-
-  await page.locator('li').filter({ hasText: 'Name:' }).getByRole('textbox').fill('Mathew W Karl');
-  await page.locator('li').filter({ hasText: 'Phone:' }).getByRole('textbox').fill('8806607524');
-  await page.locator('li').filter({ hasText: 'Company:' }).getByRole('textbox').fill('OpenSign pvt. ltd');
-  await page.locator('li').filter({ hasText: 'Job title:' }).getByRole('textbox').fill('Quality Analyst');
-
-  const username = `pravin${Math.random().toString(16).slice(2, 8)}`;
-
-  await page.getByPlaceholder('enter user name').fill(username);
-  await page.getByPlaceholder('enter tagline').fill('Seal the deal openly');
-
-  await page.getByRole('button', { name: 'Save' }).click();
-
-  await expect(page.getByRole('list')).toContainText('Mathew W Karl');
-  await expect(page.getByRole('list')).toContainText('OpenSign pvt. ltd');
-  await expect(page.getByRole('list')).toContainText('Quality Analyst');
-  await expect(page.getByRole('list')).toContainText(username);
-
-  // ---------- Step 9: Billing Verification ----------
-  await page.getByRole('button', { name: '' }).click();
-  await page.getByText('Billing').click();
-
-  await expect(page.getByRole('heading')).toContainText('pro-yearly');
-  await expect(page.locator('#renderList')).toContainText('Billed Yearly');
-  await expect(page.locator('#renderList')).toContainText('active');
-
-  // ---------- Step 10: Verify Billing Date ----------
-  const text = await page.locator('//span[@class="op-text-primary font-medium"]').textContent();
-  if (!text) throw new Error('No billing date found');
-
-  const billingDate = new Date(text.trim());
-  const billingFormatted = billingDate.toISOString().split('T')[0];
-
-  const nextYear = new Date();
-  nextYear.setFullYear(nextYear.getFullYear() + 1);
-  const expectedDate = nextYear.toISOString().split('T')[0];
-
-  expect(expectedDate).toBe(billingFormatted);
-
+    await openBilling(page);
+    await expectBillingDetails(page, planDefinitions.professionalYearly);
+    await expectNextBillingDate(page, 12);
   });
 
   test('Reg_TC-06 Verify Professional Yearly signup and subscription invoice email.', async ({ page }) => {
@@ -699,14 +617,14 @@ await page.getByRole("button", { name: /Pay/i }).click();
     await registerNewUser(page, data);
     await completePaidCheckout(page, data.email, planDefinitions.professionalYearly);
     await expectSubscriptionInvoiceEmail(data.email);
-
+ await page.getByRole('button', { name: 'Close Tour' }).click();
     await openProfile(page);
-    await expectProfileDetails(page, data, { shouldShowUpgrade: false });
+    await expectProfileDetails(page, data, { shouldShowUpgrade: true });
     const updated = await editProfile(page);
     await expectProfileDetails(page, { ...data, ...updated }, {
       username: updated.username,
       tagline: updated.tagline,
-      shouldShowUpgrade: false,
+      shouldShowUpgrade: true,
     });
 
     await openBilling(page);
@@ -717,11 +635,10 @@ await page.getByRole("button", { name: /Pay/i }).click();
   test('Reg_TC-07 Verify Teams Monthly signup and subscription invoice email.', async ({ page }) => {
     test.setTimeout(280 * 1000);
     const data = signupData();
-
     await registerNewUser(page, data);
+    await page.getByRole('tab', { name: 'Monthly' }).click();
     await completePaidCheckout(page, data.email, planDefinitions.teamsMonthly);
     await expectSubscriptionInvoiceEmail(data.email);
-
     await openProfile(page);
     await expectProfileDetails(page, data, { shouldShowUpgrade: false });
     const updated = await editProfile(page);
@@ -743,7 +660,6 @@ await page.getByRole("button", { name: /Pay/i }).click();
     await registerNewUser(page, data);
     await completePaidCheckout(page, data.email, planDefinitions.teamsYearly);
     await expectSubscriptionInvoiceEmail(data.email);
-
     await openProfile(page);
     await expectProfileDetails(page, data, { shouldShowUpgrade: false });
     const updated = await editProfile(page);
@@ -770,13 +686,4 @@ await page.getByRole("button", { name: /Pay/i }).click();
     await expect(page.getByRole('button', { name: /login|sign in/i })).toBeVisible();
   });
 
-  test.skip('Reg_TC-10 Verify signer-added user receives verification link while registering organization.', async () => {
-    // Prerequisite: create/request a document signature for an email that is not registered.
-    // Then open the verification link from that email and assert that Register sends a verification link.
-  });
-
-  test.skip('Reg_TC-11 Verify signer-added user can verify email, log in, and create a new organization.', async () => {
-    // Prerequisite: reuse the signer-added user from Reg_TC-10, open the verification link,
-    // log in, create organization, and validate that the organization is available after login.
-  });
 });

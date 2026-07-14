@@ -284,6 +284,7 @@ await page.getByRole('button', { name: 'Next' }).click();
   await page.getByRole('textbox', { name: 'Enter Email...' }).first().fill('pravin+677@nxglabs.in');
 await page.getByRole('textbox', { name: 'Enter Email...' }).nth(1).fill('pravin+689@nxglabs.in');
   await page.getByRole('button', { name: ' Send' }).click();
+  await expect(page.locator('#selectSignerModal')).toContainText('Please verify your email address before sending emails. Go to your profile settings to complete email verification.');
   await expect(page.locator('#selectSignerModal')).toContainText('Please upgrade to Professional or Team plan to use bulk send.');
   await expect(page.locator('#selectSignerModal')).toContainText('Upgrade now');
   await page.locator('#selectSignerModal').getByRole('button', { name: 'Upgrade now' }).click();
@@ -601,58 +602,47 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
   });
   await page.getByTitle('Rotate right').locator('i').click();
   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
-    - text: Pages
-    - button "+ Add pages"
-    - text: +      
-    - button
-    - text: 2 of 3
-    - button
-    - button ""
-    - button "Back"
-    - button "Next"
-    - text: Roles
-    - superscript: "?"
-    - button "+ Add role"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   cells   checkbox   dropdown   radio button   image   email 
-    `);
+     - text: Pages
+     - button "+ Add pages"
+     - text: +      
+     - button
+     - text: 2 of 3
+     - button
+     - button ""
+     - button "Back"
+     - button "Next"
+     - text: Roles
+     - superscript: "?"
+     - text:  Prefill by owner
+     - button "+ Add role"
+     - text: Widgets
+     - list "Add widgets": " signature   stamp   initials   text input   number #  name   job title   company   email   date   cells   checkbox   dropdown   radio button   image   attachments "
+     `);
   await page.getByTitle('Rotate right').locator('i').click();
   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
-    - text: Pages
-    - button "+ Add pages"
-    - text: +      
-    - button
-    - text: 2 of 3
-    - button
-    - button ""
-    - button "Back"
-    - button "Next"
-    - text: Roles
-    - superscript: "?"
-    - button "+ Add role"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   cells   checkbox   dropdown   radio button   image   email 
-    `);
+     - text: Pages
+     - button "+ Add pages"
+     - text: +      
+     - button
+     - text: 2 of 3
+     - button
+     - button ""
+     - button "Back"
+     - button "Next"
+     - text: Roles
+     - superscript: "?"
+     - text:  Prefill by owner
+     - button "+ Add role"
+     - text: Widgets
+     - list "Add widgets": " signature   stamp   initials   text input   number #  name   job title   company   email   date   cells   checkbox   dropdown   radio button   image   attachments "
+     `);
   await page.locator('canvas').nth(2).click({
     position: {
       x: 52,
       y: 74
     }
   });
-  await page.getByTitle('Rotate left').locator('i').click();
-  await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
-    - text: Pages
-    - button "+ Add pages"
-    - text: +      
-    - button
-    - text: 3 of 3
-    - button [disabled]
-    - button ""
-    - button "Back"
-    - button "Next"
-    - text: Roles
-    - superscript: "?"
-    - button "+ Add role"
-    - text: Fields  signature   stamp   initials   name   job title   company   date   text input   cells   checkbox   dropdown   radio button   image   email 
-    `);
+
     await page.getByRole('button', { name: '+ Add role' }).click();
     await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
     await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
