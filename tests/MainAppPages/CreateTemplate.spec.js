@@ -642,7 +642,7 @@ await expect(page.locator('#renderList')).toContainText('1 of 3');
       y: 74
     }
   });
-  
+
     await page.getByRole('button', { name: '+ Add role' }).click();
     await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
     await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
