@@ -1,1 +1,0 @@
-signature widget dragged and dropped

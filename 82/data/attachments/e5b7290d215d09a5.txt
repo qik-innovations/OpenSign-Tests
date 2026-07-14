@@ -1,0 +1,43 @@
+Test encountered an error: locator.fill: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for getByPlaceholder('optional')
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js:113:45 {
+  [Symbol(step)]: {
+    stepId: 'pw:api@46',
+    location: {
+      file: '/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js',
+      line: 113,
+      column: 45
+    },
+    category: 'pw:api',
+    title: "locator.getByPlaceholder('optional').fill",
+    apiName: 'locator.fill',
+    params: {
+      selector: 'internal:attr=[placeholder="optional"i]',
+      value: '0924820934',
+      strict: true
+    },
+    boxedStack: undefined,
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'pw:api@46'
+    },
+    complete: [Function: complete],
+    endWallTime: 1784029993899,
+    error: {
+      message: 'Error: locator.fill: Test timeout of 120000ms exceeded.\n' +
+        'Call log:\n' +
+        "\x1B[2m  - waiting for getByPlaceholder('optional')\x1B[22m\n",
+      stack: 'Error: locator.fill: Test timeout of 120000ms exceeded.\n' +
+        'Call log:\n' +
+        "\x1B[2m  - waiting for getByPlaceholder('optional')\x1B[22m\n" +
+        '\n' +
+        '    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js:113:45',
+      cause: undefined
+    }
+  }
+}

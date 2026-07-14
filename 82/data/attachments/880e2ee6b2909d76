@@ -1,0 +1,299 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Templates >> Verify that a new free user is unable to send the document through bulk send and is prompted to upgrade.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/CreateTemplate.spec.js:248:1
+
+# Error details
+
+```
+Error: locator.fill: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for getByRole('textbox', { name: 'Enter Email...' }).first()
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/CreateTemplate.spec.js:284:71
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - button ""
+  - img "logo"
+  - button "Upgrade now"
+  - button "Open app drawer": 
+  - img "img"
+  - button "Mathew Wade"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Mathew Wade
+  - paragraph: qikAi.com
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menu "Templates submenu":
+        - menuitem "Create template"
+        - menuitem "Manage templates"
+        - menuitem "Embedding"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- main:
+  - text: Pages
+  - button "+ Add pages"
+  - text: +      
+  - dialog:
+    - heading "Bulk send" [level=3]
+    - button "✕"
+    - text: Please verify your email address before sending emails. Go to your
+    - link "profile settings"
+    - text: to complete email verification.
+  - button [disabled]
+  - text: 1 of 1
+  - button [disabled]
+  - button ""
+  - button "Back"
+  - button "Next"
+  - text: signature-1     signature-1 Roles
+  - superscript: "?"
+  - text:  Prefill by owner  HR
+  - combobox "Signer must sign. Approver approves without signing. Viewer only views.":
+    - option "Signer" [selected]
+    - option "Viewer"
+    - option "Approver"
+  - text:  
+  - separator
+  - text:  Manager
+  - combobox "Signer must sign. Approver approves without signing. Viewer only views.":
+    - option "Signer" [selected]
+    - option "Viewer"
+    - option "Approver"
+  - text:  
+  - separator
+  - button "+ Add role"
+  - text: Widgets
+  - list "Add widgets": " signature   stamp   initials   text input   number #  name   job title   company   email   date   cells   checkbox   dropdown   radio button   image   attachments "
+  - complementary:
+    - paragraph: "All rights reserved © 2026 OpenSign™ ( version: v2.41.0 )"
+```
+
+# Test source
+
+```ts
+  184 |   await page.getByLabel('Add yourself').check();
+  185 |   await page.getByRole('button', { name: 'Submit' }).click();
+  186 |   await page.locator('#selectSignerModal').getByRole('button', { name: 'Next' }).click();
+  187 | await page.getByRole('button', { name: 'Sign now' }).click();
+  188 |     await commonSteps.validateAndAcceptTerms();
+  189 |     await page.waitForLoadState("networkidle");
+  190 |     await page.getByLabel('Don\'t show this again').check();
+  191 |   await page.getByLabel('Close').click();
+  192 |     await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  193 |     await page.locator('//div[contains(text(),"signature")]').click();
+  194 |    await commonSteps.drawSignature();
+  195 |    await commonSteps.clickNextButtonInSignerModal();
+  196 |   await commonSteps.uploadStamp();
+  197 |   await commonSteps.clickNextButtonInSignerModal();
+  198 | await commonSteps.drawInitials();
+  199 |   await commonSteps.clickNextButtonInSignerModal();
+  200 |   await commonSteps.fillTextField('name','Mathew Steven');
+  201 |       await commonSteps.clickNextButtonInSignerModal();
+  202 |         await commonSteps.fillTextField('job title','Quality Analyst');
+  203 |       await commonSteps.clickNextButtonInSignerModal();
+  204 |         await commonSteps.fillTextField('company','Opensignlabs pvt. ltd');
+  205 |       await commonSteps.clickNextButtonInSignerModal();
+  206 |       const today = new Date();
+  207 | // Format the date as MM/DD/YYYY
+  208 | const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
+  209 |                       `${today.getDate().toString().padStart(2, '0')}/` + 
+  210 |                       `${today.getFullYear()}`;
+  211 | console.log('Today\'s date:', formattedDate);  // Extract day number as text
+  212 | await commonSteps.clickDateFieldOnTheSignerPad_Without_date();
+  213 | //await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
+  214 | function getDayWithSuffix(day) {
+  215 |   if (day >= 11 && day <= 13) return `${day}th`;
+  216 |   switch (day % 10) {
+  217 |     case 1: return `${day}st`;
+  218 |     case 2: return `${day}nd`;  
+  219 |     case 3: return `${day}rd`;
+  220 |     default: return `${day}th`;
+  221 |   }   
+  222 | }
+  223 | // Calculate the target date (today + 2 days)
+  224 | today.setDate(today.getDate() + 2);
+  225 | const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g., "Friday" 
+  226 | const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
+  227 | const day = today.getDate();                                            // e.g., 2
+  228 | const year = today.getFullYear();                                       // e.g., 2025
+  229 | const dayWithSuffix = getDayWithSuffix(day);
+  230 | const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
+  231 | await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
+  232 |       await commonSteps.clickNextButtonInSignerModal();
+  233 |         await commonSteps.fillTextField('text','120 wood street sanfransisco');
+  234 |       await commonSteps.clickNextButtonInSignerModal();
+  235 |       await commonSteps.selectCheckbox('Option-1');
+  236 |       await commonSteps.clickNextButtonInSignerModal();
+  237 |      await commonSteps.uploadImage();
+  238 |       await commonSteps.clickNextButtonInSignerModal();
+  239 |      await commonSteps.fillEmailField('demo@gmail.com','mathewsteven@opensignlabs.com');
+  240 |     await commonSteps.clickDoneButtonInSignerModal();
+  241 |      await commonSteps.clickFinishButtonInSignerModal();
+  242 |     await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
+  243 |     await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
+  244 |     await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
+  245 |     await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Download' })).toBeVisible();
+  246 |     await page.getByRole('button', { name: '✕' }).click();
+  247 | });
+  248 | test('Verify that a new free user is unable to send the document through bulk send and is prompted to upgrade.', async ({ page }) => {
+  249 |   const commonSteps = new CommonSteps(page);
+  250 |     // Step 1: Navigate to Base URL and log in
+  251 |     await commonSteps.navigateToBaseUrl();
+  252 |     await commonSteps.NewUserlogin();
+  253 |   await page.getByRole('button', { name: ' Templates' }).click();
+  254 |   await page.getByRole('menuitem', { name: 'Create template' }).click();
+  255 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  256 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  257 |   await page.locator('input[type="file"]').click();
+  258 |   const fileChooser = await fileChooserPromise;
+  259 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  260 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  261 |   await page.getByRole('button', { name: 'Next' }).click();
+  262 |   await page.waitForLoadState("networkidle");
+  263 |   await page.getByLabel('Close').click();
+  264 |   await page.getByRole('button', { name: '+ Add role' }).click();
+  265 |   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
+  266 |   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+  267 |   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  268 |   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  269 |    await page.waitForLoadState("networkidle");
+  270 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  271 | await page.waitForLoadState("networkidle");
+  272 | await commonSteps.dragAndDropSignatureWidget("signature",600, 300);
+  273 | await page.getByRole('button', { name: '+ Add role' }).click();
+  274 | await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 2"]').fill('Manager');
+  275 | await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+  276 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  277 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  278 |  await page.waitForLoadState("networkidle");
+  279 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  280 | await page.waitForLoadState("networkidle");
+  281 | await commonSteps.dragAndDropSignatureWidget("signature", 700, 300);
+  282 | await page.getByRole('button', { name: 'Next' }).click();
+  283 |   await page.getByRole('button', { name: 'Bulk send' }).click();
+> 284 |   await page.getByRole('textbox', { name: 'Enter Email...' }).first().fill('pravin+677@nxglabs.in');
+      |                                                                       ^ Error: locator.fill: Test timeout of 120000ms exceeded.
+  285 | await page.getByRole('textbox', { name: 'Enter Email...' }).nth(1).fill('pravin+689@nxglabs.in');
+  286 |   await page.getByRole('button', { name: ' Send' }).click();
+  287 |   await expect(page.locator('#selectSignerModal')).toContainText('Please verify your email address before sending emails. Go to your profile settings to complete email verification.');
+  288 |   await expect(page.locator('#selectSignerModal')).toContainText('Please upgrade to Professional or Team plan to use bulk send.');
+  289 |   await expect(page.locator('#selectSignerModal')).toContainText('Upgrade now');
+  290 |   await page.locator('#selectSignerModal').getByRole('button', { name: 'Upgrade now' }).click();
+  291 | });
+  292 | test('Verify that an existing Team Plan user can create a template using all advanced fields in the Create New Template form.', async ({ page }) => {
+  293 |   const commonSteps = new CommonSteps(page);
+  294 |     // Step 1: Navigate to Base URL and log in
+  295 |     await commonSteps.navigateToBaseUrl();
+  296 |     await commonSteps.login();
+  297 |  await page.getByRole('button', { name: ' Templates' }).click();
+  298 |   await page.getByRole('menuitem', { name: 'Create template' }).click();
+  299 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  300 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  301 |   await page.locator('input[type="file"]').click();
+  302 |   const fileChooser = await fileChooserPromise;
+  303 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  304 |   await page.locator("//input[@name='SendinOrder' and @value='false']").click();
+  305 |   await page.getByText('Advanced options').click();
+  306 |   await page.locator('input[name="TimeToCompleteDays"]').fill('2');
+  307 |   await page.locator('.css-n9qnu9').first().click();
+  308 |   await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+  309 |   await page.locator('input[name="IsEnableOTP"]').nth(1).check();
+  310 |  // await page.locator('input[name="IsTourEnabled"]').nth(1).check();
+  311 |   //await page.locator('div').filter({ hasText: /^Notify on signaturesYesNo$/ }).getByRole('radio').nth(1).check();
+  312 |   //await page.locator('div:nth-child(5) > div > div > .mr-\\[2px\\]').first().check();
+  313 |   
+  314 |   await page.locator('input[name="RedirectUrl"]').fill('https://staging-app.opensignlabs.com/');
+  315 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  316 |   await page.getByRole('button', { name: 'Next' }).click();
+  317 |   await page.getByRole('button', { name: '', exact: true }).click();
+  318 |   await expect(page.locator('input[name="Name"]')).toHaveValue('Sample-joining-letter');
+  319 |   await expect(page.getByLabel('Note')).toHaveValue('Please review and sign this document');
+  320 |  // await expect(page.locator('input[name="SendinOrder"]').nth(1)).toBeChecked();
+  321 |  //await expect(page.locator('input[name="IsEnableOTP"]').first()).toBeChecked();
+  322 |  // await expect(page.locator('input[name="IsTourEnabled"]').first()).not.toBeChecked();
+  323 |   //await expect(page.locator('input[name="IsTourEnabled"]').nth(1)).toBeChecked();
+  324 |  // await page.locator('div').filter({ hasText: /^Notify on signatures YesNo$/ }).getByRole('radio').nth(1).check();
+  325 |   await expect(page.locator('input[name="RedirectUrl"]')).toHaveValue('https://staging-app.opensignlabs.com/');
+  326 |   await expect(page.locator('input[name="TimeToCompleteDays"]')).toHaveValue('2');
+  327 |   await page.getByRole('button', { name: 'Submit' }).click();
+  328 |   await page.getByRole('button', { name: '+ Add role' }).click();
+  329 |   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
+  330 |   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+  331 |   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  332 |   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  333 |    await page.waitForLoadState("networkidle");
+  334 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  335 | await page.waitForLoadState("networkidle");
+  336 | await commonSteps.dragAndDropSignatureWidget("signature",600, 300);
+  337 | await page.waitForLoadState("networkidle");
+  338 | await page.getByRole('button', { name: 'Next' }).click();
+  339 | await page.getByRole('button', { name: '✕' }).click();
+  340 |   await expect(page.locator('tbody')).toContainText('Sample-joining-letter');
+  341 |   await expect(page.locator('tbody')).toContainText('Download');
+  342 |   await expect(page.locator('tbody')).toContainText('Pravin Testing account');
+  343 |   await page.getByRole('button', { name: 'View' }).first().click();
+  344 |   await expect(page.locator('#selectSignerModal')).toContainText('Roles');
+  345 |   await expect(page.locator('#selectSignerModal')).toContainText('Email');
+  346 |   await page.getByRole('button', { name: '✕' }).click();
+  347 |
+  348 | });
+  349 | test('Verify that a Team Plan user can create a template, make it public, and sign the document through the public template.', async ({ page }) => {
+  350 |   const commonSteps = new CommonSteps(page);
+  351 |     // Step 1: Navigate to Base URL and log in
+  352 |     await commonSteps.navigateToBaseUrl();
+  353 |     await commonSteps.login();
+  354 |      await page.getByRole('button', { name: ' Templates' }).click();
+  355 |   await page.getByRole('menuitem', { name: 'Create template' }).click();
+  356 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  357 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  358 |   await page.locator('input[type="file"]').click();
+  359 |   const fileChooser = await fileChooserPromise;
+  360 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  361 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  362 |   await page.getByRole('button', { name: 'Next' }).click();
+  363 |   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  364 |   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  365 |    await page.waitForLoadState("networkidle");
+  366 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  367 | await page.waitForLoadState("networkidle");
+  368 |   await page.getByRole('button', { name: '+ Add role' }).click();
+  369 |   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
+  370 |   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+  371 |   await commonSteps.dragAndDropSignatureWidget("signature", 600,300)
+  372 | await page.getByRole('button', { name: 'Next' }).click();
+  373 | await page.getByRole('button', { name: 'Copy public URL' }).click();
+  374 |   await page.getByRole('button', { name: 'Yes' }).click();
+  375 |   const page1Promise = page.waitForEvent('popup');
+  376 |   await page.getByRole('link', { name: 'https://staging-app.' }).click();
+  377 |   const page1 = await page1Promise;
+  378 |   await page1.getByRole('button', { name: 'Sign now' }).click();
+  379 |   await page1.locator('#name').click();
+  380 |   await page1.locator('#name').fill('Andrews Mark');
+  381 |   await page1.locator('input[name="email"]').click();
+  382 |   await page1.locator('input[name="email"]').fill('pravin+andrews@nxglabs.in');
+  383 |   await page1.getByRole('button', { name: 'Optional details' }).click();
+  384 |   await page1.locator('input[name="phone"]').fill('7657567566');
+```

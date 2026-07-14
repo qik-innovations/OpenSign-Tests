@@ -1,0 +1,385 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Verify that a Teams plan user can add a team and add the user under the newly created team.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Teams.spec.js:55:1
+
+# Error details
+
+```
+Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+Locator: getByText('Team created successfully.')
+Expected: visible
+Received: <element(s) not found>
+Call log:
+  - expect.toBeVisible with timeout 5000ms
+  - waiting for getByText('Team created successfully.')
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Teams.spec.js:91:62
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - text: "New feature: Protect your account with Two-Factor Authentication (2FA) and enjoy the future of login with Passkeys — no passwords needed. — Setup now."
+  - img
+  - text: 
+  - button ""
+  - img "logo"
+  - text: TEAM
+  - button "Open app drawer": 
+  - img "img"
+  - button "Pravin Testing account"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+      - menu "Settings submenu":
+        - menuitem "My signature"
+        - menuitem "API token"
+        - menuitem "Webhook"
+        - menuitem "Preferences"
+        - menuitem "Teams"
+        - menuitem "Users"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- main:
+  - text: Teams
+  - superscript: "?"
+  - text: 
+  - table:
+    - rowgroup:
+      - row "Sr.No Name Parent team Active":
+        - cell "Sr.No"
+        - cell "Name"
+        - cell "Parent team"
+        - cell "Active"
+    - rowgroup:
+      - row "1 Test Team 1783514367110 All Users ":
+        - cell "1"
+        - cell "Test Team 1783514367110"
+        - cell "All Users"
+        - cell:
+          - checkbox [checked]
+        - cell "":
+          - button ""
+      - row "2 Test Team 1783514257737 All Users ":
+        - cell "2"
+        - cell "Test Team 1783514257737"
+        - cell "All Users"
+        - cell:
+          - checkbox [checked]
+        - cell "":
+          - button ""
+      - row "3 Test Team 1783477592604 All Users ":
+        - cell "3"
+        - cell "Test Team 1783477592604"
+        - cell "All Users"
+        - cell:
+          - checkbox [checked]
+        - cell "":
+          - button ""
+      - row "4 Test Team 1774895982024 All Users ":
+        - cell "4"
+        - cell "Test Team 1774895982024"
+        - cell "All Users"
+        - cell:
+          - checkbox [checked]
+        - cell "":
+          - button ""
+      - row "5 Test Team 1774895860413 All Users ":
+        - cell "5"
+        - cell "Test Team 1774895860413"
+        - cell "All Users"
+        - cell:
+          - checkbox [checked]
+        - cell "":
+          - button ""
+      - row "6 Test Team 1774515589365 All Users ":
+        - cell "6"
+        - cell "Test Team 1774515589365"
+        - cell "All Users"
+        - cell:
+          - checkbox [checked]
+        - cell "":
+          - button ""
+      - row "7 Test Team 1774514884234 All Users ":
+        - cell "7"
+        - cell "Test Team 1774514884234"
+        - cell "All Users"
+        - cell:
+          - checkbox [checked]
+        - cell "":
+          - button ""
+      - row "8 Test Team 1774514817453 All Users ":
+        - cell "8"
+        - cell "Test Team 1774514817453"
+        - cell "All Users"
+        - cell:
+          - checkbox [checked]
+        - cell "":
+          - button ""
+      - row "9 Test Team 1763630460042 All Users ":
+        - cell "9"
+        - cell "Test Team 1763630460042"
+        - cell "All Users"
+        - cell:
+          - checkbox [checked]
+        - cell "":
+          - button ""
+      - row "10 Test Team 1763630338282 All Users ":
+        - cell "10"
+        - cell "Test Team 1763630338282"
+        - cell "All Users"
+        - cell:
+          - checkbox [checked]
+        - cell "":
+          - button ""
+  - button "Prev"
+  - button "1"
+  - button "2"
+  - button "Next"
+  - dialog:
+    - heading "Add team" [level=3]
+    - button "✕"
+    - text: Name *
+    - textbox: Test Team 1784038701044
+    - text: Parent team
+    - combobox:
+      - option "Test Team 1783514367110"
+      - option "Test Team 1783514257737"
+      - option "Test Team 1783477592604"
+      - option "Test Team 1774895982024"
+      - option "Test Team 1774895860413"
+      - option "Test Team 1774515589365"
+      - option "Test Team 1774514884234"
+      - option "Test Team 1774514817453"
+      - option "Test Team 1763630460042"
+      - option "Test Team 1763630338282"
+      - option "Test Team 1758628292325"
+      - option "Test Team 1758628115911"
+      - option "Test Team 1758627992615"
+      - option "Test Team 1758627992615ggg"
+      - option "All Users" [selected]
+    - button "Submit"
+    - text: Reset
+  - complementary:
+    - paragraph: "All rights reserved © 2026 OpenSign™ ( version: v2.41.0 )"
+```
+
+# Test source
+
+```ts
+   1 | const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+   2 | const { test, expect } = require('@playwright/test');
+   3 | const CommonSteps = require('../utils/CommonSteps');
+   4 | const exp = require('constants');
+   5 |
+   6 | // Test for Free user
+   7 | test('Verify that a new free user cannot add a team and is prompted to upgrade to a Teams plan.', async ({ page }) => {
+   8 |   const commonSteps = new CommonSteps(page);
+   9 |
+   10 |   // Step 1: Navigate to Base URL and log in
+   11 |   await commonSteps.navigateToBaseUrl();
+   12 |   await commonSteps.NewUserlogin();
+   13 |
+   14 |   // Step 2: Go to Settings → Teams
+   15 |   await page.getByRole('button', { name: ' Settings' }).click();
+   16 |   await page.getByRole('menuitem', { name: 'Teams' }).click();
+   17 |
+   18 |   // Step 3: Verify title
+   19 |   const title = await page.title();
+   20 |   expect(title).toBe('Teams - OpenSign™');
+   21 |
+   22 |   // Step 4: Verify upgrade prompt
+   23 |   await expect(page.getByRole('heading', { name: 'Upgrade to TEAMS Plan' })).toBeVisible();
+   24 |   await page.getByText('Unlock the full power of').click();
+   25 |   await expect(page.locator('#renderList').getByRole('button', { name: 'Upgrade now' })).toBeVisible();
+   26 |
+   27 |   // Step 5: Click Upgrade Now button
+   28 |   await page.locator("//button[@class='op-btn op-btn-accent' and text()='Upgrade now']").click();
+   29 | });
+   30 | // Test for Free user
+   31 | test('Verify that professional plan user cannot add a team and is prompted to upgrade to a Teams plan.', async ({ page }) => {
+   32 |   const commonSteps = new CommonSteps(page);
+   33 |
+   34 |   // Step 1: Navigate to Base URL and log in
+   35 |   await commonSteps.navigateToBaseUrl();
+   36 |   await commonSteps.ProfessionPlanUserlogin();
+   37 |
+   38 |   // Step 2: Go to Settings → Teams
+   39 |   await page.getByRole('button', { name: ' Settings' }).click();
+   40 |   await page.getByRole('menuitem', { name: 'Teams' }).click();
+   41 |
+   42 |   // Step 3: Verify title
+   43 |   const title = await page.title();
+   44 |   expect(title).toBe('Teams - OpenSign™');
+   45 |
+   46 |   // Step 4: Verify upgrade prompt
+   47 |   await expect(page.getByRole('heading', { name: 'Upgrade to TEAMS Plan' })).toBeVisible();
+   48 |   await page.getByText('Unlock the full power of').click();
+   49 |   await expect(page.locator('#renderList').getByRole('button', { name: 'Upgrade now' })).toBeVisible();
+   50 |
+   51 |   // Step 5: Click Upgrade Now button
+   52 |   await page.locator("//button[@class='op-btn op-btn-accent' and text()='Upgrade now']").click();
+   53 | });
+   54 | // Test for Teams plan user
+   55 | test('Verify that a Teams plan user can add a team and add the user under the newly created team.', async ({ page }) => {
+   56 |   const commonSteps = new CommonSteps(page);
+   57 |
+   58 |   // Step 1: Navigate to Base URL and log in
+   59 |   await commonSteps.navigateToBaseUrl();
+   60 |   await commonSteps.login();
+   61 |
+   62 |   // Step 2: Go to Settings → Teams
+   63 |   await page.getByRole('button', { name: ' Settings' }).click();
+   64 |   await page.getByRole('menuitem', { name: 'Teams' }).click();
+   65 | //here add the wait to load the teams page
+   66 |   await page.waitForSelector('#renderList i');
+   67 |   // Step 3: Verify page title
+   68 |   const title = await page.title();
+   69 |   expect(title).toBe('Teams - OpenSign™');
+   70 |
+   71 |   // Step 4: Verify Teams page heading
+   72 |   await expect(page.locator("//div[@class='font-light' and normalize-space(text())='Teams']")).toBeVisible();
+   73 |
+   74 |   // Step 5: Click Add Team button
+   75 |   await page.locator("//div[@class='cursor-pointer'][i[contains(@class,'fa-square-plus')]]").click();
+   76 |   await expect(page.getByRole('heading', { name: 'Add team' })).toBeVisible();
+   77 |
+   78 |   // Step 6: Fill team details
+   79 |   const teamName = `Test Team ${Date.now()}`;
+   80 |   await page.locator('input[name="name"]').fill(teamName);
+   81 |
+   82 |   // Select parent team
+   83 |   await page
+   84 |     .locator("//label[normalize-space(text())='Parent team']/following-sibling::select[@name='team']")
+   85 |     .selectOption({ label: 'All Users' });
+   86 |
+   87 |   // Step 7: Submit form
+   88 |   await page.locator("//button[@type='submit' and contains(@class,'op-btn-primary')]").click();
+   89 |
+   90 |   // Step 8: Verify success toast
+>  91 |   await expect(page.getByText('Team created successfully.')).toBeVisible();
+      |                                                              ^ Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+   92 |
+   93 |   // Step 9: Verify team appears in the team list
+   94 |   const teamRow = page.locator('table tbody tr', { hasText: teamName });
+   95 |   await expect(teamRow).toBeVisible();
+   96 | // Locate the toggle inside the row
+   97 | const toggle = teamRow.locator('input[type="checkbox"].op-toggle');
+   98 |
+   99 | // Ensure it is checked (enabled)
+  100 | if (!(await toggle.isChecked())) {
+  101 |   await toggle.check();
+  102 | }
+  103 |   await page.getByRole('menuitem', { name: 'Users' }).click();
+  104 |   // Wait for users list to render
+  105 |   await page.waitForSelector('#renderList i');
+  106 |
+  107 |   // Step 3: Click the second action icon if available
+  108 |   const actionIcon = page.locator('#renderList i').nth(1);
+  109 |   if (await actionIcon.count() > 0) {
+  110 |     await actionIcon.click();
+  111 |     console.log("Popup is loaded.");
+  112 |   } else {
+  113 |     console.log("Action icon not found, skipping...");
+  114 |   }
+  115 |
+  116 |   // Step 4: Handle 'Proceed' button if present
+  117 | const proceedButton = page.getByRole('button', { name: 'Proceed' });
+  118 |
+  119 | try {
+  120 |   await expect(proceedButton).toBeVisible({ timeout: 90000 });
+  121 |   await proceedButton.click();
+  122 | } catch {
+  123 |   console.log("'Proceed' button did not appear.");
+  124 | }
+  125 |   // Step 5: Fill new user details
+  126 |   const email = `pravin+${Math.random()}@nxglabs.in`;
+  127 |   await page.locator('input[name="name"]').waitFor({ timeout: 180000 });
+  128 |   await page.locator('input[name="name"]').fill('Karl Vanderson');
+  129 |   await page.locator('input[name="email"]').fill(email);
+  130 |
+  131 |   const randomPass = await page.locator("//div[@class='break-all']").textContent();
+  132 |   console.log(`Generated password: ${randomPass}`);
+  133 |
+  134 |   await page.locator('select[name="team"]').selectOption(teamName);
+  135 |   await page.locator('#selectSignerModal i').click();
+  136 |   await page.locator('select[name="role"]').selectOption('User');
+  137 |
+  138 |   // Step 6: Submit the form
+  139 |   await page.getByRole('button', { name: 'Submit' }).click();
+  140 |
+  141 |   // Verify user exists in the table
+  142 |   await expect(page.getByRole('cell', { name: email })).toBeVisible();
+  143 |   await expect(page.getByRole('cell', { name: teamName })).toBeVisible();
+  144 | });
+  145 | //write test to check pagination in teams page
+  146 | test('Verify pagination works in Teams page when multiple teams are present', async ({ page }) => {
+  147 |   const commonSteps = new CommonSteps(page);  
+  148 |   // Step 1: Navigate to Base URL and log in
+  149 |   await commonSteps.navigateToBaseUrl();
+  150 |   await commonSteps.login();  
+  151 |   // Step 2: Go to Settings → Teams
+  152 |   await page.getByRole('button', { name: ' Settings' }).click();
+  153 |   await page.getByRole('menuitem', { name: 'Teams' }).click();
+  154 |   //here add the wait to load the teams page
+  155 |   await page.waitForSelector('#renderList i');
+  156 |   // Step 3: Verify page title
+  157 |   const title = await page.title();
+  158 |   expect(title).toBe('Teams - OpenSign™');  
+  159 |   // Step 4: Check if pagination controls are visible
+  160 |   const pagination = page.locator('.pagination');
+  161 |   if (await pagination.count() > 0) {
+  162 |     console.log("Pagination controls are visible.");  
+  163 |     // Step 5: Click on the next page button
+  164 |     const nextPageButton = pagination.locator('button', { hasText: 'Next' });
+  165 |     if (await nextPageButton.isEnabled()) {
+  166 |       await nextPageButton.click();
+  167 |       console.log("Navigated to the next page."); 
+  168 |       // Optionally, verify that the page number has changed or new teams are displayed
+  169 |       const currentPage = pagination.locator('.current-page');
+  170 |       await expect(currentPage).toHaveText('2'); // Assuming we navigated to page 2
+  171 |     } else {
+  172 |       console.log("Next page button is disabled, only one page of teams exists.");
+  173 |     } 
+  174 |   } else {
+  175 |     console.log("Pagination controls are not visible, likely only one page of teams exists.");
+  176 |   } 
+  177 | });
+  178 | test('Verify that a Teams plan user can disable and enable a team from the Teams list.', async ({ page }) => {
+  179 |   const commonSteps = new CommonSteps(page);
+  180 |   // Step 1: Navigate to Base URL and log in
+  181 |   await commonSteps.navigateToBaseUrl();
+  182 |   await commonSteps.login();
+  183 |   // Step 2: Go to Settings → Teams
+  184 |   await page.getByRole('button', { name: ' Settings' }).click();
+  185 |   await page.getByRole('menuitem', { name: 'Teams' }).click();
+  186 | //here add the wait to load the teams page
+  187 |   await page.waitForSelector('#renderList i');
+  188 |   // Step 3: Verify page title
+  189 |   const title = await page.title();
+  190 |   expect(title).toBe('Teams - OpenSign™');
+  191 |   // Step 4: Verify Teams page heading
+```

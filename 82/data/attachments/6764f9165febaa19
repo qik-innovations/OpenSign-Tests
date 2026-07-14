@@ -1,0 +1,241 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SignupPage >> Reg_TC-09 Verify logout from EU-Subscription page redirects to EU-Login page.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Signup.spec.js:677:3
+
+# Error details
+
+```
+Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /OPENSIGN™/ }) resolved to 4 elements:
+    1) <h3 class="text-[#002862] uppercase">OPENSIGN™ FREE</h3> aka getByRole('heading', { name: 'OPENSIGN™ FREE' })
+    2) <h3 class="text-[#002862] uppercase">OPENSIGN™ PROFESSIONAL</h3> aka getByRole('heading', { name: 'OPENSIGN™ PROFESSIONAL' })
+    3) <h3 class="text-[#002862] uppercase">OPENSIGN™ TEAMS</h3> aka getByRole('heading', { name: 'OPENSIGN™ TEAMS' })
+    4) <h3 class="text-[#002862] uppercase">OPENSIGN™ ENTERPRISE</h3> aka getByRole('heading', { name: 'OPENSIGN™ ENTERPRISE' })
+
+Call log:
+  - expect.toBeVisible with timeout 120000ms
+  - waiting for getByRole('heading', { name: /OPENSIGN™/ })
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Signup.spec.js:681:68
+```
+
+# Page snapshot
+
+```yaml
+- button "Log Out"
+- tablist:
+  - tab "Monthly"
+  - tab "Yearly (upto 66% off)"
+- tablist:
+  - tab "Cloud"
+  - tab "On-premises"
+- list:
+  - listitem:
+    - heading "OPENSIGN™ FREE" [level=3]
+    - img "img"
+    - text: Free
+    - paragraph: Billed Yearly
+    - text: Free Unlimited E-signatures, Forever.
+    - button "Subscribe"
+    - separator
+    - list:
+      - listitem: Unlimited digital signatures
+      - listitem: Sign documents yourself
+      - listitem: Request signatures from others
+      - listitem: Unlimited templates
+      - listitem: 14 field types
+      - listitem: Automatic e-signatures
+      - listitem: Completion certificates
+      - listitem: Send in order
+      - listitem: Organize docs in OpenSign™ Drive
+      - listitem: Document templates
+      - listitem: Import from Dropbox
+      - listitem: Contact book
+      - listitem: Document expiry support
+      - listitem: Decline document support
+      - listitem: Email notifications
+      - listitem: Public profiles
+      - listitem: And much more
+  - listitem:
+    - heading "OPENSIGN™ PROFESSIONAL" [level=3]
+    - img "img"
+    - text: $ 9.99
+    - superscript: /month
+    - paragraph: Billed Yearly
+    - text: Exclusive Access to advanced features.
+    - button "Subscribe"
+    - separator
+    - list:
+      - listitem: Everything in OpenSign™ free
+      - listitem: Field validations
+      - listitem: Regular expression validations
+      - listitem: Organize docs in OpenSign™ Drive
+      - listitem: Webhooks
+      - listitem: Zapier integration
+      - listitem: API Access
+      - listitem: upto 240 API signatures
+      - listitem: Custom email templates
+      - listitem: Connect your own Gmail or SMTP account for sending emails
+      - listitem: Auto reminders
+      - listitem: Bulk send (upto 240 docs)
+      - listitem: Premium Public profile usernames
+      - listitem: Enforce email-based verification to confirm signer identity
+      - listitem: Embedded signing
+  - listitem:
+    - heading "OPENSIGN™ TEAMS" [level=3]
+    - img "img"
+    - text: $ 19.99
+    - superscript: /user/month
+    - paragraph: Billed Yearly
+    - text: Exclusive Access to advanced features.
+    - button "Subscribe"
+    - separator
+    - list:
+      - listitem: Everything in OpenSign™ professional
+      - listitem: upto 500 API signatures
+      - listitem: Teams and Organizations
+      - listitem: Share Templates with teams
+      - listitem: Share Templates with individuals
+      - listitem: BYOC - Store your documents in your own cloud storage
+      - listitem: DocumentId removal from signed docs
+      - listitem: Bulk send (upto 500 docs)
+      - listitem: Request Payments (coming soon)
+      - listitem: Mobile app (coming soon)
+  - listitem:
+    - heading "OPENSIGN™ ENTERPRISE" [level=3]
+    - img "img"
+    - paragraph: Request Price
+    - paragraph: Billed Yearly
+    - text: Scalable Features with priority support.
+    - button "Contact us"
+    - separator
+    - list:
+      - listitem: All features
+      - listitem: Custom domain
+      - listitem: Custom branding
+      - listitem: Uptime SLA
+      - listitem: SSO support
+      - listitem: Priority support
+```
+
+# Test source
+
+```ts
+  581 |       password: 'Nsg@12345',
+  582 |     }));
+  583 |     await submitRegistration(page);
+  584 |     await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
+  585 |     //This is failing because the error message is displyed on the brower messge pop and whic i sno tworking in playwright execution
+  586 |   //await expect(page.locator('#root')).toContainText('User already registered.');
+  587 |  
+  588 |   });
+  589 |
+  590 |   test('Reg_TC-05 Verify Professional Monthly signup and subscription invoice email.', async ({ page }) => {
+  591 |     test.setTimeout(280 * 1000);
+  592 |     const data = signupData();
+  593 |     await registerNewUser(page, data);
+  594 |     // ---------- Step 2: Select Professional Plan ----------
+  595 |     await page.getByRole('tab', { name: 'Monthly' }).click();
+  596 |    await completePaidCheckout(page, data.email, planDefinitions.professionalMonthly);
+  597 |     await expectSubscriptionInvoiceEmail(data.email);
+  598 |  await page.getByRole('button', { name: 'Close Tour' }).click();
+  599 |     await openProfile(page);
+  600 |     await expectProfileDetails(page, data, { shouldShowUpgrade: true });
+  601 |     const updated = await editProfile(page);
+  602 |     await expectProfileDetails(page, { ...data, ...updated }, {
+  603 |       username: updated.username,
+  604 |       tagline: updated.tagline,
+  605 |       shouldShowUpgrade: true,
+  606 |     });
+  607 |
+  608 |     await openBilling(page);
+  609 |     await expectBillingDetails(page, planDefinitions.professionalYearly);
+  610 |     await expectNextBillingDate(page, 12);
+  611 |   });
+  612 |
+  613 |   test('Reg_TC-06 Verify Professional Yearly signup and subscription invoice email.', async ({ page }) => {
+  614 |     test.setTimeout(280 * 1000);
+  615 |     const data = signupData();
+  616 |
+  617 |     await registerNewUser(page, data);
+  618 |     await completePaidCheckout(page, data.email, planDefinitions.professionalYearly);
+  619 |     await expectSubscriptionInvoiceEmail(data.email);
+  620 |  await page.getByRole('button', { name: 'Close Tour' }).click();
+  621 |     await openProfile(page);
+  622 |     await expectProfileDetails(page, data, { shouldShowUpgrade: true });
+  623 |     const updated = await editProfile(page);
+  624 |     await expectProfileDetails(page, { ...data, ...updated }, {
+  625 |       username: updated.username,
+  626 |       tagline: updated.tagline,
+  627 |       shouldShowUpgrade: true,
+  628 |     });
+  629 |
+  630 |     await openBilling(page);
+  631 |     await expectBillingDetails(page, planDefinitions.professionalYearly);
+  632 |     await expectNextBillingDate(page, 12);
+  633 |   });
+  634 |
+  635 |   test('Reg_TC-07 Verify Teams Monthly signup and subscription invoice email.', async ({ page }) => {
+  636 |     test.setTimeout(280 * 1000);
+  637 |     const data = signupData();
+  638 |     await registerNewUser(page, data);
+  639 |     await page.getByRole('tab', { name: 'Monthly' }).click();
+  640 |     await completePaidCheckout(page, data.email, planDefinitions.teamsMonthly);
+  641 |     await expectSubscriptionInvoiceEmail(data.email);
+  642 |     await openProfile(page);
+  643 |     await expectProfileDetails(page, data, { shouldShowUpgrade: false });
+  644 |     const updated = await editProfile(page);
+  645 |     await expectProfileDetails(page, { ...data, ...updated }, {
+  646 |       username: updated.username,
+  647 |       tagline: updated.tagline,
+  648 |       shouldShowUpgrade: false,
+  649 |     });
+  650 |
+  651 |     await openBilling(page);
+  652 |     await expectBillingDetails(page, planDefinitions.teamsMonthly);
+  653 |     await expectNextBillingDate(page, 1);
+  654 |   });
+  655 |
+  656 |   test('Reg_TC-08 Verify Teams Yearly signup and subscription invoice email.', async ({ page }) => {
+  657 |     test.setTimeout(280 * 1000);
+  658 |     const data = signupData();
+  659 |
+  660 |     await registerNewUser(page, data);
+  661 |     await completePaidCheckout(page, data.email, planDefinitions.teamsYearly);
+  662 |     await expectSubscriptionInvoiceEmail(data.email);
+  663 |     await openProfile(page);
+  664 |     await expectProfileDetails(page, data, { shouldShowUpgrade: false });
+  665 |     const updated = await editProfile(page);
+  666 |     await expectProfileDetails(page, { ...data, ...updated }, {
+  667 |       username: updated.username,
+  668 |       tagline: updated.tagline,
+  669 |       shouldShowUpgrade: false,
+  670 |     });
+  671 |
+  672 |     await openBilling(page);
+  673 |     await expectBillingDetails(page, planDefinitions.teamsYearly);
+  674 |     await expectNextBillingDate(page, 12);
+  675 |   });
+  676 |
+  677 |   test('Reg_TC-09 Verify logout from EU-Subscription page redirects to EU-Login page.', async ({ page }) => {
+  678 |     const data = signupData();
+  679 |
+  680 |     await registerNewUser(page, data);
+> 681 |     await expect(page.getByRole('heading', { name: /OPENSIGN™/ })).toBeVisible({ timeout: 120000 });
+      |                                                                    ^ Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /OPENSIGN™/ }) resolved to 4 elements:
+  682 |     await page.getByRole('button', { name: '' }).click();
+  683 |     await page.getByText('Logout').click();
+  684 |
+  685 |     await expect(page).toHaveURL(/login/i);
+  686 |     await expect(page.getByRole('button', { name: /login|sign in/i })).toBeVisible();
+  687 |   });
+  688 |
+  689 | });
+  690 |
+```

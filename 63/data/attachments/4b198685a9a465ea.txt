@@ -1,6 +1,0 @@
-FreeplanUsername is empty. Running signup test...
-✅ Signup successful. User: pravin+0.8813113673049984@nxglabs.in
-Checkbox disabled: false
-Radio button disabled: false
-Radio button disabled: false
-signature widget dragged and dropped

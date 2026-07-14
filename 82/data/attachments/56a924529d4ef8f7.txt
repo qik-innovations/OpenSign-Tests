@@ -1,0 +1,6 @@
+Checkbox disabled: false
+Radio button disabled: false
+Radio button disabled: false
+Checkbox disabledon Edit template details: false
+Radio button disabled on Edit template details: false
+Radio button disabled on Edit template details: false

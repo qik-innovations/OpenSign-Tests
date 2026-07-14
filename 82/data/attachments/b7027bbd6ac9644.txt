@@ -1,0 +1,3 @@
+browser name: chromium
+Browser version: 134.0.6998.35
+Browser Platform: linux

@@ -1,0 +1,139 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: My signature >> Verify that New user can upload and save the signature on the my signature page.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Mysignature.spec.js:42:1
+
+# Error details
+
+```
+Error: page.waitForEvent: Test ended.
+=========================== logs ===========================
+waiting for event "filechooser"
+============================================================
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Mysignature.spec.js:56:39
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - text: "New feature: Protect your account with Two-Factor Authentication (2FA) and enjoy the future of login with Passkeys — no passwords needed. — Setup now."
+  - img
+  - text: 
+  - button ""
+  - img "logo"
+  - button "Upgrade now"
+  - button "Open app drawer": 
+  - img "img"
+  - button "Mathew Wade"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Mathew Wade
+  - paragraph: qikAi.com
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+      - menu "Settings submenu":
+        - menuitem "My signature"
+        - menuitem "API token"
+        - menuitem "Webhook"
+        - menuitem "Preferences"
+        - menuitem "Teams"
+        - menuitem "Users"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- main:
+  - text: My signature Signature    Upload Clear Initials    Upload Clear Stamp  Upload Clear
+  - button "Save"
+  - complementary:
+    - paragraph: "All rights reserved © 2026 OpenSign™ ( version: v2.41.0 )"
+```
+
+# Test source
+
+```ts
+   1 | const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+   2 | const { test, expect } = require('@playwright/test');
+   3 | const path = require('path');
+   4 | const CommonSteps = require('../utils/CommonSteps');
+   5 | test.describe('My signature', () => {
+   6 | test('Verify that New user can draw and save the signature on the my signature page.', async ({ page }) => {
+   7 |     const commonSteps = new CommonSteps(page);
+   8 |     // Step 1: Navigate to Base URL and log in
+   9 |     await commonSteps.navigateToBaseUrl();
+  10 |     await commonSteps.NewUserlogin();
+  11 |     await page.getByRole('button', { name: ' Settings' }).click();
+  12 |     await page.getByRole('menuitem', { name: 'My signature' }).click();
+  13 |
+  14 |     const title = await page.title();
+  15 |     if (title === 'Teams - OpenSign™') {
+  16 |       console.log('Page title is correct: Teams - OpenSign™');
+  17 |     } else {
+  18 |       console.error(`Page title is incorrect. Expected: "Teams - OpenSign™", Got: "${title}"`);
+  19 |     }
+  20 |
+  21 |     await page.locator('//canvas[@class=\'signatureCanvas border-[2px] border-[#888] rounded-box\']').click({
+  22 |         position: {
+  23 |           x: 150,
+  24 |           y: 84
+  25 |         }
+  26 |       });
+  27 |       await page.mouse.down();
+  28 | await page.mouse.move(150, 105)
+  29 | await page.mouse.up();
+  30 |       await page.locator('//canvas[@class=\'intialSignature rounded-box\']').click({
+  31 |         position: {
+  32 |           x: 98,
+  33 |           y: 96
+  34 |         }
+  35 |       });
+  36 |       await page.mouse.down();
+  37 | await page.mouse.move(98, 120)
+  38 | await page.mouse.up();
+  39 | await page.locator('//button[@class=\'op-btn op-btn-primary\' and text()= \'Save\']').click();
+  40 | await expect(page.getByText('Signature saved successfully.')).toBeVisible();
+  41 | });
+  42 | test('Verify that New user can upload and save the signature on the my signature page.', async ({ page }) => {
+  43 |     const commonSteps = new CommonSteps(page);
+  44 |     // Step 1: Navigate to Base URL and log in
+  45 |     await commonSteps.navigateToBaseUrl();
+  46 |     await commonSteps.NewUserlogin();
+  47 |     await page.getByRole('button', { name: ' Settings' }).click();
+  48 |     await page.getByRole('menuitem', { name: 'My signature' }).click();
+  49 |
+  50 |     const title = await page.title();
+  51 |     if (title === 'Teams - OpenSign™') {
+  52 |       console.log('Page title is correct: Teams - OpenSign™');
+  53 |     } else {
+  54 |       console.error(`Page title is incorrect. Expected: "Teams - OpenSign™", Got: "${title}"`);
+  55 |     }
+> 56 |      const fileChooserPromise1 = page.waitForEvent('filechooser');
+     |                                       ^ Error: page.waitForEvent: Test ended.
+  57 |      await page.locator('//div[@class=\'op-link\' and text()=\'Upload\']').click();
+  58 |      const fileChooser1 = await fileChooserPromise1;
+  59 |      await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/signature.png'));
+  60 |      const fileChooserPromise2 = page.waitForEvent('filechooser');
+  61 |     await page.locator('//div[@class=\'op-link text-sm md:text-base mr-1\' and text()=\'Upload\']').click();
+  62 |     const fileChooser2 = await fileChooserPromise2;
+  63 |      await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/initial.png'));
+  64 | await page.locator('//button[@class=\'op-btn op-btn-primary\' and text()= \'Save\']').click();
+  65 | await expect(page.getByText('Signature saved successfully.')).toBeVisible();
+  66 | });
+  67 | });
+```

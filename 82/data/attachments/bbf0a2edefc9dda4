@@ -1,0 +1,301 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Verify that user can resend the email from the dashboard Recently sent for signatures.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Dashboard.spec.js:685:1
+
+# Error details
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for getByRole('button', { name: 'Send' })
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Dashboard.spec.js:744:50
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - button ""
+  - img "logo"
+  - text: TEAM
+  - button "Open app drawer": 
+  - img "img"
+  - button "Pravin Testing account"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- main:
+  - text: Pages
+  - button "+ Add pages"
+  - text: +      
+  - dialog:
+    - 'heading "Next step: Sign your document ?" [level=3]'
+    - button "✕"
+    - text: You can sign now or send it to your email to complete later.
+    - button "Sign now"
+    - button "No"
+    - text: OR  Send to Email
+    - heading "How was your experience with OpenSign™?" [level=2]
+    - img "bad": 😡
+    - text: 0-3
+    - img "meh": 😐
+    - text: 4-6
+    - img "good": 😊
+    - text: 7-8
+    - img "great": 😍
+    - text: 9-10
+    - button "Submit"
+  - button [disabled]
+  - text: 1 of 1
+  - button [disabled]
+  - button ""
+  - button "Back"
+  - button "Next"
+  - text: signature-1 signature-2 signature-3 signature-4 signature-5     signature-6 Recipients
+  - superscript: "?"
+  - text:  Prefill by owner  Pravin Testing account pravin+testaccount@nxglabs.in
+  - combobox "Signer must sign. Approver approves without signing. Viewer only views.":
+    - option "Signer" [selected]
+    - option "Viewer"
+    - option "Approver"
+  - text:  
+  - separator
+  - button "+ Add recipients"
+  - text: Widgets
+  - list "Add widgets": " signature   stamp   initials   text input   number #  name   job title   company   email   date   cells   checkbox   dropdown   radio button   image   attachments "
+  - complementary:
+    - paragraph: "All rights reserved © 2026 OpenSign™ ( version: v2.41.0 )"
+- emphasis:
+  - img "Gravatar"
+```
+
+# Test source
+
+```ts
+  644 |           // Wait a bit before checking again
+  645 |           await page.waitForTimeout(1000);
+  646 |       }
+  647 |   
+  648 |       if (i === 5) {
+  649 |           console.log("signature widget did not become visible on the document after multiple attempts.");
+  650 |       }
+  651 |   }
+  652 | } catch (error) {
+  653 |   console.log("Element not found or not interactable, continuing execution.");
+  654 |  
+  655 | }
+  656 | await page.getByRole('button', { name: 'Next' }).click();
+  657 | //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+  658 | await page.getByRole('button', { name: 'Send' }).click();
+  659 | //await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
+  660 | await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
+  661 | await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
+  662 | await page.getByRole('button', { name: 'No' }).click();
+  663 | await page.getByRole('menuitem', { name: 'Dashboard' }).click();
+  664 | // Wait up to 90 seconds for the text to appear
+  665 | await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+  666 | await page.locator('//div[@data-tut="tourreport2"]//i[@class="fa-light fa-ellipsis-vertical fa-lg"]').first().click();
+  667 | await page.locator('//span[contains(text(),"Rename")]').click();
+  668 | const docrename = await commonSteps.fillDocumentTitleWithTimestamp();
+  669 | await page.locator('//div[@class="flex flex-col gap-2"]/input[@maxlength="200" and @type="text"]').fill(docrename);
+  670 | await page.getByRole('button', { name: 'Save' }).click();
+  671 | await expect(page.locator('//div[@data-tut="tourreport2"]//tr[1]//div[@class="font-semibold break-words"]')).toContainText(docrename);
+  672 | await page.locator('//div[@data-tut="tourreport2"]//i[@class="fa-light fa-ellipsis-vertical fa-lg"]').first().click();
+  673 | await page.locator('//span[contains(text(),"Delete")]').click();
+  674 | await expect(page.getByRole('heading')).toContainText('Delete document');
+  675 |   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to delete this document?');
+  676 |   await page.getByRole('button', { name: 'Yes' }).click();
+  677 |   await expect(page.locator('#renderList')).toContainText('Record deleted successfully!');
+  678 |   try {
+  679 |     await expect(page.locator('//div[@data-tut="tourreport2"]//tr[1]//div[@class="font-semibold break-words"]')).toContainText(docrename);
+  680 | } catch (error) {
+  681 |     console.log("Document not found in the table, successfully deleted!");
+  682 | }
+  683 | });
+  684 |
+  685 | test('Verify that user can resend the email from the dashboard Recently sent for signatures.', async ({ page }) => {
+  686 |   const commonSteps = new CommonSteps(page);
+  687 |   // Step 1: Navigate to Base URL and log in
+  688 |   await commonSteps.navigateToBaseUrl();
+  689 |   await commonSteps.login();
+  690 | //const title = await page.title()
+  691 |   //Expects page to have a heading with the name of dashboard.
+  692 | //expect(title).toBe('Dashboard - OpenSign™');
+  693 | await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  694 |   await page.locator('input[name="Name"]').click();
+  695 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  696 |   await page.locator('input[name="Note"]').click();
+  697 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  698 | await page.locator('input[type="file"]').click();
+  699 | const fileChooser = await fileChooserPromise;
+  700 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  701 | await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  702 | await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+  703 | await page.locator('input[name="Name"]').click();
+  704 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  705 | await page.getByRole('button', { name: 'Next' }).click();
+  706 | await page.waitForLoadState("networkidle");
+  707 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  708 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  709 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  710 | await page.locator('//span[normalize-space()=\'signature\']').hover();
+  711 | await page.mouse.down();
+  712 | await page.mouse.move(600, 300)
+  713 | await page.mouse.up();
+  714 | try {
+  715 |   const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+  716 |
+  717 |   for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  718 |       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  719 |       
+  720 |           console.log("signature widget dragged and dropped");
+  721 |           break; // Exit the loop if successfully clicked
+  722 |       } else {
+  723 |           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  724 |   
+  725 |           await page.locator('//span[normalize-space()="signature"]').hover();
+  726 |           await page.mouse.down();
+  727 |           await page.mouse.move(800, 300);
+  728 |           await page.mouse.up();
+  729 |           
+  730 |           // Wait a bit before checking again
+  731 |           await page.waitForTimeout(1000);
+  732 |       }
+  733 |   
+  734 |       if (i === 5) {
+  735 |           console.log("signature widget did not become visible on the document after multiple attempts.");
+  736 |       }
+  737 |   }
+  738 | } catch (error) {
+  739 |   console.log("Element not found or not interactable, continuing execution.");
+  740 |  
+  741 | }
+  742 | await page.getByRole('button', { name: 'Next' }).click();
+  743 | //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+> 744 | await page.getByRole('button', { name: 'Send' }).click();
+      |                                                  ^ Error: locator.click: Test timeout of 120000ms exceeded.
+  745 | await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
+  746 | await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
+  747 | await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
+  748 | await page.getByRole('button', { name: 'No' }).click();
+  749 | await page.getByRole('menuitem', { name: 'Dashboard' }).click();
+  750 | // Wait up to 90 seconds for the text to appear
+  751 | await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+  752 | await page.locator('//div[@data-tut="tourreport2"]//i[@class="fa-light fa-ellipsis-vertical fa-lg"]').first().click();
+  753 | await page.locator('//span[contains(text(),"Resend")]').click();
+  754 | await expect(page.getByRole('heading')).toContainText('Resend mail');
+  755 |   await expect(page.locator('#selectSignerModal')).toContainText('Pravin Testing account <pravin+testaccount@nxglabs.in>');
+  756 |   await page.getByRole('button', { name: 'Resend' }).click();
+  757 |   await page.getByRole('button', { name: 'Resend' }).click();
+  758 |   await expect(page.locator('#renderList')).toContainText('Mail sent successfully.');
+  759 |
+  760 | });
+  761 | test('Verify that the user can revoke the document from the dashboard Recently sent for signatures.', async ({ page }) => {
+  762 |   const commonSteps = new CommonSteps(page);
+  763 |   // Step 1: Navigate to Base URL and log in
+  764 |   await commonSteps.navigateToBaseUrl();
+  765 |   await commonSteps.login();
+  766 | //const title = await page.title()
+  767 |   //Expects page to have a heading with the name of dashboard.
+  768 | //expect(title).toBe('Dashboard - OpenSign™');
+  769 | await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  770 |  
+  771 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  772 | await page.locator('input[type="file"]').click();
+  773 | const fileChooser = await fileChooserPromise;
+  774 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  775 | await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  776 | await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+  777 | await page.locator('input[name="Name"]').click();
+  778 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  779 | await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  780 | //// Generate random title starting with current date-time
+  781 | const documentTitle = await commonSteps.fillDocumentTitleWithTimestamp('Revoke document');
+  782 |  await page.locator('input[name="Name"]').fill(documentTitle);
+  783 | await page.locator('input[name="Note"]').fill('Note Offer Letter for QA1144');
+  784 | await page.getByRole('button', { name: 'Next' }).click();
+  785 | await page.waitForLoadState("networkidle");
+  786 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  787 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  788 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  789 | await page.locator('//span[normalize-space()=\'signature\']').hover();
+  790 | await page.mouse.down();
+  791 | await page.mouse.move(600, 300)
+  792 | await page.mouse.up();
+  793 | try {
+  794 |   const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
+  795 |
+  796 |   for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  797 |       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  798 |       
+  799 |           console.log("signature widget dragged and dropped");
+  800 |           break; // Exit the loop if successfully clicked
+  801 |       } else {
+  802 |           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  803 |   
+  804 |           await page.locator('//span[normalize-space()="signature"]').hover();
+  805 |           await page.mouse.down();
+  806 |           await page.mouse.move(800, 300);
+  807 |           await page.mouse.up();
+  808 |           
+  809 |           // Wait a bit before checking again
+  810 |           await page.waitForTimeout(1000);
+  811 |       }
+  812 |   
+  813 |       if (i === 5) {
+  814 |           console.log("signature widget did not become visible on the document after multiple attempts.");
+  815 |       }
+  816 |   }
+  817 | } catch (error) {
+  818 |   console.log("Element not found or not interactable, continuing execution.");
+  819 |  
+  820 | }
+  821 | await page.getByRole('button', { name: 'Next' }).click();
+  822 | //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+  823 | await page.getByRole('button', { name: 'Send' }).click();
+  824 | await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
+  825 | await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
+  826 | await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
+  827 | await page.getByRole('button', { name: 'No' }).click();
+  828 | await page.getByRole('menuitem', { name: 'Dashboard' }).click();
+  829 | // Wait up to 90 seconds for the text to appear
+  830 | await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+  831 | await page.locator('//div[@data-tut="tourreport2"]//i[@class="fa-light fa-ellipsis-vertical fa-lg"]').first().click();
+  832 | await page.locator('//span[contains(text(),"Revoke")]').click();
+  833 | await expect(page.getByRole('heading')).toContainText('Revoke document');
+  834 |   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to revoke this document?');
+  835 |   await page.getByPlaceholder('Reason (optional)').fill('Invalid document');
+  836 |   await page.getByRole('button', { name: 'Yes' }).click();
+  837 |   await expect(page.locator('#renderList')).toContainText('Record revoked successfully!');
+  838 |   try {
+  839 |     await expect(page.locator('tbody')).toContainText(documentTitle);
+  840 | } catch (error) {
+  841 |     console.log("Document not found in the table, successfully deleted!");
+  842 | }
+  843 | });
+  844 | test('Verify that pagination is functioning correctly in the dashboard Recently sent for signatures.', async ({ page }) => {
+```

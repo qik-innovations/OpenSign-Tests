@@ -1,0 +1,24 @@
+Next button in signer modal clicked.
+Image Path: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/TestData/Images/stamp.jpg
+Stamp image uploaded successfully.
+Next button in signer modal clicked.
+Next button in signer modal clicked.
+Filled 'name' widget with value 'Mathew Steven'.
+Next button in signer modal clicked.
+Filled 'job title' widget with value 'Quality Analyst'.
+Next button in signer modal clicked.
+Filled 'company' widget with value 'Opensignlabs pvt. ltd'.
+Next button in signer modal clicked.
+Today's date: 07/14/2026
+Date field clicked on the signer modal.
+Date with aria-label 'Choose Thursday, July 16th, 2026' selected from the calendar.
+Next button in signer modal clicked.
+Filled 'text' widget with value '120 wood street sanfransisco'.
+Next button in signer modal clicked.
+Checkbox with label 'Option-1' selected.
+Next button in signer modal clicked.
+Image uploaded successfully.
+Next button in signer modal clicked.
+Filled Email field with value 'mathewsteven@opensignlabs.com'.
+Done button in signer modal clicked.
+Finish button in signer modal clicked.

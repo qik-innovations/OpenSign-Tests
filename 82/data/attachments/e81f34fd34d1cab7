@@ -1,0 +1,375 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Contact >> Verify that user cannot add a new contact with existing email address
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js:66:1
+
+# Error details
+
+```
+Error: locator.fill: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for getByPlaceholder('optional')
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js:113:45
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - button ""
+  - img "logo"
+  - text: TEAM
+  - button "Open app drawer": 
+  - img "img"
+  - button "Pravin Testing account"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- main:
+  - text: Contactbook
+  - searchbox "Search contacts…"
+  - text:  
+  - table:
+    - rowgroup:
+      - row "Name  Email Phone Company Job title Action":
+        - cell "Name ":
+          - text: Name
+          - button ""
+        - cell "Email"
+        - cell "Phone"
+        - cell "Company"
+        - cell "Job title"
+        - cell "Action"
+    - rowgroup:
+      - row "Mark P pravin+markj@opensign.me 9923370549 - -  ":
+        - cell "Mark P"
+        - cell "pravin+markj@opensign.me"
+        - cell "9923370549"
+        - cell "-"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "mark wade mark+344@gmail.com - - -  ":
+        - cell "mark wade"
+        - cell "mark+344@gmail.com"
+        - cell "-"
+        - cell "-"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Mathew Stephen pravin+math@opensign.me 9923370549 - -  ":
+        - cell "Mathew Stephen"
+        - cell "pravin+math@opensign.me"
+        - cell "9923370549"
+        - cell "-"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Mathew Stvene joebee+94300@example.com 1232131321 nxg labs QUality Analyst  ":
+        - cell "Mathew Stvene"
+        - cell "joebee+94300@example.com"
+        - cell "1232131321"
+        - cell "nxg labs"
+        - cell "QUality Analyst"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "mathew wade mathew@gmail.com - - -  ":
+        - cell "mathew wade"
+        - cell "mathew@gmail.com"
+        - cell "-"
+        - cell "-"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "mathew wade mathewwade@gmail.com - - -  ":
+        - cell "mathew wade"
+        - cell "mathewwade@gmail.com"
+        - cell "-"
+        - cell "-"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Nadews pravin+andrews@nxglabs.in 656456554 - -  ":
+        - cell "Nadews"
+        - cell "pravin+andrews@nxglabs.in"
+        - cell "656456554"
+        - cell "-"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Number Tester numberwidget@opensignlabs.com 9999999999 - -  ":
+        - cell "Number Tester"
+        - cell "numberwidget@opensignlabs.com"
+        - cell "9999999999"
+        - cell "-"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Number Tester pravin+numbertest@gmail.com 9923370549 - -  ":
+        - cell "Number Tester"
+        - cell "pravin+numbertest@gmail.com"
+        - cell "9923370549"
+        - cell "-"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "opensign opensign30@gmail.com 9890291623 BOM DM  ":
+        - cell "opensign"
+        - cell "opensign30@gmail.com"
+        - cell "9890291623"
+        - cell "BOM"
+        - cell "DM"
+        - cell " ":
+          - button ""
+          - button ""
+  - button "Prev"
+  - button "1"
+  - button "2"
+  - button "3"
+  - button "4"
+  - button "5"
+  - button "6"
+  - button "Next"
+  - dialog:
+    - heading "Add contact" [level=3]
+    - button "✕"
+    - text: Name *
+    - textbox "Name *": Pravin Ssss
+    - text: Email *
+    - textbox "Email *": pravin+8288@nxglabs.in
+    - button "Optional details"
+    - button "Submit"
+    - button "Reset"
+  - complementary:
+    - paragraph: "All rights reserved © 2026 OpenSign™ ( version: v2.41.0 )"
+```
+
+# Test source
+
+```ts
+   13 |   jobTitleInput: '//input[5]',
+   14 |   passwordInput: 'input[name="password"]',
+   15 |   termsCheckbox: 'input[id="termsandcondition"]',
+   16 |   registerButton: '//button[contains(.,\'Register\')]',
+   17 |   freePlanButton: 'li:has-text("OPENSIGN™ FREEFreeBilled") button',
+   18 |   professionalPlanButton: 'li:has-text("OPENSIGN™ PROFESSIONAL$9.99/") button',
+   19 |   proceedButton: "//span[@class='btn-txt' and text()='Proceed']",
+   20 |   addressField: '//input[@id=\'billing_street\']',
+   21 |   cityField: '//input[@id=\'billing_city\']',
+   22 |   zipCodeField: '//input[@id=\'billing_zip\']',
+   23 |   sameAsBillingCheckbox: 'input[name="sameasbillingaddress"]',
+   24 |   reviewOrderButton: '//button[@class=\'btn-txt\' and text() =\'Review Order\']',
+   25 | };
+   26 |
+   27 | const fillSignupForm = async (page, { name, email, phone, company, jobTitle, password }) => {
+   28 |   await page.locator(locators.nameInput).first().fill(name);
+   29 |   await page.locator(locators.emailInput).fill(email);
+   30 |   await page.locator(locators.phoneInput).fill(phone);
+   31 |   await page.locator(locators.companyInput).fill(company);
+   32 |   await page.locator(locators.jobTitleInput).fill(jobTitle);
+   33 |   await page.locator(locators.passwordInput).fill(password);
+   34 |   await page.locator(locators.termsCheckbox).click();
+   35 | };
+   36 | test.describe('Contact', () => {
+   37 | test('Verify that user can add a new contact.', async ({ page }) => {
+   38 |   const commonSteps = new CommonSteps(page);
+   39 |   // Step 1: Navigate to Base URL and log in
+   40 |   await commonSteps.navigateToBaseUrl();
+   41 |   await commonSteps.login();
+   42 |   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
+   43 |   const title = await page.title();
+   44 |   if (title === 'Contactbook - OpenSign™') {
+   45 |     console.log('Page title is correct: Contactbook - OpenSign™');
+   46 |   } else {
+   47 |     console.error(`Page title is incorrect. Expected: "Contactbook - OpenSign™", Got: "${title}"`);
+   48 |   }
+   49 |   const Randomemail = `ps+${Math.floor(10 + Math.random() * 90)}@tim.in`;
+   50 |         await page.locator("//div[contains(@class, 'cursor-pointer') and contains(@class, 'flex') and .//i[contains(@class, 'fa-square-plus')]]").click();
+   51 |         await page.getByLabel('Name *').fill('Pravin Shej');
+   52 |         await page.getByLabel('Email *').fill(Randomemail);
+   53 |         await page.locator("//dialog[@id='selectSignerModal']//button[contains(@class,'op-link-secondary') and normalize-space(text())='Optional details']").click();
+   54 |         await page.locator("//dialog[@id='selectSignerModal']//input[@id='phone']").fill('924820934');
+   55 | await page.locator("//dialog[@id='selectSignerModal']//input[@id='company']").fill('Nxg Labs');
+   56 |         await page.locator("//dialog[@id='selectSignerModal']//input[@id='jobTitle']").fill('QA Lead');
+   57 |         await page.getByRole('button', { name: 'Submit' }).click();
+   58 |         await page.locator("//input[@placeholder='Search contacts…']").fill("Pravin Shej");
+   59 |         await expect(page.locator('tbody')).toContainText(Randomemail);
+   60 |         await expect(page.locator('tbody')).toContainText('924820934');
+   61 |         console.log(`P Shej ${Randomemail}`);
+   62 |         await page.getByRole('row', { name: `Pravin Shej ${Randomemail}` }).getByRole('button').nth(1).click();
+   63 |         await page.getByRole('button', { name: 'Yes' }).click(); 
+   64 | });
+   65 |
+   66 | test('Verify that user cannot add a new contact with existing email address', async ({ page }) => {
+   67 |   const commonSteps = new CommonSteps(page);
+   68 |
+   69 |   const contactName = 'Pravin Ssss';
+   70 |   const contactEmail = 'pravin+8288@nxglabs.in';
+   71 |   const contactFullName = `${contactName} ${contactEmail}`;
+   72 |  /// getByRole('row', { name: 'Pravin Ssss pravin+hr@gmail.com' }).getByRole('button').nth(1)
+   73 |   await commonSteps.navigateToBaseUrl();
+   74 |   await commonSteps.login();
+   75 |   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
+   76 |   await page.waitForTimeout(5000); // Wait for contacts page to load
+   77 |
+   78 |   const deleteContactIfExists = async () => {
+   79 |     let contactFound = false;
+   80 |     let maxPages = 5; // Set a reasonable limit to avoid infinite loop
+   81 |
+   82 |     for (let i = 0; i < maxPages; i++) {
+   83 |       const row = page.getByRole('row', { name: `${contactName} ${contactEmail.split('@')[0]}`});
+   84 |       console.log(`${contactName} ${contactEmail.split('@')[0]}`);
+   85 |       if (await row.isVisible().catch(() => false)) {
+   86 |         await row.getByRole('button').nth(1).click();
+   87 |         await page.getByRole('button', { name: 'Yes' }).click();
+   88 |         await page.waitForTimeout(4000); // Wait for deletion to complete
+   89 |         contactFound = true;
+   90 |         break;
+   91 |       }
+   92 |
+   93 |       const nextBtn = page.locator('//button[@class="op-join-item op-btn op-btn-sm" and text()="Next"]');
+   94 |       if (await nextBtn.isVisible() && !(await nextBtn.isDisabled())) {
+   95 |         await nextBtn.click();
+   96 |         await page.waitForLoadState('networkidle');
+   97 |       } else {
+   98 |         break;
+   99 |       }
+  100 |     }
+  101 |
+  102 |     return contactFound;
+  103 |   };
+  104 |
+  105 |   try {
+  106 |     // Delete existing contact if it exists
+  107 |     await deleteContactIfExists();
+  108 |
+  109 |     // Add the contact first time
+  110 |     await page.locator("//div[contains(@class, 'cursor-pointer') and contains(@class, 'flex') and .//i[contains(@class, 'fa-square-plus')]]").click();
+  111 |     await page.getByLabel('Name *').fill(contactName);
+  112 |     await page.getByLabel('Email *').fill(contactEmail);
+> 113 |     await page.getByPlaceholder('optional').fill('0924820934');
+      |                                             ^ Error: locator.fill: Test timeout of 120000ms exceeded.
+  114 |     await page.getByRole('button', { name: 'Submit' }).click();
+  115 |     await page.waitForTimeout(1000); // Wait for creation
+  116 |
+  117 |     // Attempt to add the same email again
+  118 |     await page.locator("//div[contains(@class, 'cursor-pointer') and contains(@class, 'flex') and .//i[contains(@class, 'fa-square-plus')]]").click();
+  119 |     await page.getByLabel('Name *').fill('Andrews Wade');
+  120 |     await page.getByLabel('Email *').fill(contactEmail);
+  121 |     await page.getByPlaceholder('optional').fill('0924820934');
+  122 |
+  123 |     // Set up dialog handler BEFORE triggering the action
+  124 |     page.once('dialog', async (dialog) => {
+  125 |       expect(dialog.message()).toBe("Contact already exist! Please select it from 'Signers' dropdown");
+  126 |       await dialog.accept();
+  127 |     });
+  128 |
+  129 |     await page.getByRole('button', { name: 'Submit' }).click();
+  130 |
+  131 |     // Close Add Contact modal
+  132 |     await page.locator('//button[contains(@class,"op-btn-circle") and text()="✕"]').click();
+  133 |  // Wait for modal to close
+  134 |     // Cleanup
+  135 |     await deleteContactIfExists();
+  136 |
+  137 |   } catch (error) {
+  138 |     console.error('Test encountered an error:', error);
+  139 |     throw error; // Re-throw for test failure
+  140 |   }
+  141 | });
+  142 | test('Verify that user can import contacts from an Excel file and delete them across pages.', async ({ page }) => {
+  143 |   const commonSteps = new CommonSteps(page);
+  144 |
+  145 |   // Step 1: Navigate to Base URL and log in
+  146 |   await commonSteps.navigateToBaseUrl();
+  147 |   await commonSteps.login();
+  148 |
+  149 |   // Navigate to Contactbook
+  150 |   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
+  151 |
+  152 |   // Trigger Import
+  153 |   await page.locator("//div[contains(@class, 'cursor-pointer') and .//i[contains(@class, 'fa-upload')]]").click();
+  154 |   await page.getByRole('button', { name: 'Import' }).click();
+  155 |
+  156 |   // Handle file chooser
+  157 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  158 |   await page.locator('input[type="file"]').click();
+  159 |   const fileChooser = await fileChooserPromise;
+  160 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Contactbookready.xlsx'));
+  161 |
+  162 |   // Perform Import
+  163 |   await page.getByRole('button', { name: 'Import' }).click();
+  164 | await page.waitForTimeout(5000);
+  165 |   // Contacts to verify and delete
+  166 |   const contacts = [
+  167 |     { name: 'Tony Stark', email: 'tonys@nxglabs.in' },
+  168 |     { name: 'Steve Head', email: 'stevehead@nxglabs.in' }
+  169 |   ];
+  170 |
+  171 |   for (const contact of contacts) {
+  172 |     let contactFound = false;
+  173 |     // Loop through pages until contact is found
+  174 |     while (!contactFound) {
+  175 |       const contactCell = page.getByRole('cell', { name: contact.name });
+  176 | await page.waitForTimeout(2000);
+  177 |       if (await contactCell.isVisible().catch(() => false)) {
+  178 |         // Step: Verify contact name is visible
+  179 |         await expect(contactCell).toBeVisible({ timeout: 5000 });
+  180 |         // Step: Verify contact email is visible
+  181 |         await expect(
+  182 |           page.getByRole('cell', { name: contact.email })).toBeVisible({ timeout: 5000 });
+  183 |
+  184 |         // Step: Delete the contact
+  185 |         const row = await page.getByRole('row', { name: new RegExp(`${contact.name}.*${contact.email}`)
+  186 |         });
+  187 |         await row.getByRole('button').nth(1).click();
+  188 |         await page.getByRole('button', { name: 'Yes' }).click();
+  189 |         contactFound = true;
+  190 |       } else {
+  191 |         // Try to go to the next page
+  192 |         const nextButton = page.locator('//button[@class ="op-join-item op-btn op-btn-sm" and text()="Next"]');
+  193 |         if (await nextButton.isVisible() && !(await nextButton.isDisabled())) {
+  194 |           await nextButton.click();
+  195 |           await page.waitForLoadState('networkidle');
+  196 |         } else {
+  197 |           throw new Error(`Contact "${contact.name}" not found in the contact book.`);
+  198 |         }
+  199 |       }
+  200 |     }
+  201 |   }
+  202 | });
+  203 |
+  204 | });
+```

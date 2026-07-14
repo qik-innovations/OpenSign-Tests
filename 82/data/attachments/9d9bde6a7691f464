@@ -1,0 +1,228 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Sign yourself >> Verify that the rotate page functions correctly in Sign Yourself.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/SignYourSelf.spec.js:1600:1
+
+# Error details
+
+```
+TimeoutError: locator.waitFor: Timeout 90000ms exceeded.
+Call log:
+  - waiting for getByText('Successfully signed!') to be visible
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/SignYourSelf.spec.js:1731:46
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - button ""
+  - img "logo"
+  - text: TEAM
+  - button "Open app drawer": 
+  - img "img"
+  - button "Pravin Testing account"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- main:
+  - text: Pages
+  - button "+ Add pages"
+  - text: +      
+  - dialog:
+    - heading "Fields required" [level=3]
+    - button "✕"
+    - paragraph: Please ensure there's at least one signature widget added
+  - button [disabled]
+  - text: 1 of 3
+  - button
+  - button "Back"
+  - button "Finish"
+  - img "stamp"
+  - img "initials"
+  - textbox "Pravin Testing account"
+  - textbox "Quality analystAA"
+  - textbox "OpenSign pvt ltd"
+  - text: 07/16/2026  20 wood street sanfransisco
+  - checkbox "Option-1"
+  - text: Option-1
+  - checkbox "Option-2"
+  - text: Option-2
+  - img "image"
+  - text:   
+  - textbox "pravin+testaccount@nxglabs.in"
+  - text: Widgets
+  - superscript: "?"
+  - list "Add widgets": " signature   stamp   initials   number #  name   job title   company   email   date   text   cells   checkbox   image "
+  - complementary:
+    - paragraph: "All rights reserved © 2026 OpenSign™ ( version: v2.41.0 )"
+```
+
+# Test source
+
+```ts
+  1631 |      - button "+ Add pages"
+  1632 |      - text: +      
+  1633 |      - button
+  1634 |      - text: 2 of 3
+  1635 |      - button
+  1636 |      - button "Back"
+  1637 |      - button "Finish"
+  1638 |      - text: Widgets
+  1639 |      - superscript: "?"
+  1640 |      - list "Add widgets": " signature   stamp   initials   number #  name   job title   company   email   date   text   cells   checkbox   image "
+  1641 |      `);
+  1642 |      await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
+  1643 |   await page.getByTitle('Rotate right').locator('i').click();
+  1644 |     await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
+  1645 |   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+  1646 |      - text: Pages
+  1647 |      - button "+ Add pages"
+  1648 |      - text: +      
+  1649 |      - button
+  1650 |      - text: 2 of 3
+  1651 |      - button
+  1652 |      - button "Back"
+  1653 |      - button "Finish"
+  1654 |      - text: Widgets
+  1655 |      - superscript: "?"
+  1656 |      - list "Add widgets": " signature   stamp   initials   number #  name   job title   company   email   date   text   cells   checkbox   image "
+  1657 |      `);
+  1658 |      await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
+  1659 |   await page.getByTitle('Rotate left').locator('i').click();
+  1660 |     await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
+  1661 |   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+  1662 |      - text: Pages
+  1663 |      - button "+ Add pages"
+  1664 |      - text: +      
+  1665 |      - button
+  1666 |      - text: 2 of 3
+  1667 |      - button
+  1668 |      - button "Back"
+  1669 |      - button "Finish"
+  1670 |      - text: Widgets
+  1671 |      - superscript: "?"
+  1672 |      - list "Add widgets": " signature   stamp   initials   number #  name   job title   company   email   date   text   cells   checkbox   image "
+  1673 |      `);
+  1674 | await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 150);
+  1675 | await commonSteps.dragAndDrop('stamp', 600, 250);
+  1676 | await commonSteps.uploadStamp();
+  1677 | await commonSteps.ClickSavebuttonSignerModal();
+  1678 | await commonSteps.dragAndDrop('initials', 600, 300);
+  1679 | await commonSteps.ClickSavebuttonSignerModal();
+  1680 | await commonSteps.dragAndDrop('name', 600, 320);
+  1681 | await commonSteps.fillTextField('please enter text', 'Pravin Testing account');
+  1682 | await commonSteps.ClickSavebuttonSignerModal();
+  1683 | await commonSteps.dragAndDrop('job title', 600, 350);
+  1684 | await commonSteps.fillTextField('please enter text', 'Quality analystAA');
+  1685 | await commonSteps.ClickSavebuttonSignerModal();
+  1686 | await commonSteps.dragAndDrop('company', 600, 370);
+  1687 | await commonSteps.fillTextField('please enter text', 'OpenSign pvt ltd');
+  1688 | await commonSteps.ClickSavebuttonSignerModal();
+  1689 | await commonSteps.dragAndDrop('date', 600, 390);
+  1690 | const today = new Date();
+  1691 | // Format the date as MM/DD/YYYY
+  1692 | const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
+  1693 |                       `${today.getDate().toString().padStart(2, '0')}/` + 
+  1694 |                       `${today.getFullYear()}`;
+  1695 | console.log('Today\'s date:', formattedDate);  // Extract day number as text
+  1696 | //await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
+  1697 | await commonSteps.clickDateFieldOnTheSignerPad_Without_date();
+  1698 | // Function to get the day with the appropriate suffix
+  1699 | function getDayWithSuffix(day) {
+  1700 |   if (day >= 11 && day <= 13) return `${day}th`;
+  1701 |   switch (day % 10) {
+  1702 |     case 1: return `${day}st`;
+  1703 |
+  1704 |     case 2: return `${day}nd`;  
+  1705 |     case 3: return `${day}rd`;
+  1706 |     default: return `${day}th`;
+  1707 |   }   
+  1708 | }
+  1709 | // Calculate the target date (today + 2 days)
+  1710 | today.setDate(today.getDate() + 2);
+  1711 | const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g., "Friday" 
+  1712 | const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
+  1713 | const day = today.getDate();                                            // e.g., 2
+  1714 | const year = today.getFullYear();                                       // e.g., 2025
+  1715 | const dayWithSuffix = getDayWithSuffix(day);
+  1716 | const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
+  1717 | await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
+  1718 | await commonSteps.ClickSavebuttonSignerModal();
+  1719 | await commonSteps.dragAndDrop('text', 600, 400);
+  1720 | await commonSteps.fillTextField('text', '20 wood street sanfransisco');
+  1721 | await commonSteps.ClickSavebuttonSignerModal();
+  1722 | await commonSteps.dragAndDrop('checkbox', 600, 420);
+  1723 | await commonSteps.ClickSavebuttonSignerModal();
+  1724 | await commonSteps.dragAndDrop('image', 600, 450);
+  1725 | await commonSteps.uploadImage();
+  1726 | await commonSteps.ClickSavebuttonSignerModal();
+  1727 | await commonSteps.dragAndDrop('email', 700, 450);
+  1728 | await commonSteps.fillEmailField('demo@gmail.com', 'pravin+testaccount@nxglabs.in');
+  1729 | await commonSteps.ClickSavebuttonSignerModal();
+  1730 | await commonSteps.clickFinishButtonOnPlaceholder();
+> 1731 | await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
+       |                                              ^ TimeoutError: locator.waitFor: Timeout 90000ms exceeded.
+  1732 | console.log('Rotate page test completed successfully.');
+  1733 | });
+  1734 | test('Verify that the document is not uploaded if its format is not supported in sign yourself.', async ({ page }) => {
+  1735 |   const commonSteps = new CommonSteps(page);
+  1736 |   // Step 1: Navigate to Base URL and log in
+  1737 |   await commonSteps.navigateToBaseUrl();
+  1738 |   await commonSteps.login();
+  1739 | await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+  1740 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  1741 |   await page.locator('input[name="Note"]').click();
+  1742 |   //select and try to upload the file format type json
+  1743 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  1744 | await page.locator('input[type="file"]').click();
+  1745 | const fileChooser = await fileChooserPromise;
+  1746 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Unsupported_fileFormats/Presentation1.pptx'));
+  1747 | page.on('dialog', async (dialog) => {
+  1748 |   console.log(`Dialog message: ${dialog.message()}`);
+  1749 |   if (dialog.message() === 'We are currently experiencing some issues with processing DOCX files. Please upload the PDF file or contact us on support@opensignlabs.com') {
+  1750 |     console.log('Dialog text matches the expected text.');
+  1751 |   } else {
+  1752 |     console.error('Dialog text does NOT match the expected text.');
+  1753 |   }
+  1754 |   await dialog.accept();
+  1755 | });
+  1756 | const fileChooserPromise2 = page.waitForEvent('filechooser');
+  1757 | await page.locator('input[type="file"]').click();
+  1758 | const fileChooser2 = await fileChooserPromise2;
+  1759 | await fileChooser2.setFiles(path.join(__dirname, '../TestData/Unsupported_fileFormats/PlanSheet.xlsx'));
+  1760 | page.on('dialog', async (dialog) => {
+  1761 |   console.log(`Dialog message: ${dialog.message()}`);
+  1762 |   if (dialog.message() === 'We are currently experiencing some issues with processing DOCX files. Please upload the PDF file or contact us on support@opensignlabs.com') {
+  1763 |     console.log('Dialog text matches the expected text.');
+  1764 |   } else {
+  1765 |     console.error('Dialog text does NOT match the expected text.');
+  1766 |   }
+  1767 |   await dialog.accept();
+  1768 | });
+  1769 | });
+  1770 | });
+```
