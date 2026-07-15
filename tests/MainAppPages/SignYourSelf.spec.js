@@ -1437,7 +1437,7 @@ await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 
 await page.getByRole('button', { name: 'Next' }).click();
 await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
 await commonSteps.dragAndDrop('text', 600, 300);
-await commonSteps.fillTextField('text', '20 wood street sanfransisco');
+await commonSteps.fillTextField('text', '120 wood street sanfransisco');
   await commonSteps.ClickSavebuttonSignerModal();
 while (true) {
   await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
@@ -1453,8 +1453,10 @@ while (true) {
 }
 await page.getByText('Next to current widget').click();
 await page.getByRole('button', { name: 'Apply' }).click();
-await expect(page.locator("//textarea[@readonly and @placeholder='text']")).toBeVisible();
-await expect(page.locator("//textarea[@readonly and (not(@placeholder) or @placeholder!='text')]")).toHaveValue("20 wood street sanfransisco");
+await expect(page.locator("//div[@data-page-number='1']//textarea[@name='text']")).toBeVisible();
+await expect(
+  page.locator("//div[@data-page-number='1']//span[starts-with(normalize-space(),'120 wood')]")
+).toHaveText("120 wood street sanfransisco");
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 });

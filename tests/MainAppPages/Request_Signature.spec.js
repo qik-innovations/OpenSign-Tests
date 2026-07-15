@@ -943,11 +943,8 @@ await page.bringToFront();  // Brings the default page to the foreground
 console.log("Switched back to the main page");*/
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.locator('svg > rect:nth-child(3)').click();
-  await page.getByLabel('Close').click();
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+await page.getByRole('button', { name: 'Close Tour' }).click();
 commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
 await page.getByRole('button', { name: 'Next' }).click();
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');

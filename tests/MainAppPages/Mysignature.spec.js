@@ -18,26 +18,26 @@ test('Verify that New user can draw and save the signature on the my signature p
       console.error(`Page title is incorrect. Expected: "Teams - OpenSign™", Got: "${title}"`);
     }
 
-    await page.locator('//canvas[@class=\'signatureCanvas border-[2px] border-[#888] rounded-box\']').click({
+    await page.locator('//canvas[@class="mysignatureCanvas border-[2px] border-[#888] rounded-box"]').click({
         position: {
-          x: 150,
-          y: 84
+          x: 163,
+          y: 47
         }
       });
       await page.mouse.down();
 await page.mouse.move(150, 105)
 await page.mouse.up();
-      await page.locator('//canvas[@class=\'intialSignature rounded-box\']').click({
+      await page.locator('//canvas[@class="intialSignature rounded-box"]').click({
         position: {
-          x: 98,
-          y: 96
+          x: 49,
+          y: 15
         }
       });
       await page.mouse.down();
 await page.mouse.move(98, 120)
 await page.mouse.up();
 await page.locator('//button[@class=\'op-btn op-btn-primary\' and text()= \'Save\']').click();
-await expect(page.getByText('Signature saved successfully.')).toBeVisible();
+await expect(page.getByText('Saved successfully.')).toBeVisible();
 });
 test('Verify that New user can upload and save the signature on the my signature page.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
@@ -54,14 +54,14 @@ test('Verify that New user can upload and save the signature on the my signature
       console.error(`Page title is incorrect. Expected: "Teams - OpenSign™", Got: "${title}"`);
     }
      const fileChooserPromise1 = page.waitForEvent('filechooser');
-     await page.locator('//div[@class=\'op-link\' and text()=\'Upload\']').click();
+    await page.getByText('Upload').first().click();
      const fileChooser1 = await fileChooserPromise1;
      await fileChooser1.setFiles(path.join(__dirname, '../TestData/Images/signature.png'));
      const fileChooserPromise2 = page.waitForEvent('filechooser');
-    await page.locator('//div[@class=\'op-link text-sm md:text-base mr-1\' and text()=\'Upload\']').click();
+  await page.locator('div').filter({ hasText: /^StampUploadClear$/ }).locator('i').click();
     const fileChooser2 = await fileChooserPromise2;
      await fileChooser2.setFiles(path.join(__dirname, '../TestData/Images/initial.png'));
 await page.locator('//button[@class=\'op-btn op-btn-primary\' and text()= \'Save\']').click();
-await expect(page.getByText('Signature saved successfully.')).toBeVisible();
+await expect(page.getByText('Saved successfully.')).toBeVisible();
 });
 });
