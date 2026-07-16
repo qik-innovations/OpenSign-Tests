@@ -364,25 +364,63 @@ test('Verify that pagination is functioning correctly in the dashboard recent si
   await commonSteps.navigateToBaseUrl();
   await commonSteps.login();
   // Wait up to 90 seconds for the text to appear
-  await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
-  // Now assert the text
-  await expect(page.locator('//div[@data-tut="tourreport1"]//div[@class="font-light" and text()="Recent signature requests"]')).toContainText('Recent signature requests');
-  //Check if Pagination Buttons Exist
-  const isPaginationVisible = await page.locator('//div[@data-tut="tourreport1"]//button[@class="op-join-item op-btn op-btn-sm" and text()="Next"]').isVisible();
-  //expect(isPaginationVisible).toBeTruthy();
-  const isPaginationVisiblePrev = await page.locator('//div[@data-tut="tourreport1"]//button[@class="op-join-item op-btn op-btn-sm" and text()="Prev"]').isVisible();
-  //expect(isPaginationVisiblePrev).toBeTruthy();
-  const page1Data = await page.locator('//div[@data-tut="tourreport1"]//table[1]//tbody//tr').allTextContents();
-  await page.locator('//div[@data-tut="tourreport1"]//button[@class="op-join-item op-btn op-btn-sm" and text()="Next"]').click();
-  await page.waitForLoadState('domcontentloaded');
-  //const firstPageContent = await page.locator('//button[@class=\'op-btn-active op-join-item op-btn op-btn-sm\' and text()=\'2\']').first().textContent(); // Capture first item
-const page2Data = await page.locator('//div[@data-tut="tourreport1"]//table[1]//tbody//tr').allTextContents();
-expect(page2Data).not.toEqual(page1Data);// Ensure content changes
-//Verify 'Previous' and 'Next' Buttons Work
-await page.locator('//div[@data-tut="tourreport1"]//button[@class="op-join-item op-btn op-btn-sm" and text()="Prev"]').click();
-await page.waitForLoadState('domcontentloaded');
-const page1DataPrev = await page.locator('//div[@data-tut="tourreport1"]//table[1]//tbody//tr').allTextContents();
-expect(page2Data).not.toEqual(page1DataPrev);// Ensure content changes
+  await page.locator('#renderList').waitFor({
+    state: 'visible',
+    timeout: 90000,
+  });
+
+  // Verify widget is visible
+  await expect(
+    page.locator(
+      '//div[@data-tut="tourreport1"]//div[@class="font-light" and text()="Recent signature requests"]'
+    )
+  ).toHaveText('Recent signature requests');
+
+  const nextButton = page.locator(
+    '//div[@data-tut="tourreport1"]//button[text()="Next"]'
+  );
+
+  const prevButton = page.locator(
+    '//div[@data-tut="tourreport1"]//button[text()="Prev"]'
+  );
+
+  await expect(nextButton).toBeVisible();
+  await expect(prevButton).toBeVisible();
+
+  const tableRows = page.locator(
+    '//div[@data-tut="tourreport1"]//table/tbody/tr'
+  );
+
+  // Capture first page data
+  const page1Data = await tableRows.allTextContents();
+
+  // Click Next
+  await nextButton.click();
+
+  // Wait until either table changes or active page changes
+  await expect
+    .poll(async () => await tableRows.allTextContents(), {
+      timeout: 10000,
+    })
+    .not.toEqual(page1Data);
+
+  const page2Data = await tableRows.allTextContents();
+
+  expect(page2Data).not.toEqual(page1Data);
+
+  // Click Previous
+  await prevButton.click();
+
+  // Wait until first page data appears again
+  await expect
+    .poll(async () => await tableRows.allTextContents(), {
+      timeout: 10000,
+    })
+    .toEqual(page1Data);
+
+  const page1DataAgain = await tableRows.allTextContents();
+
+  expect(page1DataAgain).toEqual(page1Data);
 });
 
 test('Verify that the document sent for a signature request appears in the Recently Sent for Signatures section on the dashboard.', async ({ page }) => {

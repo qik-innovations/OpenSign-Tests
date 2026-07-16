@@ -77,9 +77,8 @@ test('Verify that a Teams plan user can add a team and add the user under the ne
 
   // Step 6: Fill team details
   const teamName = `Test Team ${Date.now()}`;
-  await page.locator('input[name="name"]').fill(teamName);
-
-  // Select parent team
+await page.locator('input[name="name"]').fill(teamName);
+await page.locator('input[name="name"]').pressSequentially('A');
   await page
     .locator("//label[normalize-space(text())='Parent team']/following-sibling::select[@name='team']")
     .selectOption({ label: 'All Users' });
@@ -131,7 +130,7 @@ try {
   const randomPass = await page.locator("//div[@class='break-all']").textContent();
   console.log(`Generated password: ${randomPass}`);
 
-  await page.locator('select[name="team"]').selectOption(teamName);
+ await page.locator('select[name="team"]').selectOption({ label: `${teamName}A` });
   await page.locator('#selectSignerModal i').click();
   await page.locator('select[name="role"]').selectOption('User');
 
@@ -140,7 +139,7 @@ try {
 
   // Verify user exists in the table
   await expect(page.getByRole('cell', { name: email })).toBeVisible();
-  await expect(page.getByRole('cell', { name: teamName })).toBeVisible();
+  await expect(page.getByRole('cell', { name: `${teamName}A`})).toBeVisible();
 });
 //write test to check pagination in teams page
 test('Verify pagination works in Teams page when multiple teams are present', async ({ page }) => {

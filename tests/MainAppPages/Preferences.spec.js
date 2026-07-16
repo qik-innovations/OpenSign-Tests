@@ -58,16 +58,9 @@ test('Verify that a new free user cannot save email preferences is prompted to u
     }
     await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences' })).toBeVisible();
   await page.locator("//div[@role='tab' and @aria-controls='panel-Email']").click();
-// Request signature email template
-await expect(
-  page.locator("//div[contains(@class,'relative mt-2 mb-4')]//button[text()='Upgrade now']")
-).toBeVisible();
-
-// Completion email template
-await expect(
-  page.locator("//div[@class='relative my-2']//div[contains(@class,'absolute')]//button[contains(@class,'op-btn-accent') and text()='Upgrade now']")
-).toBeVisible();
-
+  await expect(page.locator('#panel-2')).toContainText('To let individual users customize their own email templates, navigate to Console → General.');
+  await page.getByText('Console → General.').click();
+  await expect(page.locator('//div[@class="p-3"]//button[normalize-space()="Upgrade now"]')).toContainText('Upgrade now');
 });
 test('Free user cannot update settings for Notify on Signature and Merge Certificate PDF', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
@@ -164,7 +157,7 @@ await page.getByRole('button', { name: ' Settings' }).click();
     await expect(page.locator(ROOT_SELECTOR)).toContainText('Pravin Testing account');
     await expect(page.locator(ROOT_SELECTOR)).toContainText('TEAM');
     await page.locator('//div[@role="tab"]//span[@title="Email"]').click();
-   await expect(page.getByRole('heading')).toContainText('Request Email');
+   await expect(page.locator('//div[@id="panel-2"]//h1[text()="Request Email"]')).toContainText('Request Email');
 
   });
 

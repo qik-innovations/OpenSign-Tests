@@ -103,7 +103,7 @@ test('Verify that the unfinished SignYourSelf document can be edited from the Dr
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-  await commonSteps.dragAndDrop('signature', 600, 300);
+await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature', 600, 300);
 await page.locator("//div[contains(@class,'flex-none')]//button[i[contains(@class,'fa-bars')]]").click();
 await page.getByRole('button', { name: ' Documents' }).click();
 await page.getByRole('menuitem', { name: 'Drafts' }).click();
@@ -127,7 +127,7 @@ await page.waitForSelector("//div[@class='react-pdf__Document']//div[@id='contai
   await page.waitForLoadState("networkidle");
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
   await page.waitForLoadState("networkidle");
-commonSteps.dragAndDrop('signature', 600, 300);
+await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature', 600, 300);
  await commonSteps.dragAndDrop('stamp', 600, 360);
  await commonSteps.uploadStamp();
  await commonSteps.ClickSavebuttonSignerModal();

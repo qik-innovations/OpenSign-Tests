@@ -108,7 +108,7 @@ export class CommonSteps {
     await page.getByRole('button', { name: 'Create account' }).click({ timeout: 120000 });
     await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible({ timeout: 120000 });
 
-    const email = `pravin+${Math.random()}@nxglabs.in`;
+    const email = `kelvinsjohnson24+${Math.random()}@gmail.com`; // Generate a unique email for each test run
     loginCredentials.FreeplanUsername = email;
     loginCredentials.FreePlanpassword = 'Nxglabs@123';
 

@@ -5,6 +5,7 @@ const path = require('path');
 import { apiRequest } from '../utils/authentication';
 import {getLatestEmail} from '../utils/getLatestEmail';
 import { gmailConfig } from '../utils/mailConfigs';
+import { fetchOTP } from '../utils/otpHelper';
 test.describe('Templates', () => {
 test('Verify that a new free user cannot access the paid features on the create template and edit template page.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
@@ -284,10 +285,32 @@ await page.waitForLoadState("networkidle");
 await commonSteps.dragAndDropSignatureWidget("signature", 700, 300);
 await page.getByRole('button', { name: 'Next' }).click();
   await page.getByRole('button', { name: 'Bulk send' }).click();
+    await expect(page.locator('#selectSignerModal')).toContainText('Please verify your email address before sending emails. Go to your profile settings to complete email verification.');
+ await page.getByText('Please verify your email').click();
+ await page.getByText('Verify', { exact: true }).click();
+async function expectOTPEmail(email) {
+  const emailText = await fetchOTP({
+    ...gmailConfig,
+    otpRegex: /Your OpenSign.*OTP|OTP Verification|Your OTP for OpenSign.*verification/i,
+    expectedTo: email,
+  });
+
+  const otpMatch = emailText.match(/\b\d{4}\b/);
+
+  expect(otpMatch).not.toBeNull();
+
+  const otp = otpMatch[0];
+  console.log(`OTP: ${otp}`);
+
+  return otp;
+}
+const otp = await expectOTPEmail(gmailConfig.user);
+await page.getByRole('textbox', { name: 'Enter verification code' }).fill(otp);
+await page.getByRole('button', { name: 'Verify' }).click();
+
   await page.getByRole('textbox', { name: 'Enter Email...' }).first().fill('pravin+677@nxglabs.in');
 await page.getByRole('textbox', { name: 'Enter Email...' }).nth(1).fill('pravin+689@nxglabs.in');
   await page.getByRole('button', { name: ' Send' }).click();
-  await expect(page.locator('#selectSignerModal')).toContainText('Please verify your email address before sending emails. Go to your profile settings to complete email verification.');
   await expect(page.locator('#selectSignerModal')).toContainText('Please upgrade to Professional or Team plan to use bulk send.');
   await expect(page.locator('#selectSignerModal')).toContainText('Upgrade now');
   await page.locator('#selectSignerModal').getByRole('button', { name: 'Upgrade now' }).click();

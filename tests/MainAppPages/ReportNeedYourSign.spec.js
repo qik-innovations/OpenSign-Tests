@@ -13,7 +13,7 @@ test('Verify that owner can create the document and sign it from the need your s
   //expect(title).toBe('Dashboard - OpenSign™');
   await page.getByRole('menuitem', { name: 'Request signatures' }).click();
     await page.locator('input[name="Name"]').click();
-    await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+    await page.locator('input[name="Name"]').fill('Offer Letter for QA1144 56');
     await page.locator('input[name="Note"]').click();
     const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
@@ -26,57 +26,61 @@ test('Verify that owner can create the document and sign it from the need your s
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+await commonSteps.dragAndDropSignatureWidget('signature', 400, 200);
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 250)
+await page.mouse.move(600, 200)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'initials\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 300)
+await page.mouse.move(400, 300)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'name\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 360)
+await page.mouse.move(600, 300)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'job title\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 400)
+await page.mouse.move(400, 360)
 await page.mouse.up();
-await page.locator('//span[normalize-space()=\'company\']').hover();
+await page.locator('//span[normalize-space()="company"]').hover();
+await page.waitForTimeout(300);
 await page.mouse.down();
-await page.mouse.move(600, 430)
+await page.waitForTimeout(300);
+await page.mouse.move(600, 360);
+await page.mouse.up();
+await page.locator('//span[normalize-space()="email"]').hover();
+await page.waitForTimeout(300);
+await page.mouse.down();
+await page.waitForTimeout(300);
+await page.mouse.move(400, 430);
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'date\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 460)
+await page.mouse.move(600, 430)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'text input\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 490)
+await page.mouse.move(400, 490)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'checkbox\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 520)
+await page.mouse.move(600, 490)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('span').filter({ hasText: 'dropdown' }).hover();
 await page.mouse.down();
-await page.mouse.move(600, 550)
+await page.mouse.move(400, 550)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'radio button\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 590)
+await page.mouse.move(600, 550)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'image\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 640)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'email\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 700)
+await page.mouse.move(400, 600)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
    await page.locator("//div[i[contains(@class,'fa-envelope')] and .//span[text()='Send to Email']]").click();
@@ -109,6 +113,8 @@ await commonSteps.clickNextButtonInSignerModal();
 await commonSteps.fillTextField('job title','Quality analyst');
 await commonSteps.clickNextButtonInSignerModal();
 await commonSteps.fillTextField('company','Opensign labs pvt. ltd');
+    await commonSteps.clickNextButtonInSignerModal();
+    await commonSteps.fillTextField('demo@gmail.com','pravin@opensign.me');
     await commonSteps.clickNextButtonInSignerModal();
    const today = new Date();
 // Format the date as MM/DD/YYYY
@@ -143,14 +149,11 @@ await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
     await commonSteps.clickNextButtonInSignerModal();
     await commonSteps.selectCheckbox('Option-1');
  await commonSteps.clickNextButtonInSignerModal();
+     await commonSteps.selectFromDropdown('myDropdown','Option-1');
+    await commonSteps.clickNextButtonInSignerModal();
  await commonSteps.selectRadioButton('Option-1');
     await commonSteps.clickNextButtonInSignerModal();
   await commonSteps.uploadImage();
-   await commonSteps.clickNextButtonInSignerModal();
-   await commonSteps.fillTextField('demo@gmail.com','pravin@opensign.me');
-    await commonSteps.clickNextButtonInSignerModal();
-    await commonSteps.selectFromDropdown('myDropdown','Option-1');
-    await commonSteps.clickNextButtonInSignerModal();
   await commonSteps.clickDoneButtonInSignerModal();
 await commonSteps.clickFinishButtonInSignerModal();
   await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
