@@ -1,0 +1,247 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Templates >> Verify that the signer can received the email from default email template.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/CreateTemplate.spec.js:701:1
+
+# Error details
+
+```
+Error: expect(received).toContain(expected) // indexOf
+
+Expected substring: "has requested you to sign Create template"
+Received string:    "Pravin Testing account has requested you to sign Sample-joining-letter"
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/CreateTemplate.spec.js:831:30
+```
+
+# Page snapshot
+
+```yaml
+- img
+- heading "The document has been successfully signed by you!" [level=1]
+- button "Download"
+- button "Print"
+- heading "How was your experience with OpenSign™?" [level=2]
+- img "bad": 😡
+- text: 0-3
+- img "meh": 😐
+- text: 4-6
+- img "good": 😊
+- text: 7-8
+- img "great": 😍
+- text: 9-10
+- button "Submit"
+- paragraph: ✅ That's it! You'll receive a confirmation email shortly.
+```
+
+# Test source
+
+```ts
+  731 | await row.getByPlaceholder('Enter Email...').nth(0)
+  732 |   .fill('kelvinsjohnson24+drafttempSigner1@gmail.com');
+  733 |
+  734 | await row.getByPlaceholder('Enter Email...').nth(1)
+  735 |   .fill('kelvinsjohnson24+drafttempSigner2@gmail.com');
+  736 |
+  737 | const completionEmailRecipient = 'kelvinsjohnson24+drafttempSigner1@gmail.com';
+  738 |    await page.locator("//button[i[contains(@class,'fa-paper-plane')] and .//span[normalize-space()='Send']]").click();
+  739 |
+  740 |    const summaryCard = page.locator('div.rounded-box').filter({
+  741 |   has: page.getByText('Summary', { exact: true })
+  742 | });
+  743 |
+  744 | await expect(summaryCard).toBeVisible({ timeout: 90000 });
+  745 |
+  746 | await expect(summaryCard.locator('ul > li')).toHaveText(
+  747 |   [
+  748 |     'Prefill fields: 0',
+  749 |     'Documents: 1',
+  750 |     'Status: success',
+  751 |     'Message: Documents sent successfully.'
+  752 |   ],
+  753 |   { timeout: 90000 }
+  754 | );
+  755 |
+  756 | const signer1Email = await getLatestEmail({
+  757 |   ...gmailConfig,
+  758 |   expectedTo: 'kelvinsjohnson24+drafttempSigner1@gmail.com',
+  759 |   timeout: 60000
+  760 | });
+  761 | expect(signer1Email).toBeDefined();
+  762 | expect(signer1Email.subject).toContain(
+  763 |   'has requested you to sign'
+  764 | );
+  765 |
+  766 | const emailHtml = signer1Email.html || '';
+  767 |
+  768 | expect(emailHtml).toContain(
+  769 |   'requested'
+  770 | );
+  771 |
+  772 | expect(emailHtml).toContain(
+  773 |   'review'
+  774 | );
+  775 |
+  776 | expect(emailHtml).toContain(
+  777 |   'sign'
+  778 | );
+  779 |
+  780 | expect(emailHtml).toContain(
+  781 |   'Sign'
+  782 | );
+  783 |
+  784 | expect(emailHtml).toContain(
+  785 |   'Team'
+  786 | );
+  787 |
+  788 | expect(emailHtml).toContain(
+  789 |   'OpenSign'
+  790 | );
+  791 | // Validate sender
+  792 | expect(
+  793 |   signer1Email.from.toLowerCase()
+  794 | ).toContain(
+  795 |   'kelvinsjohnson24@gmail.com'
+  796 | );
+  797 |
+  798 | const signLinkMatch = emailHtml.match(/href=['"]([^'"]+)['"][^>]*>Sign here</i);
+  799 |
+  800 | expect(signLinkMatch).not.toBeNull();
+  801 |
+  802 | const signer1SigningUrl = signLinkMatch[1];
+  803 |
+  804 | console.log('Signer 1 Signing URL:', signer1SigningUrl);
+  805 |
+  806 | await page.goto(signer1SigningUrl);
+  807 | await page.waitForLoadState('networkidle');
+  808 | // Verify document is loaded
+  809 | await page.waitForSelector(
+  810 |   '//div[@class="react-pdf__Document"]',
+  811 |   { timeout: 90000 }
+  812 | );
+  813 | const methods1 = new CommonSteps(page);
+  814 | await methods1.validateAndAcceptTerms();
+  815 | await page.locator('//div[@id="container"]//div[text()="signature-1"]').nth(0).click();
+  816 | await methods1.drawSignature();;
+  817 | await methods1.clickDoneButtonInSignerModal();
+  818 |  await methods1.clickFinishButtonInSignerModal();
+  819 |  expect(page.getByText('The document has been successfully signed by you!'))
+  820 |   // Verify signer 2 received signature request email
+  821 | const signer2Email = await getLatestEmail({
+  822 |   ...gmailConfig,
+  823 |   expectedTo: 'kelvinsjohnson24+drafttempSigner2@gmail.com',
+  824 |   timeout: 60000
+  825 | });
+  826 |
+  827 |
+  828 | expect(signer2Email).toBeDefined();
+  829 |
+  830 | // Verify subject
+> 831 | expect(signer2Email.subject).toContain(
+      |                              ^ Error: expect(received).toContain(expected) // indexOf
+  832 |   'has requested you to sign Create template'
+  833 | );
+  834 |
+  835 | // Verify sender
+  836 | expect(
+  837 |   (signer2Email.from || '').toLowerCase()
+  838 | ).toContain(
+  839 |   'kelvinsjohnson24@gmail.com'
+  840 | );
+  841 |
+  842 | // Verify email body
+  843 | const signer2EmailHtml = signer2Email.html || '';
+  844 |
+  845 | expect(signer2EmailHtml).toContain(
+  846 |   'requested you to review and sign'
+  847 | );
+  848 |
+  849 | expect(signer2EmailHtml).toContain(
+  850 |   'Create template'
+  851 | );
+  852 |
+  853 | expect(signer2EmailHtml).toContain(
+  854 |   'Sign here'
+  855 | );
+  856 |
+  857 | expect(signer2EmailHtml).toContain(
+  858 |   'Team OpenSign'
+  859 | );
+  860 |
+  861 | expect(signer2EmailHtml).toContain(
+  862 |   'contact the sender'
+  863 | );
+  864 |
+  865 | // Extract signer 2 signing URL
+  866 | const signer2LinkMatch = signer2EmailHtml.match(
+  867 |   /href=['"]([^'"]+)['"][^>]*>Sign here</i
+  868 | );
+  869 |
+  870 | expect(signer2LinkMatch).not.toBeNull();
+  871 |
+  872 | const signer2SigningUrl = signer2LinkMatch[1];
+  873 |
+  874 | console.log('Signer 2 Signing URL:', signer2SigningUrl);
+  875 |
+  876 | // Navigate to signer 2 signing page
+  877 | await page.goto(signer2SigningUrl);
+  878 | await page.waitForLoadState('networkidle');
+  879 |
+  880 | // Verify document is loaded
+  881 | await page.waitForSelector(
+  882 |   '//div[@class="react-pdf__Document"]',
+  883 |   { timeout: 90000 }
+  884 | );
+  885 |
+  886 | const methods = new CommonMethods(page);
+  887 | await methods.validateAndAcceptTerms();
+  888 |     //scroll the panel veritcally down to the signature widget and then click on it
+  889 |     const signatureBlock = page.locator("//div[contains(@class,'signYourselfBlock')][.//div[normalize-space()='signature-1']]");
+  890 |     await signatureBlock.scrollIntoViewIfNeeded();
+  891 | await page.locator('//div[@id="container"]//div[text()="signature-1"]').click();
+  892 | await methods.drawSignature();
+  893 | await methods.clickDoneButtonInSignerModal();
+  894 |  await methods.clickFinishButtonInSignerModal();
+  895 | await expect(page.getByText('The document has')).toContainText('The document has been signed successfully!', { timeout: 120000 });
+  896 | const completionEmail = await getLatestEmail({
+  897 |   ...gmailConfig,
+  898 |   expectedTo:
+  899 |     completionEmailRecipient,
+  900 |   subjectContains:
+  901 |     'has been signed by all parties',
+  902 |   timeout: 60000
+  903 | });
+  904 | expect(completionEmail).toBeTruthy();
+  905 | expect(completionEmail.subject).toContain(
+  906 |   'has been signed by all parties'
+  907 | );
+  908 |
+  909 | expect(
+  910 |   completionEmail.to.toLowerCase()
+  911 | ).toContain(
+  912 |   completionEmailRecipient.toLowerCase()
+  913 | );
+  914 | const completionEmailHtml =
+  915 |   completionEmail.html || '';
+  916 |
+  917 | expect(completionEmailHtml).toContain(
+  918 |   'All parties have successfully signed the document'
+  919 | );
+  920 | expect(completionEmailHtml).toContain(
+  921 |   'Kindly download the document from the attachment'
+  922 | );
+  923 | expect(completionEmailHtml).toContain(
+  924 |   'Team OpenSign™'
+  925 | );
+  926 | expect(
+  927 |   completionEmail?.attachments?.some(
+  928 |     attachment => attachment.filename === 'certificate.pdf'
+  929 |   )
+  930 | ).toBeTruthy();
+  931 |   
+```

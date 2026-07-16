@@ -1,0 +1,3 @@
+Popup is loaded.
+'Proceed' button did not appear.
+Generated password: eV7Vlgqf5dpc

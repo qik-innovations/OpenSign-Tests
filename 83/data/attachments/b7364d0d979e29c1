@@ -1,0 +1,246 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Preferences >> Verify that a new free user cannot save email preferences is prompted to upgrade
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Preferences.spec.js:46:1
+
+# Error details
+
+```
+Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+Locator: locator('//div[contains(@class,\'relative mt-2 mb-4\')]//button[text()=\'Upgrade now\']')
+Expected: visible
+Received: <element(s) not found>
+Call log:
+  - expect.toBeVisible with timeout 5000ms
+  - waiting for locator('//div[contains(@class,\'relative mt-2 mb-4\')]//button[text()=\'Upgrade now\']')
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Preferences.spec.js:64:3
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - text: "New feature: Protect your account with Two-Factor Authentication (2FA) and enjoy the future of login with Passkeys — no passwords needed. — Setup now."
+  - img
+  - text: 
+  - button ""
+  - img "logo"
+  - button "Upgrade now"
+  - button "Open app drawer": 
+  - img "img"
+  - button "Mathew Wade"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Mathew Wade
+  - paragraph: qikAi.com
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+      - menu "Settings submenu":
+        - menuitem "My signature"
+        - menuitem "API token"
+        - menuitem "Webhook"
+        - menuitem "Preferences"
+        - menuitem "Teams"
+        - menuitem "Users"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- main:
+  - heading "OpenSign™ Preferences" [level=1]
+  - tablist:
+    - tab " General"
+    - tab " Widgets"
+    - tab " Email" [selected]
+    - tab " Security"
+  - tabpanel: To let individual users customize their own email templates, navigate to Console → General. To update company-wide email templates, go to Console → Mail. Learn more…
+  - complementary:
+    - paragraph: "All rights reserved © 2026 OpenSign™ ( version: v2.41.0 )"
+```
+
+# Test source
+
+```ts
+   1 | const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+   2 | const { test, expect } = require('@playwright/test');
+   3 | const path = require('path');
+   4 | const CommonSteps = require('../utils/CommonSteps');
+   5 | test.describe('Preferences', () => {
+   6 |   const ROOT_SELECTOR = '#root';
+   7 | const RENDER_LIST_SELECTOR = '#renderList';
+   8 | test('Verify that New free user can save the general preferences.', async ({ page }) => {
+   9 |     const commonSteps = new CommonSteps(page);
+   10 |     // Step 1: Navigate to Base URL and log in
+   11 |     await commonSteps.navigateToBaseUrl();
+   12 |     await commonSteps.NewUserlogin();
+   13 |     await page.getByRole('button', { name: ' Settings' }).click();
+   14 |     await page.getByRole('menuitem', { name: 'Preferences' }).click();
+   15 |     const title = await page.title();
+   16 |     if (title === 'OpenSign™ Preferences') {
+   17 |       console.log('Page title is correct: OpenSign™ Preferences');
+   18 |     } else {
+   19 |       console.error(`Page title is incorrect. Expected: "OpenSign™ Preferences", Got: "${title}"`);
+   20 |     }
+   21 |     await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences' })).toBeVisible();
+   22 |   await page.getByText('General').click();
+   23 |   await expect(page.getByText('Allowed signature types')).toBeVisible();
+   24 |   await page.getByText('draw').click();
+   25 |   await expect(page.locator('//label[@title="Enabling this allows signers to draw signature" and text()="draw"]')).toBeVisible();
+   26 |   await expect(page.locator('//label[@title="Enabling this allows signers to typed signature" and text()="type"]', { exact: true })).toBeVisible();
+   27 |   await expect(page.locator('//label[@title="Enabling this allows signers to upload signature" and text()="upload"]')).toBeVisible();
+   28 |   await expect(page.locator('//label[@title="Enabling this allows signers to default signature" and text()="default"]')).toBeVisible();
+   29 |   await expect(page.getByText('Notify on signaturesUpgrade')).toBeVisible();
+   30 |   await expect(page.locator('//label[contains(., "Notify on signatures")]//span[normalize-space(.)="Upgrade now"]').getByText('Upgrade now')).toBeVisible();
+   31 |   await expect(page.getByRole('heading', { name: 'Timezone' })).toBeVisible();
+   32 | // Open the dropdown
+   33 | await page.locator('.css-n9qnu9').click();
+   34 | //await page.locator('//div[@class="css-w54w9q-singleValue"]').click();
+   35 | // Click the desired option
+   36 | await page.locator('//div[text()="(GMT+10:00) Canberra, Melbourne, Sydney"]').click();
+   37 |   await page.locator('#renderList div').filter({ hasText: 'Allowed signature' }).nth(2).click();
+   38 |   await page.locator('.css-n9qnu9').click();
+   39 |   await page.locator('#renderList div').filter({ hasText: 'Allowed signature' }).nth(2).click();
+   40 |   await page.locator("//label[text()='Date format']/following-sibling::select").selectOption({ label: "MM/DD/YYYY" });
+   41 |   await page.locator("//label[text()='Document download filename format']/following-sibling::select").selectOption({ label: "document Name - name@domain.com.pdf" });
+   42 |   await page.getByRole('button', { name: 'Save' }).click();
+   43 |   await expect(page.getByText('Saved successfully.')).toBeVisible();
+   44 | });
+   45 |
+   46 | test('Verify that a new free user cannot save email preferences is prompted to upgrade', async ({ page }) => {
+   47 |     const commonSteps = new CommonSteps(page);
+   48 |     // Step 1: Navigate to Base URL and log in
+   49 |     await commonSteps.navigateToBaseUrl();
+   50 |     await commonSteps.NewUserlogin();
+   51 |     await page.getByRole('button', { name: ' Settings' }).click();
+   52 |     await page.getByRole('menuitem', { name: 'Preferences' }).click();
+   53 |     const title = await page.title();
+   54 |     if (title === 'OpenSign™ Preferences') {
+   55 |       console.log('Page title is correct: OpenSign™ Preferences');
+   56 |     } else {
+   57 |       console.error(`Page title is incorrect. Expected: "OpenSign™ Preferences", Got: "${title}"`);
+   58 |     }
+   59 |     await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences' })).toBeVisible();
+   60 |   await page.locator("//div[@role='tab' and @aria-controls='panel-Email']").click();
+   61 | // Request signature email template
+   62 | await expect(
+   63 |   page.locator("//div[contains(@class,'relative mt-2 mb-4')]//button[text()='Upgrade now']")
+>  64 | ).toBeVisible();
+      |   ^ Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+   65 |
+   66 | // Completion email template
+   67 | await expect(
+   68 |   page.locator("//div[@class='relative my-2']//div[contains(@class,'absolute')]//button[contains(@class,'op-btn-accent') and text()='Upgrade now']")
+   69 | ).toBeVisible();
+   70 |
+   71 | });
+   72 | test('Free user cannot update settings for Notify on Signature and Merge Certificate PDF', async ({ page }) => {
+   73 |   const commonSteps = new CommonSteps(page);
+   74 |
+   75 |   // Navigate and login as new user
+   76 |   await commonSteps.navigateToBaseUrl();
+   77 |   await commonSteps.NewUserlogin();
+   78 |
+   79 |   // Open Preferences
+   80 |   await page.getByRole('button', { name: ' Settings' }).click();
+   81 |   await page.getByRole('menuitem', { name: 'Preferences' }).click();
+   82 |
+   83 |   // Verify page title
+   84 |   const title = await page.title();
+   85 |   if (title === 'OpenSign™ Preferences') {
+   86 |     console.log('Page title is correct: OpenSign™ Preferences');
+   87 |   } else {
+   88 |     console.error(`Page title is incorrect. Expected: "OpenSign™ Preferences", Got: "${title}"`);
+   89 |   }
+   90 |
+   91 |   // Verify heading
+   92 |   await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences' })).toBeVisible();
+   93 |
+   94 |   // Verify General panel snapshot
+   95 |   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+   96 |      - tab " General" [selected]
+   97 |      - tab " Widgets"
+   98 |      - tab " Email"
+   99 |      - tab " Security"
+  100 |      `);
+  101 |    await expect(page.locator('#panel-0')).toMatchAriaSnapshot(`
+  102 |      - text: "Allowed signature types"
+  103 |      - superscript: "?"
+  104 |      - checkbox "draw" [checked]
+  105 |      - text: draw
+  106 |      - checkbox "type" [checked]
+  107 |      - text: type
+  108 |      - checkbox "upload" [checked]
+  109 |      - text: upload
+  110 |      - checkbox "default" [checked]
+  111 |      - text: default Notify on signatures
+  112 |      - superscript: "?"
+  113 |      - superscript: Upgrade now
+  114 |      - radio "Yes" [checked]
+  115 |      - text: "Yes"
+  116 |      - radio "No"
+  117 |      - text: No Send in order
+  118 |      - superscript: "?"
+  119 |      - radio "Yes" [checked]
+  120 |      - text: "Yes"
+  121 |      - radio "No"
+  122 |      - text: No Allow offline signing
+  123 |      - superscript: "?"
+  124 |      - superscript: Upgrade now
+  125 |      - radio "Yes"
+  126 |      - text: "Yes"
+  127 |      - radio "No" [checked]
+  128 |      - text: No Use profile name as sender
+  129 |      - superscript: "?"
+  130 |      - checkbox "Use profile name as sender"
+  131 |      - text: Enable tour
+  132 |      - superscript: "?"
+  133 |      - radio "Yes" [checked]
+  134 |      - text: "Yes"
+  135 |      - radio "No"
+  136 |      - text: "No"
+  137 |      - heading "Email settings ?" [level=3]:
+  138 |        - superscript: "?"
+  139 |      - button "" [disabled]
+  140 |      - button "" [disabled]
+  141 |      - checkbox [checked]
+  142 |      - button "OpenSign™ default SMTP" [disabled]
+  143 |      `);
+  144 |  
+  145 | await expect(page.locator('#panel-0')).toContainText('Notify on signaturesUpgrade nowYesNo');
+  146 |   await expect(page.locator('#panel-0')).toContainText('Send in orderYesNo');
+  147 |   await expect(page.locator('#panel-0')).toContainText('Allow offline signingUpgrade nowYesNo');
+  148 |   await expect(page.locator('#panel-0')).toContainText('Merge Certificate to PDFUpgrade nowYesNo');
+  149 | });
+  150 |
+  151 |   test('Team plan user can access the Email page.', async ({ page }) => {
+  152 |     const commonSteps = new CommonSteps(page);
+  153 |     await commonSteps.navigateToBaseUrl();
+  154 |     await commonSteps.login();
+  155 | await page.getByRole('button', { name: ' Settings' }).click();
+  156 |     await page.getByRole('menuitem', { name: 'Preferences' }).click();
+  157 |     const title = await page.title();
+  158 |     if (title === 'OpenSign™ Preferences') {
+  159 |       console.log('Page title is correct: OpenSign™ Preferences');
+  160 |     } else {
+  161 |       console.error(`Page title is incorrect. Expected: "OpenSign™ Preferences", Got: "${title}"`);
+  162 |     }
+  163 |     await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences' })).toBeVisible();
+  164 |     await expect(page.locator(ROOT_SELECTOR)).toContainText('Pravin Testing account');
+```

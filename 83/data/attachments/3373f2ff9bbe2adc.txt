@@ -1,0 +1,60 @@
+Browser: chromium, Version: 134.0.6998.35, OS: linux
+FreeplanUsername is empty. Running signup test...
+✅ Signup successful. User: pravin+0.853165931373405@nxglabs.in
+Dragged and dropped widget with label 'signature' to coordinates (600, 300).
+Signature widget dragged and dropped successfully.
+Dragged and dropped widget with label 'signature' to coordinates (700, 300).
+Error while verifying signature widget drag-drop: locator.isVisible: Error: strict mode violation: locator('//div[contains(@class,\'signYourselfBlock\')]//div[contains(@class,\'font-medium\') and normalize-space()=\'signature-1\']') resolved to 2 elements:
+    1) <div class=" font-medium">signature-1</div> aka locator('[id="\\36 3878953"]').getByText('signature-')
+    2) <div class=" font-medium">signature-1</div> aka locator('[id="\\38 2552074"]').getByText('signature-')
+
+Call log:
+    - checking visibility of locator('//div[contains(@class,\'signYourselfBlock\')]//div[contains(@class,\'font-medium\') and normalize-space()=\'signature-1\']')
+
+    at CommonSteps.dragAndDropSignatureWidget (/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/utils/CommonSteps.js:184:30)
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/CreateTemplate.spec.js:284:1 {
+  [Symbol(step)]: {
+    stepId: 'pw:api@73',
+    location: {
+      file: '/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/utils/CommonSteps.js',
+      line: 184,
+      column: 30,
+      function: 'CommonSteps.dragAndDropSignatureWidget'
+    },
+    category: 'pw:api',
+    title: "locator.isVisible(//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1'])",
+    apiName: 'locator.isVisible',
+    params: {
+      selector: "//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1']",
+      strict: true
+    },
+    boxedStack: undefined,
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'pw:api@73'
+    },
+    complete: [Function: complete],
+    endWallTime: 1784179690171,
+    error: {
+      message: "Error: locator.isVisible: Error: strict mode violation: locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']') resolved to 2 elements:\n" +
+        `    1) <div class=" font-medium">signature-1</div> aka locator('[id="\\\\36 3878953"]').getByText('signature-')\n` +
+        `    2) <div class=" font-medium">signature-1</div> aka locator('[id="\\\\38 2552074"]').getByText('signature-')\n` +
+        '\n' +
+        'Call log:\n' +
+        "\x1B[2m    - checking visibility of locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']')\x1B[22m\n",
+      stack: "Error: locator.isVisible: Error: strict mode violation: locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']') resolved to 2 elements:\n" +
+        `    1) <div class=" font-medium">signature-1</div> aka locator('[id="\\\\36 3878953"]').getByText('signature-')\n` +
+        `    2) <div class=" font-medium">signature-1</div> aka locator('[id="\\\\38 2552074"]').getByText('signature-')\n` +
+        '\n' +
+        'Call log:\n' +
+        "\x1B[2m    - checking visibility of locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']')\x1B[22m\n" +
+        '\n' +
+        '    at CommonSteps.dragAndDropSignatureWidget (/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/utils/CommonSteps.js:184:30)\n' +
+        '    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/CreateTemplate.spec.js:284:1',
+      cause: undefined
+    }
+  }
+}

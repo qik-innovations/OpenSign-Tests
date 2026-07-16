@@ -1,0 +1,313 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Need your signature >> Verify that owner can create the document and sign it from the need your signature report.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/ReportNeedYourSign.spec.js:6:1
+
+# Error details
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for locator('//div[@class="flex justify-center"]//i[@class="fa-light fa-cloud-upload-alt uploadImgLogo text-base-content"]')
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/utils/CommonSteps.js:339:139
+    at Function.step (/home/runner/work/OpenSign-Tests/OpenSign-Tests/node_modules/allure-playwright/src/helpers.ts:21:17)
+    at CommonSteps.uploadImage (/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/utils/CommonSteps.js:337:18)
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/ReportNeedYourSign.spec.js:148:21
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - button ""
+  - img "logo"
+  - text: TEAM
+  - button "Open app drawer": 
+  - img "img"
+  - button "Pravin Testing account"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menu "Documents submenu":
+        - menuitem "Need your sign"
+        - menuitem "In progress"
+        - menuitem "Completed"
+        - menuitem "Drafts"
+        - menuitem "Declined"
+        - menuitem "Expired"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- main:
+  - text: Pages   
+  - button [disabled]
+  - text: 1 of 1
+  - button [disabled]
+  - button "Decline"
+  - button "Download"
+  - button "Finish"
+  - img "signature"
+  - img "stamp"
+  - img "initials"
+  - textbox "name-1": Mark Anderson
+  - textbox "job title-1": Quality analyst
+  - textbox "company-1": Opensign labs pvt. ltd
+  - text: 07/18/2026 
+  - textbox "text input-1": 120 wood street Sanfransisco
+  - checkbox "Option-1" [checked]
+  - text: Option-1
+  - checkbox "Option-2"
+  - text: Option-2
+  - radio "Option-1" [checked]
+  - text: Option-1
+  - radio "Option-2"
+  - text: Option-2 Choose One  image-1 Yet to sign
+  - superscript: "?"
+  - text: P Pravin Testing account pravin+testaccount@nxglabs.in
+  - paragraph: Signature
+  - tablist:
+    - tab "My signature"
+    - tab "My initials"
+  - img "signature"
+  - button "Auto sign all"
+  - dialog:
+    - button "✕"
+    - text: dropdown-1 *
+    - combobox:
+      - option "Option-1"
+      - option "Option-2"
+    - button "Clear"
+    - text: 2 of 12 fields left
+    - button "Next Field " [disabled]
+  - complementary:
+    - paragraph: "All rights reserved © 2026 OpenSign™ ( version: v2.41.0 )"
+- emphasis:
+  - img "Gravatar"
+```
+
+# Test source
+
+```ts
+  239 |       await page.mouse.down();
+  240 |       await page.mouse.move(clickX + 5, clickY);
+  241 |       await page.mouse.up();
+  242 |     });
+  243 |   }
+  244 |   async clickSignatureWidgetAndType() {
+  245 |     const page = this.page;
+  246 |     await page.locator('//div[@id="container"]//div[text()="signature"]').click();
+  247 |     console.log('Signature widget clicked');
+  248 |     await page.locator('//input[@id="signature"]').fill('Mathew Wade');
+  249 |     console.log('Signature typed in input field');
+  250 |   }
+  251 |   async clickSignatureWidgetAndUpload() {
+  252 |     const page = this.page;
+  253 |     await page.locator('//div[@id="container"]//div[text()="signature"]').click();
+  254 |     console.log('Signature widget clicked');
+  255 |     const filePath = path.join(__dirname, '../../../tests/TestData/Images/signature.png');
+  256 |     await page.locator('//input[@id="signature"]').setInputFiles(filePath);
+  257 |     console.log('Signature uploaded from file');
+  258 |   }
+  259 |   async clickSignatureWidgetAndDraw() {
+  260 |     const page = this.page;
+  261 |     await page.locator('//div[@id="container"]//div[text()="signature-1"]').click();
+  262 |     console.log('Signature widget clicked');
+  263 |     await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').waitFor({ state: 'visible', timeout: 90000 });
+  264 | await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').click();
+  265 |     await this.drawSignature();
+  266 |   }
+  267 |
+  268 |   async drawSignature() {
+  269 |     const page = this.page;
+  270 |     await allure.step('Sign Signature Widget', async () => {
+  271 |       const canvasLocator = page.locator("//canvas[contains(@class, 'signatureCanvas')]");
+  272 |       await canvasLocator.waitFor({ state: 'visible' });
+  273 |       const box = await canvasLocator.boundingBox();
+  274 |       if (!box) throw new Error('Canvas bounding box not found.');
+  275 |       const clickX = box.x + box.width * 0.3;
+  276 |       const clickY = box.y + box.height * 0.6;
+  277 |       await page.mouse.click(clickX, clickY);
+  278 |       await page.mouse.down();
+  279 |       await page.mouse.move(clickX + 5, clickY);
+  280 |       await page.mouse.up();
+  281 |     });
+  282 |   }
+  283 |
+  284 |   async clickStampWidgetAndUpload() {
+  285 |     const page = this.page;
+  286 |     await page.locator('//div[@id="container"]//div[text()="stamp-1"]').click();
+  287 |     console.log('Stamp widget clicked on the placeholder.');
+  288 |     await this.uploadStamp();
+  289 |   }
+  290 |
+  291 |   async uploadStamp() {
+  292 |     const page = this.page;
+  293 |     await allure.step('Upload Stamp Image', async () => {
+  294 |       const fileChooserPromise = page.waitForEvent('filechooser');
+  295 |       await page.locator('//div[@class="flex justify-center"]//i[@class="fa-light fa-cloud-upload-alt uploadImgLogo text-base-content"]').click();
+  296 |       const imagePath = path.resolve(__dirname, '../TestData/Images/stamp.jpg');
+  297 |       console.log("Image Path:", imagePath);
+  298 |       await fileChooserPromise.then(fileChooser => fileChooser.setFiles(imagePath));
+  299 |       console.log('Stamp image uploaded successfully.');
+  300 |     });
+  301 |   }
+  302 |
+  303 |   async clickInitialsWidgetAndDraw() {
+  304 |     const page = this.page;
+  305 |     await page.locator('//div[@id="container"]//div[text()="initials-1"]').click();
+  306 |     console.log('Initials widget clicked on the placeholder.');
+  307 |     await this.drawInitials();
+  308 |   }
+  309 |
+  310 |   async drawInitials() {
+  311 |     const page = this.page;
+  312 |     await allure.step('Draw Initials', async () => {
+  313 |       await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').waitFor({ state: 'visible', timeout: 90000 });
+  314 |       await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').click();
+  315 |       const canvasLocator = page.locator('//canvas[contains(@class, "intialSignatureCanvas")]');
+  316 |       await canvasLocator.waitFor({ state: 'visible' });
+  317 |       const box = await canvasLocator.boundingBox();
+  318 |       if (!box) throw new Error('Initials canvas bounding box not found.');
+  319 |       const clickX = box.x + box.width * 0.3;
+  320 |       const clickY = box.y + box.height * 0.6;
+  321 |       await page.mouse.click(clickX, clickY);
+  322 |       await page.mouse.down();
+  323 |       await page.mouse.move(clickX + 5, clickY);
+  324 |       await page.mouse.up();
+  325 |     });
+  326 |   }
+  327 |
+  328 |   async clickImageWidgetAndUpload() {
+  329 |     const page = this.page;
+  330 |     await page.locator('//div[contains(text(),"image-1")]').click();
+  331 |     console.log('Image widget clicked on the placeholder.');
+  332 |     await this.uploadImage();
+  333 |   }
+  334 |
+  335 |   async uploadImage() {
+  336 |     const page = this.page;
+  337 |     await allure.step('Upload Designer Image', async () => {
+  338 |       const fileChooserPromise = page.waitForEvent('filechooser');
+> 339 |       await page.locator('//div[@class="flex justify-center"]//i[@class="fa-light fa-cloud-upload-alt uploadImgLogo text-base-content"]').click();
+      |                                                                                                                                           ^ Error: locator.click: Test timeout of 120000ms exceeded.
+  340 |       const imagePath = path.resolve(__dirname, '../TestData/Images/DesignerImage.png');
+  341 |       await fileChooserPromise.then(fileChooser => fileChooser.setFiles(imagePath));
+  342 |       console.log('Image uploaded successfully.');
+  343 |     });
+  344 |   }
+  345 |
+  346 |   async clickDropdownAndSelect(dropdownId, value) {
+  347 |     const page = this.page;
+  348 |     await allure.step(`Select '${value}' from dropdown '${dropdownId}'`, async () => {
+  349 |       await page.locator("//div[@class='signYourselfBlock react-draggable']//div[@class='select-none-cls flex justify-between items-center' and text()='Choose One']").click();
+  350 |       console.log(`Dropdown clicked on the placeholder with placeholder name Choose One.`);
+  351 |       await page.locator(`//select[@id='${dropdownId}']`).selectOption(value);
+  352 |       console.log(`Selected value '${value}' from dropdown with id '${dropdownId}'.`);
+  353 |       await this.clickNextButtonInSignerModal();
+  354 |       await this.clickCloseButtonInSignerModal();
+  355 |     });
+  356 |   }
+  357 |   async selectFromDropdown(dropdownId, value) {
+  358 |     const page = this.page;
+  359 |     await allure.step(`Select '${value}' from dropdown '${dropdownId}'`, async () => {
+  360 |       await page.locator(`//select[@id='${dropdownId}']`).selectOption(value);
+  361 |       console.log(`Selected value '${value}' from dropdown with id '${dropdownId}'.`);
+  362 |     });
+  363 |   }
+  364 |
+  365 |   async clickCheckboxAndSelect(labelText) {
+  366 |     const page = this.page;
+  367 |     await allure.step(`Select checkbox with label '${labelText}'`, async () => {
+  368 |       await page.locator(`//div[@class='select-none-cls pointer-events-none']//span[text()='${labelText}']`).click({ force: true });
+  369 |       console.log(`Checkbox with label '${labelText}' clicked.`);
+  370 |       await page.locator(`//div[@class='flex justify-center']//label[contains(., '${labelText}')]/input[@type='checkbox']`).click({ force: true });
+  371 |       console.log(`Checkbox with label '${labelText}' selected.`);  
+  372 |     
+  373 |     });
+  374 |   }
+  375 |
+  376 |   async selectCheckbox(labelText) {
+  377 |     const page = this.page;
+  378 |     await allure.step(`Select checkbox with label '${labelText}'`, async () => {
+  379 |       await page.locator(`//div[@class='flex justify-center']//label[contains(., '${labelText}')]/input[@type='checkbox']`).click({ force: true });
+  380 |       console.log(`Checkbox with label '${labelText}' selected.`);
+  381 |
+  382 |     });
+  383 |   }
+  384 |
+  385 |   async clickRadioButtonAndSelect(label) {
+  386 |     const page = this.page;
+  387 |     await page.locator(`//span[text()='female']/preceding-sibling::input[@type='radio']`).click({ force: true });
+  388 |     console.log(`Radio button with label '${label}' clicked.`);
+  389 |     await page.locator(`//div[@class='flex justify-center']//label[contains(., '${label}')]/input[@type='radio']`).click();
+  390 |     console.log(`Radio button with label '${label}' selected.`);
+  391 |     await this.clickNextButtonInSignerModal();
+  392 |     await this.clickCloseButtonInSignerModal();
+  393 |   }
+  394 |
+  395 |   async selectRadioButton(label) {
+  396 |     const page = this.page;
+  397 |     await page.locator(`//div[@class='flex justify-center']//label[contains(., '${label}')]/input[@type='radio']`).click();
+  398 |     console.log(`Radio button with label '${label}' selected.`);
+  399 |   }
+  400 |
+  401 |   async clickTextWidgetAndFill(placeholder, value) {
+  402 |     const page = this.page;
+  403 |     await page.locator(`//div[@class="signYourselfBlock react-draggable" and .//textarea[@placeholder='${placeholder}']]`).click();
+  404 |     console.log(`'${placeholder}' widget clicked on the placeholder.`);
+  405 |     await page.locator(`//input[@placeholder='${placeholder}']`).fill(value);
+  406 |     console.log(`Filled '${placeholder}' widget with value '${value}'.`);
+  407 |     await this.clickNextButtonInSignerModal();
+  408 |     await this.clickCloseButtonInSignerModal();
+  409 |   }
+  410 |
+  411 |   async fillTextField(placeholder, value) {
+  412 |     const page = this.page;
+  413 |     await page.locator(`//dialog[@id='selectSignerModal']//input[@placeholder='${placeholder}']`).fill(value);
+  414 |        console.log(`Filled '${placeholder}' widget with value '${value}'.`);
+  415 |    
+  416 |   }
+  417 |
+  418 |   async clickEmailWidgetAndFill(placeholder, value) {
+  419 |     const page = this.page;
+  420 |     await page.locator(`//div[contains(@class, "justify-center") and .//textarea[@placeholder="${placeholder}"]]`).click({ force: true });
+  421 |     console.log(`Email widget clicked on the placeholder.`);
+  422 |     await page.locator(`//input[@type='email' and @placeholder='${placeholder}']`).fill(value);
+  423 |     console.log(`Filled Email widget with value '${value}'.`);
+  424 |   }
+  425 |
+  426 |   async fillEmailField(placeholder, value) {
+  427 |     const page = this.page;
+  428 |     await page.locator(`//input[@type='email' and @placeholder='${placeholder}']`).fill(value);
+  429 |     console.log(`Filled Email field with value '${value}'.`);
+  430 |   }
+  431 |
+  432 |   async clickDateField(dateString) {
+  433 |     const page = this.page;
+  434 |     await allure.step(`Select date field with value '${dateString}'`, async () => {
+  435 |       await page.locator(`//div[text()="${dateString}"]`).dblclick();
+  436 |       console.log(`Date widget on the placeholder with value '${dateString}' clicked.`);
+  437 |       await page.locator(`//div[@class='flex justify-center']//div[@class='react-datepicker__input-container']//div[contains(text(), '${dateString}')]`).click({ force: true });
+  438 |       console.log(`Date field with value '${dateString}' clicked on the signer modal.`);
+  439 |     });
+```

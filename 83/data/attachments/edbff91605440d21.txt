@@ -1,0 +1,4 @@
+Browser: chromium, Version: 134.0.6998.35, OS: linux
+Dragged and dropped widget with label 'signature' to coordinates (600, 200).
+Signature widget dragged and dropped successfully.
+Dialog message: Please enable one additional signature type apart from the default.

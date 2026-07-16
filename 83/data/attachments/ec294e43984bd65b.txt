@@ -1,0 +1,1 @@
+Dragged and dropped widget with label 'signature' to coordinates (600, 300).

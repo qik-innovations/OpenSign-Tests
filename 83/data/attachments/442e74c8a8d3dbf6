@@ -1,0 +1,334 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SignupPage >> Reg_TC-05 Verify Professional Monthly signup and subscription invoice email.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Signup.spec.js:590:3
+
+# Error details
+
+```
+Error: Timed out 5000ms waiting for expect(locator).toContainText(expected)
+
+Locator: locator('li').filter({ hasText: 'Billed Monthly' }).filter({ has: getByRole('heading', { name: 'OPENSIGN™ PROFESSIONAL' }) })
+Expected string: "₹2,499"
+Received string: "OPENSIGN™ PROFESSIONAL$29.99Billed MonthlyExclusive Access to advanced features.SubscribeEverything in OpenSign™ freeField validationsRegular expression validationsOrganize docs in OpenSign™ DriveWebhooksZapier integrationAPI Accessupto 100 API signaturesCustom email templatesConnect your own Gmail or SMTP account for sending emailsAuto remindersBulk send (upto 100 docs)Premium Public profile usernamesEnforce email-based verification to confirm signer identityEmbedded signing"
+Call log:
+  - expect.toContainText with timeout 5000ms
+  - waiting for locator('li').filter({ hasText: 'Billed Monthly' }).filter({ has: getByRole('heading', { name: 'OPENSIGN™ PROFESSIONAL' }) })
+    9 × locator resolved to <li class="flex flex-col text-center text-base-content border-collapse border-r-[1px] last:border-r-0 border-gray-300 w-full">…</li>
+      - unexpected value "OPENSIGN™ PROFESSIONAL$29.99Billed MonthlyExclusive Access to advanced features.SubscribeEverything in OpenSign™ freeField validationsRegular expression validationsOrganize docs in OpenSign™ DriveWebhooksZapier integrationAPI Accessupto 100 API signaturesCustom email templatesConnect your own Gmail or SMTP account for sending emailsAuto remindersBulk send (upto 100 docs)Premium Public profile usernamesEnforce email-based verification to confirm signer identityEmbedded signing"
+
+    at expectPlanCardDetails (/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Signup.spec.js:218:42)
+    at selectPaidPlan (/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Signup.spec.js:250:3)
+    at completePaidCheckout (/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Signup.spec.js:310:3)
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Signup.spec.js:596:4
+```
+
+# Page snapshot
+
+```yaml
+- button "Log Out"
+- tablist:
+  - tab "Monthly"
+  - tab "Yearly (upto 66% off)"
+- tablist:
+  - tab "Cloud"
+- list:
+  - listitem:
+    - heading "OPENSIGN™ FREE" [level=3]
+    - img "img"
+    - text: Free
+    - paragraph: Billed Monthly
+    - text: Free Unlimited E-signatures, Forever.
+    - button "Subscribe"
+    - separator
+    - list:
+      - listitem: Unlimited digital signatures
+      - listitem: Sign documents yourself
+      - listitem: Request signatures from others
+      - listitem: Unlimited templates
+      - listitem: 14 field types
+      - listitem: Automatic e-signatures
+      - listitem: Completion certificates
+      - listitem: Send in order
+      - listitem: Organize docs in OpenSign™ Drive
+      - listitem: Document templates
+      - listitem: Import from Dropbox
+      - listitem: Contact book
+      - listitem: Document expiry support
+      - listitem: Decline document support
+      - listitem: Email notifications
+      - listitem: Public profiles
+      - listitem: And much more
+  - listitem:
+    - heading "OPENSIGN™ PROFESSIONAL" [level=3]
+    - img "img"
+    - text: $29.99
+    - paragraph: Billed Monthly
+    - text: Exclusive Access to advanced features.
+    - button "Subscribe"
+    - separator
+    - list:
+      - listitem: Everything in OpenSign™ free
+      - listitem: Field validations
+      - listitem: Regular expression validations
+      - listitem: Organize docs in OpenSign™ Drive
+      - listitem: Webhooks
+      - listitem: Zapier integration
+      - listitem: API Access
+      - listitem: upto 100 API signatures
+      - listitem: Custom email templates
+      - listitem: Connect your own Gmail or SMTP account for sending emails
+      - listitem: Auto reminders
+      - listitem: Bulk send (upto 100 docs)
+      - listitem: Premium Public profile usernames
+      - listitem: Enforce email-based verification to confirm signer identity
+      - listitem: Embedded signing
+  - listitem:
+    - heading "OPENSIGN™ TEAMS" [level=3]
+    - img "img"
+    - text: $ 39.99
+    - superscript: /user
+    - paragraph: Billed Monthly
+    - text: Exclusive Access to advanced features.
+    - button "Subscribe"
+    - separator
+    - list:
+      - listitem: Everything in OpenSign™ professional
+      - listitem: upto 100 API signatures
+      - listitem: Teams and Organizations
+      - listitem: Share Templates with teams
+      - listitem: Share Templates with individuals
+      - listitem: BYOC - Store your documents in your own cloud storage
+      - listitem: DocumentId removal from signed docs
+      - listitem: Bulk send (upto 100 docs)
+      - listitem: Request Payments (coming soon)
+      - listitem: Mobile app (coming soon)
+  - listitem:
+    - heading "OPENSIGN™ ENTERPRISE" [level=3]
+    - img "img"
+    - paragraph: Request Price
+    - paragraph: Billed Monthly
+    - text: Scalable Features with priority support.
+    - button "Contact us"
+    - separator
+    - list:
+      - listitem: All features
+      - listitem: Custom domain
+      - listitem: Custom branding
+      - listitem: Uptime SLA
+      - listitem: SSO support
+      - listitem: Priority support
+```
+
+# Test source
+
+```ts
+  118 |       'Teams and Organizations',
+  119 |       'Share Templates with teams',
+  120 |       'Share Templates with individuals',
+  121 |       'BYOC - Store your documents in your own cloud storage',
+  122 |       'Request Payments (coming soon)',
+  123 |       'Mobile app (coming soon)',
+  124 |     ],
+  125 |   },
+  126 | };
+  127 |
+  128 | const randomToken = () => Math.random().toString(36).slice(2, 10);
+  129 | const uniqueEmail = (prefix = 'kelvinsjohnson24') => `${prefix}+${Date.now()}${randomToken()}@gmail.com`;
+  130 | const uniqueNxgEmail = () => `pravin+${Date.now()}${randomToken()}@nxglabs.in`;
+  131 |
+  132 | const signupData = (overrides = {}) => ({
+  133 |   name: 'Mathew Wade',
+  134 |   email: uniqueEmail(),
+  135 |   phone: DEFAULT_PHONE,
+  136 |   company: 'qikAi pvt ltd',
+  137 |   jobTitle: 'Hr Executive',
+  138 |   password: DEFAULT_PASSWORD,
+  139 |   ...overrides,
+  140 | });
+  141 |
+  142 | /**
+  143 |  * @param {import('@playwright/test').Page} page
+  144 |  */
+  145 | async function openSignupPage(page) {
+  146 |   const commonSteps = new CommonSteps(page);
+  147 |   await commonSteps.navigateToBaseUrl();
+  148 |   await page.getByRole('button', { name: 'Create account' }).click();
+  149 |   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
+  150 | }
+  151 |
+  152 | /**
+  153 |  * @param {import('@playwright/test').Page} page
+  154 |  * @param {{name: string, email: string, phone: string, company: string, jobTitle: string, password: string, acceptTerms?: boolean}} param1
+  155 |  */
+  156 | async function fillSignupForm(page, { name, email, phone, company, jobTitle, password, acceptTerms = true }) {
+  157 |   await page.locator(locators.nameInput).first().fill(name);
+  158 |   await page.locator(locators.emailInput).fill(email);
+  159 |   await page.locator(locators.phoneInput).fill(phone);
+  160 |   await page.locator(locators.companyInput).fill(company);
+  161 |   await page.locator(locators.jobTitleInput).fill(jobTitle);
+  162 |   await page.locator(locators.passwordInput).fill(password);
+  163 |
+  164 |   const terms = page.locator(locators.termsCheckbox);
+  165 |   if (acceptTerms && !(await terms.isChecked())) {
+  166 |     await terms.click();
+  167 |   }
+  168 | }
+  169 |
+  170 | /**
+  171 |  * @param {import('@playwright/test').Page} page
+  172 |  */
+  173 | async function submitRegistration(page) {
+  174 |   await page.locator(locators.registerButton).click();
+  175 | }
+  176 |
+  177 | /**
+  178 |  * @param {import('@playwright/test').Page} page
+  179 |  * @param {{heading: string, billingText?: string}} plan
+  180 |  * @returns {import('@playwright/test').Locator}
+  181 |  */
+  182 | function planCard(page, plan) {
+  183 |   return page.locator('li', {
+  184 |     has: page.getByRole('heading', { name: plan.heading }),
+  185 |     hasText: plan.billingText,
+  186 |   });
+  187 | }
+  188 |
+  189 | /**
+  190 |  * @param {import('@playwright/test').Page} page
+  191 |  * @param {{billingText?: string}} plan
+  192 |  */
+  193 | async function chooseBillingCadence(page, plan) {
+  194 |   if (!plan.billingText) return;
+  195 |
+  196 |   const cadence = plan.billingText.includes('Monthly') ? 'Monthly' : 'Yearly';
+  197 |   const candidates = [
+  198 |     page.getByRole('button', { name: new RegExp(cadence, 'i') }),
+  199 |     page.getByRole('tab', { name: new RegExp(cadence, 'i') }),
+  200 |     page.getByLabel(new RegExp(cadence, 'i')),
+  201 |     page.getByText(new RegExp(`^${cadence}$`, 'i')),
+  202 |   ];
+  203 |
+  204 |   for (const candidate of candidates) {
+  205 |     if (await candidate.first().isVisible().catch(() => false)) {
+  206 |       await candidate.first().click();
+  207 |       return;
+  208 |     }
+  209 |   }
+  210 | }
+  211 |
+  212 | /**
+  213 |  * @param {import('@playwright/test').Locator} card
+  214 |  * @param {{priceText?: string, billingText?: string, cardText: string[]}} plan
+  215 |  */
+  216 | async function expectPlanCardDetails(card, plan) {
+  217 |   await expect(card).toBeVisible({ timeout: 120000 });
+> 218 |   if (plan.priceText) await expect(card).toContainText(plan.priceText);
+      |                                          ^ Error: Timed out 5000ms waiting for expect(locator).toContainText(expected)
+  219 |   if (plan.billingText) await expect(card).toContainText(plan.billingText);
+  220 |
+  221 |   for (const text of plan.cardText) {
+  222 |     await expect(card).toContainText(text);
+  223 |   }
+  224 | }
+  225 |
+  226 | /**
+  227 |  * @param {import('@playwright/test').Page} page
+  228 |  */
+  229 | async function selectFreePlan(page) {
+  230 |   await expect(page.getByRole('heading', { name: planDefinitions.free.heading })).toBeVisible({ timeout: 120000 });
+  231 |   for (const text of planDefinitions.free.cardText) {
+  232 |     await expect(page.locator('#root')).toContainText(text);
+  233 |   }
+  234 |
+  235 |   const freeCard = page.locator('li', {
+  236 |     has: page.getByRole('heading', { name: planDefinitions.free.heading }),
+  237 |   });
+  238 |   await freeCard.getByRole('button').click();
+  239 |   await closeModalIfVisible(page);
+  240 |   await expect(page.locator('//div[@id="profile-menu"]//parent::button[text()="Upgrade now"]')).toBeVisible();
+  241 | }
+  242 |
+  243 | /**
+  244 |  * @param {import('@playwright/test').Page} page
+  245 |  * @param {{heading: string, billingText?: string, priceText?: string, cardText: string[]}} plan
+  246 |  */
+  247 | async function selectPaidPlan(page, plan) {
+  248 |   await chooseBillingCadence(page, plan);
+  249 |   const card = planCard(page, plan);
+  250 |   await expectPlanCardDetails(card, plan);
+  251 |   await card.getByRole('button', { name: 'Subscribe' }).click();
+  252 |   await page.locator(locators.proceedButton).click();
+  253 | }
+  254 |
+  255 | /**
+  256 |  * @param {import('@playwright/test').Page} page
+  257 |  * @param {string} email
+  258 |  */
+  259 | async function completeOtpVerification(page, email) {
+  260 |   await page.locator(locators.sendOtpButton).click();
+  261 |   const otp = await fetchOTP({
+  262 |     ...gmailConfig,
+  263 |     otpRegex: /(\d{6})/,
+  264 |     expectedTo: email,
+  265 |   });
+  266 |
+  267 |   for (let i = 0; i < otp.length; i++) {
+  268 |     await page.locator(`(//input[@type='tel' and @maxlength='1'])[${i + 1}]`).fill(otp[i]);
+  269 |   }
+  270 |
+  271 |   await page.getByRole('button', { name: 'Proceed' }).click();
+  272 | }
+  273 |
+  274 | /**
+  275 |  * @param {import('@playwright/test').Page} page
+  276 |  */
+  277 | async function fillBillingAddress(page) {
+  278 |   await page.locator(locators.billingStreet).fill('120 wood street');
+  279 |   await page.selectOption(locators.billingState, { label: 'California' });
+  280 |   await page.locator(locators.billingCity).fill('San Francisco');
+  281 |   await page.locator(locators.billingZip).fill('34554');
+  282 |   await page.getByRole('button', { name: 'Review Order' }).click();
+  283 |   await page.getByRole('button', { name: 'Proceed' }).click();
+  284 | }
+  285 |
+  286 | /**
+  287 |  * @param {import('@playwright/test').Page} page
+  288 |  */
+  289 | async function payByStripeTestCard(page) {
+  290 |   await page.waitForSelector('iframe');
+  291 |
+  292 |   const cardNumberFrame = page.frameLocator("iframe[title*='card number']");
+  293 |   await cardNumberFrame.locator("input[name='cardnumber']").fill(TEST_CARD.number);
+  294 |
+  295 |   const expFrame = page.frameLocator("iframe[title*='expiration']");
+  296 |   await expFrame.locator("input[name='exp-date'], input[name='expdate']").fill(TEST_CARD.expiry);
+  297 |
+  298 |   const cvcFrame = page.frameLocator("iframe[title*='CVC'], iframe[title*='security']");
+  299 |   await cvcFrame.locator("input[name='cvc']").fill(TEST_CARD.cvc);
+  300 |
+  301 |   await page.getByRole('button', { name: /Pay/i }).click();
+  302 | }
+  303 |
+  304 | /**
+  305 |  * @param {import('@playwright/test').Page} page
+  306 |  * @param {string} email
+  307 |  * @param {{heading: string, billingText?: string, priceText?: string, cardText: string[], badgeText: string}} plan
+  308 |  */
+  309 | async function completePaidCheckout(page, email, plan) {
+  310 |   await selectPaidPlan(page, plan);
+  311 |   await completeOtpVerification(page, email);
+  312 |   await fillBillingAddress(page);
+  313 |   await payByStripeTestCard(page);
+  314 |   await closeModalIfVisible(page);
+  315 |   await page.getByRole('button', { name: 'Close Tour' }).click();
+  316 |   await expect(page.locator(`//div[@id="profile-menu"]//parent::div[text()="${plan.badgeText}"]`)).toBeVisible({
+  317 |     timeout: 120000,
+  318 |   });
+```

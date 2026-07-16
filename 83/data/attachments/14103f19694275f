@@ -1,0 +1,337 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Preferences >> Team plan user can access the Email page.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Preferences.spec.js:151:3
+
+# Error details
+
+```
+Error: expect.toContainText: Error: strict mode violation: getByRole('heading') resolved to 3 elements:
+    1) <h1 class="ml-4 mt-3 text-lg mb-2 font-semibold text-base-content">OpenSign™ Preferences</h1> aka getByRole('heading', { name: 'OpenSign™ Preferences' })
+    2) <h1 class="text-[14px] mb-[0.7rem] font-medium">Request Email</h1> aka getByRole('heading', { name: 'Request Email' })
+    3) <h1 class="text-[14px] mb-[0.7rem] font-medium">Completion Email</h1> aka getByRole('heading', { name: 'Completion Email' })
+
+Call log:
+  - expect.toContainText with timeout 5000ms
+  - waiting for getByRole('heading')
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Preferences.spec.js:167:44
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - text: "New feature: Protect your account with Two-Factor Authentication (2FA) and enjoy the future of login with Passkeys — no passwords needed. — Setup now."
+  - img
+  - text: 
+  - button ""
+  - img "logo"
+  - text: TEAM
+  - button "Open app drawer": 
+  - img "img"
+  - button "Pravin Testing account"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+      - menu "Settings submenu":
+        - menuitem "My signature"
+        - menuitem "API token"
+        - menuitem "Webhook"
+        - menuitem "Preferences"
+        - menuitem "Teams"
+        - menuitem "Users"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- main:
+  - heading "OpenSign™ Preferences" [level=1]
+  - tablist:
+    - tab " General"
+    - tab " Widgets"
+    - tab " Email" [selected]
+    - tab " Security"
+  - tabpanel:
+    - heading "Request Email" [level=1]
+    - text: Subject
+    - superscript: "?"
+    - 'textbox "{{sender_name}} has requested you to sign {{document_title}}"'
+    - text: Body
+    - superscript: "?"
+    - button "Body ?": Switch to advanced
+    - button "Arial":
+      - text: Arial
+      - img
+    - button "Size 3":
+      - text: Size 3
+      - img
+    - button "Heading":
+      - text: Heading
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button "<>"
+    - paragraph: "Hi {{receiver_name}},"
+    - paragraph
+    - paragraph: "We hope this email finds you well. {{sender_name}} has requested you to review and sign {{document_title}}."
+    - paragraph: Your signature is crucial to proceed with the next steps as it signifies your agreement and authorization.
+    - paragraph
+    - paragraph:
+      - link "Sign here"
+    - paragraph
+    - paragraph
+    - paragraph: If you have any questions or need further clarification regarding the document or the signing process, please contact the sender.
+    - paragraph
+    - paragraph: Thanks
+    - paragraph: Team OpenSign™
+    - button "Save"
+    - button "Reset"
+    - heading "Completion Email" [level=1]
+    - text: Subject
+    - superscript: "?"
+    - 'textbox "{{sender_name}} has requested you to sign {{document_title}}"': "Document {{document_title}} has been signed by all parties"
+    - text: Body
+    - superscript: "?"
+    - button "Body ?": Switch to advanced
+    - button "Arial":
+      - text: Arial
+      - img
+    - button "Size 3":
+      - text: Size 3
+      - img
+    - button "Heading":
+      - text: Heading
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button:
+      - img
+    - button "<>"
+    - paragraph: "Hi {{sender_name}},"
+    - paragraph
+    - paragraph: "All parties have successfully signed the document {{document_title}}. Kindly download the document from the attachment."
+    - paragraph
+    - paragraph: Thanks
+    - paragraph: Team OpenSign™
+    - button "Save"
+    - button "Reset"
+  - complementary:
+    - paragraph: "All rights reserved © 2026 OpenSign™ ( version: v2.41.0 )"
+```
+
+# Test source
+
+```ts
+   67 | await expect(
+   68 |   page.locator("//div[@class='relative my-2']//div[contains(@class,'absolute')]//button[contains(@class,'op-btn-accent') and text()='Upgrade now']")
+   69 | ).toBeVisible();
+   70 |
+   71 | });
+   72 | test('Free user cannot update settings for Notify on Signature and Merge Certificate PDF', async ({ page }) => {
+   73 |   const commonSteps = new CommonSteps(page);
+   74 |
+   75 |   // Navigate and login as new user
+   76 |   await commonSteps.navigateToBaseUrl();
+   77 |   await commonSteps.NewUserlogin();
+   78 |
+   79 |   // Open Preferences
+   80 |   await page.getByRole('button', { name: ' Settings' }).click();
+   81 |   await page.getByRole('menuitem', { name: 'Preferences' }).click();
+   82 |
+   83 |   // Verify page title
+   84 |   const title = await page.title();
+   85 |   if (title === 'OpenSign™ Preferences') {
+   86 |     console.log('Page title is correct: OpenSign™ Preferences');
+   87 |   } else {
+   88 |     console.error(`Page title is incorrect. Expected: "OpenSign™ Preferences", Got: "${title}"`);
+   89 |   }
+   90 |
+   91 |   // Verify heading
+   92 |   await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences' })).toBeVisible();
+   93 |
+   94 |   // Verify General panel snapshot
+   95 |   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+   96 |      - tab " General" [selected]
+   97 |      - tab " Widgets"
+   98 |      - tab " Email"
+   99 |      - tab " Security"
+  100 |      `);
+  101 |    await expect(page.locator('#panel-0')).toMatchAriaSnapshot(`
+  102 |      - text: "Allowed signature types"
+  103 |      - superscript: "?"
+  104 |      - checkbox "draw" [checked]
+  105 |      - text: draw
+  106 |      - checkbox "type" [checked]
+  107 |      - text: type
+  108 |      - checkbox "upload" [checked]
+  109 |      - text: upload
+  110 |      - checkbox "default" [checked]
+  111 |      - text: default Notify on signatures
+  112 |      - superscript: "?"
+  113 |      - superscript: Upgrade now
+  114 |      - radio "Yes" [checked]
+  115 |      - text: "Yes"
+  116 |      - radio "No"
+  117 |      - text: No Send in order
+  118 |      - superscript: "?"
+  119 |      - radio "Yes" [checked]
+  120 |      - text: "Yes"
+  121 |      - radio "No"
+  122 |      - text: No Allow offline signing
+  123 |      - superscript: "?"
+  124 |      - superscript: Upgrade now
+  125 |      - radio "Yes"
+  126 |      - text: "Yes"
+  127 |      - radio "No" [checked]
+  128 |      - text: No Use profile name as sender
+  129 |      - superscript: "?"
+  130 |      - checkbox "Use profile name as sender"
+  131 |      - text: Enable tour
+  132 |      - superscript: "?"
+  133 |      - radio "Yes" [checked]
+  134 |      - text: "Yes"
+  135 |      - radio "No"
+  136 |      - text: "No"
+  137 |      - heading "Email settings ?" [level=3]:
+  138 |        - superscript: "?"
+  139 |      - button "" [disabled]
+  140 |      - button "" [disabled]
+  141 |      - checkbox [checked]
+  142 |      - button "OpenSign™ default SMTP" [disabled]
+  143 |      `);
+  144 |  
+  145 | await expect(page.locator('#panel-0')).toContainText('Notify on signaturesUpgrade nowYesNo');
+  146 |   await expect(page.locator('#panel-0')).toContainText('Send in orderYesNo');
+  147 |   await expect(page.locator('#panel-0')).toContainText('Allow offline signingUpgrade nowYesNo');
+  148 |   await expect(page.locator('#panel-0')).toContainText('Merge Certificate to PDFUpgrade nowYesNo');
+  149 | });
+  150 |
+  151 |   test('Team plan user can access the Email page.', async ({ page }) => {
+  152 |     const commonSteps = new CommonSteps(page);
+  153 |     await commonSteps.navigateToBaseUrl();
+  154 |     await commonSteps.login();
+  155 | await page.getByRole('button', { name: ' Settings' }).click();
+  156 |     await page.getByRole('menuitem', { name: 'Preferences' }).click();
+  157 |     const title = await page.title();
+  158 |     if (title === 'OpenSign™ Preferences') {
+  159 |       console.log('Page title is correct: OpenSign™ Preferences');
+  160 |     } else {
+  161 |       console.error(`Page title is incorrect. Expected: "OpenSign™ Preferences", Got: "${title}"`);
+  162 |     }
+  163 |     await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences' })).toBeVisible();
+  164 |     await expect(page.locator(ROOT_SELECTOR)).toContainText('Pravin Testing account');
+  165 |     await expect(page.locator(ROOT_SELECTOR)).toContainText('TEAM');
+  166 |     await page.locator('//div[@role="tab"]//span[@title="Email"]').click();
+> 167 |    await expect(page.getByRole('heading')).toContainText('Request Email');
+      |                                            ^ Error: expect.toContainText: Error: strict mode violation: getByRole('heading') resolved to 3 elements:
+  168 |
+  169 |   });
+  170 |
+  171 | });
+  172 |
+```

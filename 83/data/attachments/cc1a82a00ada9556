@@ -1,0 +1,273 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Verify that the unfinished SignYourSelf document can be edited from the Draft Document Report and completed by adding the required widgets.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/ReportDraftdoc.spec.js:90:1
+
+# Error details
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for locator('//div[contains(@class,\'flex-none\')]//button[i[contains(@class,\'fa-bars\')]]')
+    - locator resolved to <button class="op-btn op-btn-square op-btn-ghost focus:outline-none hover:bg-transparent op-btn-sm no-animation">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <dialog id="selectSignerModal" class="items-end pb-2 !bg-black/10 op-modal op-modal-open">…</dialog> from <div class="flex flex-1 overflow-hidden">…</div> subtree intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <dialog id="selectSignerModal" class="items-end pb-2 !bg-black/10 op-modal op-modal-open">…</dialog> from <div class="flex flex-1 overflow-hidden">…</div> subtree intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    220 × waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <dialog id="selectSignerModal" class="items-end pb-2 !bg-black/10 op-modal op-modal-open">…</dialog> from <div class="flex flex-1 overflow-hidden">…</div> subtree intercepts pointer events
+      - retrying click action
+        - waiting 500ms
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/ReportDraftdoc.spec.js:107:98
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - button ""
+  - img "logo"
+  - text: TEAM
+  - button "Open app drawer": 
+  - img "img"
+  - button "Pravin Testing account"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- main:
+  - text: Pages
+  - button "+ Add pages"
+  - text: +      
+  - button [disabled]
+  - text: 1 of 1
+  - button [disabled]
+  - button "Back"
+  - button "Finish"
+  - text:   signature-1 Widgets
+  - superscript: "?"
+  - list "Add widgets": " signature   stamp   initials   number #  name   job title   company   email   date   text   cells   checkbox   image "
+  - dialog:
+    - button "✕"
+    - text: signature-1 My signature Draw Upload image Type
+    - img
+    - button
+    - button "Save"
+  - complementary:
+    - paragraph: "All rights reserved © 2026 OpenSign™ ( version: v2.41.0 )"
+```
+
+# Test source
+
+```ts
+   7 |     const commonSteps = new CommonSteps(page);
+   8 |     // Step 1: Navigate to Base URL and log in
+   9 |     await commonSteps.navigateToBaseUrl();
+   10 |     await commonSteps.login();
+   11 |   await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+   12 |     const fileChooserPromise = page.waitForEvent('filechooser');
+   13 |   await page.locator('input[type="file"]').click();
+   14 |   const fileChooser = await fileChooserPromise;
+   15 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+   16 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 });
+   17 | const doctitle = await commonSteps.fillDocumentTitleWithTimestamp('sample draft doc.')
+   18 |   await page.locator('input[name="Name"]').fill(doctitle);
+   19 |   await page.locator('input[name="Note"]').fill('Note Draft doc rpt');
+   20 |   await page.getByRole('button', { name: 'Next' }).click();
+   21 |   await page.waitForLoadState("networkidle");
+   22 |   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+   23 |   await page.waitForLoadState("networkidle");
+   24 |   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+   25 |   await page.waitForLoadState("networkidle");
+   26 | await page.locator('//span[normalize-space()="signature"]').hover();
+   27 | await page.mouse.down();
+   28 | await page.mouse.move(600, 300)
+   29 | await page.mouse.up();
+   30 | // Optionally save changes
+   31 |
+   32 | try {
+   33 |   const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
+   34 |
+   35 |   for (let i = 0; i < 5; i++) { // Retry up to 5 times
+   36 |       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+   37 |           await rowLocator.click();
+   38 |           console.log("Save button clicked!");
+   39 |           break; // Exit the loop if successfully clicked
+   40 |       } else {
+   41 |           console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
+   42 |   
+   43 |           await page.locator('//span[normalize-space()="signature"]').hover();
+   44 |           await page.mouse.down();
+   45 |           await page.mouse.move(800, 300);
+   46 |           await page.mouse.up();
+   47 |           
+   48 |           // Wait a bit before checking again
+   49 |           await page.waitForTimeout(1000);
+   50 |       }
+   51 |   
+   52 |       if (i === 5) {
+   53 |           console.log("Save button did not become visible after multiple attempts.");
+   54 |       }
+   55 |   }
+   56 | } catch (error) {
+   57 |   console.log("Element not found or not interactable, continuing execution.");
+   58 |  
+   59 | }
+   60 | await page.locator("//div[contains(@class,'flex-none')]//button[i[contains(@class,'fa-bars')]]").click();
+   61 | await page.getByRole('button', { name: ' Documents' }).click();
+   62 | await page.getByRole('menuitem', { name: 'Drafts' }).click();
+   63 | // Wait up to 90 seconds for the text to appear
+   64 | await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+   65 | // Now assert the text
+   66 | await expect(page.locator('#renderList')).toContainText('Draft documents');
+   67 | await expect(page.locator('thead')).toContainText('Title');
+   68 |   await expect(page.locator('thead')).toContainText('Note');
+   69 |   await expect(page.locator('thead')).toContainText('Folder');
+   70 |   await expect(page.locator('thead')).toContainText('File');
+   71 |   await expect(page.locator('thead')).toContainText('Owner');
+   72 |   await expect(page.locator('thead')).toContainText('Signers');
+   73 | await expect(page.locator('.p-2 > .font-semibold').first()).toContainText(doctitle);
+   74 |  await expect(page.locator('td:nth-child(2)').first()).toContainText('Note Draft doc rpt');
+   75 |  await expect(page.locator('td:nth-child(3)').first()).toContainText('OpenSign™ Drive'); 
+   76 |  await expect(page.locator('td:nth-child(4)').first()).toContainText('Download');
+   77 |  await expect(page.locator('td:nth-child(5)').first()).toContainText('Pravin Testing account');  
+   78 |  await page.locator('//div[@role="button"and @title="Delete"]').first().click();
+   79 |  await expect(page.getByRole('heading')).toContainText('Delete document');
+   80 |   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to delete this document?');
+   81 |   await page.getByRole('button', { name: 'Yes' }).click();
+   82 |   await expect(page.locator('#renderList')).toContainText('Record deleted successfully!');
+   83 |   try {
+   84 |     await expect(page.locator('tbody')).toContainText(doctitle);
+   85 | } catch (error) {
+   86 |     console.log("Document not found in the table, successfully Deleted!");
+   87 | }
+   88 | });
+   89 |
+   90 | test('Verify that the unfinished SignYourSelf document can be edited from the Draft Document Report and completed by adding the required widgets.', async ({ page }) => {
+   91 |     const commonSteps = new CommonSteps(page);
+   92 |     // Step 1: Navigate to Base URL and log in
+   93 |     await commonSteps.navigateToBaseUrl();
+   94 |     await commonSteps.login();
+   95 |   await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+   96 |     const fileChooserPromise = page.waitForEvent('filechooser');
+   97 |   await page.locator('input[type="file"]').click();
+   98 |   const fileChooser = await fileChooserPromise;
+   99 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  100 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  101 |   await page.locator('input[name="Name"]').fill('Draft doc rpt Sample offer letter');
+  102 |   await page.locator('input[name="Note"]').fill('Note Draft doc rpt');
+  103 |   await page.getByRole('button', { name: 'Next' }).click();
+  104 |   await page.waitForLoadState("networkidle");
+  105 |   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  106 |   await commonSteps.dragAndDrop('signature', 600, 300);
+> 107 | await page.locator("//div[contains(@class,'flex-none')]//button[i[contains(@class,'fa-bars')]]").click();
+      |                                                                                                  ^ Error: locator.click: Test timeout of 120000ms exceeded.
+  108 | await page.getByRole('button', { name: ' Documents' }).click();
+  109 | await page.getByRole('menuitem', { name: 'Drafts' }).click();
+  110 | // Wait up to 90 seconds for the text to appear
+  111 | await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+  112 | // Now assert the text
+  113 | await expect(page.locator('#renderList')).toContainText('Draft documents');
+  114 | await expect(page.locator('thead')).toContainText('Title');
+  115 |   await expect(page.locator('thead')).toContainText('Note');
+  116 |   await expect(page.locator('thead')).toContainText('Folder');
+  117 |   await expect(page.locator('thead')).toContainText('File');
+  118 |   await expect(page.locator('thead')).toContainText('Owner');
+  119 |   await expect(page.locator('thead')).toContainText('Signers');
+  120 | await expect(page.locator('.p-2 > .font-semibold').first()).toContainText('Draft doc rpt Sample offer letter');
+  121 |  await expect(page.locator('td:nth-child(2)').first()).toContainText('Note Draft doc rpt');
+  122 |  await expect(page.locator('td:nth-child(3)').first()).toContainText('OpenSign™ Drive'); 
+  123 |  await expect(page.locator('td:nth-child(4)').first()).toContainText('Download');
+  124 |  await expect(page.locator('td:nth-child(5)').first()).toContainText('Pravin Testing account');  
+  125 |  await page.locator('//div[@role="button"and @title="Edit"]').first().click();
+  126 | await page.waitForSelector("//div[@class='react-pdf__Document']//div[@id='container']", { timeout: 90000 }); 
+  127 |   await page.waitForLoadState("networkidle");
+  128 |   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  129 |   await page.waitForLoadState("networkidle");
+  130 | commonSteps.dragAndDrop('signature', 600, 300);
+  131 |  await commonSteps.dragAndDrop('stamp', 600, 360);
+  132 |  await commonSteps.uploadStamp();
+  133 |  await commonSteps.ClickSavebuttonSignerModal();
+  134 | await commonSteps.dragAndDrop('initials',600, 450);
+  135 |  await commonSteps.ClickSavebuttonSignerModal();
+  136 | await commonSteps.clickFinishButtonOnPlaceholder();
+  137 |  await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
+  138 |    await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
+  139 |
+  140 |    await page.locator("//button[normalize-space()='Send']").click();
+  141 | });
+  142 |
+  143 | test('Verify that pagination is functioning correctly in the drafts document.', async ({ page }) => {
+  144 |     const commonSteps = new CommonSteps(page);
+  145 |     // Step 1: Navigate to Base URL and log in
+  146 |     await commonSteps.navigateToBaseUrl();
+  147 |     await commonSteps.login();
+  148 |     await page.getByRole('button', { name: ' Documents' }).click();
+  149 |     await page.getByRole('menuitem', { name: 'Drafts' }).click();
+  150 |     // Wait up to 90 seconds for the text to appear
+  151 |     await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+  152 |     // Now assert the text
+  153 |     await expect(page.locator('#renderList')).toContainText('Draft documents');
+  154 |     const title = await page.title();
+  155 |     if (title === 'Draft Documents - OpenSign™') {
+  156 |       console.log('Draft Documents - OpenSign™');
+  157 |     } else {
+  158 |       console.error(`Page title is incorrect. Expected: "Draft Documents - OpenSign™", Got: "${title}"`);
+  159 |     }
+  160 |    
+  161 |     //Check if Pagination Buttons Exist
+  162 |     const isPaginationVisible = await page.getByRole('button', { name: 'Next' }).isVisible();
+  163 |     //expect(isPaginationVisible).toBeTruthy();
+  164 |     const isPaginationVisiblePrev = await page.getByRole('button', { name: 'Prev' }).isVisible();
+  165 |     //expect(isPaginationVisiblePrev).toBeTruthy();
+  166 |     const page1Data = await page.locator('table tbody tr').allTextContents();
+  167 |     await page.getByRole('button', { name: 'Next' }).click();
+  168 |     await page.waitForLoadState('domcontentloaded');
+  169 |     //const firstPageContent = await page.locator('//button[@class=\'op-btn-active op-join-item op-btn op-btn-sm\' and text()=\'2\']').first().textContent(); // Capture first item
+  170 |   const page2Data = await page.locator('table tbody tr').allTextContents();
+  171 |   expect(page2Data).not.toEqual(page1Data);// Ensure content changes
+  172 |   //Verify 'Previous' and 'Next' Buttons Work
+  173 |   await page.getByRole('button', { name: 'Prev' }).click();
+  174 |   await page.waitForLoadState('domcontentloaded');
+  175 |   const page1DataPrev = await page.locator('table tbody tr').allTextContents();
+  176 |   expect(page2Data).not.toEqual(page1DataPrev);// Ensure content changes
+  177 |   
+  178 |   });
+  179 |   
+```

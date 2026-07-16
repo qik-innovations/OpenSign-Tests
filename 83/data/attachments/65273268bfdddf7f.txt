@@ -1,0 +1,5 @@
+browser name: chromium
+Browser version: 134.0.6998.35
+Browser Platform: linux
+Page title after login attempt: Login - OpenSign™
+Final page title after login attempts: Dashboard - OpenSign™

@@ -1,0 +1,67 @@
+Browser: chromium, Version: 134.0.6998.35, OS: linux
+Dragged and dropped widget with label 'signature' to coordinates (600, 300).
+Signature widget dragged and dropped successfully.
+Dragged and dropped widget with label 'signature' to coordinates (600, 400).
+Error while verifying signature widget drag-drop: locator.isVisible: Error: strict mode violation: locator('//div[contains(@class,\'signYourselfBlock\')]//div[contains(@class,\'font-medium\') and normalize-space()=\'signature-1\']') resolved to 2 elements:
+    1) <div class=" font-medium">signature-1</div> aka locator('[id="\\36 5063763"]').getByText('signature-')
+    2) <div class=" font-medium">signature-1</div> aka locator('[id="\\37 2944772"]').getByText('signature-')
+
+Call log:
+    - checking visibility of locator('//div[contains(@class,\'signYourselfBlock\')]//div[contains(@class,\'font-medium\') and normalize-space()=\'signature-1\']')
+
+    at CommonSteps.dragAndDropSignatureWidget (/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/utils/CommonSteps.js:184:30)
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/CreateTemplate.spec.js:726:5 {
+  [Symbol(step)]: {
+    stepId: 'pw:api@49',
+    location: {
+      file: '/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/utils/CommonSteps.js',
+      line: 184,
+      column: 30,
+      function: 'CommonSteps.dragAndDropSignatureWidget'
+    },
+    category: 'pw:api',
+    title: "locator.isVisible(//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1'])",
+    apiName: 'locator.isVisible',
+    params: {
+      selector: "//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1']",
+      strict: true
+    },
+    boxedStack: undefined,
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'pw:api@49'
+    },
+    complete: [Function: complete],
+    endWallTime: 1784180353378,
+    error: {
+      message: "Error: locator.isVisible: Error: strict mode violation: locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']') resolved to 2 elements:\n" +
+        `    1) <div class=" font-medium">signature-1</div> aka locator('[id="\\\\36 5063763"]').getByText('signature-')\n` +
+        `    2) <div class=" font-medium">signature-1</div> aka locator('[id="\\\\37 2944772"]').getByText('signature-')\n` +
+        '\n' +
+        'Call log:\n' +
+        "\x1B[2m    - checking visibility of locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']')\x1B[22m\n",
+      stack: "Error: locator.isVisible: Error: strict mode violation: locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']') resolved to 2 elements:\n" +
+        `    1) <div class=" font-medium">signature-1</div> aka locator('[id="\\\\36 5063763"]').getByText('signature-')\n` +
+        `    2) <div class=" font-medium">signature-1</div> aka locator('[id="\\\\37 2944772"]').getByText('signature-')\n` +
+        '\n' +
+        'Call log:\n' +
+        "\x1B[2m    - checking visibility of locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']')\x1B[22m\n" +
+        '\n' +
+        '    at CommonSteps.dragAndDropSignatureWidget (/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/utils/CommonSteps.js:184:30)\n' +
+        '    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/CreateTemplate.spec.js:726:5',
+      cause: undefined
+    }
+  }
+}
+📩 Waiting for email on: kelvinsjohnson24@gmail.com
+📨 Subject: Pravin Testing account has requested you to sign Sample-joining-letter
+📬 To: kelvinsjohnson24+drafttempsigner1@gmail.com
+Signer 1 Signing URL: https://staging-app.opensignlabs.com/login/akZIdVM3U2dvcS9rZWx2aW5zam9obnNvbjI0K2RyYWZ0dGVtcHNpZ25lcjFAZ21haWwuY29t
+Done button in signer modal clicked.
+Finish button in signer modal clicked.
+📩 Waiting for email on: kelvinsjohnson24@gmail.com
+📨 Subject: Pravin Testing account has requested you to sign Sample-joining-letter
+📬 To: kelvinsjohnson24+drafttempsigner2@gmail.com
