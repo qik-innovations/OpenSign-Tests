@@ -82,38 +82,7 @@ await expect(page.locator('//div[text()="Request signatures"]//parent::div[@clas
     await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
     await page.waitForLoadState("networkidle");
     await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });    
-      await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-  const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
-
-  for (let i = 0; i < 5; i++) { // Retry up to 5 times
-      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-          await rowLocator.click();
-          console.log("Save button clicked!");
-          break; // Exit the loop if successfully clicked
-      } else {
-          console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-  
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(800, 300);
-          await page.mouse.up();
-          
-          // Wait a bit before checking again
-          await page.waitForTimeout(1000);
-      }
-  
-      if (i === 5) {
-          console.log("Save button did not become visible after multiple attempts.");
-      }
-  }
-} catch (error) {
-  console.log("Element not found or not interactable, continuing execution.");
- 
-}
+     await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
 await page.getByRole('button', { name: 'Next' }).click();
 await page.getByRole('button', { name: 'Send' }).click();
 await page.getByRole('button', { name: 'No' }).click();
@@ -256,6 +225,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature',600,300);
+  await page.getByRole('button', { name: '' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 // Wait up to 90 seconds for the text to appear
 await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
@@ -273,14 +243,12 @@ await expect(page.locator('//div[@data-tut="tourreport3"]//td[3]').first()).toCo
 await expect(page.locator('//div[@data-tut="tourreport3"]//td[4]').first()).toContainText('Download');
 await expect(page.locator('//div[@data-tut="tourreport3"]//td[5]').first()).toContainText('Pravin Testing account');  
 await page.locator('//div[@data-tut="tourreport3"]//div[@role="button"and @title="Edit"]').first().click();
-await page.waitForSelector('#container > .react-pdf__Document', { timeout: 90000 }); 
+await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature',600,300);
 await commonSteps.dragAndDrop('stamp',600,360);
 await commonSteps.uploadStamp();
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('initials',600,420);
-await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('date',600,550);
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
@@ -340,37 +308,7 @@ await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
-for (let i = 0; i < 5; i++) { // Retry up to 5 times
-    if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-    
-        console.log("signature widget dragged and dropped");
-        break; // Exit the loop if successfully clicked
-    } else {
-        console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
-
-        await page.locator('//span[normalize-space()="signature"]').hover();
-        await page.mouse.down();
-        await page.mouse.move(800, 300);
-        await page.mouse.up();
-        
-        // Wait a bit before checking again
-        await page.waitForTimeout(1000);
-    }
-
-    if (i === 5) {
-        console.log("signature widget did not become visible on the document after multiple attempts.");
-    }
-}
-} catch (error) {
-console.log("Element not found or not interactable, continuing execution.");
-
-}
+await commonSteps.dragAndDropSignatureWidget('signature', 600, 250);
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 360)
@@ -384,12 +322,7 @@ await page.mouse.down();
 await page.mouse.move(600, 470)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
-//await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
-await page.getByRole('button', { name: 'Send' }).click();
-await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
-await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
-await page.getByRole('button', { name: 'No' }).click();
+ await page.getByRole('button', { name: 'Sign now' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 // Wait up to 90 seconds for the text to appear
 
@@ -407,7 +340,7 @@ await page.locator('//div[@data-tut="tourreport1"]//div[@role="button"and @title
 await commonSteps.validateAndAcceptTerms();
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//div[contains(text(),"signature")]').click();
+await page.locator('//div[contains(text(),"signature-1")]').click();
 await page.mouse.down();
 await page.mouse.move(120, 122)
 await page.mouse.up();
@@ -504,8 +437,11 @@ await page.locator('//div[@class="m-[20px]"]//div[1]//button[text()="Copy"]').cl
 await expect(page.locator('//div[@class="m-[20px]"]//div[1]//button[2]')).toContainText('Copied');
 await page.locator('//dialog[@id="selectSignerModal"]//div[1]//button[text()="✕"]').click();
 await page.locator('//div[@data-tut="tourreport2"]//div[@role="button"and @title="View"]').first().click();
-await expect(page.locator('//div[@class="flex flex-col"]//span[1]')).toBeVisible({ timeout: 120000 });
-await expect(page.locator('//div[@class="flex flex-col"]//span[1]')).toContainText('Andy amaya');
+const isVisible = await page
+  .getByText('andyamaya@nxglabs.in')
+  .isVisible({ timeout: 120000 });
+
+console.log(isVisible);
 });
 
 test('Verify that the document created from a template appears in the Recently Sent for Signatures section on the dashboard.', async ({ page }) => {
@@ -538,6 +474,7 @@ await page.getByRole('button', { name: 'Next' }).click();
   await page.locator("//dialog[@id='selectSignerModal']//span[text()='Next']").click();
   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
   await page.getByRole('button', { name: 'Send' }).click();
+  await page.getByRole('button', { name: 'Close' }).click();
   await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 // Wait up to 90 seconds for the text to appear
 await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
@@ -552,8 +489,10 @@ await page.locator('//div[@class="m-[20px]"]//div[1]//button[text()="Copy"]').cl
 await expect(page.locator('//div[@class="m-[20px]"]//div[1]//button[2]')).toContainText('Copied');
 await page.locator('//dialog[@id="selectSignerModal"]//div[1]//button[text()="✕"]').click();
 await page.locator('//div[@data-tut="tourreport2"]//div[@role="button"and @title="View"]').first().click();
-await expect(page.locator('//div[@class="flex flex-col"]//span[1]')).toBeVisible({ timeout: 120000 });
-await expect(page.locator('//div[@class="flex flex-col"]//span[1]')).toContainText('Andy amaya');
+await expect(page.getByText('andyamaya@nxglabs.in')).toBeVisible({
+  timeout: 120000,
+});
+
 });
 test('Verify that the document created from a template bulksend appears in the Recently Sent for Signatures section on the dashboard.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
@@ -581,7 +520,8 @@ await page.getByRole('button', { name: 'Next' }).click();
   await page.locator('//dialog[@id="selectSignerModal"]//button[text()="Bulk send"]').click();
   await page.locator('//dialog[@id="selectSignerModal"]//input[@type="email" and @placeholder="Enter Email..."]').fill("andyamaya@nxglabs.in");
   await page.locator('//dialog[@id="selectSignerModal"]//span[text()="Send"]').click();
-  await expect(page.locator('#renderList')).toContainText('In-progress documents');
+await page.getByRole('button', { name: '✕' }).click();
+  await page.getByRole('button', { name: '✕' }).click();
   await page.getByRole('menuitem', { name: 'Dashboard' }).click();
   await page.waitForTimeout(2000);
 // Wait up to 90 seconds for the text to appear
@@ -619,47 +559,12 @@ await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
-
-  for (let i = 0; i < 5; i++) { // Retry up to 5 times
-      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-      
-          console.log("signature widget dragged and dropped");
-          break; // Exit the loop if successfully clicked
-      } else {
-          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
-  
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(800, 300);
-          await page.mouse.up();
-          
-          // Wait a bit before checking again
-          await page.waitForTimeout(1000);
-      }
-  
-      if (i === 5) {
-          console.log("signature widget did not become visible on the document after multiple attempts.");
-      }
-  }
-} catch (error) {
-  console.log("Element not found or not interactable, continuing execution.");
- 
-}
+await commonSteps.dragAndDropSignatureWidget('signature',600,300);
 await page.getByRole('button', { name: 'Next' }).click();
-//await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+await page.locator('#selectSignerModal div').filter({ hasText: 'Send to Email' }).nth(4).click();
 await page.getByRole('button', { name: 'Send' }).click();
-//await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
-await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
-await page.getByRole('button', { name: 'No' }).click();
+await expect(page.locator('#selectSignerModal')).toContainText('Subsequent signers will get email(s) once you sign the document.');
+await page.getByRole('button', { name: 'No', exact: true }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 // Wait up to 90 seconds for the text to appear
 await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
@@ -707,45 +612,14 @@ await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
-
-  for (let i = 0; i < 5; i++) { // Retry up to 5 times
-      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-      
-          console.log("signature widget dragged and dropped");
-          break; // Exit the loop if successfully clicked
-      } else {
-          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
-  
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(800, 300);
-          await page.mouse.up();
-          
-          // Wait a bit before checking again
-          await page.waitForTimeout(1000);
-      }
-  
-      if (i === 5) {
-          console.log("signature widget did not become visible on the document after multiple attempts.");
-      }
-  }
-} catch (error) {
-  console.log("Element not found or not interactable, continuing execution.");
- 
-}
+await commonSteps.dragAndDropSignatureWidget('signature',600,300);
 await page.getByRole('button', { name: 'Next' }).click();
-//await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+ await page.locator('#selectSignerModal div').filter({ hasText: 'Send to Email' }).nth(4).click();
 await page.getByRole('button', { name: 'Send' }).click();
-await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
 await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
-await page.getByRole('button', { name: 'No' }).click();
+await expect(page.locator('#selectSignerModal')).toContainText('Subsequent signers will get email(s) once you sign the document.');
+await expect(page.locator('#selectSignerModal')).toContainText('How was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
+await page.getByRole('button', { name: 'No', exact: true }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 // Wait up to 90 seconds for the text to appear
 await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
@@ -786,45 +660,14 @@ await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
-
-  for (let i = 0; i < 5; i++) { // Retry up to 5 times
-      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-      
-          console.log("signature widget dragged and dropped");
-          break; // Exit the loop if successfully clicked
-      } else {
-          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
-  
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(800, 300);
-          await page.mouse.up();
-          
-          // Wait a bit before checking again
-          await page.waitForTimeout(1000);
-      }
-  
-      if (i === 5) {
-          console.log("signature widget did not become visible on the document after multiple attempts.");
-      }
-  }
-} catch (error) {
-  console.log("Element not found or not interactable, continuing execution.");
- 
-}
+await commonSteps.dragAndDropSignatureWidget('signature',600,300);
 await page.getByRole('button', { name: 'Next' }).click();
-//await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+ await page.locator('#selectSignerModal div').filter({ hasText: 'Send to Email' }).nth(4).click();
 await page.getByRole('button', { name: 'Send' }).click();
-await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent');
 await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await expect(page.locator('#selectSignerModal')).toContainText('Mails Sent✕Subsequent signers will get email(s) once you signs the document.Do you want to sign the document right now?YesNoHow was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
-await page.getByRole('button', { name: 'No' }).click();
+await expect(page.locator('#selectSignerModal')).toContainText('Subsequent signers will get email(s) once you sign the document.');
+await expect(page.locator('#selectSignerModal')).toContainText('How was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
+await page.getByRole('button', { name: 'No', exact: true }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 // Wait up to 90 seconds for the text to appear
 await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });

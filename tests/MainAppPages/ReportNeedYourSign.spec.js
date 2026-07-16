@@ -26,39 +26,7 @@ test('Verify that owner can create the document and sign it from the need your s
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-  await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 200)
-await page.mouse.up();
-try {
-  const rowLocator = page.locator('//div[contains(@class,"signYourselfBlock")]//div[contains(@class,"font-medium") and normalize-space(.)="signature-1"]');
-  for (let i = 0; i < 5; i++) { // Retry up to 5 times
-      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-      
-          console.log("signature widget dragged and dropped");
-          break; // Exit the loop if successfully clicked
-      } else {
-          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
-  
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(600, 200);
-          await page.mouse.up();
-          
-          // Wait a bit before checking again
-          await page.waitForTimeout(1000);
-      }
-  
-      if (i === 5) {
-          console.log("signature widget did not become visible on the document after multiple attempts.");
-      }
-  }
-} catch (error) {
-  console.log("Element not found or not interactable, continuing execution.");
- 
-}
+await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 250)
@@ -94,12 +62,12 @@ await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('span').filter({ hasText: 'dropdown' }).hover();
 await page.mouse.down();
-await page.mouse.move(600, 570)
+await page.mouse.move(600, 550)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'radio button\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 610)
+await page.mouse.move(600, 590)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'image\']').hover();
@@ -108,7 +76,7 @@ await page.mouse.move(600, 640)
 await page.mouse.up();
 await page.locator('//span[normalize-space()=\'email\']').hover();
 await page.mouse.down();
-await page.mouse.move(600, 720)
+await page.mouse.move(600, 700)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
    await page.locator("//div[i[contains(@class,'fa-envelope')] and .//span[text()='Send to Email']]").click();
@@ -175,12 +143,14 @@ await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
     await commonSteps.clickNextButtonInSignerModal();
     await commonSteps.selectCheckbox('Option-1');
  await commonSteps.clickNextButtonInSignerModal();
-     await commonSteps.selectFromDropdown('myDropdown','Option-1');
-    await commonSteps.clickNextButtonInSignerModal();
  await commonSteps.selectRadioButton('Option-1');
     await commonSteps.clickNextButtonInSignerModal();
   await commonSteps.uploadImage();
    await commonSteps.clickNextButtonInSignerModal();
+   await commonSteps.fillTextField('demo@gmail.com','pravin@opensign.me');
+    await commonSteps.clickNextButtonInSignerModal();
+    await commonSteps.selectFromDropdown('myDropdown','Option-1');
+    await commonSteps.clickNextButtonInSignerModal();
   await commonSteps.clickDoneButtonInSignerModal();
 await commonSteps.clickFinishButtonInSignerModal();
   await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });

@@ -13,12 +13,12 @@ test('Verify that New free user can save the general preferences.', async ({ pag
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'Preferences' }).click();
     const title = await page.title();
-    if (title === 'Preferences - OpenSign™') {
-      console.log('Page title is correct: Preferences - OpenSign™');
+    if (title === 'OpenSign™ Preferences') {
+      console.log('Page title is correct: OpenSign™ Preferences');
     } else {
-      console.error(`Page title is incorrect. Expected: "Preferences - OpenSign™", Got: "${title}"`);
+      console.error(`Page title is incorrect. Expected: "OpenSign™ Preferences", Got: "${title}"`);
     }
-    await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences ?' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences' })).toBeVisible();
   await page.getByText('General').click();
   await expect(page.getByText('Allowed signature types')).toBeVisible();
   await page.getByText('draw').click();
@@ -51,12 +51,12 @@ test('Verify that a new free user cannot save email preferences is prompted to u
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'Preferences' }).click();
     const title = await page.title();
-    if (title === 'Preferences - OpenSign™') {
-      console.log('Page title is correct: Preferences - OpenSign™');
+    if (title === 'OpenSign™ Preferences') {
+      console.log('Page title is correct: OpenSign™ Preferences');
     } else {
-      console.error(`Page title is incorrect. Expected: "Preferences - OpenSign™", Got: "${title}"`);
+      console.error(`Page title is incorrect. Expected: "OpenSign™ Preferences", Got: "${title}"`);
     }
-    await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences ?' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences' })).toBeVisible();
   await page.locator("//div[@role='tab' and @aria-controls='panel-Email']").click();
 // Request signature email template
 await expect(
@@ -82,35 +82,70 @@ test('Free user cannot update settings for Notify on Signature and Merge Certifi
 
   // Verify page title
   const title = await page.title();
-  if (title === 'Preferences - OpenSign™') {
-    console.log('Page title is correct: Preferences - OpenSign™');
+  if (title === 'OpenSign™ Preferences') {
+    console.log('Page title is correct: OpenSign™ Preferences');
   } else {
-    console.error(`Page title is incorrect. Expected: "Preferences - OpenSign™", Got: "${title}"`);
+    console.error(`Page title is incorrect. Expected: "OpenSign™ Preferences", Got: "${title}"`);
   }
 
   // Verify heading
-  await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences ?' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences' })).toBeVisible();
 
   // Verify General panel snapshot
-  await expect(page.locator('#panel-general')).toMatchAriaSnapshot(`
-    - radio "Yes" [checked]
-    - text: "Yes"
-    - radio "No"
-    - text: "No"
-  `);
-
-  // Check that Notify on Signatures shows upgrade prompt
-  await expect(page.locator('#panel-general')).toContainText('Notify on signaturesUpgrade now');
-
-  // Verify Yes/No radio is disabled
-  //const notifyYes = page.locator("//input[@id='notify-yes']");
-///expect(await notifyYes.isDisabled()).toBeTruthy();
-
-//const notifyNo = page.locator("//input[@id='notify-no']");
-//expect(await notifyNo.isDisabled()).toBeTruthy();
-
-  // Check Merge Certificate to PDF shows upgrade prompt
-  await expect(page.locator('#panel-general')).toContainText('Merge Certificate to PDFUpgrade now');
+  await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+     - tab " General" [selected]
+     - tab " Widgets"
+     - tab " Email"
+     - tab " Security"
+     `);
+   await expect(page.locator('#panel-0')).toMatchAriaSnapshot(`
+     - text: "Allowed signature types"
+     - superscript: "?"
+     - checkbox "draw" [checked]
+     - text: draw
+     - checkbox "type" [checked]
+     - text: type
+     - checkbox "upload" [checked]
+     - text: upload
+     - checkbox "default" [checked]
+     - text: default Notify on signatures
+     - superscript: "?"
+     - superscript: Upgrade now
+     - radio "Yes" [checked]
+     - text: "Yes"
+     - radio "No"
+     - text: No Send in order
+     - superscript: "?"
+     - radio "Yes" [checked]
+     - text: "Yes"
+     - radio "No"
+     - text: No Allow offline signing
+     - superscript: "?"
+     - superscript: Upgrade now
+     - radio "Yes"
+     - text: "Yes"
+     - radio "No" [checked]
+     - text: No Use profile name as sender
+     - superscript: "?"
+     - checkbox "Use profile name as sender"
+     - text: Enable tour
+     - superscript: "?"
+     - radio "Yes" [checked]
+     - text: "Yes"
+     - radio "No"
+     - text: "No"
+     - heading "Email settings ?" [level=3]:
+       - superscript: "?"
+     - button "" [disabled]
+     - button "" [disabled]
+     - checkbox [checked]
+     - button "OpenSign™ default SMTP" [disabled]
+     `);
+ 
+await expect(page.locator('#panel-0')).toContainText('Notify on signaturesUpgrade nowYesNo');
+  await expect(page.locator('#panel-0')).toContainText('Send in orderYesNo');
+  await expect(page.locator('#panel-0')).toContainText('Allow offline signingUpgrade nowYesNo');
+  await expect(page.locator('#panel-0')).toContainText('Merge Certificate to PDFUpgrade nowYesNo');
 });
 
   test('Team plan user can access the Email page.', async ({ page }) => {
@@ -120,16 +155,17 @@ test('Free user cannot update settings for Notify on Signature and Merge Certifi
 await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'Preferences' }).click();
     const title = await page.title();
-    if (title === 'Preferences - OpenSign™') {
-      console.log('Page title is correct: Preferences - OpenSign™');
+    if (title === 'OpenSign™ Preferences') {
+      console.log('Page title is correct: OpenSign™ Preferences');
     } else {
-      console.error(`Page title is incorrect. Expected: "Preferences - OpenSign™", Got: "${title}"`);
+      console.error(`Page title is incorrect. Expected: "OpenSign™ Preferences", Got: "${title}"`);
     }
-    await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences ?' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences' })).toBeVisible();
     await expect(page.locator(ROOT_SELECTOR)).toContainText('Pravin Testing account');
     await expect(page.locator(ROOT_SELECTOR)).toContainText('TEAM');
-    await expect(page.getByRole('heading')).toContainText('OpenSign™ Email Settings');
-    await expect(page.locator(RENDER_LIST_SELECTOR)).toContainText('OpenSign™ default SMTP');
+    await page.locator('//div[@role="tab"]//span[@title="Email"]').click();
+   await expect(page.getByRole('heading')).toContainText('Request Email');
+
   });
 
 });

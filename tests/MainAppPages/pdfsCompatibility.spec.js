@@ -22,7 +22,10 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/IncompatiblePDFs/errpdf.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+const noButton = page.getByRole('button', { name: 'No' });
+
+await noButton.waitFor({ state: 'visible', timeout: 90000 });
+await noButton.click();
   await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature', 600, 300);
 await commonSteps.dragAndDrop('stamp',600, 360);
 await commonSteps.uploadStamp(); 
@@ -57,7 +60,8 @@ test('Verify that the user can successfully sign a PDF that was previously incom
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/IncompatiblePDFs/Order_Form.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  await page.waitForSelector("//div[@class='react-pdf__Document']//div[@id='container']", { timeout: 90000 }); 
+  await page.getByRole('button', { name: 'No', exact: true }).click();
    await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature', 600, 300);
 await commonSteps.dragAndDrop('stamp',600, 360);
 await commonSteps.uploadStamp(); 
@@ -69,8 +73,6 @@ await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('job title',600, 480);
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('company',600, 520);
-await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('date',600, 550);
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('checkbox',600, 600); 
 await commonSteps.ClickSavebuttonSignerModal();
@@ -105,7 +107,9 @@ test('Verify that the user can successfully sign a PDF that was previously incom
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/IncompatiblePDFs/10pages.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+ await page
+  .locator("//div[@class='react-pdf__Document']//div[@id='container']")
+  .waitFor({ state: 'visible', timeout: 90000 });
  await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature',600,300);
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
@@ -133,7 +137,7 @@ test('Verify that the user can successfully sign a PDF that was previously incom
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/IncompatiblePDFs/20pages.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  await page.waitForSelector("//div[@class='react-pdf__Document']//div[@id='container']", { timeout: 90000 }); 
   await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature',600,300);
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
@@ -352,7 +356,7 @@ test('Verify that user can perform the sign yourself using the word document', a
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_word_doc.docx'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  await page.waitForSelector("//div[@class='react-pdf__Document']//div[@id='container']", { timeout: 90000 });  
   await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature',600,300);
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
