@@ -149,8 +149,6 @@ await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
     await commonSteps.clickNextButtonInSignerModal();
     await commonSteps.selectCheckbox('Option-1');
  await commonSteps.clickNextButtonInSignerModal();
-     await commonSteps.selectFromDropdown('myDropdown','Option-1');
-    await commonSteps.clickNextButtonInSignerModal();
  await commonSteps.selectRadioButton('Option-1');
     await commonSteps.clickNextButtonInSignerModal();
   await commonSteps.uploadImage();
