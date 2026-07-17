@@ -70,12 +70,14 @@ const body = (parsed.html || parsed.text || "")
   .replace(/\s+/g, " ")
   .trim();
 console.log("Clean Body:", body);
-        const match = body.match(otpRegex);
-        if (match) {
-          console.log(`✅ OTP Found: ${match[1]}`);
-          await connection.end();
-          return match[1];
-        }
+       const match = body.match(otpRegex);
+
+if (match) {
+  const otp = match[1] ?? match[0];
+  console.log("OTP:", otp);
+  await connection.end();
+  return otp;
+}
       }
 
       await connection.end();

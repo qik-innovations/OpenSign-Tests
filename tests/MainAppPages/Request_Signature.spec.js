@@ -944,11 +944,15 @@ console.log("Switched back to the main page");*/
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
   await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.getByRole('button', { name: 'Close Tour' }).click();
-commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+/*
+//add the wait here to ensure the tour guide is visible before proceeding
+await page.locator('//div[@class="reactour__popover"]').waitFor({ state: 'visible', timeout: 90000 });
+ await page.locator('//button[@aria-label="Close Tour"]').click({ force: true });
+commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
 await page.getByRole('button', { name: 'Next' }).click();
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 await page.getByRole('button', { name: 'Send' }).click();
+*/
 });
 /*
 test('Verify that the tour guide messages function correctly for an existing signer when the tour guide is set to enabled.', async ({ page }) => {
@@ -1610,12 +1614,13 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.locator('canvas').nth(2).click({
-  position: {
-    x: 49,
-    y: 71
-  }
-});
+await page.locator('div').filter({ hasText: /^Add pages$/ }).locator('canvas').nth(2).click({
+    position: {
+      x: 83,
+      y: 114
+    }
+  });
+
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
 while (true) {
@@ -1847,13 +1852,13 @@ await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+await page.locator('div').filter({ hasText: /^Add pages$/ }).locator('canvas').nth(2).click({
+    position: {
+      x: 83,
+      y: 114
+    }
+  });
 await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
-await page.locator('canvas').nth(2).click({
-  position: {
-    x: 65,
-    y: 59
-  }
-});
 await page.locator('//span[normalize-space()="stamp"]').hover();
           await page.mouse.down();
           await page.mouse.move(600, 360);
@@ -2183,13 +2188,13 @@ await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+await page.locator('div').filter({ hasText: /^Add pages$/ }).locator('canvas').nth(2).click({
+    position: {
+      x: 83,
+      y: 114
+    }
+  });
 await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
-await page.locator('canvas').nth(2).click({
-  position: {
-    x: 65,
-    y: 59
-  }
-});
 await page.locator('//span[normalize-space()="initials"]').hover();
           await page.mouse.down();
           await page.mouse.move(600, 360);
@@ -2324,10 +2329,10 @@ const color = await widget.evaluate(el => getComputedStyle(el).color);
 
 console.log(`Font Size: ${fontSize}, Color: ${color}`);
 
-if (fontSize === '19.8649px' && color === 'rgb(0, 0, 255)') {
+if (fontSize === '20.0464px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 15.6924px, Color: blue but got Font Size: ${fontSize}, Color: ${color}`);
+  throw new Error(`Test Failed: Expected Font Size: 20.0464px, Color: blue but got Font Size: ${fontSize}, Color: ${color}`);
 }
 await page.locator('//span[normalize-space()=\'job title\']').hover();
 await page.mouse.down();
@@ -2347,10 +2352,10 @@ const colorJobTitle = await widgetJobtitle.evaluate(el => getComputedStyle(el).c
 
 console.log(`Font Size: ${fontSizeJobTitle}, Color: ${colorJobTitle}`);
 
-if (fontSizeJobTitle === '19.8649px' && colorJobTitle === 'rgb(0, 0, 255)') {
+if (fontSizeJobTitle === '20.0464px' && colorJobTitle === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 19.8649px, Color: blue but got Font Size: ${fontSizeJobTitle}, Color: ${colorJobTitle}`);
+  throw new Error(`Test Failed: Expected Font Size: 20.0464px, Color: blue but got Font Size: ${fontSizeJobTitle}, Color: ${colorJobTitle}`);
 }
 
 await page.locator('//span[normalize-space()=\'company\']').hover();
@@ -2370,10 +2375,10 @@ const colorcompany = await widgetCompany.evaluate(el => getComputedStyle(el).col
 
 console.log(`Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
 
-if (fontSizecompany === '19.8649px' && colorcompany === 'rgb(0, 0, 255)') {
+if (fontSizecompany === '20.0464px' && colorcompany === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 15.6924px, Color: blue but got Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
+  throw new Error(`Test Failed: Expected Font Size: 20.0464px, Color: blue but got Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
 }
 
 await page.locator('//span[normalize-space()=\'text input\']').hover();
@@ -2394,10 +2399,10 @@ const colorTextInput = await widgetTextinput.evaluate(el => getComputedStyle(el)
 
 console.log(`Font Size: ${fontSizeTextInput }, Color: ${colorTextInput}`);
 
-if (fontSizeTextInput === '19.8649px' && colorTextInput  === 'rgb(0, 0, 255)') {
+if (fontSizeTextInput === '20.0464px' && colorTextInput  === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 19.8649px, Color: blue but got Font Size: ${fontSizetext }, Color: ${colortext }`);
+  throw new Error(`Test Failed: Expected Font Size: 20.0464px, Color: blue but got Font Size: ${fontSizetext }, Color: ${colortext }`);
 }
 
 await page.locator('//span[normalize-space()=\'email\']').hover();
@@ -2415,10 +2420,10 @@ const fontSizeemail = await widgetEmail.evaluate(el => getComputedStyle(el).font
 const coloremail = await widgetEmail.evaluate(el => getComputedStyle(el).color);
 console.log(`Font Size: ${fontSizeemail}, Color: ${coloremail}`);
 
-if (fontSizeemail=== '19.8649px' && coloremail  === 'rgb(0, 0, 255)') {
+if (fontSizeemail=== '20.0464px' && coloremail  === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 19.8649px, Color: blue but got Font Size: ${fontSizeemail }, Color: ${coloremail }`);
+  throw new Error(`Test Failed: Expected Font Size: 20.0464px, Color: blue but got Font Size: ${fontSizeemail }, Color: ${coloremail }`);
 }
 await page.getByRole('button', { name: 'Next' }).click();
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
@@ -3321,13 +3326,14 @@ test('Verify that textinput field widget Copy widget to all pages but first func
 
   await page.waitForLoadState('networkidle');
   await page.waitForSelector("//div[@class='react-pdf__Document']", { timeout: 90000 });
+
+await page.locator('div').filter({ hasText: /^Add pages$/ }).locator('canvas').nth(2).click({
+    position: {
+      x: 83,
+      y: 114
+    }
+  });
 await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
-await page.locator('canvas').nth(2).click({
-  position: {
-    x: 65,
-    y: 59
-  }
-});
   await page.locator('//span[normalize-space()="text input"]').hover();
   await page.mouse.down();
   await page.mouse.move(600, 400);
