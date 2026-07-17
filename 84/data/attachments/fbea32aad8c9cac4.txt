@@ -1,0 +1,3 @@
+Dragged and dropped widget with label 'signature' to coordinates (600, 300).
+Save button clicked!
+Finish button on placeholder clicked.

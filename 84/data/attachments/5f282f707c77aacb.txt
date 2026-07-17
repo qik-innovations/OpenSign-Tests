@@ -1,0 +1,1 @@
+Pagination controls are not visible, likely only one page of teams exists.

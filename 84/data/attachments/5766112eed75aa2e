@@ -1,0 +1,453 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Console app - General page >> Verify that Enable individual user smtp settings is off in Console General and Email Preferences loads.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/ConsoleApp/General.spec.js:128:3
+
+# Error details
+
+```
+Error: Timed out 5000ms waiting for expect(locator).toContainText(expected)
+
+Locator: locator('#renderList')
+Expected pattern: /Enable individual user smtp settings/i
+Received string:  "GeneralEnabled Signature Types drawtypeduploaddefaultSaveAllow indexing of public profile by search engines Allow email template customization for users individually Disable individual user smtp settings Hide live chat widget for signers All rights reserved © 2026  OpenSign™ ( version: v2.41.0
+)"
+Call log:
+  - expect.toContainText with timeout 5000ms
+  - waiting for locator('#renderList')
+    2 × locator resolved to <main id="renderList" class="flex-1 overflow-auto transition-all duration-300 ease-in-out">…</main>
+      - unexpected value "All rights reserved © 2026  OpenSign™ ( version: v2.41.0
+)"
+    7 × locator resolved to <main id="renderList" class="flex-1 overflow-auto transition-all duration-300 ease-in-out">…</main>
+      - unexpected value "GeneralEnabled Signature Types drawtypeduploaddefaultSaveAllow indexing of public profile by search engines Allow email template customization for users individually Disable individual user smtp settings Hide live chat widget for signers All rights reserved © 2026  OpenSign™ ( version: v2.41.0
+)"
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/ConsoleApp/General.spec.js:134:48
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - text: "New feature: Protect your account with Two-Factor Authentication (2FA) and enjoy the future of login with Passkeys — no passwords needed. — Setup now."
+  - img
+  - text: 
+  - button ""
+  - img "logo"
+  - text: TEAM
+  - button "Open app drawer": 
+  - img "img"
+  - button "Pravin Testing account"
+  - button ""
+  - list:
+    - listitem:  Docs
+    - listitem:  Profile
+    - listitem:  Change password
+    - listitem:  Console
+    - listitem:  Billing
+    - listitem:  Verify document
+    - listitem:
+      - text:  Dark mode BETA
+      - checkbox
+    - listitem:  Log Out
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- main:
+  - text:  Sign yourself Use this option to sign the document yourself without adding others  Request signatures Use this option to request signatures from others and yourself together.  Need your signature 97
+  - superscript: "?"
+  - text:  Out for signatures 276
+  - superscript: "?"
+  - text: Recent signature requests
+  - button "Search": 
+  - table:
+    - rowgroup:
+      - row "Title File Owner Signers Action":
+        - cell "Title"
+        - cell "File"
+        - cell "Owner"
+        - cell "Signers"
+        - cell "Action"
+    - rowgroup:
+      - row "Sample Test Doc Line t whjghg Compressed Expires 31-Jul-2026 Download Pravin Testing account View  sign":
+        - cell "Sample Test Doc Line t whjghg Compressed Expires 31-Jul-2026"
+        - cell "Download":
+          - button "Download"
+        - cell "Pravin Testing account"
+        - cell "View":
+          - button "View"
+        - cell " sign":
+          - button " sign"
+      - row "Sample-joining-letter Expires 31-Jul-2026 Download Pravin Testing account View  sign":
+        - cell "Sample-joining-letter Expires 31-Jul-2026"
+        - cell "Download":
+          - button "Download"
+        - cell "Pravin Testing account"
+        - cell "View":
+          - button "View"
+        - cell " sign":
+          - button " sign"
+      - row "Sample-joining-letter Expires 31-Jul-2026 Download Pravin Testing account View  sign":
+        - cell "Sample-joining-letter Expires 31-Jul-2026"
+        - cell "Download":
+          - button "Download"
+        - cell "Pravin Testing account"
+        - cell "View":
+          - button "View"
+        - cell " sign":
+          - button " sign"
+      - row "Sample-joining-letter Expires 31-Jul-2026 Download Pravin Testing account View  sign":
+        - cell "Sample-joining-letter Expires 31-Jul-2026"
+        - cell "Download":
+          - button "Download"
+        - cell "Pravin Testing account"
+        - cell "View":
+          - button "View"
+        - cell " sign":
+          - button " sign"
+      - row "Sample-joining-letter Expires 31-Jul-2026 Download Pravin Testing account View  sign":
+        - cell "Sample-joining-letter Expires 31-Jul-2026"
+        - cell "Download":
+          - button "Download"
+        - cell "Pravin Testing account"
+        - cell "View":
+          - button "View"
+        - cell " sign":
+          - button " sign"
+  - button "Prev"
+  - button "1"
+  - button "2"
+  - button "3"
+  - button "..." [disabled]
+  - button "20"
+  - button "Next"
+  - text: Recently sent for signatures
+  - button "Search": 
+  - table:
+    - rowgroup:
+      - row "Title File Owner Signers Action":
+        - cell "Title"
+        - cell "File"
+        - cell "Owner"
+        - cell "Signers"
+        - cell "Action"
+    - rowgroup:
+      - row "Sample Test Doc Line Expires 01-Aug-2026 Download Pravin Testing account View   ":
+        - cell "Sample Test Doc Line Expires 01-Aug-2026"
+        - cell "Download":
+          - button "Download"
+        - cell "Pravin Testing account"
+        - cell "View":
+          - button "View"
+        - cell "  ":
+          - button ""
+          - button ""
+          - button ""
+      - row "Sample Test Doc Line Expires 01-Aug-2026 Download Pravin Testing account View   ":
+        - cell "Sample Test Doc Line Expires 01-Aug-2026"
+        - cell "Download":
+          - button "Download"
+        - cell "Pravin Testing account"
+        - cell "View":
+          - button "View"
+        - cell "  ":
+          - button ""
+          - button ""
+          - button ""
+      - row "Sample Test Doc Line t whjghg Compressed Expires 31-Jul-2026 Download Pravin Testing account View   ":
+        - cell "Sample Test Doc Line t whjghg Compressed Expires 31-Jul-2026"
+        - cell "Download":
+          - button "Download"
+        - cell "Pravin Testing account"
+        - cell "View":
+          - button "View"
+        - cell "  ":
+          - button ""
+          - button ""
+          - button ""
+      - row "Sample-joining-letter Expires 31-Jul-2026 Download Pravin Testing account View   ":
+        - cell "Sample-joining-letter Expires 31-Jul-2026"
+        - cell "Download":
+          - button "Download"
+        - cell "Pravin Testing account"
+        - cell "View":
+          - button "View"
+        - cell "  ":
+          - button ""
+          - button ""
+          - button ""
+      - row "Sample-joining-letter Expires 31-Jul-2026 Download Pravin Testing account View   ":
+        - cell "Sample-joining-letter Expires 31-Jul-2026"
+        - cell "Download":
+          - button "Download"
+        - cell "Pravin Testing account"
+        - cell "View":
+          - button "View"
+        - cell "  ":
+          - button ""
+          - button ""
+          - button ""
+  - button "Prev"
+  - button "1"
+  - button "2"
+  - button "3"
+  - button "4"
+  - button "Next"
+  - text: Drafts
+  - searchbox "Search documents…"
+  - table:
+    - rowgroup:
+      - row "Title Note Folder File Owner Signers Action":
+        - cell "Title"
+        - cell "Note"
+        - cell "Folder"
+        - cell "File"
+        - cell "Owner"
+        - cell "Signers"
+        - cell "Action"
+    - rowgroup:
+      - row "Draft doc rpt Sample offer letter Expires 31-Jul-2026 Note Draft doc rpt OpenSign™ Drive Download Pravin Testing account -  ":
+        - cell "Draft doc rpt Sample offer letter Expires 31-Jul-2026"
+        - cell "Note Draft doc rpt":
+          - paragraph: Note Draft doc rpt
+        - cell "OpenSign™ Drive"
+        - cell "Download":
+          - button "Download"
+        - cell "Pravin Testing account"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Draft doc rpt Sample offer letter Expires 31-Jul-2026 Note Draft doc rpt OpenSign™ Drive Download Pravin Testing account -  ":
+        - cell "Draft doc rpt Sample offer letter Expires 31-Jul-2026"
+        - cell "Note Draft doc rpt":
+          - paragraph: Note Draft doc rpt
+        - cell "OpenSign™ Drive"
+        - cell "Download":
+          - button "Download"
+        - cell "Pravin Testing account"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Offer Letter-2026 Expires 31-Jul-2026 Note to myself OpenSign™ Drive Download Pravin Testing account -  ":
+        - cell "Offer Letter-2026 Expires 31-Jul-2026"
+        - cell "Note to myself":
+          - paragraph: Note to myself
+        - cell "OpenSign™ Drive"
+        - cell "Download":
+          - button "Download"
+        - cell "Pravin Testing account"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Sample Test Doc Line Expires 31-Jul-2026 Please review and sign this document OpenSign™ Drive Download Pravin Testing account View  ":
+        - cell "Sample Test Doc Line Expires 31-Jul-2026"
+        - cell "Please review and sign this document":
+          - paragraph: Please review and sign this document
+        - cell "OpenSign™ Drive"
+        - cell "Download":
+          - button "Download"
+        - cell "Pravin Testing account"
+        - cell "View":
+          - button "View"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Sample Test Doc Line Expires 31-Jul-2026 Please review and sign this document OpenSign™ Drive Download Pravin Testing account View  ":
+        - cell "Sample Test Doc Line Expires 31-Jul-2026"
+        - cell "Please review and sign this document":
+          - paragraph: Please review and sign this document
+        - cell "OpenSign™ Drive"
+        - cell "Download":
+          - button "Download"
+        - cell "Pravin Testing account"
+        - cell "View":
+          - button "View"
+        - cell " ":
+          - button ""
+          - button ""
+  - button "Prev"
+  - button "1"
+  - button "2"
+  - button "3"
+  - button "4"
+  - button "Next"
+  - complementary:
+    - paragraph: "All rights reserved © 2026 OpenSign™ ( version: v2.41.0 )"
+```
+
+# Test source
+
+```ts
+   34 |
+   35 | async function openEmailPreferences(page) {
+   36 |   const emailTab = page.getByRole('tab', { name: /Email/i });
+   37 |   await expect(emailTab).toBeVisible({ timeout: 60000 });
+   38 |   await emailTab.click();
+   39 |   await expect(emailTab).toHaveAttribute('aria-selected', 'true', { timeout: 60000 });
+   40 |   await expect(page.getByRole('tabpanel')).toBeVisible({ timeout: 60000 });
+   41 | }
+   42 |
+   43 | async function expectEmailPreferencesGuidance(page) {
+   44 |   const panel = page.getByRole('tabpanel');
+   45 |   await expect(panel).toContainText(/individual users customize their own email templates/i);
+   46 |   await expect(panel).toContainText(/Console/i);
+   47 |   await expect(panel).toContainText(/General/i);
+   48 |   await expect(panel).toContainText(/company-wide email templates/i);
+   49 |   await expect(panel).toContainText(/Mail/i);
+   50 | }
+   51 |
+   52 | test.describe('Console app - General page', () => {
+   53 |   test('Verify that a free user cannot access the General page and is prompted to upgrade.', async ({ page }) => {
+   54 |     const commonSteps = new CommonSteps(page);
+   55 |     await commonSteps.navigateToBaseUrl();
+   56 |     await commonSteps.NewUserlogin();
+   57 |
+   58 |     const page1 = await openConsoleGeneral(page);
+   59 |     await expect(page1.locator(PROFILE_NAME)).toContainText('Mathew Wade', { timeout: 120000 });
+   60 |     await expect(page1.locator(PROFILE_DOMAIN)).toContainText('qikAi.com');
+   61 |     await expect(page1.locator('#renderList')).toContainText(/General/i);
+   62 |     await expect(page1.locator(UPGRADE_BUTTON)).toContainText(/Upgrade/i);
+   63 |   });
+   64 |
+   65 |   test('Verify that signature type selection in Console reflects in Preferences.', async ({ page }) => {
+   66 |     const commonSteps = new CommonSteps(page);
+   67 |     await commonSteps.navigateToBaseUrl();
+   68 |     await commonSteps.login();
+   69 |     await expect(page).toHaveURL(/.*dashboard/);
+   70 |
+   71 |     const page1 = await openConsoleGeneral(page);
+   72 |     await expect(page1.locator('#renderList')).toContainText(/Enabled Signature Types/i);
+   73 |     await expect(page1.locator('#renderList')).toContainText(/draw/i);
+   74 |     await expect(page1.locator('#renderList')).toContainText(/typed/i);
+   75 |     await expect(page1.locator('#renderList')).toContainText(/upload/i);
+   76 |     await expect(page1.locator('#renderList')).toContainText(/default/i);
+   77 |
+   78 |     const typedOptionLabel = page1.locator('label[for="checkbox-typed"]');
+   79 |     const typedOptionCheckbox = page1.locator('#checkbox-typed');
+   80 |     await expect(typedOptionLabel).toBeVisible({ timeout: 60000 });
+   81 |     if (await typedOptionCheckbox.isChecked()) {
+   82 |       await typedOptionLabel.click();
+   83 |     }
+   84 |     await page1.getByRole('button', { name: /Save/i }).click();
+   85 |
+   86 |     await page1.close();
+   87 |     await openPreferences(page);
+   88 |
+   89 |     const preferencesPanel = page.locator('#root');
+   90 |     await expect(preferencesPanel).toContainText(/Allowed signature types/i);
+   91 |     await expect(preferencesPanel).toContainText(/draw/i);
+   92 |     await expect(preferencesPanel).toContainText(/upload/i);
+   93 |     await expect(preferencesPanel).toContainText(/default/i);
+   94 |     await expect(preferencesPanel).not.toContainText(/typed/i);
+   95 |   });
+   96 |
+   97 |   test('Verify Preferences refresh keeps the Email tab guidance available.', async ({ page }) => {
+   98 |     const commonSteps = new CommonSteps(page);
+   99 |     await commonSteps.navigateToBaseUrl();
+  100 |     await commonSteps.login();
+  101 |
+  102 |     await openPreferences(page);
+  103 |     await openEmailPreferences(page);
+  104 |     await expectEmailPreferencesGuidance(page);
+  105 |
+  106 |     await page.reload();
+  107 |     await expect(page.getByRole('heading', { name: /OpenSign™ Preferences ?/i })).toBeVisible({ timeout: 60000 });
+  108 |     await openEmailPreferences(page);
+  109 |     await expectEmailPreferencesGuidance(page);
+  110 |   });
+  111 |
+  112 |   test('Verify that Allow email template customization is off in Console General and Email Preferences loads.', async ({ page }) => {
+  113 |     const commonSteps = new CommonSteps(page);
+  114 |     await commonSteps.navigateToBaseUrl();
+  115 |     await commonSteps.login();
+  116 |
+  117 |     const page1 = await openConsoleGeneral(page);
+  118 |     await expect(page1.locator('#renderList')).toContainText(/Allow email template customization for users individually/i);
+  119 |     const emailTemplateToggle = consoleSettingToggle(page1, 'Allow email template customization for users individually');
+  120 |     await expect(emailTemplateToggle).not.toBeChecked();
+  121 |     await page1.close();
+  122 |
+  123 |     await openPreferences(page);
+  124 |     await openEmailPreferences(page);
+  125 |     await expectEmailPreferencesGuidance(page);
+  126 |   });
+  127 |
+  128 |   test('Verify that Enable individual user smtp settings is off in Console General and Email Preferences loads.', async ({ page }) => {
+  129 |     const commonSteps = new CommonSteps(page);
+  130 |     await commonSteps.navigateToBaseUrl();
+  131 |     await commonSteps.login();
+  132 |
+  133 |     const page1 = await openConsoleGeneral(page);
+> 134 |     await expect(page1.locator('#renderList')).toContainText(/Enable individual user smtp settings/i);
+      |                                                ^ Error: Timed out 5000ms waiting for expect(locator).toContainText(expected)
+  135 |     const smtpSettingsToggle = consoleSettingToggle(page1, 'Enable individual user smtp settings');
+  136 |     await expect(smtpSettingsToggle).not.toBeChecked();
+  137 |     await page1.close();
+  138 |
+  139 |     await openPreferences(page);
+  140 |     await openEmailPreferences(page);
+  141 |     await expectEmailPreferencesGuidance(page);
+  142 |   });
+  143 |
+  144 |   test('Verify that Team plan user can access the General page and save settings.', async ({ page }) => {
+  145 |     const commonSteps = new CommonSteps(page);
+  146 |     await commonSteps.navigateToBaseUrl();
+  147 |     await commonSteps.login();
+  148 |
+  149 |     const page1 = await openConsoleGeneral(page);
+  150 |     await expect(page1.locator('#renderList')).toContainText(/General/i);
+  151 |     await expect(page1.locator('#renderList')).toContainText(/Allow indexing of public profile by search engines/i);
+  152 |     await expect(page1.locator('#renderList')).toContainText(/Allow email template customization for users individually/i);
+  153 |     await expect(page1.locator('#renderList')).toContainText(/Enable individual user smtp settings/i);
+  154 |     await expect(page1.locator('#renderList')).toContainText(/Hide live chat widget for signers/i);
+  155 |
+  156 |     const smtpToggle = consoleSettingToggle(page1, 'Enable individual user smtp settings');
+  157 |     await expect(smtpToggle).not.toBeChecked();
+  158 |
+  159 |     await expect(page1.getByRole('button', { name: /Save/i })).toBeVisible();
+  160 |     await page1.getByRole('button', { name: /Save/i }).click();
+  161 |     await page1.close();
+  162 |
+  163 |     await openPreferences(page);
+  164 |     await expect(page.locator('#renderList')).toContainText(/Allowed signature types/i);
+  165 |     await openEmailPreferences(page);
+  166 |     await expectEmailPreferencesGuidance(page);
+  167 |   });
+  168 |
+  169 |   test('Verify that professional plan users cannot access the General page.', async ({ page }) => {
+  170 |     const commonSteps = new CommonSteps(page);
+  171 |     await commonSteps.navigateToBaseUrl();
+  172 |     await commonSteps.ProfessionPlanUserlogin();
+  173 |     await expect(page).toHaveURL(/.*dashboard/);
+  174 |
+  175 |     const page1 = await openConsoleGeneral(page);
+  176 |     await expect(page1.locator('#renderList')).toContainText(/General/i);
+  177 |     await expect(page1.locator(UPGRADE_BUTTON)).toContainText(/Upgrade/i);
+  178 |   });
+  179 | });
+  180 |
+```

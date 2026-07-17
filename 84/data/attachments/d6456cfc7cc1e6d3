@@ -1,0 +1,334 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SignupPage >> Reg_TC-07 Verify Teams Monthly signup and subscription invoice email.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Signup.spec.js:663:3
+
+# Error details
+
+```
+Error: Timed out 5000ms waiting for expect(locator).toContainText(expected)
+
+Locator: locator('li').filter({ hasText: 'Billed Monthly' }).filter({ has: getByRole('heading', { name: 'OPENSIGN™ TEAMS' }) })
+Expected string: "₹3,499"
+Received string: "OPENSIGN™ TEAMS$39.99/userBilled MonthlyExclusive Access to advanced features.SubscribeEverything in OpenSign™ professionalupto 100 API signaturesTeams and OrganizationsShare Templates with teamsShare Templates with individualsBYOC - Store your documents in your own cloud storageDocumentId removal from signed docsBulk send (upto 100 docs)Request Payments (coming soon)Mobile app (coming soon)"
+Call log:
+  - expect.toContainText with timeout 5000ms
+  - waiting for locator('li').filter({ hasText: 'Billed Monthly' }).filter({ has: getByRole('heading', { name: 'OPENSIGN™ TEAMS' }) })
+    9 × locator resolved to <li class="flex flex-col text-center text-base-content border-collapse border-r-[1px] last:border-r-0 border-gray-300 w-full">…</li>
+      - unexpected value "OPENSIGN™ TEAMS$39.99/userBilled MonthlyExclusive Access to advanced features.SubscribeEverything in OpenSign™ professionalupto 100 API signaturesTeams and OrganizationsShare Templates with teamsShare Templates with individualsBYOC - Store your documents in your own cloud storageDocumentId removal from signed docsBulk send (upto 100 docs)Request Payments (coming soon)Mobile app (coming soon)"
+
+    at expectPlanCardDetails (/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Signup.spec.js:219:42)
+    at selectPaidPlan (/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Signup.spec.js:251:3)
+    at completePaidCheckout (/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Signup.spec.js:326:3)
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Signup.spec.js:668:5
+```
+
+# Page snapshot
+
+```yaml
+- button "Log Out"
+- tablist:
+  - tab "Monthly"
+  - tab "Yearly (upto 66% off)"
+- tablist:
+  - tab "Cloud"
+- list:
+  - listitem:
+    - heading "OPENSIGN™ FREE" [level=3]
+    - img "img"
+    - text: Free
+    - paragraph: Billed Monthly
+    - text: Free Unlimited E-signatures, Forever.
+    - button "Subscribe"
+    - separator
+    - list:
+      - listitem: Unlimited digital signatures
+      - listitem: Sign documents yourself
+      - listitem: Request signatures from others
+      - listitem: Unlimited templates
+      - listitem: 14 field types
+      - listitem: Automatic e-signatures
+      - listitem: Completion certificates
+      - listitem: Send in order
+      - listitem: Organize docs in OpenSign™ Drive
+      - listitem: Document templates
+      - listitem: Import from Dropbox
+      - listitem: Contact book
+      - listitem: Document expiry support
+      - listitem: Decline document support
+      - listitem: Email notifications
+      - listitem: Public profiles
+      - listitem: And much more
+  - listitem:
+    - heading "OPENSIGN™ PROFESSIONAL" [level=3]
+    - img "img"
+    - text: $29.99
+    - paragraph: Billed Monthly
+    - text: Exclusive Access to advanced features.
+    - button "Subscribe"
+    - separator
+    - list:
+      - listitem: Everything in OpenSign™ free
+      - listitem: Field validations
+      - listitem: Regular expression validations
+      - listitem: Organize docs in OpenSign™ Drive
+      - listitem: Webhooks
+      - listitem: Zapier integration
+      - listitem: API Access
+      - listitem: upto 100 API signatures
+      - listitem: Custom email templates
+      - listitem: Connect your own Gmail or SMTP account for sending emails
+      - listitem: Auto reminders
+      - listitem: Bulk send (upto 100 docs)
+      - listitem: Premium Public profile usernames
+      - listitem: Enforce email-based verification to confirm signer identity
+      - listitem: Embedded signing
+  - listitem:
+    - heading "OPENSIGN™ TEAMS" [level=3]
+    - img "img"
+    - text: $ 39.99
+    - superscript: /user
+    - paragraph: Billed Monthly
+    - text: Exclusive Access to advanced features.
+    - button "Subscribe"
+    - separator
+    - list:
+      - listitem: Everything in OpenSign™ professional
+      - listitem: upto 100 API signatures
+      - listitem: Teams and Organizations
+      - listitem: Share Templates with teams
+      - listitem: Share Templates with individuals
+      - listitem: BYOC - Store your documents in your own cloud storage
+      - listitem: DocumentId removal from signed docs
+      - listitem: Bulk send (upto 100 docs)
+      - listitem: Request Payments (coming soon)
+      - listitem: Mobile app (coming soon)
+  - listitem:
+    - heading "OPENSIGN™ ENTERPRISE" [level=3]
+    - img "img"
+    - paragraph: Request Price
+    - paragraph: Billed Monthly
+    - text: Scalable Features with priority support.
+    - button "Contact us"
+    - separator
+    - list:
+      - listitem: All features
+      - listitem: Custom domain
+      - listitem: Custom branding
+      - listitem: Uptime SLA
+      - listitem: SSO support
+      - listitem: Priority support
+```
+
+# Test source
+
+```ts
+  119 |       'Teams and Organizations',
+  120 |       'Share Templates with teams',
+  121 |       'Share Templates with individuals',
+  122 |       'BYOC - Store your documents in your own cloud storage',
+  123 |       'Request Payments (coming soon)',
+  124 |       'Mobile app (coming soon)',
+  125 |     ],
+  126 |   },
+  127 | };
+  128 |
+  129 | const randomToken = () => Math.random().toString(36).slice(2, 10);
+  130 | const uniqueEmail = (prefix = 'kelvinsjohnson24') => `${prefix}+${Date.now()}${randomToken()}@gmail.com`;
+  131 | const uniqueNxgEmail = () => `pravin+${Date.now()}${randomToken()}@nxglabs.in`;
+  132 |
+  133 | const signupData = (overrides = {}) => ({
+  134 |   name: 'Mathew Wade',
+  135 |   email: uniqueEmail(),
+  136 |   phone: DEFAULT_PHONE,
+  137 |   company: 'qikAi pvt ltd',
+  138 |   jobTitle: 'Hr Executive',
+  139 |   password: DEFAULT_PASSWORD,
+  140 |   ...overrides,
+  141 | });
+  142 |
+  143 | /**
+  144 |  * @param {import('@playwright/test').Page} page
+  145 |  */
+  146 | async function openSignupPage(page) {
+  147 |   const commonSteps = new CommonSteps(page);
+  148 |   await commonSteps.navigateToBaseUrl();
+  149 |   await page.getByRole('button', { name: 'Create account' }).click();
+  150 |   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
+  151 | }
+  152 |
+  153 | /**
+  154 |  * @param {import('@playwright/test').Page} page
+  155 |  * @param {{name: string, email: string, phone: string, company: string, jobTitle: string, password: string, acceptTerms?: boolean}} param1
+  156 |  */
+  157 | async function fillSignupForm(page, { name, email, phone, company, jobTitle, password, acceptTerms = true }) {
+  158 |   await page.locator(locators.nameInput).first().fill(name);
+  159 |   await page.locator(locators.emailInput).fill(email);
+  160 |   await page.locator(locators.phoneInput).fill(phone);
+  161 |   await page.locator(locators.companyInput).fill(company);
+  162 |   await page.locator(locators.jobTitleInput).fill(jobTitle);
+  163 |   await page.locator(locators.passwordInput).fill(password);
+  164 |
+  165 |   const terms = page.locator(locators.termsCheckbox);
+  166 |   if (acceptTerms && !(await terms.isChecked())) {
+  167 |     await terms.click();
+  168 |   }
+  169 | }
+  170 |
+  171 | /**
+  172 |  * @param {import('@playwright/test').Page} page
+  173 |  */
+  174 | async function submitRegistration(page) {
+  175 |   await page.locator(locators.registerButton).click();
+  176 | }
+  177 |
+  178 | /**
+  179 |  * @param {import('@playwright/test').Page} page
+  180 |  * @param {{heading: string, billingText?: string}} plan
+  181 |  * @returns {import('@playwright/test').Locator}
+  182 |  */
+  183 | function planCard(page, plan) {
+  184 |   return page.locator('li', {
+  185 |     has: page.getByRole('heading', { name: plan.heading }),
+  186 |     hasText: plan.billingText,
+  187 |   });
+  188 | }
+  189 |
+  190 | /**
+  191 |  * @param {import('@playwright/test').Page} page
+  192 |  * @param {{billingText?: string}} plan
+  193 |  */
+  194 | async function chooseBillingCadence(page, plan) {
+  195 |   if (!plan.billingText) return;
+  196 |
+  197 |   const cadence = plan.billingText.includes('Monthly') ? 'Monthly' : 'Yearly';
+  198 |   const candidates = [
+  199 |     page.getByRole('button', { name: new RegExp(cadence, 'i') }),
+  200 |     page.getByRole('tab', { name: new RegExp(cadence, 'i') }),
+  201 |     page.getByLabel(new RegExp(cadence, 'i')),
+  202 |     page.getByText(new RegExp(`^${cadence}$`, 'i')),
+  203 |   ];
+  204 |
+  205 |   for (const candidate of candidates) {
+  206 |     if (await candidate.first().isVisible().catch(() => false)) {
+  207 |       await candidate.first().click();
+  208 |       return;
+  209 |     }
+  210 |   }
+  211 | }
+  212 |
+  213 | /**
+  214 |  * @param {import('@playwright/test').Locator} card
+  215 |  * @param {{priceText?: string, billingText?: string, cardText: string[]}} plan
+  216 |  */
+  217 | async function expectPlanCardDetails(card, plan) {
+  218 |   await expect(card).toBeVisible({ timeout: 120000 });
+> 219 |   if (plan.priceText) await expect(card).toContainText(plan.priceText);
+      |                                          ^ Error: Timed out 5000ms waiting for expect(locator).toContainText(expected)
+  220 |   if (plan.billingText) await expect(card).toContainText(plan.billingText);
+  221 |
+  222 |   for (const text of plan.cardText) {
+  223 |     await expect(card).toContainText(text);
+  224 |   }
+  225 | }
+  226 |
+  227 | /**
+  228 |  * @param {import('@playwright/test').Page} page
+  229 |  */
+  230 | async function selectFreePlan(page) {
+  231 |   await expect(page.getByRole('heading', { name: planDefinitions.free.heading })).toBeVisible({ timeout: 120000 });
+  232 |   for (const text of planDefinitions.free.cardText) {
+  233 |     await expect(page.locator('#root')).toContainText(text);
+  234 |   }
+  235 |
+  236 |   const freeCard = page.locator('li', {
+  237 |     has: page.getByRole('heading', { name: planDefinitions.free.heading }),
+  238 |   });
+  239 |   await freeCard.getByRole('button').click();
+  240 |   await closeModalIfVisible(page);
+  241 |   await expect(page.locator('//div[@id="profile-menu"]//parent::button[text()="Upgrade now"]')).toBeVisible();
+  242 | }
+  243 |
+  244 | /**
+  245 |  * @param {import('@playwright/test').Page} page
+  246 |  * @param {{heading: string, billingText?: string, priceText?: string, cardText: string[]}} plan
+  247 |  */
+  248 | async function selectPaidPlan(page, plan) {
+  249 |   await chooseBillingCadence(page, plan);
+  250 |   const card = planCard(page, plan);
+  251 |   await expectPlanCardDetails(card, plan);
+  252 |   await card.getByRole('button', { name: 'Subscribe' }).click();
+  253 |   await page.locator(locators.proceedButton).click();
+  254 | }
+  255 |
+  256 | /**
+  257 |  * @param {import('@playwright/test').Page} page
+  258 |  * @param {string} email
+  259 |  */
+  260 | async function completeOtpVerification(page, email) {
+  261 |   await page.locator(locators.sendOtpButton).click();
+  262 |   const otp = await fetchOTP({
+  263 |     ...gmailConfig,
+  264 |     otpRegex: /(\d{6})/,
+  265 |     expectedTo: email,
+  266 |   });
+  267 |
+  268 |   for (let i = 0; i < otp.length; i++) {
+  269 |     await page.locator(`(//input[@type='tel' and @maxlength='1'])[${i + 1}]`).fill(otp[i]);
+  270 |   }
+  271 |
+  272 |   await page.getByRole('button', { name: 'Proceed' }).click();
+  273 | }
+  274 |
+  275 | /**
+  276 |  * @param {import('@playwright/test').Page} page
+  277 |  */
+  278 | async function fillBillingAddress(page) {
+  279 |   await page.locator(locators.billingStreet).fill('120 wood street');
+  280 |   await page.selectOption(locators.billingState, { label: 'California' });
+  281 |   await page.locator(locators.billingCity).fill('San Francisco');
+  282 |   await page.locator(locators.billingZip).fill('34554');
+  283 |   await page.getByRole('button', { name: 'Review Order' }).click();
+  284 |   await page.getByRole('button', { name: 'Proceed' }).click();
+  285 | }
+  286 |
+  287 | /**
+  288 |  * @param {import('@playwright/test').Page} page
+  289 |  */
+  290 | async function payByStripeTestCard(page) {
+  291 |   await page.waitForSelector('iframe');
+  292 |
+  293 |   const cardNumberFrame = page.frameLocator("iframe[title*='card number']");
+  294 |   await cardNumberFrame.locator("input[name='cardnumber']").fill(TEST_CARD.number);
+  295 |
+  296 |   const expFrame = page.frameLocator("iframe[title*='expiration']");
+  297 |   await expFrame.locator("input[name='exp-date'], input[name='expdate']").fill(TEST_CARD.expiry);
+  298 |
+  299 |   const cvcFrame = page.frameLocator("iframe[title*='CVC'], iframe[title*='security']");
+  300 |   await cvcFrame.locator("input[name='cvc']").fill(TEST_CARD.cvc);
+  301 |
+  302 |   await page.getByRole('button', { name: /Pay/i }).click();
+  303 | }
+  304 | /**
+  305 |  * @param {import('@playwright/test').Page} page
+  306 |  */
+  307 | async function payByStripeTestCardMonthly(page) {
+  308 |   await page.waitForSelector('iframe');
+  309 |
+  310 |   const cardNumberFrame = page.frameLocator("iframe[title*='card number']");
+  311 |   await cardNumberFrame.locator("input[name='cardnumber']").fill(TEST_CARD.number);
+  312 |
+  313 |   const expFrame = page.frameLocator("iframe[title*='expiration']");
+  314 |   await expFrame.locator("input[name='exp-date'], input[name='expdate']").fill(TEST_CARD.expiry);
+  315 |
+  316 |   const cvcFrame = page.frameLocator("iframe[title*='CVC'], iframe[title*='security']");
+  317 |   await cvcFrame.locator("input[name='cvc']").fill(TEST_CARD.cvc);
+  318 |     await page.getByRole('button', { name: 'Start Trial' }).click();
+  319 | }
+```

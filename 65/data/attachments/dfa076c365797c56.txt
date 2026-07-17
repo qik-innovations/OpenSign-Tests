@@ -1,2 +1,0 @@
-signature widget dragged and dropped
-Document not found in the table, successfully deleted!
