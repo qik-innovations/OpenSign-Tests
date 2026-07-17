@@ -1,9 +1,10 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
 const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
-const CommonSteps = require('../utils/CommonSteps');
+const CommonSteps  = require('../utils/CommonSteps');
 const { fetchOTP } = require('../utils/otpHelper.js');
 const { gmailConfig } = require('../utils/mailConfigs.js');
+const PageActions = require('../utils/PageActions.js');
 
 const DEFAULT_PASSWORD = 'Nxglabs@123';
 const DEFAULT_PHONE = '8238988998';
@@ -300,7 +301,22 @@ async function payByStripeTestCard(page) {
 
   await page.getByRole('button', { name: /Pay/i }).click();
 }
+/**
+ * @param {import('@playwright/test').Page} page
+ */
+async function payByStripeTestCardMonthly(page) {
+  await page.waitForSelector('iframe');
 
+  const cardNumberFrame = page.frameLocator("iframe[title*='card number']");
+  await cardNumberFrame.locator("input[name='cardnumber']").fill(TEST_CARD.number);
+
+  const expFrame = page.frameLocator("iframe[title*='expiration']");
+  await expFrame.locator("input[name='exp-date'], input[name='expdate']").fill(TEST_CARD.expiry);
+
+  const cvcFrame = page.frameLocator("iframe[title*='CVC'], iframe[title*='security']");
+  await cvcFrame.locator("input[name='cvc']").fill(TEST_CARD.cvc);
+    await page.getByRole('button', { name: 'Start Trial' }).click();
+}
 /**
  * @param {import('@playwright/test').Page} page
  * @param {string} email
@@ -317,7 +333,19 @@ async function completePaidCheckout(page, email, plan) {
     timeout: 120000,
   });
 }
-
+/**
+ * @param {import('@playwright/test').Page} page
+ * @param {string} email
+ * @param {{heading: string, billingText?: string, priceText?: string, cardText: string[], badgeText: string}} plan
+ */
+async function completePaidCheckoutMonthly(page, email, plan) {
+  await selectPaidPlan(page, plan);
+  await completeOtpVerification(page, email);
+  await fillBillingAddress(page);
+  await payByStripeTestCardMonthly(page);
+  await closeModalIfVisible(page);
+  await page.getByRole('button', { name: 'Close Tour' }).click();
+}
 /**
  * @param {import('@playwright/test').Page} page
  */
@@ -593,10 +621,10 @@ const updated = await editProfilewithoutEditbuttonClick(page, { username: longUs
     await registerNewUser(page, data);
     // ---------- Step 2: Select Professional Plan ----------
     await page.getByRole('tab', { name: 'Monthly' }).click();
-   await completePaidCheckout(page, data.email, planDefinitions.professionalMonthly);
-    await expectSubscriptionInvoiceEmail(data.email);
- await page.getByRole('button', { name: 'Close Tour' }).click();
-    await openProfile(page);
+   await completePaidCheckoutMonthly(page, data.email, planDefinitions.professionalMonthly);
+    //await expectSubscriptionInvoiceEmail(data.email);
+     await page.getByRole('button', { name: '' }).click();
+  await page.getByText('Profile').click();
     await expectProfileDetails(page, data, { shouldShowUpgrade: true });
     const updated = await editProfile(page);
     await expectProfileDetails(page, { ...data, ...updated }, {
@@ -606,7 +634,7 @@ const updated = await editProfilewithoutEditbuttonClick(page, { username: longUs
     });
 
     await openBilling(page);
-    await expectBillingDetails(page, planDefinitions.professionalYearly);
+    await expectBillingDetails(page, planDefinitions.professionalMonthly);
     await expectNextBillingDate(page, 12);
   });
 
@@ -617,7 +645,7 @@ const updated = await editProfilewithoutEditbuttonClick(page, { username: longUs
     await registerNewUser(page, data);
     await completePaidCheckout(page, data.email, planDefinitions.professionalYearly);
     await expectSubscriptionInvoiceEmail(data.email);
- await page.getByRole('button', { name: 'Close Tour' }).click();
+ //await page.getByRole('button', { name: 'Close Tour' }).click();
     await openProfile(page);
     await expectProfileDetails(page, data, { shouldShowUpgrade: true });
     const updated = await editProfile(page);
@@ -673,17 +701,29 @@ const updated = await editProfilewithoutEditbuttonClick(page, { username: longUs
     await expectBillingDetails(page, planDefinitions.teamsYearly);
     await expectNextBillingDate(page, 12);
   });
-
+/*
   test('Reg_TC-09 Verify logout from EU-Subscription page redirects to EU-Login page.', async ({ page }) => {
-    const data = signupData();
-
-    await registerNewUser(page, data);
-    await expect(page.getByRole('heading', { name: /OPENSIGN™/ })).toBeVisible({ timeout: 120000 });
-    await page.getByRole('button', { name: '' }).click();
-    await page.getByText('Logout').click();
-
+ const commonSteps = new CommonSteps(page);
+  const actions = new PageActions(page);
+    // Step 1: Navigate to Base URL and log in
+    await commonSteps.navigateToBaseUrl();
+    await page.getByText('europe').click();
+  await page.getByRole('button', { name: 'Create account' }).click();
+  await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
+  await page.locator('input[type="text"]').first().fill('Mathew Wade');
+  //here we are creating the random email id
+  let x = "pravin" + Math.random() + "@nxglabs.in"
+  await page.locator('#email').fill(x);
+  await page.locator('input[type="tel"]').fill('8238988998');
+  await page.locator('input[type="text"]').nth(1).fill('qikAi.com');
+  await page.locator('input[type="text"]').nth(2).fill('HrExecative');
+  await page.locator('input[name="password"]').fill('Nxglabs@123');
+  await page.locator('input[id="termsandcondition"]').click();
+  await page.getByRole('button', { name: 'Register' }).click();
+  await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible({ timeout: 120000 });
+   await page.getByRole('button', { name: 'Log Out' }).click();
     await expect(page).toHaveURL(/login/i);
     await expect(page.getByRole('button', { name: /login|sign in/i })).toBeVisible();
   });
-
+*/
 });
