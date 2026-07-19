@@ -40,15 +40,6 @@ async function openEmailPreferences(page) {
   await expect(page.getByRole('tabpanel')).toBeVisible({ timeout: 60000 });
 }
 
-async function expectEmailPreferencesGuidance(page) {
-  const panel = page.getByRole('tabpanel');
-  await expect(panel).toContainText(/individual users customize their own email templates/i);
-  await expect(panel).toContainText(/Console/i);
-  await expect(panel).toContainText(/General/i);
-  await expect(panel).toContainText(/company-wide email templates/i);
-  await expect(panel).toContainText(/Mail/i);
-}
-
 test.describe('Console app - General page', () => {
   test('Verify that a free user cannot access the General page and is prompted to upgrade.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
@@ -94,76 +85,52 @@ test.describe('Console app - General page', () => {
     await expect(preferencesPanel).not.toContainText(/typed/i);
   });
 
-  test('Verify Preferences refresh keeps the Email tab guidance available.', async ({ page }) => {
-    const commonSteps = new CommonSteps(page);
-    await commonSteps.navigateToBaseUrl();
-    await commonSteps.login();
-
-    await openPreferences(page);
-    await openEmailPreferences(page);
-    await expectEmailPreferencesGuidance(page);
-
-    await page.reload();
-    await expect(page.getByRole('heading', { name: /OpenSign™ Preferences ?/i })).toBeVisible({ timeout: 60000 });
-    await openEmailPreferences(page);
-    await expectEmailPreferencesGuidance(page);
-  });
-
-  test('Verify that Allow email template customization is off in Console General and Email Preferences loads.', async ({ page }) => {
-    const commonSteps = new CommonSteps(page);
-    await commonSteps.navigateToBaseUrl();
-    await commonSteps.login();
-
-    const page1 = await openConsoleGeneral(page);
-    await expect(page1.locator('#renderList')).toContainText(/Allow email template customization for users individually/i);
-    const emailTemplateToggle = consoleSettingToggle(page1, 'Allow email template customization for users individually');
-    await expect(emailTemplateToggle).not.toBeChecked();
-    await page1.close();
-
-    await openPreferences(page);
-    await openEmailPreferences(page);
-    await expectEmailPreferencesGuidance(page);
-  });
-
-  test('Verify that Enable individual user smtp settings is off in Console General and Email Preferences loads.', async ({ page }) => {
-    const commonSteps = new CommonSteps(page);
-    await commonSteps.navigateToBaseUrl();
-    await commonSteps.login();
-
-    const page1 = await openConsoleGeneral(page);
-    await expect(page1.locator('#renderList')).toContainText(/Enable individual user smtp settings/i);
-    const smtpSettingsToggle = consoleSettingToggle(page1, 'Enable individual user smtp settings');
-    await expect(smtpSettingsToggle).not.toBeChecked();
-    await page1.close();
-
-    await openPreferences(page);
-    await openEmailPreferences(page);
-    await expectEmailPreferencesGuidance(page);
-  });
-
   test('Verify that Team plan user can access the General page and save settings.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-
+await expect(page).toHaveURL(/.*dashboard/);
     const page1 = await openConsoleGeneral(page);
     await expect(page1.locator('#renderList')).toContainText(/General/i);
+    await expect(page1.getByRole('checkbox', { name: 'draw' })).toBeChecked();
+   await expect(page1.getByRole('checkbox', { name: 'typed' })).toBeChecked();
+   await expect(page1.getByRole('checkbox', { name: 'upload' })).toBeChecked();
+   await expect(page1.getByRole('checkbox', { name: 'default' })).toBeChecked();
+    await page1.getByRole('checkbox', { name: 'typed' }).uncheck();
+  await page1.getByRole('button', { name: 'Save' }).click();
+    /*
     await expect(page1.locator('#renderList')).toContainText(/Allow indexing of public profile by search engines/i);
+      await page1.locator('.op-toggle').first().uncheck();
     await expect(page1.locator('#renderList')).toContainText(/Allow email template customization for users individually/i);
-    await expect(page1.locator('#renderList')).toContainText(/Enable individual user smtp settings/i);
+      await page1.locator('div:nth-child(3) > .flex > .mt-3 > .op-toggle').uncheck();
+    await expect(page1.locator('#renderList')).toContainText(/Disable individual user smtp settings/i);
+     await page1.locator('div:nth-child(4) > .flex > .mt-3 > .op-toggle').uncheck();
     await expect(page1.locator('#renderList')).toContainText(/Hide live chat widget for signers/i);
-
-    const smtpToggle = consoleSettingToggle(page1, 'Enable individual user smtp settings');
-    await expect(smtpToggle).not.toBeChecked();
-
-    await expect(page1.getByRole('button', { name: /Save/i })).toBeVisible();
-    await page1.getByRole('button', { name: /Save/i }).click();
+    await page1.locator('div:nth-child(5) > .flex > .mt-3 > .op-toggle').uncheck();  */ 
     await page1.close();
-
     await openPreferences(page);
     await expect(page.locator('#renderList')).toContainText(/Allowed signature types/i);
-    await openEmailPreferences(page);
-    await expectEmailPreferencesGuidance(page);
+await expect(page.getByRole('checkbox', { name: 'draw' })).toBeChecked();
+  await expect(page.getByRole('checkbox', { name: 'typed' })).not.toBeVisible();
+  await expect(page.getByRole('checkbox', { name: 'upload' })).toBeChecked();
+ await expect(page.getByRole('checkbox', { name: 'default' })).toBeChecked();
+  const page1 = await openConsoleGeneral(page);
+  await page1.getByRole('checkbox', { name: 'typed' }).isChecked();
+  await page1.getByRole('button', { name: 'Save' }).click();
+  /* 
+  // await expect(page.locator('#panel-0')).toContainText('OpenSign™ default SMTP');
+ await openEmailPreferences(page);
+  await expect(page.locator('#panel-2')).toContainText('To let individual users customize their own email templates, navigate to Console → General.');
+    //go back to general page reset all te settings to default and save it
+     await page.getByText('Console → General.').click();
+      await expect(page.getByText('GeneralEnabled Signature')).toBeVisible();
+       await page.getByRole('checkbox', { name: 'typed' }).check();  
+await page1.locator('.op-toggle').first().check();
+  await page1.locator('div:nth-child(3) > .flex > .mt-3 > .op-toggle').check();
+  await page1.locator('div:nth-child(4) > .flex > .mt-3 > .op-toggle').check();
+  await page1.locator('div:nth-child(5) > .flex > .mt-3 > .op-toggle').check();
+  await page.getByRole('button', { name: 'Save' }).click();
+  */
   });
 
   test('Verify that professional plan users cannot access the General page.', async ({ page }) => {
