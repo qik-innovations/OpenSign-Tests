@@ -1,4 +1,0 @@
-FreeplanUsername is empty. Running signup test...
-✅ Signup successful. User: pravin+0.9331480424765763@nxglabs.in
-signature widget dragged and dropped
-Element not found or not interactable, continuing execution.

@@ -1,0 +1,22 @@
+Dragged and dropped widget with label 'signature' to coordinates (600, 300).
+Save button clicked!
+Dragged and dropped widget with label 'stamp' to coordinates (600, 360).
+Image Path: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/TestData/Images/stamp.jpg
+Stamp image uploaded successfully.
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'initials' to coordinates (600, 420).
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'name' to coordinates (600, 450).
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'job title' to coordinates (600, 480).
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'company' to coordinates (600, 520).
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'checkbox' to coordinates (600, 600).
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'image' to coordinates (600, 630).
+Image uploaded successfully.
+Save button in signer modal clicked.
+Dragged and dropped widget with label 'email' to coordinates (600, 650).
+Save button in signer modal clicked.
+Finish button on placeholder clicked.

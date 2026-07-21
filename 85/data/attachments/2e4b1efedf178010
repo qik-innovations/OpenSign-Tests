@@ -1,0 +1,370 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Contact >> Verify that user can add a new contact.
+- Location: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js:37:1
+
+# Error details
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for getByRole('row', { name: 'Pravin Shej ps+12@tim.in' }).getByRole('button').nth(1)
+    - locator resolved to <button title="Delete" class="op-btn-secondary op-btn op-btn-sm">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <dialog id="selectSignerModal" class=" op-modal op-modal-open">…</dialog> intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <dialog id="selectSignerModal" class=" op-modal op-modal-open">…</dialog> intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    225 × waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <dialog id="selectSignerModal" class=" op-modal op-modal-open">…</dialog> intercepts pointer events
+      - retrying click action
+        - waiting 500ms
+
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Contact.spec.js:62:104
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - button ""
+  - img "logo"
+  - text: TEAM
+  - button "Open app drawer": 
+  - img "img"
+  - button "Pravin Testing account"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github"
+  - link "OpenSign's LinkedIn"
+  - link "OpenSign's Twitter"
+  - link "OpenSign's Discord"
+- main:
+  - text: Contactbook
+  - searchbox "Search contacts…": pravin shej
+  - text:  
+  - table:
+    - rowgroup:
+      - row "Name  Email Phone Company Job title Action":
+        - cell "Name ":
+          - text: Name
+          - button ""
+        - cell "Email"
+        - cell "Phone"
+        - cell "Company"
+        - cell "Job title"
+        - cell "Action"
+    - rowgroup:
+      - row "Pravin Shej ps+57@tim.in 924820934 Nxg Labs QA Lead  ":
+        - cell "Pravin Shej"
+        - cell "ps+57@tim.in"
+        - cell "924820934"
+        - cell "Nxg Labs"
+        - cell "QA Lead"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Pravin Shej ps+96@tim.in 0924820934 - -  ":
+        - cell "Pravin Shej"
+        - cell "ps+96@tim.in"
+        - cell "0924820934"
+        - cell "-"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Pravin Shej ps+92@tim.in 0924820934 - -  ":
+        - cell "Pravin Shej"
+        - cell "ps+92@tim.in"
+        - cell "0924820934"
+        - cell "-"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Pravin Shej ps+52@tim.in 0924820934 - -  ":
+        - cell "Pravin Shej"
+        - cell "ps+52@tim.in"
+        - cell "0924820934"
+        - cell "-"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Pravin Shej ps+12@tim.in 0924820934 - -  ":
+        - cell "Pravin Shej"
+        - cell "ps+12@tim.in"
+        - cell "0924820934"
+        - cell "-"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Pravin Shej ps+80@tim.in 0924820934 - -  ":
+        - cell "Pravin Shej"
+        - cell "ps+80@tim.in"
+        - cell "0924820934"
+        - cell "-"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Pravin Shej ps+38@tim.in 0924820934 - -  ":
+        - cell "Pravin Shej"
+        - cell "ps+38@tim.in"
+        - cell "0924820934"
+        - cell "-"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Pravin Shej ps+48@tim.in 0924820934 - -  ":
+        - cell "Pravin Shej"
+        - cell "ps+48@tim.in"
+        - cell "0924820934"
+        - cell "-"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Pravin Shej ps+31@tim.in 0924820934 - -  ":
+        - cell "Pravin Shej"
+        - cell "ps+31@tim.in"
+        - cell "0924820934"
+        - cell "-"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+      - row "Pravin Shej ps+39@tim.in 0924820934 - -  ":
+        - cell "Pravin Shej"
+        - cell "ps+39@tim.in"
+        - cell "0924820934"
+        - cell "-"
+        - cell "-"
+        - cell " ":
+          - button ""
+          - button ""
+  - button "Prev"
+  - button "1"
+  - button "2"
+  - button "Next"
+  - dialog:
+    - heading "Add contact" [level=3]
+    - button "✕"
+    - text: Name *
+    - textbox "Name *": Pravin Shej
+    - text: Email *
+    - textbox "Email *": ps+12@tim.in
+    - text: Phone
+    - textbox "Phone": "924820934"
+    - text: Company
+    - textbox "Company": Nxg Labs
+    - text: Job title
+    - textbox "Job title": QA Lead
+    - button "Hide optional details"
+    - button "Submit"
+    - button "Reset"
+  - complementary:
+    - paragraph: "All rights reserved © 2026 OpenSign™ ( version: v2.41.0 )"
+```
+
+# Test source
+
+```ts
+   1 |
+   2 | const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+   3 | const { test, expect } = require('@playwright/test');
+   4 | const path = require('path');
+   5 | const CommonSteps = require('../utils/CommonSteps');
+   6 |
+   7 | const locators = {
+   8 |   createAccountButton: 'button[name="Create account"]',
+   9 |   nameInput: 'input[type="text"]',
+   10 |   emailInput: '#email',
+   11 |   phoneInput: 'input[type="tel"]',
+   12 |   companyInput: '//input[4]',
+   13 |   jobTitleInput: '//input[5]',
+   14 |   passwordInput: 'input[name="password"]',
+   15 |   termsCheckbox: 'input[id="termsandcondition"]',
+   16 |   registerButton: '//button[contains(.,\'Register\')]',
+   17 |   freePlanButton: 'li:has-text("OPENSIGN™ FREEFreeBilled") button',
+   18 |   professionalPlanButton: 'li:has-text("OPENSIGN™ PROFESSIONAL$9.99/") button',
+   19 |   proceedButton: "//span[@class='btn-txt' and text()='Proceed']",
+   20 |   addressField: '//input[@id=\'billing_street\']',
+   21 |   cityField: '//input[@id=\'billing_city\']',
+   22 |   zipCodeField: '//input[@id=\'billing_zip\']',
+   23 |   sameAsBillingCheckbox: 'input[name="sameasbillingaddress"]',
+   24 |   reviewOrderButton: '//button[@class=\'btn-txt\' and text() =\'Review Order\']',
+   25 | };
+   26 |
+   27 | const fillSignupForm = async (page, { name, email, phone, company, jobTitle, password }) => {
+   28 |   await page.locator(locators.nameInput).first().fill(name);
+   29 |   await page.locator(locators.emailInput).fill(email);
+   30 |   await page.locator(locators.phoneInput).fill(phone);
+   31 |   await page.locator(locators.companyInput).fill(company);
+   32 |   await page.locator(locators.jobTitleInput).fill(jobTitle);
+   33 |   await page.locator(locators.passwordInput).fill(password);
+   34 |   await page.locator(locators.termsCheckbox).click();
+   35 | };
+   36 | test.describe('Contact', () => {
+   37 | test('Verify that user can add a new contact.', async ({ page }) => {
+   38 |   const commonSteps = new CommonSteps(page);
+   39 |   // Step 1: Navigate to Base URL and log in
+   40 |   await commonSteps.navigateToBaseUrl();
+   41 |   await commonSteps.login();
+   42 |   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
+   43 |   const title = await page.title();
+   44 |   if (title === 'Contactbook - OpenSign™') {
+   45 |     console.log('Page title is correct: Contactbook - OpenSign™');
+   46 |   } else {
+   47 |     console.error(`Page title is incorrect. Expected: "Contactbook - OpenSign™", Got: "${title}"`);
+   48 |   }
+   49 |   const Randomemail = `ps+${Math.floor(10 + Math.random() * 90)}@tim.in`;
+   50 |         await page.locator("//div[contains(@class, 'cursor-pointer') and contains(@class, 'flex') and .//i[contains(@class, 'fa-square-plus')]]").click();
+   51 |         await page.getByLabel('Name *').fill('Pravin Shej');
+   52 |         await page.getByLabel('Email *').fill(Randomemail);
+   53 |         await page.locator("//dialog[@id='selectSignerModal']//form//button[normalize-space()='Optional details']").click();
+   54 |         await page.locator("//dialog[@id='selectSignerModal']//input[@id='phone']").fill('924820934');
+   55 | await page.locator("//dialog[@id='selectSignerModal']//input[@id='company']").fill('Nxg Labs');
+   56 |         await page.locator("//dialog[@id='selectSignerModal']//input[@id='jobTitle']").fill('QA Lead');
+   57 |         await page.getByRole('button', { name: 'Submit' }).click();
+   58 |         await page.locator("//input[@placeholder='Search contacts…']").fill("Pravin Shej");
+   59 |         await expect(page.locator('tbody')).toContainText(Randomemail);
+   60 |         await expect(page.locator('tbody')).toContainText('924820934');
+   61 |         console.log(`P Shej ${Randomemail}`);
+>  62 |         await page.getByRole('row', { name: `Pravin Shej ${Randomemail}` }).getByRole('button').nth(1).click();
+      |                                                                                                        ^ Error: locator.click: Test timeout of 120000ms exceeded.
+   63 |         await page.getByRole('button', { name: 'Yes' }).click(); 
+   64 | });
+   65 |
+   66 | test('Verify that user cannot add a new contact with an existing email address', async ({ page }) => {
+   67 |   const commonSteps = new CommonSteps(page);
+   68 |
+   69 |   const contactName = 'Pravin Ssss';
+   70 |   const contactEmail = 'pravin+8288@nxglabs.in';
+   71 |
+   72 |   await commonSteps.navigateToBaseUrl();
+   73 |   await commonSteps.login();
+   74 |
+   75 |   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
+   76 |   await page.waitForLoadState('networkidle');
+   77 |
+   78 |   const addContactButton = page.locator(
+   79 |     "//div[contains(@class,'cursor-pointer') and .//i[contains(@class,'fa-square-plus')]]"
+   80 |   );
+   81 |
+   82 |   const closeModalButton = page.locator(
+   83 |     "//dialog[@id='selectSignerModal']//button[text()='✕']"
+   84 |   );
+   85 |
+   86 |   const deleteContactIfExists = async () => {
+   87 |     const maxPages = 5;
+   88 |
+   89 |     for (let i = 0; i < maxPages; i++) {
+   90 |       const row = page.getByRole('row').filter({
+   91 |         hasText: contactEmail,
+   92 |       });
+   93 |
+   94 |       if (await row.count()) {
+   95 |         await row.first().getByRole('button').nth(1).click();
+   96 |         await page.getByRole('button', { name: 'Yes' }).click();
+   97 |         await page.waitForLoadState('networkidle');
+   98 |         return;
+   99 |       }
+  100 |
+  101 |       const nextButton = page.getByRole('button', { name: 'Next' });
+  102 |
+  103 |       if (
+  104 |         (await nextButton.isVisible().catch(() => false)) &&
+  105 |         !(await nextButton.isDisabled())
+  106 |       ) {
+  107 |         await nextButton.click();
+  108 |         await page.waitForLoadState('networkidle');
+  109 |       } else {
+  110 |         break;
+  111 |       }
+  112 |     }
+  113 |   };
+  114 |
+  115 |   try {
+  116 |     // Cleanup before test
+  117 |     await deleteContactIfExists();
+  118 |
+  119 |     // Create contact
+  120 |     await addContactButton.click();
+  121 |
+  122 |     await page.getByLabel('Name *').fill(contactName);
+  123 |     await page.getByLabel('Email *').fill(contactEmail);
+  124 |
+  125 |     await page.getByRole('button', { name: 'Submit' }).click();
+  126 |     await page.waitForLoadState('networkidle');
+  127 |
+  128 |     // Try to create duplicate contact
+  129 |     await addContactButton.click();
+  130 |
+  131 |     await page.getByLabel('Name *').fill('Andrews Wade');
+  132 |     await page.getByLabel('Email *').fill(contactEmail);
+  133 |
+  134 |     // Alert validation is skipped because it is not exposed in Playwright
+  135 |     await page.getByRole('button', { name: 'Submit' }).click();
+  136 |     await page.waitForLoadState('networkidle');
+  137 |
+  138 |     // Close modal if it is still open
+  139 |     if (await closeModalButton.isVisible().catch(() => false)) {
+  140 |       await closeModalButton.click();
+  141 |     }
+  142 |     await page.waitForLoadState('networkidle');
+  143 |     await page.waitForLoadState('networkidle');
+  144 |
+  145 |     const duplicateRows = page.getByRole('row').filter({
+  146 |       hasText: contactEmail,
+  147 |     });
+  148 |
+  149 |     const rowCount = await duplicateRows.count();
+  150 |
+  151 |     console.log(`Duplicate contact count: ${rowCount}`);
+  152 |
+  153 |     if (rowCount === 1) {
+  154 |       console.log('Duplicate contact was not created.');
+  155 |     } else if (rowCount === 0) {
+  156 |       console.log('Contact is not visible in the current table. Skipping duplicate validation.');
+  157 |     } else {
+  158 |       console.log(`Found ${rowCount} contacts with the same email.`);
+  159 |     }
+  160 |   } finally {
+  161 |     // Cleanup
+  162 |     await deleteContactIfExists();
+```

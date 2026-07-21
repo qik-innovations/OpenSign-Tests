@@ -1,0 +1,6 @@
+Browser: chromium, Version: 134.0.6998.35, OS: linux
+Document Title: 2026-07-21T11-59-06-808Z Rename document
+Dragged and dropped widget with label 'signature' to coordinates (600, 300).
+Signature widget dragged and dropped successfully.
+Document Title: 2026-07-21T11-59-12-684Z undefined
+Document not found in the table, successfully deleted!

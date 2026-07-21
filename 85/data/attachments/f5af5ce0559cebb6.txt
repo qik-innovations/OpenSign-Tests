@@ -1,0 +1,11 @@
+Browser: chromium, Version: 134.0.6998.35, OS: linux
+Document Title: 2026-07-21T11-58-21-260Z Recent signatures rquest
+Dragged and dropped widget with label 'signature' to coordinates (600, 250).
+Signature widget dragged and dropped successfully.
+Next button in signer modal clicked.
+Image Path: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/TestData/Images/stamp.jpg
+Stamp image uploaded successfully.
+Next button in signer modal clicked.
+Next button in signer modal clicked.
+Done button in signer modal clicked.
+Finish button in signer modal clicked.

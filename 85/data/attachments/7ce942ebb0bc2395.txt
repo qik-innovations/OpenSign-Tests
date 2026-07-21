@@ -1,0 +1,7 @@
+Browser: chromium, Version: 134.0.6998.35, OS: linux
+Count need your sign 108
+Dragged and dropped widget with label 'signature' to coordinates (600, 300).
+Signature widget dragged and dropped successfully.
+Count need your sign incremnt by 1 109
+new count 109
+Need Your Signature card count increased by one, which is correct.

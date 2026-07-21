@@ -1,0 +1,66 @@
+FreeplanUsername is empty. Running signup test...
+✅ Signup successful. User: kelvinsjohnson24+0.9945737393524241@gmail.com
+Dragged and dropped widget with label 'signature' to coordinates (600, 300).
+Signature widget dragged and dropped successfully.
+Dragged and dropped widget with label 'signature' to coordinates (700, 300).
+Error while verifying signature widget drag-drop: locator.isVisible: Error: strict mode violation: locator('//div[contains(@class,\'signYourselfBlock\')]//div[contains(@class,\'font-medium\') and normalize-space()=\'signature-1\']') resolved to 2 elements:
+    1) <div class=" font-medium">signature-1</div> aka locator('[id="\\31 9073322"]').getByText('signature-')
+    2) <div class=" font-medium">signature-1</div> aka locator('[id="\\38 6159068"]').getByText('signature-')
+
+Call log:
+    - checking visibility of locator('//div[contains(@class,\'signYourselfBlock\')]//div[contains(@class,\'font-medium\') and normalize-space()=\'signature-1\']')
+
+    at CommonSteps.dragAndDropSignatureWidget (/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/utils/CommonSteps.js:184:30)
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/CreateTemplate.spec.js:285:1 {
+  [Symbol(step)]: {
+    stepId: 'pw:api@67',
+    location: {
+      file: '/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/utils/CommonSteps.js',
+      line: 184,
+      column: 30,
+      function: 'CommonSteps.dragAndDropSignatureWidget'
+    },
+    category: 'pw:api',
+    title: "locator.isVisible(//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1'])",
+    apiName: 'locator.isVisible',
+    params: {
+      selector: "//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1']",
+      strict: true
+    },
+    boxedStack: undefined,
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'pw:api@67'
+    },
+    complete: [Function: complete],
+    endWallTime: 1784634635869,
+    error: {
+      message: "Error: locator.isVisible: Error: strict mode violation: locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']') resolved to 2 elements:\n" +
+        `    1) <div class=" font-medium">signature-1</div> aka locator('[id="\\\\31 9073322"]').getByText('signature-')\n` +
+        `    2) <div class=" font-medium">signature-1</div> aka locator('[id="\\\\38 6159068"]').getByText('signature-')\n` +
+        '\n' +
+        'Call log:\n' +
+        "\x1B[2m    - checking visibility of locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']')\x1B[22m\n",
+      stack: "Error: locator.isVisible: Error: strict mode violation: locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']') resolved to 2 elements:\n" +
+        `    1) <div class=" font-medium">signature-1</div> aka locator('[id="\\\\31 9073322"]').getByText('signature-')\n` +
+        `    2) <div class=" font-medium">signature-1</div> aka locator('[id="\\\\38 6159068"]').getByText('signature-')\n` +
+        '\n' +
+        'Call log:\n' +
+        "\x1B[2m    - checking visibility of locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']')\x1B[22m\n" +
+        '\n' +
+        '    at CommonSteps.dragAndDropSignatureWidget (/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/utils/CommonSteps.js:184:30)\n' +
+        '    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/CreateTemplate.spec.js:285:1',
+      cause: undefined
+    }
+  }
+}
+📩 Waiting for OTP on: kelvinsjohnson24@gmail.com
+📨 Email received: Security alert
+📬 To: kelvinsjohnson24@gmail.com
+Clean Body: A new sign-in on Windows kelvinsjohnson24@gmail.com We noticed a new sign-in to your Google Account on a Windows device. If this was you, you don’t need to do anything. If not, we’ll help you secure your account. Check activity You can also see security activity at https://myaccount.google.com/notifications You received this email to let you know about important changes to your Google Account and services. &copy; 2026 Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA
+📨 Email received: Your OpenSign™ OTP
+📬 To: kelvinsjohnson24+0.9945737393524241@gmail.com
+⏭ Skipping (not for kelvinsjohnson24@gmail.com)
