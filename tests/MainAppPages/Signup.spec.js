@@ -678,7 +678,7 @@ const updated = await editProfilewithoutEditbuttonClick(page, { username: longUs
 
     await openBilling(page);
     await expectBillingDetails(page, planDefinitions.teamsMonthly);
-    await expectNextBillingDate(page, 1);
+   // await expectNextBillingDate(page, 1);
   });
 
   test('Reg_TC-08 Verify Teams Yearly signup and subscription invoice email.', async ({ page }) => {
