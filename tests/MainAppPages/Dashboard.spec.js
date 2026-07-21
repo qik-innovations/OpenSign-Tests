@@ -79,13 +79,14 @@ await expect(page.locator('//div[text()="Request signatures"]//parent::div[@clas
     await page.locator('input[name="Name"]').click();
     await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
     await page.getByRole('button', { name: 'Next' }).click();
-    await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+    await page.waitForSelector("//div[contains(@class, 'react-pdf__Document')]", { timeout: 90000 }); 
     await page.waitForLoadState("networkidle");
     await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });    
      await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
 await page.getByRole('button', { name: 'Next' }).click();
+await page.locator('//span[text()="Send to Email"]').click();
 await page.getByRole('button', { name: 'Send' }).click();
-await page.getByRole('button', { name: 'No' }).click();
+await page.locator('//button[@class="op-btn op-btn-ghost text-base-content" and text()="No"]').click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
 //await expect(page.locator('#renderList')).toContainText('Drafts');
@@ -133,41 +134,10 @@ await expect(page.locator('#renderList')).toContainText('Need your signature');
     await page.locator('input[name="Name"]').click();
     await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
     await page.getByRole('button', { name: 'Next' }).click();
-    await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+    await page.waitForSelector("//div[contains(@class, 'react-pdf__Document')]", { timeout: 90000 }); 
     await page.waitForLoadState("networkidle");
     await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-      await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-  const rowLocator = page.locator('//div[@class="select-none-cls overflow-hidden w-full h-full text-black flex flex-col justify-center items-center"]//div[@class="font-medium"and text()="signature"]');
-
-  for (let i = 0; i < 5; i++) { // Retry up to 5 times
-      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-      
-          console.log("signature widget dragged and dropped");
-          break; // Exit the loop if successfully clicked
-      } else {
-          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
-  
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(800, 300);
-          await page.mouse.up();
-          
-          // Wait a bit before checking again
-          await page.waitForTimeout(1000);
-      }
-  
-      if (i === 5) {
-          console.log("signature widget did not become visible on the document after multiple attempts.");
-      }
-  }
-} catch (error) {
-  console.log("Element not found or not interactable, continuing execution.");
- 
-}
+     await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
 await page.getByRole('button', { name: 'Next' }).click();
 await page.getByRole('button', { name: 'Send' }).click();
 await page.getByRole('button', { name: 'Close' }).click();

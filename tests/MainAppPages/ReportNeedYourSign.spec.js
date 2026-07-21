@@ -25,7 +25,7 @@ test('Verify that owner can create the document and sign it from the need your s
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
-  await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  await page.waitForSelector("//div[contains(@class, 'react-pdf__Document')]", { timeout: 90000 }); 
 await commonSteps.dragAndDropSignatureWidget('signature', 400, 200);
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
