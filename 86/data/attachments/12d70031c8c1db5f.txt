@@ -1,0 +1,7 @@
+signature widget dragged and dropped
+Next button in signer modal clicked.
+Image Path: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/TestData/Images/stamp.jpg
+Stamp image uploaded successfully.
+Next button in signer modal clicked.
+Done button in signer modal clicked.
+Finish button in signer modal clicked.

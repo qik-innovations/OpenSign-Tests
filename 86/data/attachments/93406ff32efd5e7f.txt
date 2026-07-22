@@ -1,0 +1,4 @@
+browser name: chromium
+Browser version: 149.0.7827.55
+Browser Platform: linux
+URL after navigating to login while logged in: https://staging-app.opensignlabs.com/dashboard/35KBoSgoAK

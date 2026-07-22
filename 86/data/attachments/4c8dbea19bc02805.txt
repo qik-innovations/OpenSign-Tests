@@ -1,0 +1,3 @@
+Browser: chromium, Version: 149.0.7827.55, OS: linux
+signature widget dragged and dropped
+"Copy widget to" is visible. Stopping the loop.

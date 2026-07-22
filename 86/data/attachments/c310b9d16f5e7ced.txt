@@ -1,0 +1,4 @@
+Dragged and dropped widget with label 'signature' to coordinates (600, 300).
+Signature widget dragged and dropped successfully.
+Done button in signer modal clicked.
+Finish button in signer modal clicked.

@@ -1,0 +1,650 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/Dashboard.spec.js >> Verify that pagination is functioning correctly in the dashboard drafts document.
+- Location: tests/MainAppPages/Dashboard.spec.js:229:1
+
+# Error details
+
+```
+Error: expect(received).not.toEqual(expected) // deep equality
+
+Expected: not ["Sample Test Doc LineExpires 06-Aug-2026Please review and sign this documentOpenSign™ DriveDownloadPravin Testing accountView", "Sample Test Doc LineExpires 06-Aug-2026Please review and sign this documentOpenSign™ DriveDownloadPravin Testing accountView", "Sample Test Doc LineExpires 06-Aug-2026Please review and sign this documentOpenSign™ DriveDownloadPravin Testing accountView", "Sample Test Doc LineExpires 06-Aug-2026Please review and sign this documentOpenSign™ DriveDownloadPravin Testing accountView", "Sample Test Doc LineExpires 06-Aug-2026Please review and sign this documentOpenSign™ DriveDownloadPravin Testing accountView"]
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]: "New feature: Protect your account with Two-Factor Authentication (2FA) and enjoy the future of login with Passkeys — no passwords needed. — Setup now."
+      - generic [ref=e9] [cursor=pointer]:
+        - img [ref=e10]
+        - generic [ref=e14]: 
+    - generic [ref=e15]:
+      - button "" [ref=e17] [cursor=pointer]:
+        - generic [ref=e18]: 
+      - img "logo" [ref=e21] [cursor=pointer]
+      - generic [ref=e22]:
+        - generic [ref=e24] [cursor=pointer]: TEAM
+        - button "Open app drawer" [ref=e27] [cursor=pointer]:
+          - generic [ref=e28]: 
+        - img "img" [ref=e30] [cursor=pointer]
+        - button "Pravin Testing account" [ref=e31] [cursor=pointer]
+        - generic [ref=e32]:
+          - button "" [ref=e33] [cursor=pointer]:
+            - generic [ref=e34]: 
+          - text:        
+  - generic [ref=e35]:
+    - complementary [ref=e36]:
+      - generic [ref=e37]:
+        - img "Profile" [ref=e39] [cursor=pointer]
+        - generic [ref=e40]:
+          - paragraph [ref=e41] [cursor=pointer]: Pravin Testing account
+          - paragraph [ref=e42] [cursor=pointer]: OpenSign pvt ltd
+      - navigation "OpenSign Sidebar Navigation" [ref=e43]:
+        - menubar "OpenSign Sidebar Navigation" [ref=e44]:
+          - menuitem "Dashboard" [ref=e45]:
+            - generic [ref=e47]: 
+            - generic [ref=e48]: Dashboard
+          - menuitem "Sign yourself" [ref=e49]:
+            - generic [ref=e51]: 
+            - generic [ref=e52]: Sign yourself
+          - menuitem "Request signatures" [ref=e53]:
+            - generic [ref=e55]: 
+            - generic [ref=e56]: Request signatures
+          - button " Templates" [ref=e57] [cursor=pointer]:
+            - generic [ref=e59]: 
+            - generic [ref=e60]:
+              - generic [ref=e61]: Templates
+              - generic [ref=e62]: 
+          - menuitem "OpenSign™ Drive" [ref=e63]:
+            - generic [ref=e65]: 
+            - generic [ref=e66]: OpenSign™ Drive
+          - button " Documents" [ref=e67] [cursor=pointer]:
+            - generic [ref=e69]: 
+            - generic [ref=e70]:
+              - generic [ref=e71]: Documents
+              - generic [ref=e72]: 
+          - menuitem "Contactbook" [ref=e73]:
+            - generic [ref=e75]: 
+            - generic [ref=e76]: Contactbook
+          - button " Settings" [ref=e77] [cursor=pointer]:
+            - generic [ref=e79]: 
+            - generic [ref=e80]:
+              - generic [ref=e81]: Settings
+              - generic [ref=e82]: 
+      - generic [ref=e83]:
+        - link "OpenSign's Github" [ref=e84]:
+          - /url: https://github.com/opensignlabs/opensign
+          - generic [ref=e85]: 
+          - generic [ref=e86]: OpenSign's Github
+        - link "OpenSign's LinkedIn" [ref=e87]:
+          - /url: https://www.linkedin.com/company/opensign%E2%84%A2/
+          - generic [ref=e88]: 
+          - generic [ref=e89]: OpenSign's LinkedIn
+        - link "OpenSign's Twitter" [ref=e90]:
+          - /url: https://www.twitter.com/opensignlabs
+          - generic [ref=e91]: 
+          - generic [ref=e92]: OpenSign's Twitter
+        - link "OpenSign's Discord" [ref=e93]:
+          - /url: https://discord.com/invite/xe9TDuyAyj
+          - generic [ref=e94]: 
+          - generic [ref=e95]: OpenSign's Discord
+    - main [ref=e96]:
+      - generic [ref=e97]:
+        - generic [ref=e99]:
+          - generic [ref=e101]:
+            - generic [ref=e103] [cursor=pointer]:
+              - generic [ref=e106]: 
+              - generic [ref=e107]:
+                - text: Sign yourself
+                - generic [ref=e108]: Use this option to sign the document yourself without adding others
+            - generic [ref=e110] [cursor=pointer]:
+              - generic [ref=e113]: 
+              - generic [ref=e114]:
+                - text: Request signatures
+                - generic [ref=e115]: Use this option to request signatures from others and yourself together.
+          - generic [ref=e116]:
+            - generic [ref=e119] [cursor=pointer]:
+              - generic [ref=e120]:
+                - generic [ref=e122]: 
+                - generic [ref=e123]:
+                  - generic [ref=e124]: Need your signature
+                  - generic [ref=e125]: "112"
+              - superscript [ref=e128]:
+                - generic [ref=e129]: "?"
+            - generic [ref=e132] [cursor=pointer]:
+              - generic [ref=e133]:
+                - generic [ref=e135]: 
+                - generic [ref=e136]:
+                  - generic [ref=e137]: Out for signatures
+                  - generic [ref=e138]: "331"
+              - superscript [ref=e141]:
+                - generic [ref=e142]: "?"
+            - generic [ref=e147]:
+              - generic [ref=e148]:
+                - generic [ref=e149]: Recent signature requests
+                - button "Search" [ref=e151] [cursor=pointer]:
+                  - generic [ref=e152]: 
+              - table [ref=e154]:
+                - rowgroup [ref=e155]:
+                  - row "Title File Owner Signers Action" [ref=e156]:
+                    - columnheader "Title" [ref=e157]
+                    - columnheader "File" [ref=e158]
+                    - columnheader "Owner" [ref=e159]
+                    - columnheader "Signers" [ref=e160]
+                    - columnheader "Action"
+                - rowgroup [ref=e161]:
+                  - row "Sample-joining-letter Expires 06-Aug-2026 Download Pravin Testing account View  sign" [ref=e162]:
+                    - cell "Sample-joining-letter Expires 06-Aug-2026" [ref=e163]:
+                      - generic [ref=e164]: Sample-joining-letter
+                      - generic [ref=e165]: Expires 06-Aug-2026
+                    - cell "Download" [ref=e166]:
+                      - button "Download" [ref=e167] [cursor=pointer]
+                    - cell "Pravin Testing account" [ref=e168]
+                    - cell "View" [ref=e169]:
+                      - button "View" [ref=e170] [cursor=pointer]
+                    - cell " sign" [ref=e171]:
+                      - button " sign" [ref=e173] [cursor=pointer]:
+                        - generic [ref=e174]: 
+                        - generic [ref=e175]: sign
+                  - row "Sample-joining-letter Expires 05-Aug-2026 Download Pravin Testing account View  sign" [ref=e176]:
+                    - cell "Sample-joining-letter Expires 05-Aug-2026" [ref=e177]:
+                      - generic [ref=e178]: Sample-joining-letter
+                      - generic [ref=e179]: Expires 05-Aug-2026
+                    - cell "Download" [ref=e180]:
+                      - button "Download" [ref=e181] [cursor=pointer]
+                    - cell "Pravin Testing account" [ref=e182]
+                    - cell "View" [ref=e183]:
+                      - button "View" [ref=e184] [cursor=pointer]
+                    - cell " sign" [ref=e185]:
+                      - button " sign" [ref=e187] [cursor=pointer]:
+                        - generic [ref=e188]: 
+                        - generic [ref=e189]: sign
+                  - row "Sample-joining-letter Expires 05-Aug-2026 Download Pravin Testing account View  sign" [ref=e190]:
+                    - cell "Sample-joining-letter Expires 05-Aug-2026" [ref=e191]:
+                      - generic [ref=e192]: Sample-joining-letter
+                      - generic [ref=e193]: Expires 05-Aug-2026
+                    - cell "Download" [ref=e194]:
+                      - button "Download" [ref=e195] [cursor=pointer]
+                    - cell "Pravin Testing account" [ref=e196]
+                    - cell "View" [ref=e197]:
+                      - button "View" [ref=e198] [cursor=pointer]
+                    - cell " sign" [ref=e199]:
+                      - button " sign" [ref=e201] [cursor=pointer]:
+                        - generic [ref=e202]: 
+                        - generic [ref=e203]: sign
+                  - row "Sample-joining-letter Expires 05-Aug-2026 Download Pravin Testing account View  sign" [ref=e204]:
+                    - cell "Sample-joining-letter Expires 05-Aug-2026" [ref=e205]:
+                      - generic [ref=e206]: Sample-joining-letter
+                      - generic [ref=e207]: Expires 05-Aug-2026
+                    - cell "Download" [ref=e208]:
+                      - button "Download" [ref=e209] [cursor=pointer]
+                    - cell "Pravin Testing account" [ref=e210]
+                    - cell "View" [ref=e211]:
+                      - button "View" [ref=e212] [cursor=pointer]
+                    - cell " sign" [ref=e213]:
+                      - button " sign" [ref=e215] [cursor=pointer]:
+                        - generic [ref=e216]: 
+                        - generic [ref=e217]: sign
+                  - row "Sample-joining-letter Expires 05-Aug-2026 Download Pravin Testing account View  sign" [ref=e218]:
+                    - cell "Sample-joining-letter Expires 05-Aug-2026" [ref=e219]:
+                      - generic [ref=e220]: Sample-joining-letter
+                      - generic [ref=e221]: Expires 05-Aug-2026
+                    - cell "Download" [ref=e222]:
+                      - button "Download" [ref=e223] [cursor=pointer]
+                    - cell "Pravin Testing account" [ref=e224]
+                    - cell "View" [ref=e225]:
+                      - button "View" [ref=e226] [cursor=pointer]
+                    - cell " sign" [ref=e227]:
+                      - button " sign" [ref=e229] [cursor=pointer]:
+                        - generic [ref=e230]: 
+                        - generic [ref=e231]: sign
+              - generic [ref=e232]:
+                - button "Prev" [ref=e233] [cursor=pointer]
+                - button "1" [ref=e234] [cursor=pointer]
+                - button "2" [ref=e235] [cursor=pointer]
+                - button "3" [ref=e236] [cursor=pointer]
+                - button "..." [disabled]
+                - button "23" [ref=e237] [cursor=pointer]
+                - button "Next" [ref=e238] [cursor=pointer]
+            - generic [ref=e243]:
+              - generic [ref=e244]:
+                - generic [ref=e245]: Recently sent for signatures
+                - button "Search" [ref=e247] [cursor=pointer]:
+                  - generic [ref=e248]: 
+              - table [ref=e250]:
+                - rowgroup [ref=e251]:
+                  - row "Title File Owner Signers Action" [ref=e252]:
+                    - columnheader "Title" [ref=e253]
+                    - columnheader "File" [ref=e254]
+                    - columnheader "Owner" [ref=e255]
+                    - columnheader "Signers" [ref=e256]
+                    - columnheader "Action"
+                - rowgroup [ref=e257]:
+                  - row "Sample-joining-letter Expires 06-Aug-2026 Download Pravin Testing account View   " [ref=e258]:
+                    - cell "Sample-joining-letter Expires 06-Aug-2026" [ref=e259]:
+                      - generic [ref=e260]: Sample-joining-letter
+                      - generic [ref=e261]: Expires 06-Aug-2026
+                    - cell "Download" [ref=e262]:
+                      - button "Download" [ref=e263] [cursor=pointer]
+                    - cell "Pravin Testing account" [ref=e264]
+                    - cell "View" [ref=e265]:
+                      - button "View" [ref=e266] [cursor=pointer]
+                    - cell "  " [ref=e267]:
+                      - generic [ref=e268]:
+                        - button "" [ref=e269] [cursor=pointer]:
+                          - generic [ref=e270]: 
+                        - button "" [ref=e271] [cursor=pointer]:
+                          - generic [ref=e272]: 
+                        - button "" [ref=e273] [cursor=pointer]:
+                          - generic [ref=e274]: 
+                  - row "Sample-joining-letter Expires 06-Aug-2026 Download Pravin Testing account View   " [ref=e275]:
+                    - cell "Sample-joining-letter Expires 06-Aug-2026" [ref=e276]:
+                      - generic [ref=e277]: Sample-joining-letter
+                      - generic [ref=e278]: Expires 06-Aug-2026
+                    - cell "Download" [ref=e279]:
+                      - button "Download" [ref=e280] [cursor=pointer]
+                    - cell "Pravin Testing account" [ref=e281]
+                    - cell "View" [ref=e282]:
+                      - button "View" [ref=e283] [cursor=pointer]
+                    - cell "  " [ref=e284]:
+                      - generic [ref=e285]:
+                        - button "" [ref=e286] [cursor=pointer]:
+                          - generic [ref=e287]: 
+                        - button "" [ref=e288] [cursor=pointer]:
+                          - generic [ref=e289]: 
+                        - button "" [ref=e290] [cursor=pointer]:
+                          - generic [ref=e291]: 
+                  - row "Sample-joining-letter Expires 06-Aug-2026 Download Pravin Testing account View   " [ref=e292]:
+                    - cell "Sample-joining-letter Expires 06-Aug-2026" [ref=e293]:
+                      - generic [ref=e294]: Sample-joining-letter
+                      - generic [ref=e295]: Expires 06-Aug-2026
+                    - cell "Download" [ref=e296]:
+                      - button "Download" [ref=e297] [cursor=pointer]
+                    - cell "Pravin Testing account" [ref=e298]
+                    - cell "View" [ref=e299]:
+                      - button "View" [ref=e300] [cursor=pointer]
+                    - cell "  " [ref=e301]:
+                      - generic [ref=e302]:
+                        - button "" [ref=e303] [cursor=pointer]:
+                          - generic [ref=e304]: 
+                        - button "" [ref=e305] [cursor=pointer]:
+                          - generic [ref=e306]: 
+                        - button "" [ref=e307] [cursor=pointer]:
+                          - generic [ref=e308]: 
+                  - row "Sample Test Doc Line Expires 06-Aug-2026 Download Pravin Testing account View   " [ref=e309]:
+                    - cell "Sample Test Doc Line Expires 06-Aug-2026" [ref=e310]:
+                      - generic [ref=e311]: Sample Test Doc Line
+                      - generic [ref=e312]: Expires 06-Aug-2026
+                    - cell "Download" [ref=e313]:
+                      - button "Download" [ref=e314] [cursor=pointer]
+                    - cell "Pravin Testing account" [ref=e315]
+                    - cell "View" [ref=e316]:
+                      - button "View" [ref=e317] [cursor=pointer]
+                    - cell "  " [ref=e318]:
+                      - generic [ref=e319]:
+                        - button "" [ref=e320] [cursor=pointer]:
+                          - generic [ref=e321]: 
+                        - button "" [ref=e322] [cursor=pointer]:
+                          - generic [ref=e323]: 
+                        - button "" [ref=e324] [cursor=pointer]:
+                          - generic [ref=e325]: 
+                  - row "Sample Test Doc Line Expires 06-Aug-2026 Download Pravin Testing account View   " [ref=e326]:
+                    - cell "Sample Test Doc Line Expires 06-Aug-2026" [ref=e327]:
+                      - generic [ref=e328]: Sample Test Doc Line
+                      - generic [ref=e329]: Expires 06-Aug-2026
+                    - cell "Download" [ref=e330]:
+                      - button "Download" [ref=e331] [cursor=pointer]
+                    - cell "Pravin Testing account" [ref=e332]
+                    - cell "View" [ref=e333]:
+                      - button "View" [ref=e334] [cursor=pointer]
+                    - cell "  " [ref=e335]:
+                      - generic [ref=e336]:
+                        - button "" [ref=e337] [cursor=pointer]:
+                          - generic [ref=e338]: 
+                        - button "" [ref=e339] [cursor=pointer]:
+                          - generic [ref=e340]: 
+                        - button "" [ref=e341] [cursor=pointer]:
+                          - generic [ref=e342]: 
+              - generic [ref=e343]:
+                - button "Prev" [ref=e344] [cursor=pointer]
+                - button "1" [ref=e345] [cursor=pointer]
+                - button "2" [ref=e346] [cursor=pointer]
+                - button "3" [ref=e347] [cursor=pointer]
+                - button "4" [ref=e348] [cursor=pointer]
+                - button "Next" [ref=e349] [cursor=pointer]
+            - generic [ref=e354]:
+              - generic [ref=e355]:
+                - generic [ref=e356]: Drafts
+                - searchbox "Search documents…" [ref=e359]
+              - table [ref=e361]:
+                - rowgroup [ref=e362]:
+                  - row "Title Note Folder File Owner Signers Action" [ref=e363]:
+                    - columnheader "Title" [ref=e364]
+                    - columnheader "Note" [ref=e365]
+                    - columnheader "Folder" [ref=e366]
+                    - columnheader "File" [ref=e367]
+                    - columnheader "Owner" [ref=e368]
+                    - columnheader "Signers" [ref=e369]
+                    - columnheader "Action"
+                - rowgroup [ref=e370]:
+                  - row "Sample Test Doc Line Expires 06-Aug-2026 Please review and sign this document OpenSign™ Drive Download Pravin Testing account View  " [ref=e371]:
+                    - cell "Sample Test Doc Line Expires 06-Aug-2026" [ref=e372]:
+                      - generic [ref=e373]: Sample Test Doc Line
+                      - generic [ref=e374]: Expires 06-Aug-2026
+                    - cell "Please review and sign this document" [ref=e375]:
+                      - paragraph [ref=e376] [cursor=pointer]: Please review and sign this document
+                    - cell "OpenSign™ Drive" [ref=e377]
+                    - cell "Download" [ref=e378]:
+                      - button "Download" [ref=e379] [cursor=pointer]
+                    - cell "Pravin Testing account" [ref=e380]
+                    - cell "View" [ref=e381]:
+                      - button "View" [ref=e382] [cursor=pointer]
+                    - cell " " [ref=e383]:
+                      - generic [ref=e384]:
+                        - button "" [ref=e385] [cursor=pointer]:
+                          - generic [ref=e386]: 
+                        - button "" [ref=e387] [cursor=pointer]:
+                          - generic [ref=e388]: 
+                  - row "Sample Test Doc Line Expires 06-Aug-2026 Please review and sign this document OpenSign™ Drive Download Pravin Testing account View  " [ref=e389]:
+                    - cell "Sample Test Doc Line Expires 06-Aug-2026" [ref=e390]:
+                      - generic [ref=e391]: Sample Test Doc Line
+                      - generic [ref=e392]: Expires 06-Aug-2026
+                    - cell "Please review and sign this document" [ref=e393]:
+                      - paragraph [ref=e394] [cursor=pointer]: Please review and sign this document
+                    - cell "OpenSign™ Drive" [ref=e395]
+                    - cell "Download" [ref=e396]:
+                      - button "Download" [ref=e397] [cursor=pointer]
+                    - cell "Pravin Testing account" [ref=e398]
+                    - cell "View" [ref=e399]:
+                      - button "View" [ref=e400] [cursor=pointer]
+                    - cell " " [ref=e401]:
+                      - generic [ref=e402]:
+                        - button "" [ref=e403] [cursor=pointer]:
+                          - generic [ref=e404]: 
+                        - button "" [ref=e405] [cursor=pointer]:
+                          - generic [ref=e406]: 
+                  - row "Sample Test Doc Line Expires 06-Aug-2026 Please review and sign this document OpenSign™ Drive Download Pravin Testing account View  " [ref=e407]:
+                    - cell "Sample Test Doc Line Expires 06-Aug-2026" [ref=e408]:
+                      - generic [ref=e409]: Sample Test Doc Line
+                      - generic [ref=e410]: Expires 06-Aug-2026
+                    - cell "Please review and sign this document" [ref=e411]:
+                      - paragraph [ref=e412] [cursor=pointer]: Please review and sign this document
+                    - cell "OpenSign™ Drive" [ref=e413]
+                    - cell "Download" [ref=e414]:
+                      - button "Download" [ref=e415] [cursor=pointer]
+                    - cell "Pravin Testing account" [ref=e416]
+                    - cell "View" [ref=e417]:
+                      - button "View" [ref=e418] [cursor=pointer]
+                    - cell " " [ref=e419]:
+                      - generic [ref=e420]:
+                        - button "" [ref=e421] [cursor=pointer]:
+                          - generic [ref=e422]: 
+                        - button "" [ref=e423] [cursor=pointer]:
+                          - generic [ref=e424]: 
+                  - row "Sample Test Doc Line Expires 06-Aug-2026 Please review and sign this document OpenSign™ Drive Download Pravin Testing account View  " [ref=e425]:
+                    - cell "Sample Test Doc Line Expires 06-Aug-2026" [ref=e426]:
+                      - generic [ref=e427]: Sample Test Doc Line
+                      - generic [ref=e428]: Expires 06-Aug-2026
+                    - cell "Please review and sign this document" [ref=e429]:
+                      - paragraph [ref=e430] [cursor=pointer]: Please review and sign this document
+                    - cell "OpenSign™ Drive" [ref=e431]
+                    - cell "Download" [ref=e432]:
+                      - button "Download" [ref=e433] [cursor=pointer]
+                    - cell "Pravin Testing account" [ref=e434]
+                    - cell "View" [ref=e435]:
+                      - button "View" [ref=e436] [cursor=pointer]
+                    - cell " " [ref=e437]:
+                      - generic [ref=e438]:
+                        - button "" [ref=e439] [cursor=pointer]:
+                          - generic [ref=e440]: 
+                        - button "" [ref=e441] [cursor=pointer]:
+                          - generic [ref=e442]: 
+                  - row "Sample Test Doc Line Expires 06-Aug-2026 Please review and sign this document OpenSign™ Drive Download Pravin Testing account View  " [ref=e443]:
+                    - cell "Sample Test Doc Line Expires 06-Aug-2026" [ref=e444]:
+                      - generic [ref=e445]: Sample Test Doc Line
+                      - generic [ref=e446]: Expires 06-Aug-2026
+                    - cell "Please review and sign this document" [ref=e447]:
+                      - paragraph [ref=e448] [cursor=pointer]: Please review and sign this document
+                    - cell "OpenSign™ Drive" [ref=e449]
+                    - cell "Download" [ref=e450]:
+                      - button "Download" [ref=e451] [cursor=pointer]
+                    - cell "Pravin Testing account" [ref=e452]
+                    - cell "View" [ref=e453]:
+                      - button "View" [ref=e454] [cursor=pointer]
+                    - cell " " [ref=e455]:
+                      - generic [ref=e456]:
+                        - button "" [ref=e457] [cursor=pointer]:
+                          - generic [ref=e458]: 
+                        - button "" [ref=e459] [cursor=pointer]:
+                          - generic [ref=e460]: 
+              - generic [ref=e461]:
+                - button "Prev" [ref=e462] [cursor=pointer]
+                - button "1" [ref=e463] [cursor=pointer]
+                - button "2" [ref=e464] [cursor=pointer]
+                - button "3" [ref=e465] [cursor=pointer]
+                - button "4" [ref=e466] [cursor=pointer]
+                - button "Next" [active] [ref=e467] [cursor=pointer]
+        - generic [ref=e468]:
+          - complementary [ref=e470]:
+            - paragraph [ref=e471]:
+              - text: All rights reserved © 2026
+              - generic [ref=e472] [cursor=pointer]: "OpenSign™ ( version: v2.41.0 )"
+          - text: 
+```
+
+# Test source
+
+```ts
+  148 | await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
+  149 | await page.waitForLoadState("networkidle");
+  150 | 
+  151 | let newCountOutforSign = null;
+  152 | 
+  153 | for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  154 |     newCountOutforSign = await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
+  155 |     
+  156 |     if (newCountOutforSign && newCountOutforSign.trim() !== "") {
+  157 |         console.log("Text found:", newCountOutforSign);
+  158 |         break; // Exit loop if text is found
+  159 |     } else {
+  160 |         console.log(`Attempt ${i + 1}: Text is empty, retrying...`);
+  161 |         await page.waitForTimeout(1000); // Wait 1 second before retrying
+  162 |     }
+  163 | 
+  164 |     if (i === 4) {
+  165 |         console.log("Text did not appear after multiple attempts.");
+  166 |     }
+  167 | }
+  168 | 
+  169 | // Convert to numbers for comparison
+  170 | const oldincrementedcount1 = Number(countOutforSign.trim()) + 1;
+  171 | const newCount1 = Number(newCountOutforSign);
+  172 | if (oldincrementedcount1 <= newCount1) {
+  173 |   console.log("✅ Out for signature card count increased by one, which is correct.");
+  174 | } else {
+  175 |   console.error("❌ Out for signature card count did not increase. The test case has failed.");
+  176 | }
+  177 |   });
+  178 | });
+  179 | 
+  180 | 
+  181 | test('Verify that the unfinished SignYourSelf document can be edited from the Dashboard draft document.', async ({ page }) => {
+  182 |   const commonSteps = new CommonSteps(page);
+  183 |   // Step 1: Navigate to Base URL and log in
+  184 |   await commonSteps.navigateToBaseUrl();
+  185 |   await commonSteps.login();
+  186 | await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+  187 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  188 | await page.locator('input[type="file"]').click();
+  189 | const fileChooser = await fileChooserPromise;
+  190 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  191 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  192 | await page.locator('input[name="Name"]').fill('Draft doc rpt Sample offer letter');
+  193 | await page.locator('input[name="Note"]').fill('Note Draft doc rpt');
+  194 | await page.getByRole('button', { name: 'Next' }).click();
+  195 | await page.waitForLoadState("networkidle");
+  196 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  197 | await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature',600,300);
+  198 |   await page.getByRole('button', { name: '' }).click();
+  199 | await page.getByRole('menuitem', { name: 'Dashboard' }).click();
+  200 | // Wait up to 90 seconds for the text to appear
+  201 | await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+  202 | // Now assert the text
+  203 | await expect(page.locator('//div[@data-tut="tourreport3"]//div[text()="Drafts"]')).toBeVisible({ timeout: 12000 });
+  204 | await expect(page.locator('//div[@data-tut="tourreport3"]//th[1]')).toContainText('Title');
+  205 | await expect(page.locator('//div[@data-tut="tourreport3"]//th[2]')).toContainText('Note');
+  206 | await expect(page.locator('//div[@data-tut="tourreport3"]//th[3]')).toContainText('Folder');
+  207 | await expect(page.locator('//div[@data-tut="tourreport3"]//th[4]')).toContainText('File');
+  208 | await expect(page.locator('//div[@data-tut="tourreport3"]//th[5]')).toContainText('Owner');
+  209 | await expect(page.locator('//div[@data-tut="tourreport3"]//th[6]')).toContainText('Signers');
+  210 | await expect(page.locator('//div[@data-tut="tourreport3"]//div[@class="font-semibold break-words"]').first()).toContainText('Draft doc rpt Sample offer letter');
+  211 | await expect(page.locator('//div[@data-tut="tourreport3"]//td[2]').first()).toContainText('Note Draft doc rpt');
+  212 | await expect(page.locator('//div[@data-tut="tourreport3"]//td[3]').first()).toContainText('OpenSign™ Drive'); 
+  213 | await expect(page.locator('//div[@data-tut="tourreport3"]//td[4]').first()).toContainText('Download');
+  214 | await expect(page.locator('//div[@data-tut="tourreport3"]//td[5]').first()).toContainText('Pravin Testing account');  
+  215 | await page.locator('//div[@data-tut="tourreport3"]//div[@role="button"and @title="Edit"]').first().click();
+  216 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  217 | await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature',600,300);
+  218 | await commonSteps.dragAndDrop('stamp',600,360);
+  219 | await commonSteps.uploadStamp();
+  220 | await commonSteps.ClickSavebuttonSignerModal();
+  221 | await commonSteps.dragAndDrop('initials',600,420);
+  222 | await commonSteps.ClickSavebuttonSignerModal();
+  223 | await commonSteps.clickFinishButtonOnPlaceholder();
+  224 | await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
+  225 |  await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
+  226 | 
+  227 |  await page.locator("//button[normalize-space()='Send']").click();
+  228 | });
+  229 | test('Verify that pagination is functioning correctly in the dashboard drafts document.', async ({ page }) => {
+  230 |     const commonSteps = new CommonSteps(page);
+  231 |     // Step 1: Navigate to Base URL and log in
+  232 |     await commonSteps.navigateToBaseUrl();
+  233 |     await commonSteps.login();
+  234 |     // Wait up to 90 seconds for the text to appear
+  235 |     await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+  236 |     // Now assert the text
+  237 |     //await expect(page.locator('#renderList')).toContainText('Drafts');
+  238 |     //Check if Pagination Buttons Exist
+  239 |     const isPaginationVisible = await page.locator('//div[@data-tut="tourreport3"]//button[@class="op-join-item op-btn op-btn-sm" and text()="Next"]').isVisible();
+  240 |     //expect(isPaginationVisible).toBeTruthy();
+  241 |     const isPaginationVisiblePrev = await page.locator('//div[@data-tut="tourreport3"]//button[@class="op-join-item op-btn op-btn-sm" and text()="Prev"]').isVisible();
+  242 |     //expect(isPaginationVisiblePrev).toBeTruthy();
+  243 |     const page1Data = await page.locator('//div[@data-tut="tourreport3"]//table[1]//tbody//tr').allTextContents();
+  244 |     await page.locator('//div[@data-tut="tourreport3"]//button[@class="op-join-item op-btn op-btn-sm" and text()="Next"]').click();
+  245 |     await page.waitForLoadState('domcontentloaded');
+  246 |     //const firstPageContent = await page.locator('//button[@class=\'op-btn-active op-join-item op-btn op-btn-sm\' and text()=\'2\']').first().textContent(); // Capture first item
+  247 |   const page2Data = await page.locator('//div[@data-tut="tourreport3"]//table[1]//tbody//tr').allTextContents();
+> 248 |   expect(page2Data).not.toEqual(page1Data);// Ensure content changes
+      |                         ^ Error: expect(received).not.toEqual(expected) // deep equality
+  249 |   //Verify 'Previous' and 'Next' Buttons Work
+  250 |   await page.locator('//div[@data-tut="tourreport3"]//button[@class="op-join-item op-btn op-btn-sm" and text()="Prev"]').click();
+  251 |   await page.waitForLoadState('domcontentloaded');
+  252 |   const page1DataPrev = await page.locator('//div[@data-tut="tourreport3"]//table[1]//tbody//tr').allTextContents();
+  253 |   expect(page2Data).not.toEqual(page1DataPrev);// Ensure content changes
+  254 |   
+  255 |   });
+  256 | 
+  257 | test('Verify that owner can create the document and sign it from the dashboard recent signature requests.', async ({ page }) => {
+  258 |   const commonSteps = new CommonSteps(page);
+  259 |   // Step 1: Navigate to Base URL and log in
+  260 |   await commonSteps.navigateToBaseUrl();
+  261 |   await commonSteps.login();
+  262 | //const title = await page.title()
+  263 |   //Expects page to have a heading with the name of dashboard.
+  264 | //expect(title).toBe('Dashboard - OpenSign™');
+  265 | await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  266 |   const Renameddoctitle =await commonSteps.fillDocumentTitleWithTimestamp('Recent signatures rquest');
+  267 |    await page.locator('input[name="Name"]').fill(Renameddoctitle);
+  268 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  269 | await page.locator('input[type="file"]').click();
+  270 | const fileChooser = await fileChooserPromise;
+  271 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  272 | await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  273 | await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+  274 | await page.locator('input[name="Name"]').click();
+  275 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  276 | await page.getByRole('button', { name: 'Next' }).click();
+  277 | await page.waitForLoadState("networkidle");
+  278 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  279 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  280 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  281 | await commonSteps.dragAndDropSignatureWidget('signature', 600, 250);
+  282 | await page.locator('//span[normalize-space()=\'stamp\']').hover();
+  283 | await page.mouse.down();
+  284 | await page.mouse.move(600, 360)
+  285 | await page.mouse.up();
+  286 | await page.locator('//span[normalize-space()=\'initials\']').hover();
+  287 | await page.mouse.down();
+  288 | await page.mouse.move(600, 420)
+  289 | await page.mouse.up();
+  290 | await page.locator('//span[normalize-space()=\'name\']').hover();
+  291 | await page.mouse.down();
+  292 | await page.mouse.move(600, 470)
+  293 | await page.mouse.up();
+  294 | await page.getByRole('button', { name: 'Next' }).click();
+  295 |  await page.getByRole('button', { name: 'Sign now' }).click();
+  296 | await page.getByRole('menuitem', { name: 'Dashboard' }).click();
+  297 | // Wait up to 90 seconds for the text to appear
+  298 | 
+  299 | await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+  300 | // Now assert the text
+  301 | await expect(page.locator('//div[@data-tut="tourreport1"]//div[text()="Recent signature requests"]')).toBeVisible({ timeout: 12000 });
+  302 | await expect(page.locator('//div[@data-tut="tourreport1"]//th[1]')).toContainText('Title');
+  303 | await expect(page.locator('//div[@data-tut="tourreport1"]//th[2]')).toContainText('File');
+  304 | await expect(page.locator('//div[@data-tut="tourreport1"]//th[3]')).toContainText('Owner');
+  305 | await expect(page.locator('//div[@data-tut="tourreport1"]//th[4]')).toContainText('Signers');
+  306 | await expect(page.locator('//div[@data-tut="tourreport1"]//div[@class="font-semibold break-words"]').first()).toContainText('Sample-joining-letter');
+  307 | await expect(page.locator('//div[@data-tut="tourreport1"]//td[2]').first()).toContainText('Download');
+  308 | await expect(page.locator('//div[@data-tut="tourreport1"]//td[3]').first()).toContainText('Pravin Testing account');  
+  309 | await page.locator('//div[@data-tut="tourreport1"]//div[@role="button"and @title="SIGN"]').first().click();
+  310 | await commonSteps.validateAndAcceptTerms();
+  311 | await page.waitForLoadState("networkidle");
+  312 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  313 | await page.locator('//div[contains(text(),"signature-1")]').click();
+  314 | await page.mouse.down();
+  315 | await page.mouse.move(120, 122)
+  316 | await page.mouse.up();
+  317 | // Optionally save changes
+  318 | await commonSteps.clickNextButtonInSignerModal();
+  319 |     await commonSteps.uploadStamp();
+  320 | await commonSteps.clickNextButtonInSignerModal();
+  321 | await commonSteps.drawInitials();
+  322 | await commonSteps.clickNextButtonInSignerModal();
+  323 | await commonSteps.clickDoneButtonInSignerModal();
+  324 | await commonSteps.clickFinishButtonInSignerModal();
+  325 | await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
+  326 | await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
+  327 | await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
+  328 | await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Download' })).toBeVisible();
+  329 | await page.getByRole('button', { name: '✕' }).click();
+  330 | });
+  331 | test('Verify that pagination is functioning correctly in the dashboard recent signature requests.', async ({ page }) => {
+  332 |   const commonSteps = new CommonSteps(page);
+  333 |   // Step 1: Navigate to Base URL and log in
+  334 |   await commonSteps.navigateToBaseUrl();
+  335 |   await commonSteps.login();
+  336 |   // Wait up to 90 seconds for the text to appear
+  337 |   await page.locator('#renderList').waitFor({
+  338 |     state: 'visible',
+  339 |     timeout: 90000,
+  340 |   });
+  341 | 
+  342 |   // Verify widget is visible
+  343 |   await expect(
+  344 |     page.locator(
+  345 |       '//div[@data-tut="tourreport1"]//div[@class="font-light" and text()="Recent signature requests"]'
+  346 |     )
+  347 |   ).toHaveText('Recent signature requests');
+  348 | 
+```

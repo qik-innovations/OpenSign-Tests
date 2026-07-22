@@ -1,0 +1,592 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/Request_Signature.spec.js >> Request signature >> Verify that a user can create a document with two signers, send it for a signature request, and signer can successfully sign the document.
+- Location: tests/MainAppPages/Request_Signature.spec.js:542:1
+
+# Error details
+
+```
+Error: locator.click: Error: strict mode violation: locator('//div[@id="container"]//div[text()="signature-1"]') resolved to 2 elements:
+    1) <div class=" font-medium">signature-1</div> aka locator('[id="43148991"]').getByText('signature-')
+    2) <div class=" font-medium">signature-1</div> aka locator('[id="52622863"]').getByText('signature-')
+
+Call log:
+  - waiting for locator('//div[@id="container"]//div[text()="signature-1"]')
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]: "New feature: Protect your account with Two-Factor Authentication (2FA) and enjoy the future of login with Passkeys — no passwords needed. — Setup now."
+      - generic [ref=e9] [cursor=pointer]:
+        - img [ref=e10]
+        - generic [ref=e14]: 
+    - generic [ref=e15]:
+      - button "" [ref=e17] [cursor=pointer]:
+        - generic [ref=e18]: 
+      - img "logo" [ref=e21] [cursor=pointer]
+      - generic [ref=e22]:
+        - generic [ref=e24] [cursor=pointer]: TEAM
+        - button "Open app drawer" [ref=e27] [cursor=pointer]:
+          - generic [ref=e28]: 
+        - img "img" [ref=e30] [cursor=pointer]
+        - button
+        - generic [ref=e31]:
+          - button "" [ref=e32] [cursor=pointer]:
+            - generic [ref=e33]: 
+          - text:      
+  - generic [ref=e34]:
+    - complementary:
+      - generic [ref=e35]:
+        - generic:
+          - img "Profile"
+        - generic [ref=e36]:
+          - paragraph [ref=e37] [cursor=pointer]: Pravin Testing account
+          - paragraph [ref=e38] [cursor=pointer]: OpenSign pvt ltd
+      - navigation "OpenSign Sidebar Navigation" [ref=e39]:
+        - menubar "OpenSign Sidebar Navigation" [ref=e40]:
+          - menuitem "Dashboard" [ref=e41]:
+            - generic [ref=e43]: 
+            - generic [ref=e44]: Dashboard
+          - menuitem "Sign yourself" [ref=e45]:
+            - generic [ref=e47]: 
+            - generic [ref=e48]: Sign yourself
+          - menuitem "Request signatures" [ref=e49]:
+            - generic [ref=e51]: 
+            - generic [ref=e52]: Request signatures
+          - button " Templates" [ref=e53] [cursor=pointer]:
+            - generic [ref=e55]: 
+            - generic [ref=e56]:
+              - generic [ref=e57]: Templates
+              - generic [ref=e58]: 
+          - menuitem "OpenSign™ Drive" [ref=e59]:
+            - generic [ref=e61]: 
+            - generic [ref=e62]: OpenSign™ Drive
+          - button " Documents" [ref=e63] [cursor=pointer]:
+            - generic [ref=e65]: 
+            - generic [ref=e66]:
+              - generic [ref=e67]: Documents
+              - generic [ref=e68]: 
+          - menuitem "Contactbook" [ref=e69]:
+            - generic [ref=e71]: 
+            - generic [ref=e72]: Contactbook
+          - button " Settings" [ref=e73] [cursor=pointer]:
+            - generic [ref=e75]: 
+            - generic [ref=e76]:
+              - generic [ref=e77]: Settings
+              - generic [ref=e78]: 
+      - generic:
+        - link "OpenSign's Github" [ref=e79]:
+          - /url: https://github.com/opensignlabs/opensign
+          - generic [ref=e80]: 
+          - generic [ref=e81]: OpenSign's Github
+        - link "OpenSign's LinkedIn" [ref=e82]:
+          - /url: https://www.linkedin.com/company/opensign%E2%84%A2/
+          - generic [ref=e83]: 
+          - generic [ref=e84]: OpenSign's LinkedIn
+        - link "OpenSign's Twitter" [ref=e85]:
+          - /url: https://www.twitter.com/opensignlabs
+          - generic [ref=e86]: 
+          - generic [ref=e87]: OpenSign's Twitter
+        - link "OpenSign's Discord" [ref=e88]:
+          - /url: https://discord.com/invite/xe9TDuyAyj
+          - generic [ref=e89]: 
+          - generic [ref=e90]: OpenSign's Discord
+    - main [ref=e91]:
+      - generic [ref=e92]:
+        - generic [ref=e94]:
+          - generic [ref=e95]:
+            - generic [ref=e96]: Pages
+            - button "+ Add pages" [ref=e108] [cursor=pointer]:
+              - generic [ref=e109]: +
+              - generic [ref=e110]: Add pages
+          - generic [ref=e111]:
+            - generic [ref=e112]:
+              - generic "Add pages" [ref=e113] [cursor=pointer]:
+                - generic [ref=e114]: +
+              - generic "Delete page" [ref=e115] [cursor=pointer]:
+                - generic [ref=e116]: 
+              - generic "Reorder pages" [ref=e117] [cursor=pointer]:
+                - generic [ref=e118]: 
+              - generic "Zoom in" [ref=e119] [cursor=pointer]:
+                - generic [ref=e120]: 
+              - generic "Rotate right" [ref=e121] [cursor=pointer]:
+                - generic [ref=e122]: 
+              - generic "Rotate left" [ref=e123] [cursor=pointer]:
+                - generic [ref=e124]: 
+              - generic "Zoom out" [ref=e125] [cursor=pointer]:
+                - generic [ref=e126]: 
+            - generic [ref=e127]:
+              - generic [ref=e129]:
+                - generic [ref=e130]:
+                  - button [ref=e131] [cursor=pointer]:
+                    - generic [ref=e133]: 
+                  - generic [ref=e134]: 2 of 3
+                  - button [ref=e135] [cursor=pointer]:
+                    - generic [ref=e137]: 
+                - generic [ref=e138]:
+                  - button "" [ref=e139] [cursor=pointer]:
+                    - generic [ref=e140]: 
+                  - button "Back" [ref=e141] [cursor=pointer]
+                  - button "Next" [ref=e142] [cursor=pointer]
+              - generic [ref=e146]:
+                - generic [ref=e147]:
+                  - generic [ref=e151]: signature-1
+                  - generic [ref=e155]: stamp-1
+                  - generic [ref=e159]: initials-1
+                  - generic [ref=e163]: name-1
+                  - generic [ref=e167]: job title-1
+                  - generic [ref=e171]: company-1
+                  - generic [ref=e175]: MM/dd/yyyy
+                  - generic [ref=e179]: text input-1
+                  - generic [ref=e182]:
+                    - generic:
+                      - generic:
+                        - checkbox "Option-1"
+                        - generic: Option-1
+                    - generic:
+                      - generic:
+                        - checkbox "Option-2"
+                        - generic: Option-2
+                  - generic [ref=e185]:
+                    - text: Choose One
+                    - generic [ref=e186]: 
+                  - generic [ref=e189]:
+                    - generic:
+                      - generic:
+                        - radio "Option-1"
+                        - generic: Option-1
+                    - generic:
+                      - generic:
+                        - radio "Option-2"
+                        - generic: Option-2
+                  - generic [ref=e193]: image-1
+                  - generic [ref=e197]: email-1
+                  - generic [ref=e201]: signature-1
+                  - generic [ref=e205]: stamp-1
+                - generic [ref=e208]:
+                  - generic [ref=e212]: initials-1
+                  - generic [ref=e216]: name-1
+                  - generic [ref=e220]: job title-1
+                  - generic [ref=e224]: company-1
+                  - generic [ref=e228]: MM/dd/yyyy
+                  - generic [ref=e232]: text input-1
+                  - generic [ref=e235]:
+                    - generic:
+                      - generic:
+                        - checkbox "Option-1"
+                        - generic: Option-1
+                    - generic:
+                      - generic:
+                        - checkbox "Option-2"
+                        - generic: Option-2
+                  - generic [ref=e238]:
+                    - text: Choose One
+                    - generic [ref=e239]: 
+                  - generic [ref=e242]:
+                    - generic:
+                      - generic:
+                        - radio "Option-1"
+                        - generic: Option-1
+                    - generic:
+                      - generic:
+                        - radio "Option-2"
+                        - generic: Option-2
+                  - generic [ref=e246]: image-1
+                  - generic [ref=e250]:
+                    - generic [ref=e251] [cursor=pointer]: 
+                    - generic [ref=e252] [cursor=pointer]: 
+                    - generic [ref=e253] [cursor=pointer]: 
+                    - generic [ref=e254] [cursor=pointer]: 
+                    - generic [ref=e256]: email-1
+          - generic [ref=e266]:
+            - generic [ref=e267]:
+              - generic [ref=e269]:
+                - text: Recipients
+                - superscript [ref=e270]:
+                  - generic [ref=e271] [cursor=pointer]: "?"
+              - generic [ref=e272]:
+                - generic [ref=e273] [cursor=pointer]:
+                  - generic [ref=e275]: 
+                  - generic [ref=e276]: Prefill by owner
+                - generic [ref=e277]:
+                  - generic [ref=e278]:
+                    - generic [ref=e281]: 
+                    - generic [ref=e282]:
+                      - generic [ref=e283]: Andy amaya
+                      - generic [ref=e284]: andyamaya@nxglabs.in
+                  - combobox "Signer must sign. Approver approves without signing. Viewer only views." [disabled] [ref=e285] [cursor=pointer]:
+                    - option "Signer" [disabled] [selected]
+                    - option "Viewer" [disabled]
+                    - option "Approver" [disabled]
+                  - generic "Add access code" [ref=e286] [cursor=pointer]:
+                    - generic [ref=e287]: 
+                  - generic [ref=e289] [cursor=pointer]: 
+                  - separator [disabled]
+                - generic [ref=e290]:
+                  - generic [ref=e291]:
+                    - generic [ref=e294]: 
+                    - generic [ref=e295]:
+                      - generic [ref=e296]: Travis Mathew
+                      - generic [ref=e297]: pravin+travis@nxglabs.in
+                  - combobox "Signer must sign. Approver approves without signing. Viewer only views." [disabled] [ref=e298] [cursor=pointer]:
+                    - option "Signer" [disabled] [selected]
+                    - option "Viewer" [disabled]
+                    - option "Approver" [disabled]
+                  - generic "Add access code" [ref=e299] [cursor=pointer]:
+                    - generic [ref=e300]: 
+                  - generic [ref=e302] [cursor=pointer]: 
+                  - separator [disabled]
+              - button "+ Add recipients" [disabled] [ref=e304] [cursor=pointer]:
+                - generic [ref=e305]: +
+                - text: Add recipients
+            - generic [ref=e307]:
+              - generic [ref=e308]: Widgets
+              - list "Add widgets" [ref=e309]:
+                - generic "signature" [ref=e312] [cursor=pointer]:
+                  - generic [ref=e313]:
+                    - generic [ref=e314]:
+                      - generic [ref=e315]: 
+                      - generic [ref=e316]: signature
+                    - generic [ref=e318]: 
+                - generic "stamp" [ref=e321] [cursor=pointer]:
+                  - generic [ref=e322]:
+                    - generic [ref=e323]:
+                      - generic [ref=e324]: 
+                      - generic [ref=e325]: stamp
+                    - generic [ref=e327]: 
+                - generic "initials" [ref=e330] [cursor=pointer]:
+                  - generic [ref=e331]:
+                    - generic [ref=e332]:
+                      - generic [ref=e333]: 
+                      - generic [ref=e334]: initials
+                    - generic [ref=e336]: 
+                - generic "text input" [ref=e339] [cursor=pointer]:
+                  - generic [ref=e340]:
+                    - generic [ref=e341]:
+                      - generic [ref=e342]: 
+                      - generic [ref=e343]: text input
+                    - generic [ref=e345]: 
+                - generic "number" [ref=e348] [cursor=pointer]:
+                  - generic [ref=e349]:
+                    - generic [ref=e350]:
+                      - generic [ref=e351]: 
+                      - generic [ref=e352]: number
+                    - generic [ref=e354]: "#"
+                - generic "name" [ref=e357] [cursor=pointer]:
+                  - generic [ref=e358]:
+                    - generic [ref=e359]:
+                      - generic [ref=e360]: 
+                      - generic [ref=e361]: name
+                    - generic [ref=e363]: 
+                - generic "job title" [ref=e366] [cursor=pointer]:
+                  - generic [ref=e367]:
+                    - generic [ref=e368]:
+                      - generic [ref=e369]: 
+                      - generic [ref=e370]: job title
+                    - generic [ref=e372]: 
+                - generic "company" [ref=e375] [cursor=pointer]:
+                  - generic [ref=e376]:
+                    - generic [ref=e377]:
+                      - generic [ref=e378]: 
+                      - generic [ref=e379]: company
+                    - generic [ref=e381]: 
+                - generic "email" [ref=e384] [cursor=pointer]:
+                  - generic [ref=e385]:
+                    - generic [ref=e386]:
+                      - generic [ref=e387]: 
+                      - generic [ref=e388]: email
+                    - generic [ref=e390]: 
+                - generic "date" [ref=e393] [cursor=pointer]:
+                  - generic [ref=e394]:
+                    - generic [ref=e395]:
+                      - generic [ref=e396]: 
+                      - generic [ref=e397]: date
+                    - generic [ref=e399]: 
+                - generic "cells" [ref=e402] [cursor=pointer]:
+                  - generic [ref=e403]:
+                    - generic [ref=e404]:
+                      - generic [ref=e405]: 
+                      - generic [ref=e406]: cells
+                    - generic [ref=e408]: 
+                - generic "checkbox" [ref=e411] [cursor=pointer]:
+                  - generic [ref=e412]:
+                    - generic [ref=e413]:
+                      - generic [ref=e414]: 
+                      - generic [ref=e415]: checkbox
+                    - generic [ref=e417]: 
+                - generic "dropdown" [ref=e420] [cursor=pointer]:
+                  - generic [ref=e421]:
+                    - generic [ref=e422]:
+                      - generic [ref=e423]: 
+                      - generic [ref=e424]: dropdown
+                    - generic [ref=e426]: 
+                - generic "radio button" [ref=e429] [cursor=pointer]:
+                  - generic [ref=e430]:
+                    - generic [ref=e431]:
+                      - generic [ref=e432]: 
+                      - generic [ref=e433]: radio button
+                    - generic [ref=e435]: 
+                - generic "image" [ref=e438] [cursor=pointer]:
+                  - generic [ref=e439]:
+                    - generic [ref=e440]:
+                      - generic [ref=e441]: 
+                      - generic [ref=e442]: image
+                    - generic [ref=e444]: 
+                - generic "attachments" [ref=e447] [cursor=pointer]:
+                  - generic [ref=e448]:
+                    - generic [ref=e449]:
+                      - generic [ref=e450]: 
+                      - generic [ref=e451]: attachments
+                    - generic [ref=e453]: 
+          - dialog [ref=e454]:
+            - generic [ref=e455]:
+              - heading "Send Mail" [level=3] [ref=e456]
+              - button "✕" [ref=e457] [cursor=pointer]
+              - generic [ref=e459]:
+                - text: Are you sure you want to send out this document for signatures?
+                - generic [ref=e460]:
+                  - button "Send" [ref=e462] [cursor=pointer]
+                  - generic [ref=e463] [cursor=pointer]: Customize email
+                - generic [ref=e466]: OR
+                - generic [ref=e468]:
+                  - generic [ref=e469]:
+                    - generic [ref=e470]: andyamaya@nxglabs.in
+                    - generic [ref=e471]:
+                      - button " Copy link" [ref=e472] [cursor=pointer]:
+                        - generic [ref=e473]: 
+                        - generic [ref=e474]: Copy link
+                      - button "Open share options" [ref=e475] [cursor=pointer]:
+                        - generic [ref=e476]: 
+                  - generic [ref=e477]:
+                    - generic [ref=e478]: pravin+travis@nxglabs.in
+                    - generic [ref=e479]:
+                      - button " Copy link" [active] [ref=e480] [cursor=pointer]:
+                        - generic [ref=e481]: 
+                        - generic [ref=e482]: Copy link
+                      - button "Open share options" [ref=e483] [cursor=pointer]:
+                        - generic [ref=e484]: 
+        - generic [ref=e485]:
+          - complementary [ref=e487]:
+            - paragraph [ref=e488]:
+              - text: All rights reserved © 2026
+              - generic [ref=e489] [cursor=pointer]: "OpenSign™ ( version: v2.41.0 )"
+          - text: 
+```
+
+# Test source
+
+```ts
+  612 | 
+  613 |         const isStandardWidget =
+  614 |           label === normalizedName ||
+  615 |           label?.startsWith(`${normalizedName}-`);
+  616 | 
+  617 |         const isDateWidget =
+  618 |           normalizedName === 'date' &&
+  619 |           ['mm-dd-yyyy', 'dd-mm-yyyy', 'yyyy-mm-dd', 'mm/dd/yyyy'].includes(label ?? '');
+  620 | 
+  621 |         return isStandardWidget || isDateWidget;
+  622 |       });
+  623 | 
+  624 |     return widget?.id ?? null;
+  625 |   }, widgetName);
+  626 | await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+  627 | await dragAndDropWidget('stamp', 600, 250);
+  628 | await dragAndDropWidget('initials', 600, 300);
+  629 | await dragAndDropWidget('name', 600, 370);
+  630 | const VariablenameID = await getWidgetId('name');
+  631 | console.log("name widget id" + VariablenameID)
+  632 | await dragAndDropWidget('job title', 600, 390);
+  633 | const VariablejobtitleID = await getWidgetId('job title');
+  634 | 
+  635 | await dragAndDropWidget('company', 600, 430);
+  636 | const VariablecompanyID = await getWidgetId('company');
+  637 | 
+  638 | await dragAndDropWidget('date', 600, 460);
+  639 | const VariableDateID = await getWidgetId('date');
+  640 | console.log("date widget id" + VariableDateID);
+  641 | await dragAndDropWidget('text input', 600, 490);
+  642 | const VariabletextinputID = await getWidgetId('text input');
+  643 | 
+  644 | await dragAndDropWidget('checkbox', 600, 520);
+  645 | await page.locator("//button[@type='submit' and text()='Save']").click();
+  646 | 
+  647 | await dragAndDropWidget('dropdown', 600, 560);
+  648 | await page.locator("//button[@type='submit' and text()='Save']").click();
+  649 | 
+  650 | await dragAndDropWidget('radio button', 600, 590);
+  651 | await page.locator("//button[@type='submit' and text()='Save']").click();
+  652 | 
+  653 | await dragAndDropWidget('image', 600, 620);
+  654 | 
+  655 | await dragAndDropWidget('email', 600, 660);
+  656 | const VariableemailID = await getWidgetId('email');
+  657 | await page.getByRole('button', { name: '+ Add recipients' }).click({ force: true });
+  658 | await page.locator('//div[@class="css-b62m3t-container"]').click();
+  659 | await page.locator('//div[@class="css-b62m3t-container"]//input').fill('tr');
+  660 | await page.getByRole('option', { name: 'Travis Mathew<pravin+travis@' }).click();
+  661 | await page.getByRole('button', { name: 'Submit' }).click();
+  662 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  663 |  await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
+  664 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  665 | 
+  666 | await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+  667 | await dragAndDropWidget('stamp', 600, 250);
+  668 | await dragAndDropWidget('initials', 600, 300);
+  669 | await dragAndDropWidget('name', 600, 350);
+  670 | const Signer1VariablenameID = await getWidgetId('name');
+  671 | 
+  672 | await dragAndDropWidget('job title', 600, 370);
+  673 | const Signer1VariablejobtitleID = await getWidgetId('job title');
+  674 | 
+  675 | await dragAndDropWidget('company', 600, 400);
+  676 | const Signer1VariablecompanyID = await getWidgetId('company');
+  677 | 
+  678 | await dragAndDropWidget('date', 600, 430);
+  679 | const VariableDateID2 = await getWidgetId('date');
+  680 | console.log("date widget id2" + VariableDateID2);
+  681 | await dragAndDropWidget('text input', 600, 460);
+  682 | const Signer1VariabletextinputID = await getWidgetId('text input');
+  683 | 
+  684 | await dragAndDropWidget('checkbox', 600, 490);
+  685 | await page.locator("//button[@type='submit' and text()='Save']").click();
+  686 | 
+  687 | await dragAndDropWidget('dropdown', 600, 530);
+  688 | await page.locator("//button[@type='submit' and text()='Save']").click();
+  689 | 
+  690 | await dragAndDropWidget('radio button', 600, 550);
+  691 | await page.locator("//button[@type='submit' and text()='Save']").click();
+  692 | 
+  693 | await dragAndDropWidget('image', 600, 580);
+  694 | 
+  695 | await dragAndDropWidget('email', 600, 640);
+  696 | const Signer1VariableemailID = await getWidgetId('email');
+  697 | 
+  698 | await page.getByRole('button', { name: 'Next' }).click();
+  699 | await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+  700 | //await page.locator('//span[@class=" hidden md:block ml-1 " and text()="Copy link"]').click();
+  701 | await page.locator('div').filter({ hasText: /^andyamaya@nxglabs\.inCopy link$/ }).getByRole('button').first().click();
+  702 | const copiedUrl1 = await page.locator('//p[@id="copyUrl"]').evaluate(el => el.textContent.trim());
+  703 | //await page.locator('//span[@class=" hidden md:block ml-1 " and text()="Copy link"]').click();
+  704 | await page.locator('div').filter({ hasText: /^pravin\+travis@nxglabs\.inCopy link$/ }).getByRole('button').first().click();
+  705 | const copiedUrl2 = await page.locator('//p[@id="copyUrl"]').evaluate(el => el.textContent.trim());
+  706 | const page1 = await page.context().newPage();
+  707 | await page1.goto(copiedUrl1);
+  708 |   const commonStepspage1 = new CommonSteps(page1);
+  709 | await commonStepspage1.validateAndAcceptTerms();
+  710 | await page1.waitForLoadState("networkidle");
+  711 | await page1.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+> 712 | await page1.locator('//div[@id="container"]//div[text()="signature-1"]').click();
+      |                                                                          ^ Error: locator.click: Error: strict mode violation: locator('//div[@id="container"]//div[text()="signature-1"]') resolved to 2 elements:
+  713 | await commonStepspage1.drawSignature();
+  714 | await commonStepspage1.clickNextButtonInSignerModal();
+  715 | await commonStepspage1.clickCloseButtonInSignerModal();
+  716 | await page1.locator('//div[@id="container"]//div[text()="stamp-1"]').click();
+  717 | await commonStepspage1.uploadStamp();
+  718 | await commonStepspage1.clickNextButtonInSignerModal();
+  719 | await commonStepspage1.clickCloseButtonInSignerModal();
+  720 | await page1.locator('//div[@id="container"]//div[text()="initials-1"]').click();
+  721 | await commonStepspage1.drawInitials();
+  722 | await commonStepspage1.clickNextButtonInSignerModal();
+  723 | await commonStepspage1.clickCloseButtonInSignerModal();
+  724 | console.log("name widget id" + VariablenameID)
+  725 | await page1.locator(`//div[contains(@class,'signYourselfBlock') and contains(@class,'react-draggable') and @id='${VariablenameID}']//textarea[1]`).click({ force: true });
+  726 | await commonStepspage1.fillTextField('name','Mark Andrews');
+  727 | await commonStepspage1.clickNextButtonInSignerModal();
+  728 | await commonStepspage1.clickCloseButtonInSignerModal();
+  729 | await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariablejobtitleID}']//textarea[1]`).click({ force: true });
+  730 | await commonStepspage1.fillTextField('job title','Quality Analyst');
+  731 | await commonStepspage1.clickNextButtonInSignerModal();
+  732 | await commonStepspage1.clickCloseButtonInSignerModal();
+  733 | await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariablecompanyID}']//textarea[1]`).click({ force: true });
+  734 | await commonStepspage1.fillTextField('company','OpenSignlabs pvt ltd');
+  735 | await commonStepspage1.clickNextButtonInSignerModal();
+  736 | await commonStepspage1.clickCloseButtonInSignerModal();
+  737 | await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariableDateID}']`).click({ force: true });
+  738 | await commonStepspage1.clickDateFieldOnTheSignerPad_Without_date();
+  739 | const today = new Date();
+  740 | function getDayWithSuffix(day) {
+  741 |   if (day >= 11 && day <= 13) return `${day}th`;
+  742 |   switch (day % 10) {
+  743 |     case 1: return `${day}st`;
+  744 | 
+  745 |     case 2: return `${day}nd`;  
+  746 |     case 3: return `${day}rd`;
+  747 |     default: return `${day}th`;
+  748 |   }   
+  749 | }
+  750 | // Calculate the target date (today + 2 days)
+  751 | today.setDate(today.getDate() + 2);
+  752 | const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g., "Friday" 
+  753 | const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
+  754 | const day = today.getDate();                                            // e.g., 2
+  755 | const year = today.getFullYear();                                       // e.g., 2025
+  756 | const dayWithSuffix = getDayWithSuffix(day);
+  757 | const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
+  758 | await commonStepspage1.selectCalendarDateByLabel(ariaLabelValue);
+  759 |   await commonStepspage1.clickNextButtonInSignerModal();
+  760 |   await commonStepspage1.clickCloseButtonInSignerModal();
+  761 | await page1.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariabletextinputID}']//textarea[1]`).click({ force: true });
+  762 | await commonStepspage1.fillTextField('text','120 wood street sanfransisco');
+  763 | await commonStepspage1.clickNextButtonInSignerModal();
+  764 | await commonStepspage1.selectCheckbox('Option-1');
+  765 | await commonStepspage1.clickNextButtonInSignerModal();
+  766 | await commonStepspage1.selectFromDropdown('myDropdown','Option-2')
+  767 | await commonStepspage1.clickNextButtonInSignerModal();
+  768 | await commonStepspage1.selectRadioButton('Option-2');
+  769 | await commonStepspage1.clickNextButtonInSignerModal();
+  770 | await commonStepspage1.clickCloseButtonInSignerModal();
+  771 | await page1.locator('//div[@data-page-number="1"]//div[contains(text(),"image-1")]').click();
+  772 | await commonStepspage1.uploadImage();
+  773 | await commonStepspage1.clickNextButtonInSignerModal();
+  774 | await commonStepspage1.fillEmailField('demo@gmail.com','andrew@nxglabs.in')
+  775 | await commonStepspage1.clickDoneButtonInSignerModal();
+  776 | await commonStepspage1.clickFinishButtonInSignerModal();
+  777 | await page1.getByText('The document has been successfully signed by you!').click();
+  778 | const page2 = await page.context().newPage();
+  779 |   const commonStepspage2 = new CommonSteps(page2);
+  780 | await page2.goto(copiedUrl2);
+  781 | await page2.waitForLoadState("networkidle");
+  782 | await commonStepspage2.validateAndAcceptTerms();
+  783 | await page2.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  784 | await page2.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
+  785 | await page2.locator('//div[@id="container"]//div[text()="signature-1"]').click();
+  786 | await commonStepspage2.drawSignature();
+  787 | // Optionally save changes
+  788 | await commonStepspage2.clickNextButtonInSignerModal();
+  789 | await commonStepspage2.uploadStamp();
+  790 | await commonStepspage2.clickNextButtonInSignerModal();
+  791 | await commonStepspage2.drawInitials();
+  792 | await commonStepspage2.clickNextButtonInSignerModal();
+  793 | await commonStepspage2.clickCloseButtonInSignerModal();
+  794 | await page2.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${Signer1VariablenameID}']//textarea[1]`).click({ force: true });
+  795 | await commonStepspage2.fillTextField('name','Mark Anderson');
+  796 | await commonStepspage2.clickNextButtonInSignerModal();
+  797 | await commonStepspage2.clickCloseButtonInSignerModal();
+  798 | await page2.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${Signer1VariablejobtitleID}']//textarea[1]`).click({ force: true });
+  799 | await commonStepspage2.fillTextField('job title','Manager');
+  800 | await commonStepspage2.clickNextButtonInSignerModal();
+  801 | await commonStepspage2.clickCloseButtonInSignerModal();
+  802 | await page2.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${Signer1VariablecompanyID}']//textarea[1]`).click({ force: true });
+  803 | await commonStepspage2.fillTextField('company','OpenSign pvt. ltd');
+  804 | await commonStepspage2.clickNextButtonInSignerModal();
+  805 | await commonStepspage2.clickCloseButtonInSignerModal();
+  806 | await page2.locator(`//div[@class="signYourselfBlock react-draggable" and @id='${VariableDateID2}']`).click({ force: true });
+  807 | await commonStepspage2.clickDateFieldOnTheSignerPad_Without_date();
+  808 | const today1 = new Date();
+  809 | function getDayWithSuffix(day) {
+  810 |   if (day >= 11 && day <= 13) return `${day}th`;
+  811 |   switch (day % 10) {
+  812 |     case 1: return `${day}st`;
+```

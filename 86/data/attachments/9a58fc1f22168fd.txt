@@ -1,0 +1,68 @@
+Browser: chromium, Version: 149.0.7827.55, OS: linux
+Dragged and dropped widget with label 'signature' to coordinates (600, 200).
+Signature widget dragged and dropped successfully.
+name widget id52123697
+date widget id48036019
+Dragged and dropped widget with label 'signature' to coordinates (600, 200).
+Error while verifying signature widget drag-drop: locator.isVisible: Error: strict mode violation: locator('//div[contains(@class,\'signYourselfBlock\')]//div[contains(@class,\'font-medium\') and normalize-space()=\'signature-1\']') resolved to 2 elements:
+    1) <div class=" font-medium">signature-1</div> aka locator('[id="43148991"]').getByText('signature-')
+    2) <div class=" font-medium">signature-1</div> aka locator('[id="52622863"]').getByText('signature-')
+
+Call log:
+    - checking visibility of locator('//div[contains(@class,\'signYourselfBlock\')]//div[contains(@class,\'font-medium\') and normalize-space()=\'signature-1\']')
+
+    at CommonSteps.dragAndDropSignatureWidget (/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/utils/CommonSteps.js:184:30)
+    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Request_Signature.spec.js:666:1 {
+  log: [
+    "    - checking visibility of locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']')"
+  ],
+  [Symbol(step)]: {
+    location: {
+      file: '/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/utils/CommonSteps.js',
+      line: 184,
+      column: 30,
+      function: 'CommonSteps.dragAndDropSignatureWidget'
+    },
+    category: 'pw:api',
+    title: "Is visible locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']')",
+    apiName: 'locator.isVisible',
+    params: {
+      selector: "//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1']",
+      strict: true
+    },
+    group: 'getter',
+    stepId: 'pw:api@117',
+    boxedStack: undefined,
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'pw:api@117',
+      _title: "Is visible locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']')",
+      _parentStep: undefined,
+      skip: [Function (anonymous)]
+    },
+    complete: [Function: complete],
+    endWallTime: 1784741647466,
+    error: {
+      message: "Error: locator.isVisible: Error: strict mode violation: locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']') resolved to 2 elements:\n" +
+        `    1) <div class=" font-medium">signature-1</div> aka locator('[id="43148991"]').getByText('signature-')\n` +
+        `    2) <div class=" font-medium">signature-1</div> aka locator('[id="52622863"]').getByText('signature-')\n` +
+        '\n' +
+        'Call log:\n' +
+        "\x1B[2m    - checking visibility of locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']')\x1B[22m\n",
+      stack: "Error: locator.isVisible: Error: strict mode violation: locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']') resolved to 2 elements:\n" +
+        `    1) <div class=" font-medium">signature-1</div> aka locator('[id="43148991"]').getByText('signature-')\n` +
+        `    2) <div class=" font-medium">signature-1</div> aka locator('[id="52622863"]').getByText('signature-')\n` +
+        '\n' +
+        'Call log:\n' +
+        "\x1B[2m    - checking visibility of locator('//div[contains(@class,\\'signYourselfBlock\\')]//div[contains(@class,\\'font-medium\\') and normalize-space()=\\'signature-1\\']')\x1B[22m\n" +
+        '\n' +
+        '    at CommonSteps.dragAndDropSignatureWidget (/home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/utils/CommonSteps.js:184:30)\n' +
+        '    at /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/MainAppPages/Request_Signature.spec.js:666:1',
+      cause: undefined
+    }
+  }
+}
+date widget id225444306

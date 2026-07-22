@@ -1,0 +1,293 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/Request_Signature.spec.js >> Request signature >> Verify that signature widgets Copy widget to all pages but first function correctly in request signature.
+- Location: tests/MainAppPages/Request_Signature.spec.js:1561:1
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: locator('//div[@data-page-number="3"]//div[contains(@class,"signYourselfBlock")]//div[contains(@class,"font-medium") and normalize-space()="signature-1"]')
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for locator('//div[@data-page-number="3"]//div[contains(@class,"signYourselfBlock")]//div[contains(@class,"font-medium") and normalize-space()="signature-1"]')
+
+```
+
+```yaml
+- banner:
+  - text: "New feature: Protect your account with Two-Factor Authentication (2FA) and enjoy the future of login with Passkeys — no passwords needed. — Setup now."
+  - img
+  - text: 
+  - button ""
+  - img "logo"
+  - text: TEAM
+  - button "Open app drawer": 
+  - img "img"
+  - button "Pravin Testing account"
+  - button ""
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Dashboard"
+      - menuitem "Sign yourself"
+      - menuitem "Request signatures"
+      - button " Templates"
+      - menuitem "OpenSign™ Drive"
+      - button " Documents"
+      - menuitem "Contactbook"
+      - button " Settings"
+  - link "OpenSign's Github":
+    - /url: https://github.com/opensignlabs/opensign
+  - link "OpenSign's LinkedIn":
+    - /url: https://www.linkedin.com/company/opensign%E2%84%A2/
+  - link "OpenSign's Twitter":
+    - /url: https://www.twitter.com/opensignlabs
+  - link "OpenSign's Discord":
+    - /url: https://discord.com/invite/xe9TDuyAyj
+- main:
+  - text: Pages
+  - button "+ Add pages"
+  - text: +      
+  - button [disabled]
+  - text: 1 of 3
+  - button
+  - button ""
+  - button "Back"
+  - button "Next"
+  - text:     signature-1 signature97 signature54 Recipients
+  - superscript: "?"
+  - text:  Prefill by owner  Andy amaya andyamaya@nxglabs.in
+  - combobox "Signer must sign. Approver approves without signing. Viewer only views." [disabled]:
+    - option "Signer" [disabled] [selected]
+    - option "Viewer" [disabled]
+    - option "Approver" [disabled]
+  - text:  
+  - separator [disabled]
+  - button "+ Add recipients" [disabled]
+  - text: Widgets
+  - list "Add widgets": " signature   stamp   initials   text input   number #  name   job title   company   email   date   cells   checkbox   dropdown   radio button   image   attachments "
+  - complementary:
+    - paragraph: "All rights reserved © 2026 OpenSign™ ( version: v2.41.0 )"
+```
+
+# Test source
+
+```ts
+  1503 | 
+  1504 | await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  1505 | 
+  1506 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  1507 |   await expect(page.locator('input[name="Note"]')).toHaveValue(/.+/, { timeout: 90000 });
+  1508 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  1509 | await page.locator('input[type="file"]').click();
+  1510 | const fileChooser = await fileChooserPromise;
+  1511 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
+  1512 | await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  1513 | await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
+  1514 | await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
+  1515 | await page.locator('input[name="Name"]').click();
+  1516 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  1517 | await page.getByRole('button', { name: 'Next' }).click();
+  1518 | await page.waitForLoadState("networkidle");
+  1519 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  1520 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  1521 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  1522 | await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+  1523 | while (true) {
+  1524 |  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
+  1525 |   
+  1526 |   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
+  1527 |   
+  1528 |   if (isVisible) {
+  1529 |       console.log('"Copy widget to" is visible. Stopping the loop.');
+  1530 |       break; // Exit loop once the element is visible
+  1531 |   }
+  1532 | 
+  1533 |   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
+  1534 | }
+  1535 | await page.getByText('All pages but last').click();
+  1536 | await page.getByRole('button', { name: 'Apply' }).click();
+  1537 |    await expect(
+  1538 |   page.locator(
+  1539 |     '//div[@data-page-number="1"]//div[contains(@class,"signYourselfBlock")]//div[contains(@class,"font-medium") and normalize-space()="signature-1"]'
+  1540 |   )
+  1541 | ).toBeVisible();
+  1542 | 
+  1543 |   await page.locator('canvas').nth(1).click({
+  1544 |     position: {
+  1545 |       x: 49,
+  1546 |       y: 71
+  1547 |     }
+  1548 |   });
+  1549 |   await expect(page.locator('//div[@data-page-number="2" and @id="container"]//div[contains(@class,"font-medium") and starts-with(normalize-space(),"signature")]')).toBeVisible();
+  1550 |   await page.locator('canvas').nth(2).click({
+  1551 |     position: {
+  1552 |       x: 65,
+  1553 |       y: 59
+  1554 |     }
+  1555 |   });
+  1556 |    await expect(page.locator('//div[@data-page-number="2" and @id="container"]//div[contains(@class,"font-medium") and starts-with(normalize-space(),"signature")]')).not.toBeVisible();
+  1557 |   await page.getByRole('button', { name: 'Next' }).click();
+  1558 |   //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+  1559 |   await page.getByRole('button', { name: 'Send' }).click();
+  1560 | });
+  1561 | test('Verify that signature widgets Copy widget to all pages but first function correctly in request signature.', async ({ page }) => {
+  1562 |   const commonSteps = new CommonSteps(page);
+  1563 |   // Step 1: Navigate to Base URL and log in
+  1564 |   await commonSteps.navigateToBaseUrl();
+  1565 |   await commonSteps.login();
+  1566 | //const title = await page.title()
+  1567 |   //Expects page to have a heading with the name of dashboard.
+  1568 | //expect(title).toBe('Dashboard - OpenSign™');
+  1569 | await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  1570 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  1571 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  1572 | await page.locator('input[type="file"]').click();
+  1573 | const fileChooser = await fileChooserPromise;
+  1574 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
+  1575 | await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  1576 | await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
+  1577 | await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
+  1578 | await page.locator('input[name="Name"]').click();
+  1579 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  1580 | await page.getByRole('button', { name: 'Next' }).click();
+  1581 | await page.waitForLoadState("networkidle");
+  1582 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  1583 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  1584 | await page.locator('canvas').nth(2).click({
+  1585 |     position: {
+  1586 |       x: 65,
+  1587 |       y: 59
+  1588 |     }
+  1589 |   });
+  1590 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  1591 | await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
+  1592 | while (true) {
+  1593 |   await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
+  1594 |   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
+  1595 |   if (isVisible) {
+  1596 |       console.log('"Copy widget to" is visible. Stopping the loop.');
+  1597 |       break; // Exit loop once the element is visible
+  1598 |   }
+  1599 |   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
+  1600 | }
+  1601 | await page.getByText('All pages but first').click();
+  1602 | await page.getByRole('button', { name: 'Apply' }).click();
+> 1603 |     await expect(page.locator('//div[@data-page-number="3"]//div[contains(@class,"signYourselfBlock")]//div[contains(@class,"font-medium") and normalize-space()="signature-1"]')).toBeVisible();
+       |                                                                                                                                                                                    ^ Error: expect(locator).toBeVisible() failed
+  1604 |   await page.locator('canvas').nth(1).click({
+  1605 |     position: {
+  1606 |       x: 49,
+  1607 |       y: 71
+  1608 |     }
+  1609 |   });
+  1610 |   await expect(page.locator('//div[@data-page-number="2" and @id="container"]//div[contains(@class,"font-medium") and starts-with(normalize-space(),"signature")]')).toBeVisible();
+  1611 |   await page.locator('canvas').nth(0).click({
+  1612 |     position: {
+  1613 |       x: 65,
+  1614 |       y: 59
+  1615 |     }
+  1616 |   });
+  1617 |    await expect(page.locator('//div[@data-page-number="1" and @id="container"]//div[contains(@class,"font-medium") and starts-with(normalize-space(),"signature")]')).not.toBeVisible();
+  1618 |   await page.getByRole('button', { name: 'Next' }).click();
+  1619 | 
+  1620 |   //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
+  1621 |   await page.getByRole('button', { name: 'Send' }).click();
+  1622 | });
+  1623 | test('Verify that signature widgets Copy widget next to current function correctly in request signature.', async ({ page }) => {
+  1624 |   const commonSteps = new CommonSteps(page);
+  1625 |   // Step 1: Navigate to Base URL and log in
+  1626 |   await commonSteps.navigateToBaseUrl();
+  1627 |   await commonSteps.login();
+  1628 | //const title = await page.title()
+  1629 |   //Expects page to have a heading with the name of dashboard.
+  1630 | //expect(title).toBe('Dashboard - OpenSign™');
+  1631 | 
+  1632 | await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  1633 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  1634 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  1635 | await page.locator('input[type="file"]').click();
+  1636 | const fileChooser = await fileChooserPromise;
+  1637 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
+  1638 | await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  1639 | await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
+  1640 | await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
+  1641 | await page.locator('input[name="Name"]').click();
+  1642 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  1643 | await page.getByRole('button', { name: 'Next' }).click();
+  1644 | await page.waitForLoadState("networkidle");
+  1645 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  1646 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  1647 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  1648 | await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
+  1649 | while (true) {
+  1650 |  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
+  1651 |   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
+  1652 |   if (isVisible) {
+  1653 |       console.log('"Copy widget to" is visible. Stopping the loop.');
+  1654 |       break; // Exit loop once the element is visible
+  1655 |   }
+  1656 |   await page.waitForTimeout(500); // Small delay to prevent rapid clicking
+  1657 | }
+  1658 | await page.getByText('Next to current widget').click();
+  1659 | await page.getByRole('button', { name: 'Apply' }).click();
+  1660 | // XPath that targets every “signature” block inside a draggable widget
+  1661 | const signatureLocator = page.locator('//div[@data-page-number="1" and @id="container"]//div[contains(@class,"font-medium") and starts-with(normalize-space(),"signature")]');
+  1662 | // Count the matches
+  1663 | const count = await signatureLocator.count();
+  1664 | // ✅ Test passes if count > 1, fails otherwise
+  1665 | expect(count).toBeGreaterThan(1);
+  1666 |   await page.getByRole('button', { name: 'Next' }).click();
+  1667 |   await page.getByRole('button', { name: 'Send' }).click();
+  1668 | });
+  1669 | test('Verify that stamp widget Copy widget to all pages function correctly in request signature.', async ({ page }) => {
+  1670 |   const commonSteps = new CommonSteps(page);
+  1671 |   // Step 1: Navigate to Base URL and log in
+  1672 |   await commonSteps.navigateToBaseUrl();
+  1673 |   await commonSteps.login();
+  1674 | //const title = await page.title()
+  1675 |   //Expects page to have a heading with the name of dashboard.
+  1676 | //expect(title).toBe('Dashboard - OpenSign™');
+  1677 | await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  1678 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  1679 |   await expect(page.locator('input[name="Note"]')).toHaveValue(/.+/, { timeout: 90000 });
+  1680 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  1681 | await page.locator('input[type="file"]').click();
+  1682 | const fileChooser = await fileChooserPromise;
+  1683 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
+  1684 | await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  1685 | await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).waitFor({ timeout: 90000 });
+  1686 | await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
+  1687 | await page.locator('input[name="Name"]').click();
+  1688 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  1689 | await page.getByRole('button', { name: 'Next' }).click();
+  1690 | await page.waitForLoadState("networkidle");
+  1691 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  1692 | await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  1693 | await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  1694 | await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
+  1695 | await page.locator('//span[normalize-space()=\'stamp\']').hover();
+  1696 | await page.mouse.down();
+  1697 | await page.mouse.move(600, 370)
+  1698 | await page.mouse.up();
+  1699 | while (true) {
+  1700 |  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
+  1701 |   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
+  1702 |   
+  1703 |   if (isVisible) {
+```

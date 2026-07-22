@@ -1,0 +1,6 @@
+Browser: chromium, Version: 149.0.7827.55, OS: linux
+FreeplanUsername is empty. Running signup test...
+✅ Signup successful. User: kelvinsjohnson24+0.9664277267177217@gmail.com
+Checkbox disabled: false
+Radio button disabled: false
+Radio button disabled: false

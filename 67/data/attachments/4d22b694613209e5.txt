@@ -1,2 +1,0 @@
-signature widget dragged and dropped
-Dialog message: expect-default-one-more-signature-type

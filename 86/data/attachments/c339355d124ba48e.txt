@@ -1,0 +1,7 @@
+Browser: chromium, Version: 149.0.7827.55, OS: linux
+Dragged and dropped widget with label 'signature' to coordinates (600, 200).
+Signature widget dragged and dropped successfully.
+Dragged and dropped widget with label 'stamp' to coordinates (600, 360).
+Dragged and dropped widget with label 'initials' to coordinates (600, 420).
+Dragged and dropped widget with label 'name' to coordinates (600, 470).
+false

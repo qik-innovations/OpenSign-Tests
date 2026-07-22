@@ -1,0 +1,5 @@
+count out for sign old330
+Dragged and dropped widget with label 'signature' to coordinates (600, 300).
+Signature widget dragged and dropped successfully.
+Text found: 331
+✅ Out for signature card count increased by one, which is correct.

@@ -1,0 +1,3 @@
+Dragged and dropped widget with label 'signature' to coordinates (600, 300).
+Signature widget dragged and dropped successfully.
+Dialog message: Please enable one additional signature type apart from the default.

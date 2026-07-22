@@ -1,0 +1,768 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/Preferences.spec.js >> Preferences >> Free user cannot update settings for Notify on Signature and Merge Certificate PDF
+- Location: tests/MainAppPages/Preferences.spec.js:65:1
+
+# Error details
+
+```
+Error: expect(locator).toMatchAriaSnapshot(expected) failed
+
+Locator: locator('#panel-0')
+Timeout: 5000ms
+- Expected  - 41
++ Received  + 84
+
+- - text: "Allowed signature types"
++ - tabpanel:
++   - text: Allowed signature types
+- - superscript: "?"
++   - superscript: "?"
+- - checkbox "draw" [checked]
+- - text: draw
++   - checkbox "draw"
++   - text: draw
+- - checkbox "type" [checked]
++   - checkbox "type" [checked]
+- - text: type
++   - text: type
+- - checkbox "upload" [checked]
++   - checkbox "upload" [checked]
+- - text: upload
++   - text: upload
+- - checkbox "default" [checked]
++   - checkbox "default" [checked]
+- - text: default Notify on signatures
++   - text: default Notify on signatures
+- - superscript: "?"
++   - superscript: "?"
+- - superscript: Upgrade now
++   - superscript: Upgrade now
+- - radio "Yes" [checked]
++   - radio "Yes" [checked]
+- - text: "Yes"
++   - text: "Yes"
+- - radio "No"
++   - radio "No"
+- - text: No Send in order
++   - text: No Send in order
+- - superscript: "?"
++   - superscript: "?"
+- - radio "Yes" [checked]
++   - radio "Yes" [checked]
+- - text: "Yes"
++   - text: "Yes"
+- - radio "No"
++   - radio "No"
+- - text: No Allow offline signing
++   - text: No Allow offline signing
+- - superscript: "?"
++   - superscript: "?"
+- - superscript: Upgrade now
++   - superscript: Upgrade now
+- - radio "Yes"
++   - radio "Yes"
+- - text: "Yes"
++   - text: "Yes"
+- - radio "No" [checked]
++   - radio "No" [checked]
+- - text: No Use profile name as sender
++   - text: No Use profile name as sender
+- - superscript: "?"
++   - superscript: "?"
+- - checkbox "Use profile name as sender"
++   - checkbox "Use profile name as sender"
+- - text: Enable tour
++   - text: Enable tour
+- - superscript: "?"
++   - superscript: "?"
+- - radio "Yes" [checked]
++   - radio "Yes" [checked]
+- - text: "Yes"
++   - text: "Yes"
+- - radio "No"
++   - radio "No"
+- - text: "No"
++   - text: "No"
+- - heading "Email settings ?" [level=3]:
++   - heading "Email settings ?" [level=3]:
+-   - superscript: "?"
++     - text: Email settings
++     - superscript: "?"
+- - button "" [disabled]
++   - button "" [disabled]
+- - button "" [disabled]
++   - button "" [disabled]
+- - checkbox [checked]
++   - checkbox [checked]
+- - button "OpenSign™ default SMTP" [disabled]
++   - button "OpenSign™ default SMTP" [disabled]
++   - heading "Timezone" [level=1]
++   - log
++   - text: (GMT-8:00) Alaska
++   - combobox
++   - text: Date format
++   - combobox:
++     - option "MM/DD/YYYY" [selected]
++     - option "MM-DD-YYYY"
++     - option "MM.DD.YYYY"
++     - option "DD/MM/YYYY"
++     - option "DD-MM-YYYY"
++     - option "DD.MM.YYYY"
++     - option "YYYY-MM-DD"
++     - option "MMM DD, YYYY"
++     - option "MMMM DD, YYYY"
++     - option "DD MMM, YYYY"
++     - option "DD MMMM, YYYY"
++     - option "DD-MMM-YYYY"
++   - radio
++   - text: 12 hr
++   - radio [checked]
++   - text: 24 hr
++   - paragraph:
++     - strong: 07/22/2026, 09:27:25 GMT -08:00
++   - text: Document download filename format
++   - link "?":
++     - /url: /
++     - superscript: "?"
++   - combobox:
++     - option "document Name.pdf"
++     - option "document Name - Signed.pdf"
++     - option "document Name - name@domain.com.pdf" [selected]
++     - option "document Name - name@domain.com - date.pdf"
++   - text: "Preview: Agreement - kelvinsjohnson24+0.021110241259446605@gmail.com.pdf Merge Certificate to PDF"
++   - superscript: "?"
++   - superscript: Upgrade now
++   - radio "Yes"
++   - text: "Yes"
++   - radio "No" [checked]
++   - text: "No"
++   - button "Save"
+
+Call log:
+  - Expect "toMatchAriaSnapshot" with timeout 5000ms
+  - waiting for locator('#panel-0')
+    2 × locator resolved to <div id="panel-0" role="tabpanel" class="px-6 pt-4 pb-6" aria-labelledby="tab-0">…</div>
+      - unexpected value "- tabpanel:
+  - text: Allowed signature types
+  - superscript: "?"
+  - checkbox "draw"
+  - text: draw
+  - checkbox "type" [checked]
+  - text: type
+  - checkbox "upload" [checked]
+  - text: upload
+  - checkbox "default" [checked]
+  - text: default Notify on signatures
+  - superscript: "?"
+  - superscript: Upgrade now
+  - radio "Yes" [checked]
+  - text: "Yes"
+  - radio "No"
+  - text: No Send in order
+  - superscript: "?"
+  - radio "Yes" [checked]
+  - text: "Yes"
+  - radio "No"
+  - text: No Allow offline signing
+  - superscript: "?"
+  - superscript: Upgrade now
+  - radio "Yes"
+  - text: "Yes"
+  - radio "No" [checked]
+  - text: No Use profile name as sender
+  - superscript: "?"
+  - checkbox "Use profile name as sender"
+  - text: Enable tour
+  - superscript: "?"
+  - radio "Yes" [checked]
+  - text: "Yes"
+  - radio "No"
+  - text: "No"
+  - heading "Email settings ?" [level=3]:
+    - text: Email settings
+    - superscript: "?"
+  - button "" [disabled]
+  - button "" [disabled]
+  - button "OpenSign™ default SMTP" [disabled]
+  - heading "Timezone" [level=1]
+  - log
+  - text: (GMT-8:00) Alaska
+  - combobox
+  - text: Date format
+  - combobox:
+    - option "MM/DD/YYYY" [selected]
+    - option "MM-DD-YYYY"
+    - option "MM.DD.YYYY"
+    - option "DD/MM/YYYY"
+    - option "DD-MM-YYYY"
+    - option "DD.MM.YYYY"
+    - option "YYYY-MM-DD"
+    - option "MMM DD, YYYY"
+    - option "MMMM DD, YYYY"
+    - option "DD MMM, YYYY"
+    - option "DD MMMM, YYYY"
+    - option "DD-MMM-YYYY"
+  - radio
+  - text: 12 hr
+  - radio [checked]
+  - text: 24 hr
+  - paragraph:
+    - strong: 07/22/2026, 09:27:25 GMT -08:00
+  - text: Document download filename format
+  - link "?":
+    - /url: /
+    - superscript: "?"
+  - combobox:
+    - option "document Name.pdf"
+    - option "document Name - Signed.pdf"
+    - option "document Name - name@domain.com.pdf" [selected]
+    - option "document Name - name@domain.com - date.pdf"
+  - text: "Preview: Agreement - kelvinsjohnson24+0.021110241259446605@gmail.com.pdf Merge Certificate to PDF"
+  - superscript: "?"
+  - superscript: Upgrade now
+  - radio "Yes"
+  - text: "Yes"
+  - radio "No" [checked]
+  - text: "No"
+  - button "Save""
+    12 × locator resolved to <div id="panel-0" role="tabpanel" class="px-6 pt-4 pb-6" aria-labelledby="tab-0">…</div>
+       - unexpected value "- tabpanel:
+  - text: Allowed signature types
+  - superscript: "?"
+  - checkbox "draw"
+  - text: draw
+  - checkbox "type" [checked]
+  - text: type
+  - checkbox "upload" [checked]
+  - text: upload
+  - checkbox "default" [checked]
+  - text: default Notify on signatures
+  - superscript: "?"
+  - superscript: Upgrade now
+  - radio "Yes" [checked]
+  - text: "Yes"
+  - radio "No"
+  - text: No Send in order
+  - superscript: "?"
+  - radio "Yes" [checked]
+  - text: "Yes"
+  - radio "No"
+  - text: No Allow offline signing
+  - superscript: "?"
+  - superscript: Upgrade now
+  - radio "Yes"
+  - text: "Yes"
+  - radio "No" [checked]
+  - text: No Use profile name as sender
+  - superscript: "?"
+  - checkbox "Use profile name as sender"
+  - text: Enable tour
+  - superscript: "?"
+  - radio "Yes" [checked]
+  - text: "Yes"
+  - radio "No"
+  - text: "No"
+  - heading "Email settings ?" [level=3]:
+    - text: Email settings
+    - superscript: "?"
+  - button "" [disabled]
+  - button "" [disabled]
+  - checkbox [checked]
+  - button "OpenSign™ default SMTP" [disabled]
+  - heading "Timezone" [level=1]
+  - log
+  - text: (GMT-8:00) Alaska
+  - combobox
+  - text: Date format
+  - combobox:
+    - option "MM/DD/YYYY" [selected]
+    - option "MM-DD-YYYY"
+    - option "MM.DD.YYYY"
+    - option "DD/MM/YYYY"
+    - option "DD-MM-YYYY"
+    - option "DD.MM.YYYY"
+    - option "YYYY-MM-DD"
+    - option "MMM DD, YYYY"
+    - option "MMMM DD, YYYY"
+    - option "DD MMM, YYYY"
+    - option "DD MMMM, YYYY"
+    - option "DD-MMM-YYYY"
+  - radio
+  - text: 12 hr
+  - radio [checked]
+  - text: 24 hr
+  - paragraph:
+    - strong: 07/22/2026, 09:27:25 GMT -08:00
+  - text: Document download filename format
+  - link "?":
+    - /url: /
+    - superscript: "?"
+  - combobox:
+    - option "document Name.pdf"
+    - option "document Name - Signed.pdf"
+    - option "document Name - name@domain.com.pdf" [selected]
+    - option "document Name - name@domain.com - date.pdf"
+  - text: "Preview: Agreement - kelvinsjohnson24+0.021110241259446605@gmail.com.pdf Merge Certificate to PDF"
+  - superscript: "?"
+  - superscript: Upgrade now
+  - radio "Yes"
+  - text: "Yes"
+  - radio "No" [checked]
+  - text: "No"
+  - button "Save""
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]: "New feature: Protect your account with Two-Factor Authentication (2FA) and enjoy the future of login with Passkeys — no passwords needed. — Setup now."
+      - generic [ref=e9] [cursor=pointer]:
+        - img [ref=e10]
+        - generic [ref=e14]: 
+    - generic [ref=e15]:
+      - button "" [ref=e17] [cursor=pointer]:
+        - generic [ref=e18]: 
+      - img "logo" [ref=e21] [cursor=pointer]
+      - generic [ref=e22]:
+        - button "Upgrade now" [ref=e24] [cursor=pointer]
+        - button "Open app drawer" [ref=e27] [cursor=pointer]:
+          - generic [ref=e28]: 
+        - img "img" [ref=e30] [cursor=pointer]
+        - button "Mathew Wade" [ref=e31] [cursor=pointer]
+        - generic [ref=e32]:
+          - button "" [ref=e33] [cursor=pointer]:
+            - generic [ref=e34]: 
+          - text:         
+  - generic [ref=e35]:
+    - complementary [ref=e36]:
+      - generic [ref=e37]:
+        - img "Profile" [ref=e39] [cursor=pointer]
+        - generic [ref=e40]:
+          - paragraph [ref=e41] [cursor=pointer]: Mathew Wade
+          - paragraph [ref=e42] [cursor=pointer]: qikAi.com
+      - navigation "OpenSign Sidebar Navigation" [ref=e43]:
+        - menubar "OpenSign Sidebar Navigation" [ref=e44]:
+          - menuitem "Dashboard" [ref=e45]:
+            - generic [ref=e47]: 
+            - generic [ref=e48]: Dashboard
+          - menuitem "Sign yourself" [ref=e49]:
+            - generic [ref=e51]: 
+            - generic [ref=e52]: Sign yourself
+          - menuitem "Request signatures" [ref=e53]:
+            - generic [ref=e55]: 
+            - generic [ref=e56]: Request signatures
+          - button " Templates" [ref=e57] [cursor=pointer]:
+            - generic [ref=e59]: 
+            - generic [ref=e60]:
+              - generic [ref=e61]: Templates
+              - generic [ref=e62]: 
+          - menuitem "OpenSign™ Drive" [ref=e63]:
+            - generic [ref=e65]: 
+            - generic [ref=e66]: OpenSign™ Drive
+          - button " Documents" [ref=e67] [cursor=pointer]:
+            - generic [ref=e69]: 
+            - generic [ref=e70]:
+              - generic [ref=e71]: Documents
+              - generic [ref=e72]: 
+          - menuitem "Contactbook" [ref=e73]:
+            - generic [ref=e75]: 
+            - generic [ref=e76]: Contactbook
+          - button " Settings" [ref=e77] [cursor=pointer]:
+            - generic [ref=e79]: 
+            - generic [ref=e80]:
+              - generic [ref=e81]: Settings
+              - generic [ref=e82]: 
+          - menu "Settings submenu" [ref=e83]:
+            - menuitem "My signature" [ref=e84] [cursor=pointer]:
+              - generic [ref=e86]: 
+              - generic [ref=e87]: My signature
+            - menuitem "API token" [ref=e88] [cursor=pointer]:
+              - generic [ref=e90]: 
+              - generic [ref=e91]: API token
+            - menuitem "Webhook" [ref=e92] [cursor=pointer]:
+              - generic [ref=e94]: 
+              - generic [ref=e95]: Webhook
+            - menuitem "Preferences" [active] [ref=e96] [cursor=pointer]:
+              - generic [ref=e98]: 
+              - generic [ref=e99]: Preferences
+            - menuitem "Teams" [ref=e100] [cursor=pointer]:
+              - generic [ref=e102]: 
+              - generic [ref=e103]: Teams
+            - menuitem "Users" [ref=e104] [cursor=pointer]:
+              - generic [ref=e106]: 
+              - generic [ref=e107]: Users
+      - generic [ref=e108]:
+        - link "OpenSign's Github" [ref=e109]:
+          - /url: https://github.com/opensignlabs/opensign
+          - generic [ref=e110]: 
+          - generic [ref=e111]: OpenSign's Github
+        - link "OpenSign's LinkedIn" [ref=e112]:
+          - /url: https://www.linkedin.com/company/opensign%E2%84%A2/
+          - generic [ref=e113]: 
+          - generic [ref=e114]: OpenSign's LinkedIn
+        - link "OpenSign's Twitter" [ref=e115]:
+          - /url: https://www.twitter.com/opensignlabs
+          - generic [ref=e116]: 
+          - generic [ref=e117]: OpenSign's Twitter
+        - link "OpenSign's Discord" [ref=e118]:
+          - /url: https://discord.com/invite/xe9TDuyAyj
+          - generic [ref=e119]: 
+          - generic [ref=e120]: OpenSign's Discord
+    - main [ref=e121]:
+      - generic [ref=e122]:
+        - generic [ref=e124]:
+          - heading "OpenSign™ Preferences" [level=1] [ref=e125]
+          - tablist [ref=e127]:
+            - tab " General" [selected] [ref=e128] [cursor=pointer]:
+              - generic [ref=e129]: 
+              - generic "General" [ref=e130]
+            - tab " Widgets" [ref=e131] [cursor=pointer]:
+              - generic [ref=e132]: 
+              - generic "Widgets" [ref=e133]
+            - tab " Email" [ref=e134] [cursor=pointer]:
+              - generic [ref=e135]: 
+              - generic "Email" [ref=e136]
+            - tab " Security" [ref=e137] [cursor=pointer]:
+              - generic [ref=e138]: 
+              - generic "Security" [ref=e139]
+          - tabpanel [ref=e140]:
+            - generic [ref=e141]:
+              - generic [ref=e142]:
+                - generic [ref=e143]:
+                  - generic [ref=e144]:
+                    - text: Allowed signature types
+                    - superscript [ref=e146]:
+                      - generic [ref=e147]: "?"
+                  - generic [ref=e148]:
+                    - generic [ref=e149]:
+                      - checkbox "draw" [ref=e150] [cursor=pointer]
+                      - generic "Enabling this allows signers to draw signature" [ref=e151] [cursor=pointer]: draw
+                    - generic [ref=e152]:
+                      - checkbox "type" [checked] [ref=e153] [cursor=pointer]
+                      - generic "Enabling this allows signers to typed signature" [ref=e154] [cursor=pointer]: type
+                    - generic [ref=e155]:
+                      - checkbox "upload" [checked] [ref=e156] [cursor=pointer]
+                      - generic "Enabling this allows signers to upload signature" [ref=e157] [cursor=pointer]: upload
+                    - generic [ref=e158]:
+                      - checkbox "default" [checked] [ref=e159] [cursor=pointer]
+                      - generic "Enabling this allows signers to default signature" [ref=e160] [cursor=pointer]: default
+                - generic [ref=e161]:
+                  - generic [ref=e162]:
+                    - text: Notify on signatures
+                    - superscript [ref=e164]:
+                      - generic [ref=e165]: "?"
+                    - superscript [ref=e167]: Upgrade now
+                  - generic [ref=e168]:
+                    - generic:
+                      - radio "Yes" [checked]
+                      - generic: "Yes"
+                    - generic:
+                      - radio "No"
+                      - generic: "No"
+                - generic [ref=e169]:
+                  - generic [ref=e170]:
+                    - text: Send in order
+                    - superscript [ref=e172]:
+                      - generic [ref=e173]: "?"
+                  - generic [ref=e174]:
+                    - generic [ref=e175]:
+                      - radio "Yes" [checked] [ref=e176] [cursor=pointer]
+                      - generic [ref=e177] [cursor=pointer]: "Yes"
+                    - generic [ref=e178]:
+                      - radio "No" [ref=e179] [cursor=pointer]
+                      - generic [ref=e180] [cursor=pointer]: "No"
+                - generic [ref=e181]:
+                  - generic [ref=e182]:
+                    - text: Allow offline signing
+                    - superscript [ref=e184]:
+                      - generic [ref=e185]: "?"
+                    - superscript [ref=e186]: Upgrade now
+                  - generic:
+                    - generic:
+                      - radio "Yes"
+                      - generic: "Yes"
+                    - generic:
+                      - radio "No" [checked]
+                      - generic: "No"
+                - generic [ref=e187]:
+                  - generic [ref=e188]: Use profile name as sender
+                  - superscript [ref=e190]:
+                    - generic [ref=e191]: "?"
+                  - checkbox "Use profile name as sender" [ref=e193] [cursor=pointer]
+                - generic [ref=e194]:
+                  - generic [ref=e195]:
+                    - text: Enable tour
+                    - superscript [ref=e197]:
+                      - generic [ref=e198]: "?"
+                  - generic [ref=e199]:
+                    - generic [ref=e200]:
+                      - radio "Yes" [checked] [ref=e201] [cursor=pointer]
+                      - generic [ref=e202] [cursor=pointer]: "Yes"
+                    - generic [ref=e203]:
+                      - radio "No" [ref=e204] [cursor=pointer]
+                      - generic [ref=e205] [cursor=pointer]: "No"
+                - generic [ref=e206]:
+                  - heading "Email settings ?" [level=3] [ref=e207]:
+                    - text: Email settings
+                    - superscript [ref=e210]:
+                      - generic [ref=e211]: "?"
+                  - generic [ref=e213]:
+                    - generic [ref=e214]:
+                      - button "" [disabled]:
+                        - generic: 
+                    - generic [ref=e215]:
+                      - button "" [disabled]:
+                        - generic: 
+                    - generic [ref=e216]:
+                      - checkbox [checked]
+                      - button "OpenSign™ default SMTP" [disabled] [ref=e217] [cursor=pointer]
+              - generic [ref=e218]:
+                - generic [ref=e220]:
+                  - heading "Timezone" [level=1] [ref=e221]
+                  - generic [ref=e222]:
+                    - log [ref=e224]
+                    - generic [ref=e225]:
+                      - generic [ref=e226]:
+                        - generic [ref=e227]: (GMT-8:00) Alaska
+                        - combobox [ref=e229]
+                      - img [ref=e233]
+                - generic [ref=e236]:
+                  - generic [ref=e237]: Date format
+                  - combobox [ref=e238] [cursor=pointer]:
+                    - option "MM/DD/YYYY" [selected]
+                    - option "MM-DD-YYYY"
+                    - option "MM.DD.YYYY"
+                    - option "DD/MM/YYYY"
+                    - option "DD-MM-YYYY"
+                    - option "DD.MM.YYYY"
+                    - option "YYYY-MM-DD"
+                    - option "MMM DD, YYYY"
+                    - option "MMMM DD, YYYY"
+                    - option "DD MMM, YYYY"
+                    - option "DD MMMM, YYYY"
+                    - option "DD-MMM-YYYY"
+                  - generic [ref=e239]:
+                    - generic [ref=e240]:
+                      - radio [ref=e241] [cursor=pointer]
+                      - generic [ref=e242]: 12 hr
+                    - generic [ref=e243]:
+                      - radio [checked] [ref=e244] [cursor=pointer]
+                      - generic [ref=e245]: 24 hr
+                  - paragraph [ref=e246]:
+                    - strong [ref=e247]: 07/22/2026, 09:27:25 GMT -08:00
+                - generic [ref=e249]:
+                  - generic [ref=e250]:
+                    - text: Document download filename format
+                    - link "?" [ref=e252]:
+                      - /url: /
+                      - superscript [ref=e253]:
+                        - generic [ref=e254]: "?"
+                  - combobox [ref=e255] [cursor=pointer]:
+                    - option "document Name.pdf"
+                    - option "document Name - Signed.pdf"
+                    - option "document Name - name@domain.com.pdf" [selected]
+                    - option "document Name - name@domain.com - date.pdf"
+                  - generic [ref=e256]: "Preview: Agreement - kelvinsjohnson24+0.021110241259446605@gmail.com.pdf"
+                - generic [ref=e257]:
+                  - generic [ref=e258]:
+                    - text: Merge Certificate to PDF
+                    - superscript [ref=e260]:
+                      - generic [ref=e261]: "?"
+                    - superscript [ref=e263]: Upgrade now
+                  - generic [ref=e264]:
+                    - generic:
+                      - radio "Yes"
+                      - generic: "Yes"
+                    - generic:
+                      - radio "No" [checked]
+                      - generic: "No"
+              - button "Save" [ref=e266] [cursor=pointer]
+        - generic [ref=e267]:
+          - complementary [ref=e269]:
+            - paragraph [ref=e270]:
+              - text: All rights reserved © 2026
+              - generic [ref=e271] [cursor=pointer]: "OpenSign™ ( version: v2.41.0 )"
+          - text: 
+```
+
+# Test source
+
+```ts
+  1   | const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+  2   | const { test, expect } = require('@playwright/test');
+  3   | const path = require('path');
+  4   | const CommonSteps = require('../utils/CommonSteps');
+  5   | test.describe('Preferences', () => {
+  6   |   const ROOT_SELECTOR = '#root';
+  7   | const RENDER_LIST_SELECTOR = '#renderList';
+  8   | test('Verify that New free user can save the general preferences.', async ({ page }) => {
+  9   |     const commonSteps = new CommonSteps(page);
+  10  |     // Step 1: Navigate to Base URL and log in
+  11  |     await commonSteps.navigateToBaseUrl();
+  12  |     await commonSteps.NewUserlogin();
+  13  |     await page.getByRole('button', { name: ' Settings' }).click();
+  14  |     await page.getByRole('menuitem', { name: 'Preferences' }).click();
+  15  |     const title = await page.title();
+  16  |     if (title === 'OpenSign™ Preferences') {
+  17  |       console.log('Page title is correct: OpenSign™ Preferences');
+  18  |     } else {
+  19  |       console.error(`Page title is incorrect. Expected: "OpenSign™ Preferences", Got: "${title}"`);
+  20  |     }
+  21  |     await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences' })).toBeVisible();
+  22  |   await page.getByText('General').click();
+  23  |   await expect(page.getByText('Allowed signature types')).toBeVisible();
+  24  |   await page.getByText('draw').click();
+  25  |   await expect(page.locator('//label[@title="Enabling this allows signers to draw signature" and text()="draw"]')).toBeVisible();
+  26  |   await expect(page.locator('//label[@title="Enabling this allows signers to typed signature" and text()="type"]', { exact: true })).toBeVisible();
+  27  |   await expect(page.locator('//label[@title="Enabling this allows signers to upload signature" and text()="upload"]')).toBeVisible();
+  28  |   await expect(page.locator('//label[@title="Enabling this allows signers to default signature" and text()="default"]')).toBeVisible();
+  29  |   await expect(page.getByText('Notify on signaturesUpgrade')).toBeVisible();
+  30  |   await expect(page.locator('//label[contains(., "Notify on signatures")]//span[normalize-space(.)="Upgrade now"]').getByText('Upgrade now')).toBeVisible();
+  31  |   await expect(page.getByRole('heading', { name: 'Timezone' })).toBeVisible();
+  32  | // Open the dropdown
+  33  | await page.locator('.css-n9qnu9').click();
+  34  | //await page.locator('//div[@class="css-w54w9q-singleValue"]').click();
+  35  | // Click the desired option
+  36  | await page.locator('//div[text()="(GMT+10:00) Canberra, Melbourne, Sydney"]').click();
+  37  |   await page.locator('#renderList div').filter({ hasText: 'Allowed signature' }).nth(2).click();
+  38  |   await page.locator('.css-n9qnu9').click();
+  39  |   await page.locator('#renderList div').filter({ hasText: 'Allowed signature' }).nth(2).click();
+  40  |   await page.locator("//label[text()='Date format']/following-sibling::select").selectOption({ label: "MM/DD/YYYY" });
+  41  |   await page.locator("//label[text()='Document download filename format']/following-sibling::select").selectOption({ label: "document Name - name@domain.com.pdf" });
+  42  |   await page.getByRole('button', { name: 'Save' }).click();
+  43  |   await expect(page.getByText('Saved successfully.')).toBeVisible();
+  44  | });
+  45  | 
+  46  | test('Verify that a new free user cannot save email preferences is prompted to upgrade', async ({ page }) => {
+  47  |     const commonSteps = new CommonSteps(page);
+  48  |     // Step 1: Navigate to Base URL and log in
+  49  |     await commonSteps.navigateToBaseUrl();
+  50  |     await commonSteps.NewUserlogin();
+  51  |     await page.getByRole('button', { name: ' Settings' }).click();
+  52  |     await page.getByRole('menuitem', { name: 'Preferences' }).click();
+  53  |     const title = await page.title();
+  54  |     if (title === 'OpenSign™ Preferences') {
+  55  |       console.log('Page title is correct: OpenSign™ Preferences');
+  56  |     } else {
+  57  |       console.error(`Page title is incorrect. Expected: "OpenSign™ Preferences", Got: "${title}"`);
+  58  |     }
+  59  |     await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences' })).toBeVisible();
+  60  |   await page.locator("//div[@role='tab' and @aria-controls='panel-Email']").click();
+  61  |   await expect(page.locator('#panel-2')).toContainText('To let individual users customize their own email templates, navigate to Console → General.');
+  62  |   await page.getByText('Console → General.').click();
+  63  |   await expect(page.locator('//div[@class="p-3"]//button[normalize-space()="Upgrade now"]')).toContainText('Upgrade now');
+  64  | });
+  65  | test('Free user cannot update settings for Notify on Signature and Merge Certificate PDF', async ({ page }) => {
+  66  |   const commonSteps = new CommonSteps(page);
+  67  | 
+  68  |   // Navigate and login as new user
+  69  |   await commonSteps.navigateToBaseUrl();
+  70  |   await commonSteps.NewUserlogin();
+  71  | 
+  72  |   // Open Preferences
+  73  |   await page.getByRole('button', { name: ' Settings' }).click();
+  74  |   await page.getByRole('menuitem', { name: 'Preferences' }).click();
+  75  | 
+  76  |   // Verify page title
+  77  |   const title = await page.title();
+  78  |   if (title === 'OpenSign™ Preferences') {
+  79  |     console.log('Page title is correct: OpenSign™ Preferences');
+  80  |   } else {
+  81  |     console.error(`Page title is incorrect. Expected: "OpenSign™ Preferences", Got: "${title}"`);
+  82  |   }
+  83  | 
+  84  |   // Verify heading
+  85  |   await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences' })).toBeVisible();
+  86  | 
+  87  |   // Verify General panel snapshot
+  88  |   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+  89  |      - tab " General" [selected]
+  90  |      - tab " Widgets"
+  91  |      - tab " Email"
+  92  |      - tab " Security"
+  93  |      `);
+> 94  |    await expect(page.locator('#panel-0')).toMatchAriaSnapshot(`
+      |                                           ^ Error: expect(locator).toMatchAriaSnapshot(expected) failed
+  95  |      - text: "Allowed signature types"
+  96  |      - superscript: "?"
+  97  |      - checkbox "draw" [checked]
+  98  |      - text: draw
+  99  |      - checkbox "type" [checked]
+  100 |      - text: type
+  101 |      - checkbox "upload" [checked]
+  102 |      - text: upload
+  103 |      - checkbox "default" [checked]
+  104 |      - text: default Notify on signatures
+  105 |      - superscript: "?"
+  106 |      - superscript: Upgrade now
+  107 |      - radio "Yes" [checked]
+  108 |      - text: "Yes"
+  109 |      - radio "No"
+  110 |      - text: No Send in order
+  111 |      - superscript: "?"
+  112 |      - radio "Yes" [checked]
+  113 |      - text: "Yes"
+  114 |      - radio "No"
+  115 |      - text: No Allow offline signing
+  116 |      - superscript: "?"
+  117 |      - superscript: Upgrade now
+  118 |      - radio "Yes"
+  119 |      - text: "Yes"
+  120 |      - radio "No" [checked]
+  121 |      - text: No Use profile name as sender
+  122 |      - superscript: "?"
+  123 |      - checkbox "Use profile name as sender"
+  124 |      - text: Enable tour
+  125 |      - superscript: "?"
+  126 |      - radio "Yes" [checked]
+  127 |      - text: "Yes"
+  128 |      - radio "No"
+  129 |      - text: "No"
+  130 |      - heading "Email settings ?" [level=3]:
+  131 |        - superscript: "?"
+  132 |      - button "" [disabled]
+  133 |      - button "" [disabled]
+  134 |      - checkbox [checked]
+  135 |      - button "OpenSign™ default SMTP" [disabled]
+  136 |      `);
+  137 |  
+  138 | await expect(page.locator('#panel-0')).toContainText('Notify on signaturesUpgrade nowYesNo');
+  139 |   await expect(page.locator('#panel-0')).toContainText('Send in orderYesNo');
+  140 |   await expect(page.locator('#panel-0')).toContainText('Allow offline signingUpgrade nowYesNo');
+  141 |   await expect(page.locator('#panel-0')).toContainText('Merge Certificate to PDFUpgrade nowYesNo');
+  142 | });
+  143 | 
+  144 |   test('Team plan user can access the Email page.', async ({ page }) => {
+  145 |     const commonSteps = new CommonSteps(page);
+  146 |     await commonSteps.navigateToBaseUrl();
+  147 |     await commonSteps.login();
+  148 | await page.getByRole('button', { name: ' Settings' }).click();
+  149 |     await page.getByRole('menuitem', { name: 'Preferences' }).click();
+  150 |     const title = await page.title();
+  151 |     if (title === 'OpenSign™ Preferences') {
+  152 |       console.log('Page title is correct: OpenSign™ Preferences');
+  153 |     } else {
+  154 |       console.error(`Page title is incorrect. Expected: "OpenSign™ Preferences", Got: "${title}"`);
+  155 |     }
+  156 |     await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences' })).toBeVisible();
+  157 |     await expect(page.locator(ROOT_SELECTOR)).toContainText('Pravin Testing account');
+  158 |     await expect(page.locator(ROOT_SELECTOR)).toContainText('TEAM');
+  159 |     await page.locator('//div[@role="tab"]//span[@title="Email"]').click();
+  160 |    await expect(page.locator('//div[@id="panel-2"]//h1[text()="Request Email"]')).toContainText('Request Email');
+  161 | 
+  162 |   });
+  163 | 
+  164 | });
+  165 | 
+```

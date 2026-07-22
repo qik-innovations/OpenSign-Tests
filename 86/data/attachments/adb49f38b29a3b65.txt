@@ -1,0 +1,2 @@
+Browser: chromium, Version: 149.0.7827.55, OS: linux
+Dialog message: Please select file(s).

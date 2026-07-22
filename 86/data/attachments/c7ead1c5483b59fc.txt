@@ -1,0 +1,2 @@
+Browser: chromium, Version: 149.0.7827.55, OS: linux
+Pagination controls are not visible, likely only one page of teams exists.

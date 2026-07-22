@@ -1,0 +1,6 @@
+Count need your sign 111
+Dragged and dropped widget with label 'signature' to coordinates (600, 300).
+Signature widget dragged and dropped successfully.
+Count need your sign incremnt by 1 112
+new count 112
+Need Your Signature card count increased by one, which is correct.

@@ -1,0 +1,4 @@
+browser name: chromium
+Browser version: 149.0.7827.55
+Browser Platform: linux
+Scroll position at login page load: 0
