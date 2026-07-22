@@ -68,19 +68,9 @@ await page.mouse.down();
 await page.mouse.move(600, 490)
 await page.mouse.up();
 page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('span').filter({ hasText: 'dropdown' }).hover();
-await page.mouse.down();
-await page.mouse.move(400, 550)
-await page.mouse.up();
-page.locator("//button[@type='submit' and text()='Save']").click();
-await page.locator('//span[normalize-space()=\'radio button\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 550)
-await page.mouse.up();
-page.locator("//button[@type='submit' and text()='Save']").click();
 await page.locator('//span[normalize-space()=\'image\']').hover();
 await page.mouse.down();
-await page.mouse.move(400, 600)
+await page.mouse.move(600, 600)
 await page.mouse.up();
 await page.getByRole('button', { name: 'Next' }).click();
    await page.locator("//div[i[contains(@class,'fa-envelope')] and .//span[text()='Send to Email']]").click();
@@ -149,8 +139,6 @@ await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
     await commonSteps.clickNextButtonInSignerModal();
     await commonSteps.selectCheckbox('Option-1');
  await commonSteps.clickNextButtonInSignerModal();
- await commonSteps.selectRadioButton('Option-1');
-    await commonSteps.clickNextButtonInSignerModal();
   await commonSteps.uploadImage();
   await commonSteps.clickDoneButtonInSignerModal();
 await commonSteps.clickFinishButtonInSignerModal();
