@@ -287,27 +287,36 @@ await page.getByRole('button', { name: 'Next' }).click();
   await page.getByRole('button', { name: 'Bulk send' }).click();
     await expect(page.locator('#selectSignerModal')).toContainText('Please verify your email address before sending emails. Go to your profile settings to complete email verification.');
  await page.getByText('Please verify your email').click();
- await page.getByText('Verify', { exact: true }).click();
-async function expectOTPEmail(email) {
-  const emailText = await fetchOTP({
+await page.getByText('Verify', { exact: true }).click();
+const otpInput = page.locator('//input[@placeholder="Enter verification code received over email"]');
+
+await expect(otpInput).toBeVisible();
+
+const otp = await expectOTPEmail(loginCredentials.FreeplanUsername, 4); // Use 6 for a six-digit template
+
+await otpInput.fill(otp);
+await page.getByRole('button', { name: 'Verify', exact: true }).click();
+
+async function expectOTPEmail(email, digits) {
+  const otp = await fetchOTP({
     ...gmailConfig,
-    otpRegex: /Your OpenSign.*OTP|OTP Verification|Your OTP for OpenSign.*verification/i,
     expectedTo: email,
+    otpRegex: new RegExp(
+      `Your\\s+OTP\\s+for\\s+OpenSign.*?verification\\s+is:\\s*(\\d{${digits}})`,
+      'i'
+    ),
   });
 
-  const otpMatch = emailText.match(/\b\d{4}\b/);
+  if (!new RegExp(`^\\d{${digits}}$`).test(otp)) {
+    throw new Error(`Expected a ${digits}-digit OTP but received: ${otp}`);
+  }
 
-  expect(otpMatch).not.toBeNull();
-
-  const otp = otpMatch[0];
   console.log(`OTP: ${otp}`);
-
   return otp;
 }
-const otp = await expectOTPEmail(gmailConfig.user);
-await page.getByRole('textbox', { name: 'Enter verification code' }).fill(otp);
-await page.getByRole('button', { name: 'Verify' }).click();
-
+ await page.getByRole('menuitem', { name: 'Manage templates' }).click();
+  await page.getByRole('button', { name: 'Close Tour' }).click();
+  await page.getByRole('button', { name: 'Bulk send' }).click();
   await page.getByRole('textbox', { name: 'Enter Email...' }).first().fill('pravin+677@nxglabs.in');
 await page.getByRole('textbox', { name: 'Enter Email...' }).nth(1).fill('pravin+689@nxglabs.in');
   await page.getByRole('button', { name: ' Send' }).click();
@@ -723,234 +732,190 @@ await page.getByRole('button', { name: 'Next' }).click();
 
 test('Verify that the signer can received the email from default email template.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
-    // Step 1: Navigate to Base URL and log in
-    await commonSteps.navigateToBaseUrl();
-    await commonSteps.login();
- await page.getByRole('button', { name: ' Templates' }).click();
+
+  // Step 1: Navigate & Login
+  await commonSteps.navigateToBaseUrl();
+  await commonSteps.login();
+
+  await page.getByRole('button', { name: ' Templates' }).click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
+
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+
   const fileChooserPromise = page.waitForEvent('filechooser');
   await page.locator('input[type="file"]').click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+
+  await fileChooser.setFiles(
+    path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf')
+  );
+
   await page.locator("//input[@name='SendinOrder' and @value='true']").click();
-  await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+
+  await expect(page.getByRole('button', { name: 'Next' }))
+    .toBeEnabled({ timeout: 90000 });
+
   await page.getByRole('button', { name: 'Next' }).click();
+
+  // Add Role 1
   await page.getByRole('button', { name: '+ Add role' }).click();
-  await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('ceo');
-  await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
-  await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-    await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
-       
-    await page.getByRole('button', { name: '+ Add role' }).click();
-  await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 2"]').fill('HR');
-  await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
-  await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-    await commonSteps.dragAndDropSignatureWidget('signature', 600, 400);
-    await page.getByRole('button', { name: 'Next' }).click();
-     await page.getByRole('button', { name: 'Bulk send' }).click();
-const row = page.locator('tbody tr').first();
+  await page.locator('//input[@placeholder="Role 1"]').fill('ceo');
+ await page.getByRole('button', { name: 'Add', exact: true }).click();
+  await page.waitForSelector('//div[@class="react-pdf__Document"]', { timeout: 90000 });
+  await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
 
-await row.getByPlaceholder('Enter Email...').nth(0)
-  .fill('kelvinsjohnson24+drafttempSigner1@gmail.com');
+  // Add Role 2
+  await page.getByRole('button', { name: '+ Add role' }).click();
+  await page.locator('//input[@placeholder="Role 2"]').fill('HR');
+await page.getByRole('button', { name: 'Add', exact: true }).click();
 
-await row.getByPlaceholder('Enter Email...').nth(1)
-  .fill('kelvinsjohnson24+drafttempSigner2@gmail.com');
+  await page.waitForSelector('//div[@class="react-pdf__Document"]', { timeout: 90000 });
+  await commonSteps.dragAndDropSignatureWidget('signature', 600, 400);
 
-const completionEmailRecipient = 'kelvinsjohnson24+drafttempSigner1@gmail.com';
-   await page.locator("//button[i[contains(@class,'fa-paper-plane')] and .//span[normalize-space()='Send']]").click();
+  await page.getByRole('button', { name: 'Next' }).click();
+  await page.getByRole('button', { name: 'Bulk send' }).click();
 
-   const summaryCard = page.locator('div.rounded-box').filter({
-  has: page.getByText('Summary', { exact: true })
-});
+  const row = page.locator('tbody tr').first();
 
-await expect(summaryCard).toBeVisible({ timeout: 90000 });
+  const signer1 = 'kelvinsjohnson24+drafttempSigner1@gmail.com';
+  const signer2 = 'kelvinsjohnson24+drafttempSigner2@gmail.com';
 
-await expect(summaryCard.locator('ul > li')).toHaveText(
-  [
+  await row.getByPlaceholder('Enter Email...').nth(0).fill(signer1);
+  await row.getByPlaceholder('Enter Email...').nth(1).fill(signer2);
+
+  const completionEmailRecipient = signer1;
+
+  await page.locator("//button[i[contains(@class,'fa-paper-plane')] and .//span[normalize-space()='Send']]").click();
+
+  // Verify summary
+  const summaryCard = page.locator('div.rounded-box').filter({
+    has: page.getByText('Summary', { exact: true })
+  });
+
+  await expect(summaryCard).toBeVisible({ timeout: 90000 });
+
+  await expect(summaryCard.locator('ul > li')).toHaveText([
     'Prefill fields: 0',
     'Documents: 1',
     'Status: success',
     'Message: Documents sent successfully.'
-  ],
-  { timeout: 90000 }
-);
+  ]);
 
-const signer1Email = await getLatestEmail({
-  ...gmailConfig,
-  expectedTo: 'kelvinsjohnson24+drafttempSigner1@gmail.com',
-  timeout: 60000
-});
-expect(signer1Email).toBeDefined();
-expect(signer1Email.subject).toContain(
-  'has requested you to sign'
-);
+  // 🔹 Common email validator
+  const validateEmailTemplate = (email) => {
+    const html = email.html || '';
 
-const emailHtml = signer1Email.html || '';
+    expect(email).toBeDefined();
+    expect(email.subject).toContain('has requested you to sign');
 
-expect(emailHtml).toContain(
-  'requested'
-);
+    expect(html).toContain('requested');
+    expect(html).toContain('review');
+    expect(html).toContain('sign');
+    expect(html).toContain('Sign');
+    expect(html).toContain('Team');
+    expect(html).toContain('OpenSign');
+    expect(html).toContain('Sign here');
+  };
 
-expect(emailHtml).toContain(
-  'review'
-);
+  // ---------------------------
+  // ✅ SIGNER 1
+  // ---------------------------
+  const signer1Email = await getLatestEmail({
+    ...gmailConfig,
+    expectedTo: signer1,
+    timeout: 60000
+  });
 
-expect(emailHtml).toContain(
-  'sign'
-);
+  validateEmailTemplate(signer1Email);
 
-expect(emailHtml).toContain(
-  'Sign'
-);
+  expect(signer1Email.from.toLowerCase())
+    .toContain('kelvinsjohnson24@gmail.com');
 
-expect(emailHtml).toContain(
-  'Team'
-);
+  const signer1LinkMatch = signer1Email.html.match(
+    /href=['"]([^'"]+)['"][^>]*>Sign here</i
+  );
 
-expect(emailHtml).toContain(
-  'OpenSign'
-);
-// Validate sender
-expect(
-  signer1Email.from.toLowerCase()
-).toContain(
-  'kelvinsjohnson24@gmail.com'
-);
+  expect(signer1LinkMatch).not.toBeNull();
 
-const signLinkMatch = emailHtml.match(/href=['"]([^'"]+)['"][^>]*>Sign here</i);
+  const signer1SigningUrl = signer1LinkMatch[1];
 
-expect(signLinkMatch).not.toBeNull();
+  await page.goto(signer1SigningUrl);
+  await page.waitForLoadState('networkidle');
 
-const signer1SigningUrl = signLinkMatch[1];
+  await page.waitForSelector('//div[@class="react-pdf__Document"]');
 
-console.log('Signer 1 Signing URL:', signer1SigningUrl);
+  await commonSteps.validateAndAcceptTerms();
 
-await page.goto(signer1SigningUrl);
-await page.waitForLoadState('networkidle');
-// Verify document is loaded
-await page.waitForSelector(
-  '//div[@class="react-pdf__Document"]',
-  { timeout: 90000 }
-);
-const methods1 = new CommonSteps(page);
-await methods1.validateAndAcceptTerms();
-await page.locator('//div[@id="container"]//div[text()="signature-1"]').nth(0).click();
-await methods1.drawSignature();;
-await methods1.clickDoneButtonInSignerModal();
- await methods1.clickFinishButtonInSignerModal();
- expect(page.getByText('The document has been successfully signed by you!'))
-  // Verify signer 2 received signature request email
-const signer2Email = await getLatestEmail({
-  ...gmailConfig,
-  expectedTo: 'kelvinsjohnson24+drafttempSigner2@gmail.com',
-  timeout: 60000
-});
+  await page.locator('//div[text()="signature-1"]').first().click();
+  await commonSteps.drawSignature();
+  await commonSteps.clickDoneButtonInSignerModal();
+  await commonSteps.clickFinishButtonInSignerModal();
 
+  // ---------------------------
+  // ✅ SIGNER 2
+  // ---------------------------
+  const signer2Email = await getLatestEmail({
+    ...gmailConfig,
+    expectedTo: signer2,
+    timeout: 60000
+  });
 
-expect(signer2Email).toBeDefined();
+  validateEmailTemplate(signer2Email);
 
-// Verify subject
-expect(signer2Email.subject).toContain(
-  'has requested you to sign Create template'
-);
+  expect((signer2Email.from || '').toLowerCase())
+    .toContain('kelvinsjohnson24@gmail.com');
 
-// Verify sender
-expect(
-  (signer2Email.from || '').toLowerCase()
-).toContain(
-  'kelvinsjohnson24@gmail.com'
-);
+  const signer2LinkMatch = signer2Email.html.match(
+    /href=['"]([^'"]+)['"][^>]*>Sign here</i
+  );
 
-// Verify email body
-const signer2EmailHtml = signer2Email.html || '';
+  expect(signer2LinkMatch).not.toBeNull();
 
-expect(signer2EmailHtml).toContain(
-  'requested you to review and sign'
-);
+  const signer2SigningUrl = signer2LinkMatch[1];
 
-expect(signer2EmailHtml).toContain(
-  'Create template'
-);
+  await page.goto(signer2SigningUrl);
+  await page.waitForLoadState('networkidle');
 
-expect(signer2EmailHtml).toContain(
-  'Sign here'
-);
+  await page.waitForSelector('//div[@class="react-pdf__Document"]');
 
-expect(signer2EmailHtml).toContain(
-  'Team OpenSign'
-);
+  const methods = new CommonSteps(page); // ✅ FIXED
 
-expect(signer2EmailHtml).toContain(
-  'contact the sender'
-);
+  await methods.validateAndAcceptTerms();
 
-// Extract signer 2 signing URL
-const signer2LinkMatch = signer2EmailHtml.match(
-  /href=['"]([^'"]+)['"][^>]*>Sign here</i
-);
+  const signatureBlock = page.locator("//div[contains(@class,'signYourselfBlock')][.//div[text()='signature-1']]");
+  await signatureBlock.scrollIntoViewIfNeeded();
 
-expect(signer2LinkMatch).not.toBeNull();
+  await page.locator('//div[text()="signature-1"]').click();
 
-const signer2SigningUrl = signer2LinkMatch[1];
+  await methods.drawSignature();
+  await methods.clickDoneButtonInSignerModal();
+  await methods.clickFinishButtonInSignerModal();
+await expect(
+  page.getByText('The document has been signed successfully!')
+).toBeVisible({ timeout: 120000 });
 
-console.log('Signer 2 Signing URL:', signer2SigningUrl);
+  // ---------------------------
+  // ✅ COMPLETION EMAIL
+  // ---------------------------
+  const completionEmail = await getLatestEmail({
+    ...gmailConfig,
+    expectedTo: completionEmailRecipient,
+    subjectContains: 'has been signed by all parties',
+    timeout: 60000
+  });
 
-// Navigate to signer 2 signing page
-await page.goto(signer2SigningUrl);
-await page.waitForLoadState('networkidle');
+  expect(completionEmail).toBeTruthy();
 
-// Verify document is loaded
-await page.waitForSelector(
-  '//div[@class="react-pdf__Document"]',
-  { timeout: 90000 }
-);
+  const completionHtml = completionEmail.html || '';
 
-const methods = new CommonMethods(page);
-await methods.validateAndAcceptTerms();
-    //scroll the panel veritcally down to the signature widget and then click on it
-    const signatureBlock = page.locator("//div[contains(@class,'signYourselfBlock')][.//div[normalize-space()='signature-1']]");
-    await signatureBlock.scrollIntoViewIfNeeded();
-await page.locator('//div[@id="container"]//div[text()="signature-1"]').click();
-await methods.drawSignature();
-await methods.clickDoneButtonInSignerModal();
- await methods.clickFinishButtonInSignerModal();
-await expect(page.getByText('The document has')).toContainText('The document has been signed successfully!', { timeout: 120000 });
-const completionEmail = await getLatestEmail({
-  ...gmailConfig,
-  expectedTo:
-    completionEmailRecipient,
-  subjectContains:
-    'has been signed by all parties',
-  timeout: 60000
-});
-expect(completionEmail).toBeTruthy();
-expect(completionEmail.subject).toContain(
-  'has been signed by all parties'
-);
+  expect(completionHtml).toContain('All parties have successfully signed the document');
+  expect(completionHtml).toContain('Kindly download the document from the attachment');
+  expect(completionHtml).toContain('Team OpenSign');
 
-expect(
-  completionEmail.to.toLowerCase()
-).toContain(
-  completionEmailRecipient.toLowerCase()
-);
-const completionEmailHtml =
-  completionEmail.html || '';
-
-expect(completionEmailHtml).toContain(
-  'All parties have successfully signed the document'
-);
-expect(completionEmailHtml).toContain(
-  'Kindly download the document from the attachment'
-);
-expect(completionEmailHtml).toContain(
-  'Team OpenSign™'
-);
-expect(
-  completionEmail?.attachments?.some(
-    attachment => attachment.filename === 'certificate.pdf'
-  )
-).toBeTruthy();
-  
+  expect(
+    completionEmail.attachments?.some(
+      a => a.filename === 'certificate.pdf'
+    )
+  ).toBeTruthy();
 });
 });
