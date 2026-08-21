@@ -79,9 +79,7 @@ await expect(page.locator('//div[text()="Request signatures"]//parent::div[@clas
     await page.locator('input[name="Name"]').click();
     await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
     await page.getByRole('button', { name: 'Next' }).click();
-    await page.waitForSelector("//div[contains(@class, 'react-pdf__Document')]", { timeout: 90000 }); 
-    await page.waitForLoadState("networkidle");
-    await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });    
+await commonSteps.LoadPlaceholder(page);
      await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
 await page.getByRole('button', { name: 'Next' }).click();
 await page.locator('//span[text()="Send to Email"]').click();
@@ -114,7 +112,6 @@ if (IncrementedCount <= newCount) {
     await commonSteps.login();
     await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
 await expect(page.locator('#renderList')).toContainText('Need your signature');
-
     //await expect(page.locator('#renderList')).toContainText('Drafts');
     await page.waitForLoadState("networkidle");
     await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
@@ -134,19 +131,13 @@ await expect(page.locator('#renderList')).toContainText('Need your signature');
     await page.locator('input[name="Name"]').click();
     await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
     await page.getByRole('button', { name: 'Next' }).click();
-    await page.waitForSelector("//div[contains(@class, 'react-pdf__Document')]", { timeout: 90000 }); 
-    await page.waitForLoadState("networkidle");
-    await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-     await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
+    await commonSteps.LoadPlaceholder(page);
 await page.getByRole('button', { name: 'Next' }).click();
 await page.getByRole('button', { name: 'Send' }).click();
 await page.getByRole('button', { name: 'Close' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
-//await expect(page.locator('#renderList')).toContainText('Drafts');
-await page.waitForLoadState("networkidle");
-await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
-await page.waitForLoadState("networkidle");
+await commonSteps.LoadPlaceholder(page);
 
 let newCountOutforSign = null;
 
@@ -192,8 +183,7 @@ await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 
 await page.locator('input[name="Name"]').fill('Draft doc rpt Sample offer letter');
 await page.locator('input[name="Note"]').fill('Note Draft doc rpt');
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+await commonSteps.LoadPlaceholder(page);
 await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature',600,300);
   await page.getByRole('button', { name: '' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();

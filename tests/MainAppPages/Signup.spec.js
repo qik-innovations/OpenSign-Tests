@@ -623,8 +623,8 @@ const updated = await editProfilewithoutEditbuttonClick(page, { username: longUs
     await page.getByRole('tab', { name: 'Monthly' }).click();
    await completePaidCheckoutMonthly(page, data.email, planDefinitions.professionalMonthly);
     //await expectSubscriptionInvoiceEmail(data.email);
-     await page.getByRole('button', { name: '' }).click();
-  await page.getByText('Profile').click();
+await page.getByRole('button', { name: 'Open profile menu' }).nth(1).click();
+  await page.getByRole('button', { name: ' Profile' }).click();
     await expectProfileDetails(page, data, { shouldShowUpgrade: true });
     const updated = await editProfile(page);
     await expectProfileDetails(page, { ...data, ...updated }, {
