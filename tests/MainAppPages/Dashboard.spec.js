@@ -132,13 +132,12 @@ await expect(page.locator('#renderList')).toContainText('Need your signature');
     await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
     await page.getByRole('button', { name: 'Next' }).click();
     await commonSteps.LoadPlaceholder(page);
+    await commonSteps.dragAndDrop("signature",500,300);
 await page.getByRole('button', { name: 'Next' }).click();
 await page.getByRole('button', { name: 'Send' }).click();
-await page.getByRole('button', { name: 'Close' }).click();
+await page.locator('//dialog//button[@aria-label="Close"]').click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
-await commonSteps.LoadPlaceholder(page);
-
 let newCountOutforSign = null;
 
 for (let i = 0; i < 5; i++) { // Retry up to 5 times
@@ -185,7 +184,7 @@ await page.locator('input[name="Note"]').fill('Note Draft doc rpt');
 await page.getByRole('button', { name: 'Next' }).click();
 await commonSteps.LoadPlaceholder(page);
 await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature',600,300);
-  await page.getByRole('button', { name: '' }).click();
+await page.getByRole('button', { name: 'Open navigation' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 // Wait up to 90 seconds for the text to appear
 await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
@@ -204,6 +203,8 @@ await expect(page.locator('//div[@data-tut="tourreport3"]//td[4]').first()).toCo
 await expect(page.locator('//div[@data-tut="tourreport3"]//td[5]').first()).toContainText('Pravin Testing account');  
 await page.locator('//div[@data-tut="tourreport3"]//div[@role="button"and @title="Edit"]').first().click();
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+await page.mouse.wheel(0, -1000);
+await page.waitForTimeout(500);
 await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature',600,300);
 await commonSteps.dragAndDrop('stamp',600,360);
 await commonSteps.uploadStamp();
@@ -264,28 +265,15 @@ await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 250);
-await page.locator('//span[normalize-space()=\'stamp\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 360)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'initials\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 420)
-await page.mouse.up();
-await page.locator('//span[normalize-space()=\'name\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 470)
-await page.mouse.up();
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.dragAndDrop('signature', 600, 250);
+await commonSteps.dragAndDrop("stamp",600,300);
+await commonSteps.dragAndDrop("initials",600, 420);
+await commonSteps.dragAndDrop("name",600,470);
 await page.getByRole('button', { name: 'Next' }).click();
  await page.getByRole('button', { name: 'Sign now' }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 // Wait up to 90 seconds for the text to appear
-
 await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
 // Now assert the text
 await expect(page.locator('//div[@data-tut="tourreport1"]//div[text()="Recent signature requests"]')).toBeVisible({ timeout: 12000 });
@@ -316,7 +304,7 @@ await expect(page.locator('#selectSignerModal')).toContainText('Congratulations!
 await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
 await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
 await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Download' })).toBeVisible();
-await page.getByRole('button', { name: '✕' }).click();
+ await page.getByRole('button', { name: 'Close' }).click();
 });
 test('Verify that pagination is functioning correctly in the dashboard recent signature requests.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);

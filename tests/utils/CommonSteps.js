@@ -320,7 +320,7 @@ async dragDropSignaturewidgetInSignyourselfPage(WidgetName,x, y){
     const { page } = this;
 
     await page.waitForLoadState("networkidle");
-    await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+    await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
     await page.waitForLoadState("networkidle");
     await this.dragAndDrop(WidgetName,x, y);
     try {
