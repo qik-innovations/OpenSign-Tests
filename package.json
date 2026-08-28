@@ -8,7 +8,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.61.1",
+    "@playwright/test": "^1.62.1",
     "@types/node": "^20.12.11",
     "allure-commandline": "^2.43.0",
     "allure-playwright": "^2.15.1"
@@ -21,6 +21,7 @@
     "imap-simple": "^5.1.0",
     "mailosaur": "^10.0.0",
     "mailparser": "^3.9.3",
+    "pdf-parse": "^2.4.5",
     "play_wright": "file:"
   },
   "directories": {

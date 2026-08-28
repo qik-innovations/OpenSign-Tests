@@ -77,7 +77,13 @@ export class CommonSteps {
     await this.page.locator('#password').fill(loginCredentials.ProPlanpassword);
     await this.page.getByRole('button', { name: 'Login' }).click();
   }
+async LoadPlaceholder(page)
+{
+  await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+   await page.waitForLoadState("networkidle");
 
+}
   async NewUserlogin() {
       if (!loginCredentials.FreeplanUsername) {
       console.log('FreeplanUsername is empty. Running signup test...');
@@ -149,6 +155,118 @@ async fillDocumentTitleWithTimestamp(prefix) {
       await page.getByRole('button', { name: 'I confirm & agree to continue' }).click();
     });
   }
+async DragAndDropWidget(WidgetName, x, y) {
+  const { page } = this;
+
+  const widgetLocator = page.locator(
+    `//div[@data-tut="addWidgets"]//button[@aria-label="${WidgetName}"]`
+   
+  );
+
+  await expect(widgetLocator).toBeVisible({
+    timeout: 90000
+  });
+
+  const maxAttempts = 5;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      console.log(
+        `Dragging '${WidgetName}'. Attempt ${attempt}/${maxAttempts}`
+      );
+
+      // Use the common dragAndDrop method
+      await this.dragAndDrop(WidgetName, x, y);
+
+      await page.waitForTimeout(1000);
+
+      // Verify widget placed on the document
+     const droppedWidget = page.locator(
+  `//div[contains(@class,'signYourselfBlock')]` +
+  `//*[self::div or self::span][starts-with(normalize-space(.), '${WidgetName}-')]`
+);
+
+      if (
+        await droppedWidget.count() > 0 &&
+        await droppedWidget.last().isVisible()
+      ) {
+        console.log(
+          `'${WidgetName}' widget successfully dropped.`
+        );
+        return;
+      }
+
+      console.log(
+        `'${WidgetName}' was not created. Retrying...`
+      );
+
+    } catch (error) {
+      console.log(
+        `Drag/drop attempt ${attempt} failed for '${WidgetName}':`,
+        error
+      );
+    }
+
+    await page.waitForTimeout(1000);
+  }
+
+  throw new Error(
+    `Failed to drag and drop '${WidgetName}' after ${maxAttempts} attempts.`
+  );
+}
+async dragAndDrop(label, x, y) {
+  const { page } = this;
+
+  const widget = page.locator(
+    `//div[@data-tut="addWidgets"]//button[@aria-label="${label}"]`
+  );
+
+  await expect(widget).toBeVisible({
+    timeout: 90000
+  });
+
+  const box = await widget.boundingBox();
+
+  if (!box) {
+    throw new Error(
+      `Widget '${label}' is not visible or has no bounding box.`
+    );
+  }
+
+  const startX = box.x + box.width / 2;
+  const startY = box.y + box.height / 2;
+
+  console.log(
+    `Dragging '${label}' from (${startX}, ${startY}) to (${x}, ${y})`
+  );
+
+  // Move to the widget
+  await page.mouse.move(startX, startY);
+
+  // Start drag
+  await page.mouse.down();
+
+  // Small movement to trigger drag
+  await page.mouse.move(startX + 5, startY + 5, {
+    steps: 5
+  });
+
+  await page.waitForTimeout(300);
+
+  // Move to target
+  await page.mouse.move(x, y, {
+    steps: 20
+  });
+
+  await page.waitForTimeout(300);
+
+  // Drop
+  await page.mouse.up();
+
+  console.log(
+    `Dragged and dropped widget '${label}' to (${x}, ${y}).`
+  );
+}
   async getElementIdByWidgetName(widgetName) {
   const xpath = widgetName === 'cells'
     ? `//div[contains(@class, 'signYourselfBlock') and .//div[contains(text(), '${widgetName}')]]`
@@ -202,7 +320,7 @@ async dragDropSignaturewidgetInSignyourselfPage(WidgetName,x, y){
     const { page } = this;
 
     await page.waitForLoadState("networkidle");
-    await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+    await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
     await page.waitForLoadState("networkidle");
     await this.dragAndDrop(WidgetName,x, y);
     try {
@@ -500,15 +618,7 @@ async ClickApplybuttonSignerModal() {
   await this.page.locator(`//dialog[@id='selectSignerModal']//button[text()='Apply']`).click();
     console.log('Apply button in signer modal clicked.');
   }
-  async dragAndDrop(label, x, y) {
-    const locator = this.page.locator(`//div[@data-tut="addWidgets"]//span[normalize-space()="${label}"]`);
-    await locator.hover();
-    await this.page.mouse.down();
-    await this.page.mouse.move(x, y);
-    await this.page.mouse.up();
-    console.log(`Dragged and dropped widget with label '${label}' to coordinates (${x}, ${y}).`);
-  }
-
+ 
   async getWidgetIdByLabel(label) {
     return await this.page.evaluate((labelText) => {
       const xpath = labelText === 'Choose One'

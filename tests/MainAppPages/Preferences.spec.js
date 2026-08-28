@@ -10,6 +10,7 @@ test('Verify that New free user can save the general preferences.', async ({ pag
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
+   await page.getByRole('button', { name: 'Close Tour' }).click();
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'Preferences' }).click();
     const title = await page.title();
