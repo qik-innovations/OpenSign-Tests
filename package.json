@@ -21,6 +21,7 @@
     "imap-simple": "^5.1.0",
     "mailosaur": "^10.0.0",
     "mailparser": "^3.9.3",
+    "pdf-parse": "^2.4.5",
     "play_wright": "file:"
   },
   "directories": {
