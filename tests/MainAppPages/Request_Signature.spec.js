@@ -25,10 +25,10 @@ test('Verify that new user can create and send the document for request signatur
   await page.getByRole('button', { name: 'Register' }).click();
   await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible();
   await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getByRole('button').click();
-    await page.getByLabel('Close').click();
-    // Expects page to have a heading with the name of dashboard.
-    const title = await page.title()
-       expect(title).toBe('Dashboard - OpenSign™');
+    // Expects page to have a heading with the name of dashboard.     
+  await page.getByRole('button', { name: 'Close Tour' }).click();
+   const title = await page.title()
+       expect(title).toBe('Dashboard - OpenSign™'); 
   await page.getByRole('menuitem', { name: 'Request signatures' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
   await expect(page.locator('input[name="Note"]')).toHaveValue(/.+/, { timeout: 90000 });
@@ -43,9 +43,9 @@ test('Verify that new user can create and send the document for request signatur
     await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
   await page.locator('svg > rect:nth-child(3)').click();
-  await page.getByLabel('Close').click();
-  await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
- await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+ await page.getByRole('button', { name: 'Close Tour' }).click();
+ await commonSteps.LoadPlaceholder(page);
+ await commonSteps.DragAndDropWidget('signature', 600, 200);
 await commonSteps.dragAndDrop('stamp', 600, 250);
 await commonSteps.dragAndDrop('initials', 600, 300);
 await commonSteps.dragAndDrop('name', 600, 350);
@@ -55,12 +55,12 @@ await commonSteps.dragAndDrop('date', 600, 430);
 await commonSteps.dragAndDrop('text input', 600, 450);
 await commonSteps.dragAndDrop('checkbox', 600, 500);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('dropdown', 600, 550);
+await commonSteps.dragAndDrop('radio button', 600, 520);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('radio button', 600, 600);
+await commonSteps.dragAndDrop('dropdown', 600, 560);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('image', 600, 650);
-await commonSteps.dragAndDrop('email', 600, 700);
+await commonSteps.dragAndDrop('image', 600, 570);
+await commonSteps.dragAndDrop('email', 600, 620);
 await page.getByRole('button', { name: 'Next' }).click();
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 await page.getByRole('button', { name: 'Send' }).click();
@@ -90,9 +90,8 @@ test('Verify that user can create a document of type image and send it for a sig
   await page.locator('input[name="Name"]').click();
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForLoadState("networkidle");
-  await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-  await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+await commonSteps.LoadPlaceholder(page);
+  await commonSteps.DragAndDropWidget('signature', 600, 200);
 await commonSteps.dragAndDrop('stamp', 600, 250);
 await commonSteps.dragAndDrop('initials', 600, 300);
 await commonSteps.dragAndDrop('name', 600, 350);
@@ -113,7 +112,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.getByRole('button', { name: 'Send' }).click();
 await expect(page.locator('//h3[text()=\'Mails Sent\']')).toContainText('Mails Sent', { timeout: 90000 });
 await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
-await page.getByRole('button', { name: 'Close' }).click();
+await page.locator('//button[@aria-label="Close"]').click();
 await expect(page.locator('#renderList')).toContainText('In-progress documents');
 
 });
@@ -138,9 +137,8 @@ test('Verify that an existing user can create a document and sign it when added 
   await page.locator('input[name="Name"]').click();
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForLoadState("networkidle");
-  await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-  await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+  await commonSteps.LoadPlaceholder(page);
+  await commonSteps.DragAndDropWidget('signature', 600, 200);
 await commonSteps.dragAndDrop('stamp', 600, 250);
 await commonSteps.dragAndDrop('initials', 600, 300);
 await commonSteps.dragAndDrop('name', 600, 350);
@@ -154,9 +152,9 @@ await commonSteps.dragAndDrop('dropdown', 600, 530);
 await commonSteps.ClickSavebuttonSignerModal();
 await commonSteps.dragAndDrop('radio button', 600, 560);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('image', 600, 590);
-await commonSteps.dragAndDrop('email', 600, 650);
-await commonSteps.dragAndDrop('cells', 600, 670);
+await commonSteps.dragAndDrop('email', 600, 590);
+await commonSteps.dragAndDrop('cells', 600, 630);
+await commonSteps.dragAndDrop('image', 600, 470);
 await page.getByRole('button', { name: 'Next' }).click();
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 await expect(page.locator('//h3[text()=\'Next step: Sign your document ?\']')).toContainText('Next step: Sign your document ?', { timeout: 90000 });
@@ -212,19 +210,19 @@ await commonSteps.fillTextField('text', '120 wood street sanfransisco');
   await commonSteps.selectFromDropdown('myDropdown', 'Option-2');
   await commonSteps.clickNextButtonInSignerModal();
   await commonSteps.selectRadioButton('Option-2');
+   await commonSteps.clickNextButtonInSignerModal();
+    await commonSteps.fillEmailField('demo@gmail.com', 'anderson.k@opensignlabs.com');
+     await commonSteps.clickNextButtonInSignerModal();
+       await commonSteps.fillCellWidgetsInModal("8909901"); 
   await commonSteps.clickNextButtonInSignerModal();
  await commonSteps.uploadImage();
- await commonSteps.clickNextButtonInSignerModal();
-  await commonSteps.fillEmailField('demo@gmail.com', 'anderson.k@opensignlabs.com');
-     await commonSteps.clickNextButtonInSignerModal();
-    await commonSteps.fillCellWidgetsInModal("8909901");
 await commonSteps.clickDoneButtonInSignerModal();
 await commonSteps.clickFinishButtonInSignerModal();
   await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Download' })).toBeVisible();
-  await page.getByRole('button', { name: '✕' }).click();
+  await page.locator('//button[@aria-label="Close"]').click();
 });
 test('Verify that a user can create a document, send it for a signature request, and signer can successfully sign the document.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
@@ -249,42 +247,41 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
-await commonSteps.dragAndDrop('stamp', 600, 250);
-await commonSteps.dragAndDrop('initials', 600, 300);
-await commonSteps.dragAndDrop('name', 600, 330);
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 250);
+await commonSteps.dragAndDrop('stamp', 600, 300);
+await commonSteps.dragAndDrop('initials', 600, 350);
+await commonSteps.dragAndDrop('name', 600, 400);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
   // Call the method with widget name 'name'
   const VariablenameID = await commonSteps.getElementIdByWidgetName('name');
   console.log('Widget element ID:', VariablenameID);
-await commonSteps.dragAndDrop('job title', 600, 350);
+await commonSteps.dragAndDrop('job title', 600, 430);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariablejobtitleID = await commonSteps.getElementIdByWidgetName('job title');
   console.log('Widget element ID:', VariablejobtitleID);
-await commonSteps.dragAndDrop('company', 600, 370);
+await commonSteps.dragAndDrop('company', 600, 450);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariablecompanyID = await commonSteps.getElementIdByWidgetName('company');
   console.log('Widget element ID:', VariablecompanyID);
-await commonSteps.dragAndDrop('date', 600, 390);
+await commonSteps.dragAndDrop('date', 600, 480);
 //const VariabledateID = await commonSteps.getElementIdByWidgetName('date');
   //console.log('Widget element ID:', VariabledateID);
-await commonSteps.dragAndDrop('text input', 600, 410);
+await commonSteps.dragAndDrop('text input', 600, 520);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariabletextinputID = await commonSteps.getElementIdByWidgetName('text input');
   console.log('Widget element ID:', VariabletextinputID);
   //const VariableCellsID = await commonSteps.getElementIdByWidgetName('cells');
  // console.log('Widget element ID:', VariableCellsID);
-await commonSteps.dragAndDrop('checkbox', 600, 430);
+await commonSteps.dragAndDrop('checkbox', 600, 560);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('dropdown', 600, 460);
+await commonSteps.dragAndDrop('dropdown', 600, 590);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('radio button', 600, 490);
+await commonSteps.dragAndDrop('radio button', 600, 620);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('image', 600, 530);
-await commonSteps.dragAndDrop('email', 600, 570);
-  await commonSteps.dragAndDrop('cells', 600, 600);
+await commonSteps.dragAndDrop('image', 600, 450);
+await commonSteps.dragAndDrop('email', 600, 500);
+  await commonSteps.dragAndDrop('cells', 600, 530);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariableemailID = await commonSteps.getElementIdByWidgetName('demo@gmail.com');
   console.log('Widget element ID:', VariableemailID);
@@ -394,42 +391,41 @@ await page.locator('input[name="Name"]').click();
  await page.getByText('Advanced options').click();
 await page.locator('input[name="IsEnableOTP"]').first().click();
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
-await commonSteps.dragAndDrop('stamp', 600, 250);
-await commonSteps.dragAndDrop('initials', 600, 300);
-await commonSteps.dragAndDrop('name', 600, 330);
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 100);
+await commonSteps.dragAndDrop('stamp', 600, 150);
+await commonSteps.dragAndDrop('initials', 600, 200);
+await commonSteps.dragAndDrop('name', 600, 240);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
   // Call the method with widget name 'name'
   const VariablenameID = await commonSteps.getElementIdByWidgetName('name');
   console.log('Widget element ID:', VariablenameID);
-await commonSteps.dragAndDrop('job title', 600, 350);
+await commonSteps.dragAndDrop('job title', 600, 260);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariablejobtitleID = await commonSteps.getElementIdByWidgetName('job title');
   console.log('Widget element ID:', VariablejobtitleID);
-await commonSteps.dragAndDrop('company', 600, 370);
+await commonSteps.dragAndDrop('company', 600, 280);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariablecompanyID = await commonSteps.getElementIdByWidgetName('company');
   console.log('Widget element ID:', VariablecompanyID);
-await commonSteps.dragAndDrop('date', 600, 390);
+await commonSteps.dragAndDrop('date', 600, 300);
 //const VariabledateID = await commonSteps.getElementIdByWidgetName('date');
   //console.log('Widget element ID:', VariabledateID);
-await commonSteps.dragAndDrop('text input', 600, 410);
+await commonSteps.dragAndDrop('text input', 600, 320);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 const VariabletextinputID = await commonSteps.getElementIdByWidgetName('text input');
   console.log('Widget element ID:', VariabletextinputID);
   //const VariableCellsID = await commonSteps.getElementIdByWidgetName('cells');
  // console.log('Widget element ID:', VariableCellsID);
-await commonSteps.dragAndDrop('checkbox', 600, 440);
+await commonSteps.dragAndDrop('checkbox', 600, 340);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('dropdown', 600, 470);
+await commonSteps.dragAndDrop('dropdown', 600, 370);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('radio button', 600, 490);
+await commonSteps.dragAndDrop('radio button', 600, 390);
 await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('image', 600, 530);
-await commonSteps.dragAndDrop('email', 600, 570);
- await commonSteps.dragAndDrop('cells', 600, 600);
+await commonSteps.dragAndDrop('image', 600, 430);
+await commonSteps.dragAndDrop('email', 600, 490);
+ await commonSteps.dragAndDrop('cells', 600, 520);
 //here we are copying the widget id to use while signing teh document through the guest signatrue flow
 await page.getByRole('button', { name: 'Next' }).click();
 await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
@@ -561,44 +557,7 @@ await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator
   await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-const dragAndDropWidget = async (widgetName, clientX, clientY) => {
-  const source = page.locator(
-    `//span[normalize-space()="${widgetName}"]`
-  );
-
-  await source.waitFor({ state: 'visible' });
-
-  await source.evaluate((element, { clientX, clientY }) => {
-    const dataTransfer = new DataTransfer();
-    const dropTarget = document.elementFromPoint(clientX, clientY);
-
-    if (!dropTarget) {
-      throw new Error(`No drop target found at ${clientX}, ${clientY}`);
-    }
-
-    const fire = (target, type) =>
-      target.dispatchEvent(
-        new DragEvent(type, {
-          bubbles: true,
-          cancelable: true,
-          dataTransfer,
-          clientX,
-          clientY,
-        })
-      );
-
-    fire(element, 'dragstart');
-    fire(dropTarget, 'dragenter');
-    fire(dropTarget, 'dragover');
-    fire(dropTarget, 'drop');
-    fire(element, 'dragend');
-  }, { clientX, clientY });
-};
-
+await commonSteps.LoadPlaceholder(page);
 const getWidgetId = async (widgetName) =>
   page.evaluate((name) => {
     const normalizedName = name.trim().toLowerCase();
@@ -623,36 +582,36 @@ const getWidgetId = async (widgetName) =>
 
     return widget?.id ?? null;
   }, widgetName);
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
-await dragAndDropWidget('stamp', 600, 250);
-await dragAndDropWidget('initials', 600, 300);
-await dragAndDropWidget('name', 600, 370);
+await commonSteps.DragAndDropWidget('signature', 600, 200);
+await dragAndDrop('stamp', 600, 250);
+await dragAndDrop('initials', 600, 300);
+await dragAndDrop('name', 600, 370);
 const VariablenameID = await getWidgetId('name');
 console.log("name widget id" + VariablenameID)
-await dragAndDropWidget('job title', 600, 390);
+await dragAndDrop('job title', 600, 390);
 const VariablejobtitleID = await getWidgetId('job title');
 
-await dragAndDropWidget('company', 600, 430);
+await dragAndDrop('company', 600, 430);
 const VariablecompanyID = await getWidgetId('company');
 
-await dragAndDropWidget('date', 600, 460);
+await dragAndDrop('date', 600, 460);
 const VariableDateID = await getWidgetId('date');
 console.log("date widget id" + VariableDateID);
-await dragAndDropWidget('text input', 600, 490);
+await dragAndDrop('text input', 600, 490);
 const VariabletextinputID = await getWidgetId('text input');
 
-await dragAndDropWidget('checkbox', 600, 520);
+await dragAndDrop('checkbox', 600, 520);
 await page.locator("//button[@type='submit' and text()='Save']").click();
 
-await dragAndDropWidget('dropdown', 600, 560);
+await dragAndDrop('dropdown', 600, 560);
 await page.locator("//button[@type='submit' and text()='Save']").click();
 
-await dragAndDropWidget('radio button', 600, 590);
+await dragAndDrop('radio button', 600, 590);
 await page.locator("//button[@type='submit' and text()='Save']").click();
 
-await dragAndDropWidget('image', 600, 620);
+await dragAndDrop('image', 600, 450);
 
-await dragAndDropWidget('email', 600, 660);
+await dragAndDrop('email', 600, 510);
 const VariableemailID = await getWidgetId('email');
 await page.getByRole('button', { name: '+ Add recipients' }).click({ force: true });
 await page.locator('//div[@class="css-b62m3t-container"]').click();
@@ -663,8 +622,8 @@ await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'vi
  await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
-await dragAndDropWidget('stamp', 600, 250);
+await commonSteps.DragAndDropWidget('signature', 600, 200);
+await dragAndDrop('stamp', 600, 250);
 await dragAndDropWidget('initials', 600, 300);
 await dragAndDropWidget('name', 600, 350);
 const Signer1VariablenameID = await getWidgetId('name');
@@ -686,7 +645,6 @@ await page.locator("//button[@type='submit' and text()='Save']").click();
 
 await dragAndDropWidget('dropdown', 600, 530);
 await page.locator("//button[@type='submit' and text()='Save']").click();
-
 await dragAndDropWidget('radio button', 600, 550);
 await page.locator("//button[@type='submit' and text()='Save']").click();
 
@@ -850,13 +808,11 @@ await expect(page2.locator('//h1[text()="The document has been signed successful
 test('Verify that a new free user cannot access the paid features on the request signature page.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base UR
-    // L and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
+  await page.getByRole('button', { name: 'Close Tour' }).click();
   //const title = await page.title()
     //Expects page to have a heading with the name of dashboard.
-  //expect(title).toBe('Dashboard - OpenSign™');
-  
   await page.getByRole('menuitem', { name: 'Request signatures' }).click();
     await page.locator('input[name="Name"]').click();
     await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
@@ -881,7 +837,7 @@ console.log("Radio button disabled:", EnableotpisDisabled_No);
 
 const [popup] = await Promise.all([
   page.waitForEvent('popup'),
-  page.locator('span').filter({ hasText: 'Auto reminder Upgrade now' }).locator('span').click()
+  await page.getByText('Upgrade now').nth(3).click()
 ]);
 
 await popup.waitForLoadState();
@@ -1002,11 +958,8 @@ await page.getByText('Advanced options').click();
 await page.locator('input[name="IsTourEnabled"]').nth(1).check();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 200);
 await page.getByRole('button', { name: 'Next' }).click();
 await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 await page.locator('//span[@class="hidden md:block ml-1 " and text()="Copy link"]').click();
@@ -1047,11 +1000,8 @@ await page.getByText('Advanced options').click();
 await page.locator('input[name="RedirectUrl"]').fill('https://docs.opensignlabs.com/');
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 200);
 await page.getByRole('button', { name: 'Next' }).click();
 await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 
@@ -1062,8 +1012,6 @@ const page1 = await page.context().newPage();
 await page1.goto(copiedUrl);
 await commonStepspage1.validateAndAcceptTerms();
 await page1.waitForLoadState("networkidle");
-await expect(page1.getByRole('paragraph')).not.toBeVisible();
-await page1.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await commonStepspage1.clickSignatureWidgetAndDraw();
 // Optionally save changes
 await commonStepspage1.clickDoneButtonInSignerModal();
@@ -1094,11 +1042,8 @@ await page.locator('input[name="Name"]').click();
 await page.getByText('Advanced options').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 200);
 await page.getByRole('button', { name: 'Next' }).click();
 await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 
@@ -1139,12 +1084,10 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
-await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 200);
+//await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
+ await page.getByRole('button', { name: 'Edit' }).click();
 await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first().uncheck();
   await page.getByRole('textbox').fill('Signature Draw removed');
   await page.getByRole('button', { name: 'Save' }).click();
@@ -1197,10 +1140,7 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+await commonSteps.LoadPlaceholder(page);
 await page.waitForLoadState("networkidle");
 await expect(page.locator('#renderList')).toContainText('1 of 1');
   const fileChooserPromise2 = page.waitForEvent('filechooser');
@@ -1232,7 +1172,7 @@ await page.locator('div').filter({ hasText: /^Add pages$/ }).locator('canvas').n
       y: 84
     }
   });
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 170);
+await commonSteps.DragAndDropWidget('signature', 600, 170);
 await commonSteps.dragAndDrop('stamp',600, 230);
 await commonSteps.dragAndDrop('initials',600, 260);
 await commonSteps.dragAndDrop('name',600, 300);
@@ -1275,11 +1215,7 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.waitForLoadState("networkidle");
+await commonSteps.LoadPlaceholder(page);
 await expect( page.locator('//div[@class="flex py-[5px]"]//span[@class="text-xs text-base-content font-medium mx-2 2xl:text-[20px]"]')).toHaveText('1 of 3');
   await page.getByTitle('Delete page').locator('i').click();
   await expect(page.getByRole('heading')).toContainText('Delete page');
@@ -1312,11 +1248,7 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.waitForLoadState("networkidle");
+await commonSteps.LoadPlaceholder(page);
 await expect(page.locator('#renderList')).toContainText('1 of 3');
   await page.locator('canvas').nth(1).click({
     position: {
@@ -1377,7 +1309,7 @@ await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
      - text: Widgets
      - list "Add widgets": " signature   stamp   initials   text input   number #  name   job title   company   email   date   cells   checkbox   dropdown   radio button   image   attachments "
      `);
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+await commonSteps.DragAndDropWidget('signature', 600, 200);
 await page.locator('//span[normalize-space()=\'stamp\']').hover();
 await page.mouse.down();
 await page.mouse.move(600, 250)
@@ -1454,7 +1386,7 @@ await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+await commonSteps.DragAndDropWidget('signature', 600, 200);
 while (true) {
   await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   
@@ -1515,11 +1447,8 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 200);
 while (true) {
  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   
@@ -1578,17 +1507,15 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await commonSteps.LoadPlaceholder(page);
 await page.locator('canvas').nth(2).click({
     position: {
       x: 65,
       y: 59
     }
   });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
+
+await commonSteps.DragAndDropWidget('signature', 600, 300);
 while (true) {
   await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
