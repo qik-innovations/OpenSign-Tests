@@ -1382,10 +1382,7 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+await commonSteps.LoadPlaceholder(page);
 await commonSteps.DragAndDropWidget('signature', 600, 200);
 while (true) {
   await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
@@ -1448,7 +1445,7 @@ await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await commonSteps.LoadPlaceholder(page);
-await commonSteps.DragAndDropWidget('signature', 600, 200);
+await commonSteps.DragAndDropWidget('signature', 600, 300);
 while (true) {
  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   
@@ -1568,11 +1565,8 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 300);
 while (true) {
  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
@@ -1614,15 +1608,9 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
-await page.locator('//span[normalize-space()=\'stamp\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 370)
-await page.mouse.up();
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 300);
+await commonSteps.dragAndDrop('stamp',600, 370);
 while (true) {
  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
@@ -1682,15 +1670,9 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
-await page.locator('//span[normalize-space()=\'stamp\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 400)
-await page.mouse.up();
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 300);
+await commonSteps.dragAndDrop('stamp',600, 370);
 while (true) {
  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
@@ -1741,21 +1723,15 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+await commonSteps.LoadPlaceholder(page);
 await page.locator('canvas').nth(2).click({
     position: {
       x: 65,
       y: 59
     }
   });
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
-await page.locator('//span[normalize-space()="stamp"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(600, 360);
-          await page.mouse.up();
+await commonSteps.DragAndDropWidget('signature', 600, 300);
+await commonSteps.dragAndDrop('stamp',600, 370);
 while (true) {
   await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
@@ -1805,16 +1781,9 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
-await page.locator('//span[normalize-space()="stamp"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 370);
-await page.mouse.up();
-
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 300);
+await commonSteps.dragAndDrop('stamp',600, 370);
 while (true) {
  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
@@ -1954,15 +1923,9 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
-await page.locator('//span[normalize-space()=\'initials\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 370)
-await page.mouse.up();
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 300);
+await commonSteps.dragAndDrop('initials',600, 370);
 while (true) {
   await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
@@ -2017,15 +1980,9 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
-await page.locator('//span[normalize-space()=\'initials\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 300);
+await commonSteps.dragAndDrop('initials',600, 370);
 while (true) {
  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   
@@ -2077,21 +2034,15 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+await commonSteps.LoadPlaceholder(page);
   await page.locator('canvas').nth(2).click({
     position: {
       x: 65,
       y: 59
     }
   });
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
-await page.locator('//span[normalize-space()="initials"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(600, 360);
-          await page.mouse.up();
+await commonSteps.DragAndDropWidget('signature', 600, 300);
+await commonSteps.dragAndDrop('initials',600, 370);
 while (true) {
   await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
@@ -2141,16 +2092,9 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
-await page.locator('//span[normalize-space()="initials"]').hover();
-await page.mouse.down();
-await page.mouse.move(800, 370);
-await page.mouse.up();
-
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 300);
+await commonSteps.dragAndDrop('initials',600, 370);
 while (true) {
   await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
@@ -2190,15 +2134,10 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
-await page.locator('//span[normalize-space()=\'name\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 400)
-await page.mouse.up();
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 300);
+await commonSteps.dragAndDrop('name',600, 370);
+
 while (true) {
   await page.locator('//div[contains(@class,"signYourselfBlock")][.//span[normalize-space()="name-1"]]//i[contains(@class,"fa-gear")]').dblclick();
   const isVisible = await page.locator('//h3[text()="Widget info"]').isVisible();
@@ -2222,15 +2161,13 @@ const color = await widget.evaluate(el => getComputedStyle(el).color);
 
 console.log(`Font Size: ${fontSize}, Color: ${color}`);
 
-if (fontSize === '20.0464px' && color === 'rgb(0, 0, 255)') {
+if (fontSize === '17.8694px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 20.0464px, Color: blue but got Font Size: ${fontSize}, Color: ${color}`);
+  throw new Error(`Test Failed: Expected Font Size: 17.8694px, Color: blue but got Font Size: ${fontSize}, Color: ${color}`);
 }
-await page.locator('//span[normalize-space()=\'job title\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 480)
-await page.mouse.up();
+await commonSteps.dragAndDrop('job title',600, 480);
+
 await page.locator('//div[contains(@class,"signYourselfBlock")][.//span[normalize-space()="job title-1"]]//i[contains(@class,"fa-gear")]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
@@ -2245,16 +2182,12 @@ const colorJobTitle = await widgetJobtitle.evaluate(el => getComputedStyle(el).c
 
 console.log(`Font Size: ${fontSizeJobTitle}, Color: ${colorJobTitle}`);
 
-if (fontSizeJobTitle === '20.0464px' && colorJobTitle === 'rgb(0, 0, 255)') {
+if (fontSizeJobTitle === '17.8694px' && colorJobTitle === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 20.0464px, Color: blue but got Font Size: ${fontSizeJobTitle}, Color: ${colorJobTitle}`);
+  throw new Error(`Test Failed: Expected Font Size: 17.8694px, Color: blue but got Font Size: ${fontSizeJobTitle}, Color: ${colorJobTitle}`);
 }
-
-await page.locator('//span[normalize-space()=\'company\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 520)
-await page.mouse.up();
+await commonSteps.dragAndDrop('company',600, 520);
 await page.locator('//div[contains(@class,"signYourselfBlock")][.//span[normalize-space()="company-1"]]//i[contains(@class,"fa-gear")]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
@@ -2268,17 +2201,12 @@ const colorcompany = await widgetCompany.evaluate(el => getComputedStyle(el).col
 
 console.log(`Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
 
-if (fontSizecompany === '20.0464px' && colorcompany === 'rgb(0, 0, 255)') {
+if (fontSizecompany === '17.8694px' && colorcompany === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 20.0464px, Color: blue but got Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
+  throw new Error(`Test Failed: Expected Font Size: 17.8694px, Color: blue but got Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
 }
-
-await page.locator('//span[normalize-space()=\'text input\']').hover();
-await page.mouse.down();
-await page.waitForTimeout(1000);
-await page.mouse.move(600, 590)
-await page.mouse.up();
+await commonSteps.dragAndDrop('text input',600, 590);
 await page.locator('//div[contains(@class,"signYourselfBlock")][.//span[normalize-space()="text input-1"]]//i[contains(@class,"fa-gear")]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
@@ -2292,16 +2220,12 @@ const colorTextInput = await widgetTextinput.evaluate(el => getComputedStyle(el)
 
 console.log(`Font Size: ${fontSizeTextInput }, Color: ${colorTextInput}`);
 
-if (fontSizeTextInput === '20.0464px' && colorTextInput  === 'rgb(0, 0, 255)') {
+if (fontSizeTextInput === '17.8694px' && colorTextInput  === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 20.0464px, Color: blue but got Font Size: ${fontSizetext }, Color: ${colortext }`);
+  throw new Error(`Test Failed: Expected Font Size: 17.8694px, Color: blue but got Font Size: ${fontSizetext }, Color: ${colortext }`);
 }
-
-await page.locator('//span[normalize-space()=\'email\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 630)
-await page.mouse.up();
+await commonSteps.dragAndDrop('email',600, 630);
 await page.locator('//div[contains(@class,"signYourselfBlock")][.//span[normalize-space()="email-1"]]//i[contains(@class,"fa-gear")]').dblclick();
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[7px] w-[60%] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('18');
 await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
@@ -2313,10 +2237,10 @@ const fontSizeemail = await widgetEmail.evaluate(el => getComputedStyle(el).font
 const coloremail = await widgetEmail.evaluate(el => getComputedStyle(el).color);
 console.log(`Font Size: ${fontSizeemail}, Color: ${coloremail}`);
 
-if (fontSizeemail=== '20.0464px' && coloremail  === 'rgb(0, 0, 255)') {
+if (fontSizeemail=== '17.8694px' && coloremail  === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 20.0464px, Color: blue but got Font Size: ${fontSizeemail }, Color: ${coloremail }`);
+  throw new Error(`Test Failed: Expected Font Size: 17.8694px, Color: blue but got Font Size: ${fontSizeemail }, Color: ${coloremail }`);
 }
 await page.getByRole('button', { name: 'Next' }).click();
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
@@ -2343,46 +2267,9 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-  const rowLocator = page.locator("//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1']");
-
-  for (let i = 0; i < 5; i++) { // Retry up to 5 times
-      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-      
-          console.log("signature widget dragged and dropped");
-          break; // Exit the loop if successfully clicked
-      } else {
-          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(800, 300);
-          await page.mouse.up();
-          
-          // Wait a bit before checking again
-          await page.waitForTimeout(1000);
-      }
-  
-      if (i === 5) {
-          console.log("signature widget did not become visible on the document after multiple attempts.");
-      }
-  }
-} catch (error) {
-  console.log("Element not found or not interactable, continuing execution.");
- 
-}
-// Copy and verify "name"
-await page.locator('//span[normalize-space()="name"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300);
-await page.mouse.up();
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 300);
+await commonSteps.dragAndDrop('name',600, 370);
 await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='name-1']")).toBeVisible();
 
 while (true) {
@@ -2399,10 +2286,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
   const nameCount = await page.locator('//div[contains(@class,"flex") and contains(@class,"justify-center")]//div[contains(@class,"select-none-cls")]//span[starts-with(normalize-space(),"name")]').count();
 expect(nameCount).toBeGreaterThan(1);
 // Copy and verify "job title"
-await page.locator('//span[normalize-space()="job title"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 350);
-await page.mouse.up();
+await commonSteps.dragAndDrop('job title', 600, 350);
 await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='job title-1']")).toBeVisible();
 while (true) {
     await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
@@ -2419,10 +2303,7 @@ const JobtitleCount = await page.locator('//div[contains(@class,"flex") and cont
 expect(JobtitleCount).toBeGreaterThan(1);
 
 // Copy and verify "company"
-await page.locator('//span[normalize-space()="company"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 400);
-await page.mouse.up();
+await commonSteps.dragAndDrop('company', 600, 400);
 await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='company-1']")).toBeVisible();
 while (true) {
   await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
@@ -2439,10 +2320,7 @@ const companynameCount = await page.locator('//div[contains(@class,"flex") and c
 expect(companynameCount).toBeGreaterThan(1);
 
 // Copy and verify "checkbox"
-await page.locator('//span[normalize-space()="checkbox"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 450);
-await page.mouse.up();
+await commonSteps.dragAndDrop('checkbox', 600, 450);
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//label[.//span[text()="Option-1"]]').click({ force: true });
 while (true) {
@@ -2460,10 +2338,7 @@ const checkboxCount = await page.locator('//label[.//span[text()="Option-1"]]').
 expect(checkboxCount).toBeGreaterThan(1);
 
 // Copy and verify "radio button"
-await page.locator('//span[normalize-space()="radio button"]').hover();
-await page.mouse.down();
-await page.mouse.move(680, 450);
-await page.mouse.up();
+await commonSteps.dragAndDrop('radio button', 600, 500);
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//input[@type="radio" and contains(@id, "radio-")]/following-sibling::span[text()="Option-1"]/parent::label').click({ force: true });
 while (true) {
@@ -2481,10 +2356,7 @@ const radioCount = await page.locator('//input[@type="radio" and contains(@id, "
 expect(radioCount).toBeGreaterThan(1);
 
 // Copy and verify "dropdown"
-await page.locator('//span[normalize-space()="dropdown"]').hover();
-await page.mouse.down();
-await page.mouse.move(750, 550);
-await page.mouse.up();
+await commonSteps.dragAndDrop('dropdown', 750, 550);
 await page.locator("//button[normalize-space()='Save']").click();
 await page.locator('//div[contains(@class, "select-none-cls") and contains(., "Choose One")]').click({ force: true });
 while (true) {
@@ -2501,10 +2373,7 @@ await page.getByRole('button', { name: 'Apply' }).click();
 const dropdownCount = await page.locator('//div[contains(@class, "select-none-cls") and contains(., "Choose One")]').count();
 expect(dropdownCount).toBeGreaterThan(1);
 // Copy and verify "image"
-await page.locator('//span[normalize-space()="image"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 500);
-await page.mouse.up();
+await commonSteps.dragAndDrop('image', 600, 500);
 while (true) {
   await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
     const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
@@ -2518,10 +2387,7 @@ await page.getByText('Next to current widget').click();
 await page.getByRole('button', { name: 'Apply' }).click();
 const ImageCount = await page.locator('//div[contains(@class,"signYourselfBlock")]//div[starts-with(normalize-space(),"image")]').count();
 expect(ImageCount).toBeGreaterThan(1);
-  await page.locator('//span[normalize-space()=\'email\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 550)
-await page.mouse.up();
+await commonSteps.dragAndDrop('email', 600, 550);
 await expect(page.locator("//div[@class='signYourselfBlock react-draggable']//span[text()='email-1']")).toBeVisible();
 
 while (true) {
@@ -2562,45 +2428,9 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-  const rowLocator = page.locator("//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1']");
-
-  for (let i = 0; i < 5; i++) { // Retry up to 5 times
-      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-      
-          console.log("signature widget dragged and dropped");
-          break; // Exit the loop if successfully clicked
-      } else {
-          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(800, 300);
-          await page.mouse.up();
-          
-          // Wait a bit before checking again
-          await page.waitForTimeout(1000);
-      }
-  
-      if (i === 5) {
-          console.log("signature widget did not become visible on the document after multiple attempts.");
-      }
-  }
-} catch (error) {
-  console.log("Element not found or not interactable, continuing execution.");
- 
-}
-await page.locator('//span[normalize-space()=\'checkbox\']').hover();
-    await page.mouse.down();
-    await page.mouse.move(600, 450)
-    await page.mouse.up();
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 300);
+await commonSteps.dragAndDrop('checkbox',600, 450);
     await page.locator("//button[normalize-space()='Save']").click(); 
     await page.locator('//label[.//span[text()="Option-1"]]').click({ force: true });
 while (true) {
@@ -2664,11 +2494,8 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 300);
 await page.locator('div').filter({ hasText: /^Prefill by owner$/ }).click();
 await page.getByTitle('text').locator('div').first().hover();
 await page.mouse.down();
@@ -2731,41 +2558,8 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-  const rowLocator = page.locator("//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1']");
-
-  for (let i = 0; i < 5; i++) { // Retry up to 5 times
-      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-      
-          console.log("signature widget dragged and dropped");
-          break; // Exit the loop if successfully clicked
-      } else {
-          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(800, 300);
-          await page.mouse.up();
-          
-          // Wait a bit before checking again
-          await page.waitForTimeout(1000);
-      }
-  
-      if (i === 5) {
-          console.log("signature widget did not become visible on the document after multiple attempts.");
-      }
-  }
-} catch (error) {
-  console.log("Element not found or not interactable, continuing execution.");
- 
-}
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 300);
 await page.locator('div').filter({ hasText: /^Prefill by owner$/ }).click();
 await page.getByTitle('text').locator('div').first().hover();
 await page.mouse.down();
@@ -2828,11 +2622,8 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 300);
 await page.locator('canvas').nth(2).click({
   position: {
     x: 65,
@@ -2900,41 +2691,8 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-  const rowLocator = page.locator("//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1']");
-
-  for (let i = 0; i < 5; i++) { // Retry up to 5 times
-      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-      
-          console.log("signature widget dragged and dropped");
-          break; // Exit the loop if successfully clicked
-      } else {
-          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(800, 300);
-          await page.mouse.up();
-          
-          // Wait a bit before checking again
-          await page.waitForTimeout(1000);
-      }
-  
-      if (i === 5) {
-          console.log("signature widget did not become visible on the document after multiple attempts.");
-      }
-  }
-} catch (error) {
-  console.log("Element not found or not interactable, continuing execution.");
- 
-}
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget("signature",600, 250)
 await page.locator('div').filter({ hasText: /^Prefill by owner$/ }).click();
 await page.locator('//div[@title ="text"]//span[text()="text"]').hover();
 await page.mouse.down();
@@ -2986,8 +2744,7 @@ test('Verify that textinput field widget Copy widget to all pages function corre
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 });
   await page.getByRole('button', { name: 'Next' }).click();
 
-  await page.waitForLoadState('networkidle');
-  await page.waitForSelector("//div[@class='react-pdf__Document']", { timeout: 90000 });
+await commonSteps.LoadPlaceholder(page);
 
   const pageThumbnails = page.locator('div').filter({ hasText: /^Add pages$/ }).locator('canvas');
 
@@ -3091,48 +2848,9 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-const pageThumbnails = page.locator('div').filter({ hasText: /^Add pages$/ }).locator('canvas');
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-  const rowLocator = page.locator("//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1']");
-
-  for (let i = 0; i < 5; i++) { // Retry up to 5 times
-      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-      
-          console.log("signature widget dragged and dropped");
-          break; // Exit the loop if successfully clicked
-      } else {
-          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(600, 300);
-          await page.mouse.up();
-          
-          // Wait a bit before checking again
-          await page.waitForTimeout(1000);
-      }
-  
-      if (i === 5) {
-          console.log("signature widget did not become visible on the document after multiple attempts.");
-      }
-  }
-} catch (error) {
-  console.log("Element not found or not interactable, continuing execution.");
- 
-}
-
-await page.locator('//span[normalize-space()="text input"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 360);
-await page.mouse.up();
-
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget("signature",600,300);
+await commonSteps.dragAndDrop("text input",600, 360)
 const countTextInputsOnPage = async (pageNumber) => page.evaluate((targetPageNumber) => {
   const pageElement = Array.from(
     document.querySelectorAll(`.react-pdf__Page[data-page-number="${targetPageNumber}"]`)
@@ -3216,20 +2934,15 @@ test('Verify that textinput field widget Copy widget to all pages but first func
   await page.locator('input[name="Name"]').click();
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 });
   await page.getByRole('button', { name: 'Next' }).click();
-
-  await page.waitForLoadState('networkidle');
-  await page.waitForSelector("//div[@class='react-pdf__Document']", { timeout: 90000 });
+await commonSteps.LoadPlaceholder(page);
 await page.locator('canvas').nth(2).click({
     position: {
       x: 65,
       y: 59
     }
   });
-await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
-  await page.locator('//span[normalize-space()="text input"]').hover();
-  await page.mouse.down();
-  await page.mouse.move(600, 400);
-  await page.mouse.up();
+await commonSteps.DragAndDropWidget('signature', 600, 300);
+await commonSteps.dragAndDrop('text input', 600, 300);
   while (true) {
     await page
       .locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]')
@@ -3285,46 +2998,9 @@ await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click(
 await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
-await page.waitForLoadState("networkidle");
-await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-  const rowLocator = page.locator("//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1']");
-
-  for (let i = 0; i < 5; i++) { // Retry up to 5 times
-      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-      
-          console.log("signature widget dragged and dropped");
-          break; // Exit the loop if successfully clicked
-      } else {
-          console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(800, 300);
-          await page.mouse.up();
-          
-          // Wait a bit before checking again
-          await page.waitForTimeout(1000);
-      }
-  
-      if (i === 5) {
-          console.log("signature widget did not become visible on the document after multiple attempts.");
-      }
-  }
-} catch (error) {
-  console.log("Element not found or not interactable, continuing execution.");
- 
-}
-  await page.locator('//span[normalize-space()="text input"]').hover();
-await page.mouse.down();
-await page.mouse.move(800, 370);
-await page.mouse.up();
-
+await commonSteps.LoadPlaceholder(page);
+await commonSteps.DragAndDropWidget('signature', 600, 300);
+await commonSteps.dragAndDrop('text input', 600, 450);
 while (true) {
   await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
