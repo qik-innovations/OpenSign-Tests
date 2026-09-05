@@ -162,7 +162,12 @@ async DragAndDropWidget(WidgetName, x, y) {
     `//div[@data-tut="addWidgets"]//button[@aria-label="${WidgetName}"]`
    
   );
+await widgetLocator.waitFor({
+  state: 'attached',
+  timeout: 90000
+});
 
+await widgetLocator.scrollIntoViewIfNeeded();
   await expect(widgetLocator).toBeVisible({
     timeout: 90000
   });
@@ -224,6 +229,7 @@ async dragAndDrop(label, x, y) {
   await expect(widget).toBeVisible({
     timeout: 90000
   });
+await widget.scrollIntoViewIfNeeded();
 
   const box = await widget.boundingBox();
 
@@ -287,35 +293,6 @@ async dragAndDrop(label, x, y) {
   return id;
 }
 
-async dragAndDropSignatureWidget(WidgetName,x, y) {
-    const { page } = this;
-    // Wait until signature widget is visible
-    await page.locator(`//span[normalize-space()='${WidgetName}']`).waitFor({ state: 'visible', timeout: 90000 });
-    await page.waitForLoadState("networkidle");
-    // Confirm visibility
-    await expect(page.locator(`//span[normalize-space()='${WidgetName}']`)).toBeVisible();
-    await page.waitForLoadState("networkidle");
-    // First drag and drop
-    await this.dragAndDrop(WidgetName, x, y);
-    try {      const rowLocator = page.locator("//div[contains(@class,'signYourselfBlock')]//div[contains(@class,'font-medium') and normalize-space()='signature-1']");
-      for (let i = 0; i < 5; i++) {
-        if (await rowLocator.isVisible()) {
-          console.log("Signature widget dragged and dropped successfully.");
-          break;
-        } else {
-          console.log(`Attempt ${i + 1}: Signature widget not visible, retrying drag and drop...`);
-          await this.dragAndDrop(WidgetName, x, y);
-          await page.waitForTimeout(1000);
-        }
-
-        if (i === 5) {
-          console.log("Signature widget failed to appear after multiple attempts.");
-        }
-      }
-    } catch (error) {
-      console.log("Error while verifying signature widget drag-drop:", error);
-    }
-  }
 async dragDropSignaturewidgetInSignyourselfPage(WidgetName,x, y){
     const { page } = this;
 
