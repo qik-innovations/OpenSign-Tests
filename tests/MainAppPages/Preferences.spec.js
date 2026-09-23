@@ -49,6 +49,7 @@ test('Verify that a new free user cannot save email preferences is prompted to u
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
+     await page.getByRole('button', { name: 'Close Tour' }).click();
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'Preferences' }).click();
     const title = await page.title();
@@ -69,7 +70,7 @@ test('Free user cannot update settings for Notify on Signature and Merge Certifi
   // Navigate and login as new user
   await commonSteps.navigateToBaseUrl();
   await commonSteps.NewUserlogin();
-
+await page.getByRole('button', { name: 'Close Tour' }).click();
   // Open Preferences
   await page.getByRole('button', { name: ' Settings' }).click();
   await page.getByRole('menuitem', { name: 'Preferences' }).click();

@@ -293,34 +293,70 @@ await widget.scrollIntoViewIfNeeded();
   return id;
 }
 
-async dragDropSignaturewidgetInSignyourselfPage(WidgetName,x, y){
-    const { page } = this;
+async dragDropSignaturewidgetInSignyourselfPage(WidgetName, x, y) {
+  const { page } = this;
 
-    await page.waitForLoadState("networkidle");
-    await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-    await page.waitForLoadState("networkidle");
-    await this.dragAndDrop(WidgetName,x, y);
-    try {
-      const saveButton = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-      for (let i = 0; i < 5; i++) {
-        if (await saveButton.isVisible() && await saveButton.isEnabled()) {
-          await saveButton.click();
-          console.log("Save button clicked!");
-          break;
-        } else {
-          console.log(`Attempt ${i + 1}: Save button not visible, retrying drag and drop...`);
-          await this.dragAndDrop(WidgetName,x, y);
-          await page.waitForTimeout(1000);
-        }
+  await page.waitForLoadState("networkidle");
 
-        if (i === 4) {
-          console.log("Save button did not become visible after multiple attempts.");
-        }
+  await page
+    .locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]')
+    .waitFor({
+      state: 'visible',
+      timeout: 90000
+    });
+
+  const saveButton = page.locator(
+    "//dialog[@id='selectSignerModal']//button[normalize-space()='Save']"
+  );
+
+  try {
+    for (let i = 0; i < 5; i++) {
+
+      console.log(`Drag and drop attempt ${i + 1}`);
+
+      // Drag and drop signature widget
+      await this.dragAndDrop(WidgetName, x, y);
+
+      await page.waitForTimeout(1000);
+
+      // Check whether Save button appeared
+      const saveVisible = await saveButton.isVisible().catch(() => false);
+      const saveEnabled = saveVisible
+        ? await saveButton.isEnabled().catch(() => false)
+        : false;
+
+      if (saveVisible && saveEnabled) {
+        console.log("Save button is visible and enabled.");
+
+        await saveButton.click();
+
+        console.log("Save button clicked successfully!");
+        break;
       }
-    } catch (error) {
-      console.log("Element not found or not interactable, continuing execution.");
+
+      console.log(
+        `Save button not available after attempt ${i + 1}.`
+      );
+
+      // Continue loop and drag/drop again
+      if (i < 4) {
+        await page.waitForTimeout(1000);
+      }
     }
+
+    // After 5 attempts, verify Save was clicked
+    if (await saveButton.isVisible().catch(() => false)) {
+      console.log("Save button is still visible after 5 attempts.");
+    }
+
+  } catch (error) {
+    console.log(
+      "Error while dragging widget or clicking Save:",
+      error
+    );
+    throw error;
   }
+}
 async drawSignature() {
     const page = this.page;
     await allure.step('Sign Signature Widget', async () => {

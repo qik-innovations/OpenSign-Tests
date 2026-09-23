@@ -22,10 +22,11 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/IncompatiblePDFs/errpdf.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
-const noButton = page.getByRole('button', { name: 'No' });
+const dialog = page.getByRole('dialog');
 
-await noButton.waitFor({ state: 'visible', timeout: 90000 });
-await noButton.click();
+const noButton = dialog.getByRole('button', { name: 'No' });
+
+await noButton.click({ timeout: 90000 });
   await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature', 600, 300);
 await commonSteps.dragAndDrop('stamp',600, 360);
 await commonSteps.uploadStamp(); 
