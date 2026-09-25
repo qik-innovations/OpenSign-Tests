@@ -8,6 +8,7 @@ test('Verify that New user can draw and save the signature on the my signature p
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
+      await page.getByRole('button', { name: 'Close Tour' }).click();
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'My signature' }).click();
 
@@ -44,6 +45,7 @@ test('Verify that New user can upload and save the signature on the my signature
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
+      await page.getByRole('button', { name: 'Close Tour' }).click();
     await page.getByRole('button', { name: ' Settings' }).click();
     await page.getByRole('menuitem', { name: 'My signature' }).click();
 

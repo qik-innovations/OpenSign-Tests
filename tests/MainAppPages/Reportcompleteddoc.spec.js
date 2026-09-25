@@ -24,43 +24,8 @@ test('Verify that the document signed by SignYourSelf is available in the Comple
   await page.locator('input[name="Name"]').fill('Sample offer letter completed rpt');
   await page.locator('input[name="Note"]').fill('Sample note completed rpt');
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForLoadState("networkidle");
-  await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-  await page.waitForLoadState("networkidle");
-  await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-  await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-  const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
-
-  for (let i = 0; i < 5; i++) { // Retry up to 5 times
-      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-          await rowLocator.click();
-          console.log("Save button clicked!");
-          break; // Exit the loop if successfully clicked
-      } else {
-          console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-  
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(800, 300);
-          await page.mouse.up();
-          
-          // Wait a bit before checking again
-          await page.waitForTimeout(1000);
-      }
-  
-      if (i === 5) {
-          console.log("Save button did not become visible after multiple attempts.");
-      }
-  }
-} catch (error) {
-  console.log("Element not found or not interactable, continuing execution.");
- 
-}
+  await commonSteps.LoadPlaceholder(page);
+ await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature', 600, 300);
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
 await page.locator('//button[normalize-space()="Close"]').click();
@@ -148,44 +113,8 @@ test('Verify that the document signed by SignYourSelf can be viewed from the Com
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.locator('input[name="Name"]').fill('View Sample offer letter in completed rpt');
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForLoadState("networkidle");
-  await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-  await page.waitForLoadState("networkidle");
-  await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-  await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').hover();
-await page.mouse.down();
-await page.mouse.move(600, 300)
-await page.mouse.up();
-try {
-  const rowLocator = page.locator("//button[@type='button' and text()='Save']/parent::div");
-
-  for (let i = 0; i < 5; i++) { // Retry up to 5 times
-      if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
-          await rowLocator.click();
-          console.log("Save button clicked!");
-          break; // Exit the loop if successfully clicked
-      } else {
-          console.log(`Attempt ${i + 1}: Save button not visible, performing actions...`);
-  
-          await page.locator('//span[normalize-space()="signature"]').hover();
-          await page.mouse.down();
-          await page.mouse.move(800, 300);
-          await page.mouse.up();
-          
-          // Wait a bit before checking again
-          await page.waitForTimeout(1000);
-      }
-  
-      if (i === 5) {
-          console.log("Save button did not become visible after multiple attempts.");
-      }
-  }
-} catch (error) {
-  console.log("Element not found or not interactable, continuing execution.");
- 
-}
-
+  await commonSteps.LoadPlaceholder(page);
+ await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature', 600, 300);
 await page.locator("//button[normalize-space()='Finish']").click();
 await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
 await page.locator('//button[normalize-space()="Close"]').click();

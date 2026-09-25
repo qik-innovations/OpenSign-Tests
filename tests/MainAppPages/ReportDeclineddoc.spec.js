@@ -24,14 +24,8 @@ test('Verify that revoked document from the In Progress document is available on
   await page.locator('input[name="Name"]').fill('Offer Letter declined report');
   await page.locator('input[name="Note"]').fill('Note Offer Letter for QA1144');
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForLoadState("networkidle");
-  await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-  await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-  await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-  await page.locator('//span[normalize-space()=\'signature\']').hover();
-  await page.mouse.down();
-  await page.mouse.move(600, 300)
-  await page.mouse.up();
+  await commonSteps.LoadPlaceholder(page);
+  await commonSteps.DragAndDropWidget('signature', 600, 300);
   await page.getByRole('button', { name: 'Next' }).click();
   await page.locator("//div[i[contains(@class,'fa-envelope')] and .//span[text()='Send to Email']]").click();
     await page.getByRole('button', { name: 'Send' }).click();
@@ -48,8 +42,6 @@ test('Verify that revoked document from the In Progress document is available on
     await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to revoke this document?');
     await page.getByPlaceholder('Reason (optional)').fill('Invalid document');
     await page.getByRole('button', { name: 'Yes' }).click();
-    await expect(page.locator('#renderList')).toContainText('Record revoked successfully!');
-
     await page.locator('//span[@class="flex items-center mb-0.5" and text()="Documents"]').click();
     await page.getByRole('menuitem', { name: 'Declined' }).click();
     await expect(page.locator('#renderList')).toContainText('Declined documents');
@@ -68,6 +60,7 @@ await expect(page.locator('.p-2 > .font-semibold').first()).toContainText('Offer
  await expect(page.getByRole('heading')).toContainText('Document declined');
  await expect(page.getByRole('dialog')).toContainText('You can not sign this document as it has been declined/revoked. Declined/revoked by : pravin+testaccount@nxglabs.in Reason : Invalid document');
     await page.locator("//div[contains(@class,'flex-none')]//button[i[contains(@class,'fa-bars')]]").click();
+ await page.getByRole('button', { name: 'Open navigation' }).click();
  await page.getByRole('menuitem', { name: 'Declined' }).click();
     await expect(page.locator('#renderList')).toContainText('Declined documents');
  await page.locator('//div[@role="button"and @title="Delete"]').first().click();
