@@ -6,11 +6,12 @@ const STORAGE_PAGE = '#renderList';
 const STORAGE_HEADING = /Setup file storage/i;
 const FREE_USER_UPGRADE_BUTTON = `${STORAGE_PAGE} button:has-text("Upgrade now")`;
 const PRO_USER_UPGRADE_BUTTON = `${STORAGE_PAGE} button:has-text("Upgrade to Team Plan")`;
-
+const PROFILE_MENU_BUTTON = '//button[@type="button" and @aria-controls="profile-menu-list"]//i[contains(@class, "fa-angle-down")]';
+const CONSOLE_OPTION = '//button[@type="button" and contains(., "Console")]//i[contains(@class,"fa-id-card")]';
 async function openConsolePopup(page) {
-  await page.locator('//div[@class ="op-dropdown op-dropdown-open op-dropdown-end" and @id="profile-menu"]').click();
+  await page.locator(PROFILE_MENU_BUTTON).click();
   const popupPromise = page.waitForEvent('popup');
-  await page.getByText('Console').click();
+  await page.locator(CONSOLE_OPTION).click();
   const popup = await popupPromise;
   await popup.waitForLoadState('networkidle');
   return popup;
@@ -49,6 +50,7 @@ test('Verify that a free user cannot access the Storage page in the console appl
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
+    await page.getByRole('button', { name: 'Close Tour' }).click();
     const page1 = await openConsolePopup(page);
 //verify the profile name on the profile
   await expect(page1.locator('#root')).toContainText('Mathew Wade', { timeout: 120000 });

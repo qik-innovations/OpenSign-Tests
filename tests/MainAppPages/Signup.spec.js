@@ -6,6 +6,8 @@ const { fetchOTP } = require('../utils/otpHelper.js');
 const { gmailConfig } = require('../utils/mailConfigs.js');
 const PageActions = require('../utils/PageActions.js');
 
+const PROFILE_MENU_BUTTON = '//button[@type="button" and @aria-controls="profile-menu-list"]//i[contains(@class, "fa-angle-down")]';
+
 const DEFAULT_PASSWORD = 'Nxglabs@123';
 const DEFAULT_PHONE = '8238988998';
 const TEST_CARD = {
@@ -623,7 +625,7 @@ const updated = await editProfilewithoutEditbuttonClick(page, { username: longUs
     await page.getByRole('tab', { name: 'Monthly' }).click();
    await completePaidCheckoutMonthly(page, data.email, planDefinitions.professionalMonthly);
     //await expectSubscriptionInvoiceEmail(data.email);
-await page.getByRole('button', { name: 'Open profile menu' }).nth(1).click();
+await page.locator(PROFILE_MENU_BUTTON).click();
   await page.getByRole('button', { name: ' Profile' }).click();
     await expectProfileDetails(page, data, { shouldShowUpgrade: true });
     const updated = await editProfile(page);
