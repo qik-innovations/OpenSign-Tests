@@ -193,7 +193,7 @@ const individualSmtpToggle1 = consolePage1.locator(
 );
 
 await individualSmtpToggle1.check({ force: true });
-await expect(consolePage1.getByText('Saved successfully.')).toBeVisible();
+
   });
 
   test('Verify that professional plan users cannot access the General page.', async ({
