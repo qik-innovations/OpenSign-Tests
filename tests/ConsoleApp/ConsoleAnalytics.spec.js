@@ -3,12 +3,12 @@ const { test, expect } = require('@playwright/test');
 const path = require('path');
 const CommonSteps = require('../utils/CommonSteps');
 // XPath Selectors
-const PROFILE_MENU_BUTTON = '//div[@class ="op-dropdown op-dropdown-open op-dropdown-end" and @id="profile-menu"]';
-const CONSOLE_OPTION = '//ul[contains(@class, "op-dropdown-content")]//li/span[i[@class="fa-light fa-id-card"] and contains(normalize-space(.), "Console")]';
+const PROFILE_MENU_BUTTON = '//button[@type="button" and @aria-controls="profile-menu-list"]//i[contains(@class, "fa-angle-down")]';
+const CONSOLE_OPTION = '//button[@type="button" and contains(., "Console")]//i[contains(@class,"fa-id-card")]';
 const PROFILE_NAME = '//div[@id="root"]//p[@class="text-[14px] font-bold text-base-content"]';
 const PROFILE_DOMAIN = '//div[@id="root"]//p[@class="cursor-pointer text-[12px] text-base-content mt-2"]';
 const UPGRADE_BUTTON = '//div[@class="relative"]//button[@class="op-btn op-btn-accent shadow-lg"]';
-const PLAN_BADGE = '//div[@id="profile-menu"]//div[@class="cursor-pointer"]//div[1]';
+const PLAN_BADGE = '//button[@aria-label="Billing"]';
 const DOCUMENTS_COUNT = '//div[text()="Documents count"]';
 const TEMPLATES_COUNT = '//div[text()="Templates count"]';
 const EMAILS_SENT = '//div[text()="Emails sent"]';
@@ -22,10 +22,11 @@ test.describe('Console analytics', () => {
     const commonSteps = new CommonSteps(page);
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
+     await page.getByRole('button', { name: 'Close Tour' }).click();
     await page.locator(PROFILE_MENU_BUTTON).click();
     const page1Promise = page.waitForEvent('popup');
-    await page.locator(CONSOLE_OPTION).click();
-    const page1 = await page1Promise;
+   await page.locator(CONSOLE_OPTION).click();
+  const page1 = await page1Promise;
     await expect(page1.locator(PROFILE_NAME)).toContainText('Mathew Wade', { timeout: 120000 });
     await expect(page1.locator(PROFILE_DOMAIN)).toContainText('qikAi.com');
     const title = await page1.title();
@@ -34,7 +35,8 @@ test.describe('Console analytics', () => {
     } else {
       console.error(`Page title is incorrect. Expected: "Analytics - OpenSign™", Got: "${title}"`);
     }
-    await expect(page1.locator(UPGRADE_BUTTON)).toContainText('Upgrade now');
+   
+ await page1.locator('#renderList').getByRole('button', { name: 'Upgrade now' }).click();
   });
 
   test('Verify that Profession plan User can access the Analytics page in the console application.', async ({ page }) => {

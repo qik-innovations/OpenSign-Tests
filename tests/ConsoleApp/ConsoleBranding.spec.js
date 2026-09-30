@@ -2,11 +2,11 @@ const { test, expect } = require('@playwright/test');
 const CommonSteps = require('../utils/CommonSteps');
 
 // XPath Selectors
-const PROFILE_MENU_BUTTON = '//div[@class="op-dropdown op-dropdown-open op-dropdown-end" and @id="profile-menu"]';
-const CONSOLE_OPTION = '//ul[contains(@class, "op-dropdown-content")]//li/span[i[@class="fa-light fa-id-card"] and contains(normalize-space(.), "Console")]';
+const PROFILE_MENU_BUTTON = '//button[@type="button" and @aria-controls="profile-menu-list"]//i[contains(@class, "fa-angle-down")]';
+const CONSOLE_OPTION = '//button[@type="button" and contains(., "Console")]//i[contains(@class,"fa-id-card")]';
 const PROFILE_NAME = '//div[@id="root"]//p[@class="text-[14px] font-bold text-base-content"]';
 const PROFILE_DOMAIN = '//div[@id="root"]//p[@class="cursor-pointer text-[12px] text-base-content mt-2"]';
-const PLAN_BADGE = '//div[@id="profile-menu"]//div[@class="cursor-pointer"]//div[1]';
+const PLAN_BADGE = '//button[@aria-label="Billing"]';
 const UPGRADE_ENTERPRISE_BUTTON = '//button[@class="op-btn op-btn-accent shadow-lg"]';
 
 test.describe('Console app - Branding Access Validation', () => {

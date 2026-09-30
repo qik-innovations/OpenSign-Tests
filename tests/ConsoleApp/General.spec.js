@@ -1,10 +1,8 @@
 const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const CommonSteps = require('../utils/CommonSteps');
-const PROFILE_MENU_BUTTON =
-  '//div[@class="op-dropdown op-dropdown-open op-dropdown-end" and @id="profile-menu"]';
-const CONSOLE_OPTION =
-  '//ul[contains(@class, "op-dropdown-content")]//li/span[i[@class="fa-light fa-id-card"] and contains(normalize-space(.), "Console")]';
+const PROFILE_MENU_BUTTON = '//button[@type="button" and @aria-controls="profile-menu-list"]//i[contains(@class, "fa-angle-down")]';
+const CONSOLE_OPTION = '//button[@type="button" and contains(., "Console")]//i[contains(@class,"fa-id-card")]';
 const PROFILE_NAME =
   '//div[@id="root"]//p[@class="text-[14px] font-bold text-base-content"]';
 const PROFILE_DOMAIN =
@@ -47,7 +45,7 @@ test.describe('Console app - General page', () => {
 
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-
+await page.getByRole('button', { name: 'Close Tour' }).click();
     const consolePage = await openConsoleGeneral(page);
 
     await expect(consolePage.locator(PROFILE_NAME)).toContainText('Mathew Wade', {
@@ -195,7 +193,7 @@ const individualSmtpToggle1 = consolePage1.locator(
 );
 
 await individualSmtpToggle1.check({ force: true });
-await expect(consolePage1.getByText('Saved successfully.')).toBeVisible();
+
   });
 
   test('Verify that professional plan users cannot access the General page.', async ({

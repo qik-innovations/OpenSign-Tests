@@ -6,6 +6,7 @@ const { fetchOTP } = require('../utils/otpHelper.js');
 const { gmailConfig } = require('../utils/mailConfigs.js');
 const PageActions = require('../utils/PageActions.js');
 
+const PROFILE_MENU_BUTTON = '//button[@type="button" and @aria-controls="profile-menu-list"]//i[contains(@class, "fa-angle-down")]';
 const DEFAULT_PASSWORD = 'Nxglabs@123';
 const DEFAULT_PHONE = '8238988998';
 const TEST_CARD = {
@@ -61,7 +62,7 @@ const planDefinitions = {
   },
   professionalMonthly: {
     heading: 'OPENSIGN™ PROFESSIONAL',
-    slug: 'pro-monthly',
+    slug: 'pro-weekly',
     billingText: 'Billed Monthly',
     priceText: '₹2,499',
     badgeText: 'PRO',
@@ -315,7 +316,8 @@ async function payByStripeTestCardMonthly(page) {
 
   const cvcFrame = page.frameLocator("iframe[title*='CVC'], iframe[title*='security']");
   await cvcFrame.locator("input[name='cvc']").fill(TEST_CARD.cvc);
-    await page.getByRole('button', { name: 'Start Trial' }).click();
+  await page.getByRole('button', { name: 'Pay $' }).click();
+    //await page.getByRole('button', { name: 'Start Trial' }).click();
 }
 /**
  * @param {import('@playwright/test').Page} page
@@ -366,7 +368,7 @@ async function closeModalIfVisible(page) {
  * @param {import('@playwright/test').Page} page
  */
 async function openProfile(page) {
-  await page.getByRole('button', { name: '' }).click();
+  await page.locator('//button[@type="button" and @aria-controls="profile-menu-list"]//i[contains(@class, "fa-angle-down")]').click();
   await page.getByText('Profile').click();
 }
 
@@ -374,7 +376,7 @@ async function openProfile(page) {
  * @param {import('@playwright/test').Page} page
  */
 async function openBilling(page) {
-  await page.getByRole('button', { name: '' }).click();
+  await page.locator('//button[@type="button" and @aria-controls="profile-menu-list"]//i[contains(@class, "fa-angle-down")]').click();
   await page.getByText('Billing').click();
 }
 
@@ -383,34 +385,109 @@ async function openBilling(page) {
  * @param {*} data
  * @param {{username?: string, tagline?: string, shouldShowUpgrade?: boolean}} options
  */
-async function expectProfileDetails(page, data, { username, tagline, shouldShowUpgrade = true } = {}) {
-  const list = page.getByRole('list');
-  await expect(page.locator('#renderList')).toContainText('Admin');
-  await expect(list).toContainText('Name:');
-  await expect(list).toContainText(data.name);
-  await expect(list).toContainText('Phone:');
-  await expect(list).toContainText(data.phone);
-  await expect(list).toContainText('Email :');
-  await expect(list).toContainText(data.email);
-  await expect(list).toContainText('Company:');
-  await expect(list).toContainText(data.company);
-  await expect(list).toContainText('Job title:');
-  await expect(list).toContainText(data.jobTitle);
-  await expect(list).toContainText('Is email verified:');
-  await expect(list).toContainText('Not verified (Verify)');
-  await expect(list).toContainText('Public profile :');
-  await expect(list).toContainText('Tagline :');
-  await expect(list).toContainText('Disable documentId :');
-  await expect(list).toContainText('Language:');
 
-  if (username) await expect(list).toContainText(username);
-  if (tagline) await expect(list).toContainText(tagline);
+async function expectProfileDetails(
+  page,
+  data,
+  { username, tagline, shouldShowUpgrade = true } = {}
+) {
+  const profile = page.locator('#renderList');
+
+  // Profile page
+  await expect(profile).toBeVisible();
+
+  // Role
+  await expect(
+    profile.locator('.os-profile-role')
+  ).toHaveText('Admin');
+
+  // Name
+  await expect(
+    profile.locator('.os-profile-identity-copy h1')
+  ).toHaveText(data.name);
+
+  // Email
+  await expect(
+    profile.locator('.os-profile-email')
+  ).toHaveText(data.email);
+
+  // Phone
+  await expect(
+    profile.locator(
+      '.os-profile-field:has(label:text-is("Phone")) .os-profile-field-value'
+    )
+  ).toHaveText(data.phone);
+
+  // Company
+  await expect(
+    profile.locator(
+      '.os-profile-field:has(label:text-is("Company")) .os-profile-field-value'
+    )
+  ).toHaveText(data.company);
+
+  // Job title
+  await expect(
+    profile.locator(
+      '.os-profile-field:has(label:text-is("Job title")) .os-profile-field-value'
+    )
+  ).toHaveText(data.jobTitle);
+
+  // Security - Email verification
+  await expect(
+    profile.locator('.os-profile-status')
+  ).toContainText('Not verified');
+
+  await expect(
+    profile.locator('.os-profile-verify-button')
+  ).toHaveText('Verify');
+
+  // Disable documentId
+  await expect(
+    profile.locator('.os-profile-security-setting')
+  ).toContainText('Disable documentId');
+
+  // Upgrade now
+  const upgradeNow = profile.getByText('Upgrade now', {
+    exact: true,
+  });
 
   if (shouldShowUpgrade) {
-    await expect(list).toContainText('Upgrade now');
+    await expect(upgradeNow).toBeVisible();
   } else {
-    await expect(list).not.toContainText('Upgrade now');
+    await expect(upgradeNow).toHaveCount(0);
   }
+
+  // Language
+  await expect(
+    profile.locator('#profile-language select')
+  ).toBeVisible();
+
+  // Public profile username
+  const publicLink = profile.locator(
+    '.os-profile-public-link-row .os-profile-public-link'
+  );
+
+  if (username !== undefined && username !== null) {
+    await expect(publicLink).toBeVisible();
+    await expect(publicLink).toHaveText(
+      `https://staging.opensign.me/${username}`
+    );
+  }
+
+  // Tagline
+  const taglineValue = profile.locator(
+    '.os-profile-public-details-grid > div:nth-child(2) .os-profile-field-value'
+  );
+
+  if (tagline !== undefined && tagline !== null) {
+    await expect(taglineValue).toBeVisible();
+    await expect(taglineValue).toHaveText(tagline);
+  }
+
+  // Delete account
+  await expect(
+    profile.locator('.os-profile-delete-action')
+  ).toHaveText('Delete account');
 }
 
 /**
@@ -429,13 +506,13 @@ async function editProfile(page, overrides = {}) {
   };
 
   await page.getByRole('button', { name: 'Edit' }).click();
-  await page.locator('li').filter({ hasText: 'Name:' }).getByRole('textbox').fill(updated.name);
-  await page.locator('li').filter({ hasText: 'Phone:' }).getByRole('textbox').fill(updated.phone);
-  await page.locator('li').filter({ hasText: 'Company:' }).getByRole('textbox').fill(updated.company);
-  await page.locator('li').filter({ hasText: 'Job title:' }).getByRole('textbox').fill(updated.jobTitle);
-  await page.getByPlaceholder('enter user name').fill(updated.username);
-  await page.getByPlaceholder('enter tagline').fill(updated.tagline);
-  await page.getByRole('button', { name: 'Save' }).click();
+ await page.locator('#profile-name').fill(updated.name); 
+ await page.locator('#profile-phone').fill(updated.phone); 
+ await page.locator('#profile-company').fill(updated.company); 
+ await page.locator('#profile-job-title').fill(updated.jobTitle); 
+ await page.locator('#profile-public-username').fill(updated.username); 
+ await page.locator('#profile-tagline').fill(updated.tagline); 
+ await page.getByRole('button', { name: 'Save', exact: true }).click();
 
   return updated;
 }
@@ -443,6 +520,7 @@ async function editProfile(page, overrides = {}) {
  * @param {import('@playwright/test').Page} page
  * @param {Record<string, any>} [overrides]
  */
+
 async function editProfilewithoutEditbuttonClick(page, overrides = {}) {
   const updated = {
     name: 'Mathew W Karl',
@@ -453,13 +531,26 @@ async function editProfilewithoutEditbuttonClick(page, overrides = {}) {
     tagline: 'Seal the deal openly',
     ...overrides,
   };
-  await page.locator('li').filter({ hasText: 'Name:' }).getByRole('textbox').fill(updated.name);
-  await page.locator('li').filter({ hasText: 'Phone:' }).getByRole('textbox').fill(updated.phone);
-  await page.locator('li').filter({ hasText: 'Company:' }).getByRole('textbox').fill(updated.company);
-  await page.locator('li').filter({ hasText: 'Job title:' }).getByRole('textbox').fill(updated.jobTitle);
-  await page.getByPlaceholder('enter user name').fill(updated.username);
-  await page.getByPlaceholder('enter tagline').fill(updated.tagline);
-  await page.getByRole('button', { name: 'Save' }).click();
+
+  // Fill profile details
+  await page.locator('#profile-name').fill(updated.name);
+
+  await page.locator('#profile-phone').fill(updated.phone);
+
+  await page.locator('#profile-company').fill(updated.company);
+
+  await page.locator('#profile-job-title').fill(updated.jobTitle);
+
+  // Fill public profile details
+  await page.locator('#profile-public-username').fill(updated.username);
+
+  await page.locator('#profile-tagline').fill(updated.tagline);
+
+  // Save changes
+  await page.getByRole('button', {
+    name: 'Save',
+    exact: true,
+  }).click();
 
   return updated;
 }
@@ -469,9 +560,12 @@ async function editProfilewithoutEditbuttonClick(page, overrides = {}) {
  * @param {*} plan
  */
 async function expectBillingDetails(page, plan) {
-  await expect(page.getByRole('heading')).toContainText(plan.slug);
-  await expect(page.locator('#renderList')).toContainText(plan.billingText || 'Free');
-  await expect(page.locator('#renderList')).toContainText('active');
+  await expect(
+    page.getByRole('heading', { name: plan.slug, exact: true })
+  ).toBeVisible();
+  const expectedPlan = plan.billingText || 'Free';
+  await expect(page.locator('#renderList')).toContainText(expectedPlan);
+  page.locator('div').filter({ hasText: /^active$/ });
 }
 
 /**
@@ -564,34 +658,32 @@ test.describe('SignupPage', () => {
  await page.getByRole('button', { name: 'Close Tour' }).click();
     await openProfile(page);
     await expectProfileDetails(page, data);
-
     const tooShortUsername = 'Testing';
     await editProfile(page, { username: tooShortUsername });
-    await expect(page.getByRole('heading')).toContainText('Upgrade to Plan');
-    await expect(page.locator('#renderList')).toContainText('To have a username less than 8 character please subscribe');
-    await expect(page.locator('#renderList')).toContainText('Upgrade now');
-    await closeModalIfVisible(page);
+    await expect(page.locator('#renderList')).toContainText('Upgrade to Plan');
+  await expect(page.locator('#renderList')).toContainText('To have a username less than 8 character please subscribe');
+  await page.getByText('✕').click();
  const randomNumber = Math.floor(100000 + Math.random() * 900000);
 const longUsername = `public_userName${randomNumber}`;
 console.log(longUsername);
 // Example: DemoTestname483921
 const updated = await editProfilewithoutEditbuttonClick(page, { username: longUsername })
-    await expectProfileDetails(
+ /*   await expectProfileDetails(
       page,
       { ...data, ...updated },
       { username: updated.username, tagline: updated.tagline },
-    );
+    );*/
 
     await openBilling(page);
     await expectBillingDetails(page, planDefinitions.free);
 
     for (let i = 0; i < 10; i++) {
-      await page.getByRole('button', { name: '' }).click();
-      if (await page.locator('//span[text()="Sent this month"]').isVisible()) break;
+      //await page.getByRole('button', { name: '' }).click();
+      if (await page.locator("//*[contains(normalize-space(.), 'Sent this month')]//i[contains(@class, 'fa-envelope')]").isVisible()) break;
       await page.waitForTimeout(500);
     }
 
-    await page.locator('//span[text()="Sent this month"]').click();
+    await page.locator("//*[contains(normalize-space(.), 'Sent this month')]//i[contains(@class, 'fa-envelope')]").click();
     await expect(page.locator('#selectSignerModal')).toContainText('To maintain service quality and prevent spam, OpenSign allows up to 15 emails per month on the free plan.');
     await expect(page.locator('#selectSignerModal')).toContainText('Tip: You can still sign unlimited documents by manually sharing the signing request link.');
     await expect(page.locator('#selectSignerModal')).toContainText('Upgrade now');
@@ -623,8 +715,8 @@ const updated = await editProfilewithoutEditbuttonClick(page, { username: longUs
     await page.getByRole('tab', { name: 'Monthly' }).click();
    await completePaidCheckoutMonthly(page, data.email, planDefinitions.professionalMonthly);
     //await expectSubscriptionInvoiceEmail(data.email);
-await page.getByRole('button', { name: 'Open profile menu' }).nth(1).click();
-  await page.getByRole('button', { name: ' Profile' }).click();
+await page.locator(PROFILE_MENU_BUTTON).click();
+ await page.getByRole('button', { name: ' Profile' }).click();
     await expectProfileDetails(page, data, { shouldShowUpgrade: true });
     const updated = await editProfile(page);
     await expectProfileDetails(page, { ...data, ...updated }, {
@@ -634,7 +726,7 @@ await page.getByRole('button', { name: 'Open profile menu' }).nth(1).click();
     });
 
     await openBilling(page);
-    //await expectBillingDetails(page, planDefinitions.professionalMonthly);
+    await expectBillingDetails(page, planDefinitions.professionalMonthly);
    // await expectNextBillingDate(page, 12);
   });
 

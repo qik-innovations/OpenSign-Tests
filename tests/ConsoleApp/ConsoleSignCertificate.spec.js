@@ -2,15 +2,20 @@ const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const path = require('path');
 const CommonSteps = require('../utils/CommonSteps');
+
+const PROFILE_MENU_BUTTON = '//button[@type="button" and @aria-controls="profile-menu-list"]//i[contains(@class, "fa-angle-down")]';
+const CONSOLE_OPTION = '//button[@type="button" and contains(., "Console")]//i[contains(@class,"fa-id-card")]';
+const PROFILE_NAME = '//div[@id="root"]//p[@class="text-[14px] font-bold text-base-content"]';
 test.describe('Console app', () => {
 test('Verify that a free user cannot access the Signing certificate page in the console application and is prompted to upgrade.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-    await page.locator('//div[@class ="op-dropdown op-dropdown-open op-dropdown-end" and @id="profile-menu"]').click();
+    await page.getByRole('button', { name: 'Close Tour' }).click();
+    await page.locator(PROFILE_MENU_BUTTON).click();
     const page1Promise = page.waitForEvent('popup');
-    await page.getByText('Console').click();
+    await page.locator(CONSOLE_OPTION).click();
     const page1 = await page1Promise;
 //verify the profile name on the profile
 
@@ -33,9 +38,9 @@ test('Verify that Professional plan user cannot access the Signing certificate p
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.ProfessionPlanUserlogin();
-    await page.locator('//div[@class ="op-dropdown op-dropdown-open op-dropdown-end" and @id="profile-menu"]').click();
+     await page.locator(PROFILE_MENU_BUTTON).click();
     const page1Promise = page.waitForEvent('popup');
-    await page.getByText('Console').click();
+    await page.locator(CONSOLE_OPTION).click();
     const page1 = await page1Promise;
 //verify the profile name on the profile
 await expect(page1.locator('#root')).toContainText('Pro plan User', { timeout: 120000 });
@@ -57,9 +62,9 @@ test('Verify that Team plan user can access the Signing certificate page in the 
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
-    await page.locator('//div[@class ="op-dropdown op-dropdown-open op-dropdown-end" and @id="profile-menu"]').click();
+     await page.locator(PROFILE_MENU_BUTTON).click();
     const page1Promise = page.waitForEvent('popup');
-    await page.getByText('Console').click();
+    await page.locator(CONSOLE_OPTION).click();
     const page1 = await page1Promise;
 //verify the profile name on the profile
 await expect(page1.locator('#root')).toContainText('Pravin Testing account', { timeout: 120000 });

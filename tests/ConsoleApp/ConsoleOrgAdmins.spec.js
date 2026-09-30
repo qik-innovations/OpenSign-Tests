@@ -3,6 +3,9 @@ const { test, expect } = require('@playwright/test');
 const path = require('path');
 const CommonSteps = require('../utils/CommonSteps');
 
+const PROFILE_MENU_BUTTON = '//button[@type="button" and @aria-controls="profile-menu-list"]//i[contains(@class, "fa-angle-down")]';
+const CONSOLE_OPTION = '//button[@type="button" and contains(., "Console")]//i[contains(@class,"fa-id-card")]';
+const PROFILE_NAME = '//div[@id="root"]//p[@class="text-[14px] font-bold text-base-content"]';
 async function fillOrgAdminForm(page1, { userName, email, phone }) {
   const modal = page1.locator('#selectSignerModal');
   await expect(modal).toBeVisible();
@@ -30,9 +33,9 @@ test('Verify that professional user cannot access the OrgAdmins page in the cons
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.ProfessionPlanUserlogin();
-    await page.locator('//div[@class ="op-dropdown op-dropdown-open op-dropdown-end" and @id="profile-menu"]').click();
+      await page.locator(PROFILE_MENU_BUTTON).click();
     const page1Promise = page.waitForEvent('popup');
-    await page.getByText('Console').click();
+    await page.locator(CONSOLE_OPTION).click();
     const page1 = await page1Promise;
 //verify the profile name on the profile
 await expect(page1.locator('#root')).toContainText('Pro plan User', { timeout: 120000 });
@@ -60,9 +63,9 @@ let userName = '';
 let email = '';
 let password = '';
   // Step 2: Open Console (new popup)
- await page.locator('#profile-menu.op-dropdown-open').click();
-  const page1Promise = page.waitForEvent('popup');
-  await page.getByText('Console').click();
+    await page.locator(PROFILE_MENU_BUTTON).click();
+    const page1Promise = page.waitForEvent('popup');
+    await page.locator(CONSOLE_OPTION).click();
   const page1 = await page1Promise;
   // Step 3: Verify profile info
   await test.step('Verify profile info', async () => {
@@ -171,9 +174,9 @@ let userName = '';
 let email = '';
 let password = '';
   // Step 2: Open Console (new popup)
- await page.locator('#profile-menu.op-dropdown-open').click();
-  const page1Promise = page.waitForEvent('popup');
-  await page.getByText('Console').click();
+    await page.locator(PROFILE_MENU_BUTTON).click();
+    const page1Promise = page.waitForEvent('popup');
+    await page.locator(CONSOLE_OPTION).click();
   const page1 = await page1Promise;
   // Step 3: Verify profile info
   await test.step('Verify profile info', async () => {
@@ -232,7 +235,7 @@ checkbox.click({ force: true });
 await expect(page1.getByRole('heading')).toContainText('User status');
 await expect(page1.locator('#selectSignerModal')).toContainText('User status✕Are you sure you want to deactivate User?YesNo');
 await page1.getByRole('button', { name: 'Yes' }).click();
- await page1.getByRole('button', { name: '' }).click();
+ await page1.getByRole('button', { name: 'Open profile menu' }).nth(1).click();
   await page1.getByText('Log Out').click();
 await page1.getByRole('heading', { name: 'Welcome back!' }).waitFor({ timeout: 120000 });
 await page1.getByRole('textbox', { name: 'Email' }).fill(email);
@@ -249,10 +252,9 @@ test('Verify that Teams plan user can delete OrgAdmin if available', async ({ pa
 
   await commonSteps.navigateToBaseUrl();
   await commonSteps.login();
-
-  await page.locator('#profile-menu.op-dropdown-open').click();
-  const page1Promise = page.waitForEvent('popup');
-  await page.getByText('Console').click();
+    await page.locator(PROFILE_MENU_BUTTON).click();
+    const page1Promise = page.waitForEvent('popup');
+    await page.locator(CONSOLE_OPTION).click();
   const page1 = await page1Promise;
 
   await page1.getByRole('button', { name: ' Teams' }).click();
