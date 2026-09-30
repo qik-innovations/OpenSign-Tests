@@ -1,3 +1,0 @@
-Popup is loaded.
-'Proceed' button did not appear.
-Generated password: UtmvbOJhezsu

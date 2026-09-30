@@ -1,2 +1,0 @@
-Duplicate contact count: 0
-Contact is not visible in the current table. Skipping duplicate validation.

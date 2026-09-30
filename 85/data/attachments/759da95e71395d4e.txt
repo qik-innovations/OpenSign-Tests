@@ -1,3 +1,0 @@
-Browser: chromium, Version: 134.0.6998.35, OS: linux
-Page title is correct: Contactbook - OpenSign™
-P Shej ps+30@tim.in
