@@ -1,21 +1,27 @@
+
 name: allure-report
 
 on:
   release:
     types:
       - created
-  #push:
-    #branches-ignore:
-     # - '!main'
+
+  # Uncomment to run on pushes to main
+  # push:
+  #   branches:
+  #     - main
+
+permissions:
+  contents: write
 
 jobs:
   allure:
-    permissions:
-      contents: write
     name: Generate Allure Report
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v7
+      - name: Checkout repository
+        uses: actions/checkout@v7
 
       - name: Get Allure history
         uses: actions/checkout@v7
@@ -25,10 +31,9 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
-      - name: Allure Report action from marketplace
+      - name: Generate Allure report
         uses: simple-elf/allure-report-action@master
         if: always()
-        #id: allure-report
         with:
           allure_results: build/allure-results
           gh_pages: gh-pages
@@ -36,10 +41,10 @@ jobs:
           allure_history: allure-history
           keep_reports: 10
 
-      - name: Deploy report to Github Pages
+      - name: Deploy report to GitHub Pages
         if: always()
-        uses: peaceiris/actions-gh-pages@v2
-        env:
-          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: allure-history
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
