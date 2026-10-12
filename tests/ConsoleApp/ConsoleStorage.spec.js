@@ -6,7 +6,7 @@ const STORAGE_PAGE = '#renderList';
 const STORAGE_HEADING = /Setup file storage/i;
 const FREE_USER_UPGRADE_BUTTON = `${STORAGE_PAGE} button:has-text("Upgrade now")`;
 const PRO_USER_UPGRADE_BUTTON = `${STORAGE_PAGE} button:has-text("Upgrade to Team Plan")`;
-const PROFILE_MENU_BUTTON = '//button[@type="button" and @aria-controls="profile-menu-list"]//i[contains(@class, "fa-angle-down")]';
+const PROFILE_MENU_BUTTON = '//button[@aria-controls="profile-menu-list"]';
 const CONSOLE_OPTION = '//button[@type="button" and contains(., "Console")]//i[contains(@class,"fa-id-card")]';
 async function openConsolePopup(page) {
   await page.locator(PROFILE_MENU_BUTTON).click();

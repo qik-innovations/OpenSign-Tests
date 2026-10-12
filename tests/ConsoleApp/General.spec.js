@@ -1,7 +1,7 @@
 const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const CommonSteps = require('../utils/CommonSteps');
-const PROFILE_MENU_BUTTON = '//button[@type="button" and @aria-controls="profile-menu-list"]//i[contains(@class, "fa-angle-down")]';
+const PROFILE_MENU_BUTTON = '//button[@aria-controls="profile-menu-list"]';
 const CONSOLE_OPTION = '//button[@type="button" and contains(., "Console")]//i[contains(@class,"fa-id-card")]';
 const PROFILE_NAME =
   '//div[@id="root"]//p[@class="text-[14px] font-bold text-base-content"]';

@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const CommonSteps = require('../utils/CommonSteps');
 
 // XPath Selectors
-const PROFILE_MENU_BUTTON = '//button[@type="button" and @aria-controls="profile-menu-list"]//i[contains(@class, "fa-angle-down")]';
+const PROFILE_MENU_BUTTON = '//button[@aria-controls="profile-menu-list"]';
 const CONSOLE_OPTION = '//button[@type="button" and contains(., "Console")]//i[contains(@class,"fa-id-card")]';
 const PROFILE_NAME = '//div[@id="root"]//p[@class="text-[14px] font-bold text-base-content"]';
 const PROFILE_DOMAIN = '//div[@id="root"]//p[@class="cursor-pointer text-[12px] text-base-content mt-2"]';
@@ -16,6 +16,7 @@ test.describe('Console app - Branding Access Validation', () => {
 
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
+    await page.getByRole('button', { name: 'Close Tour' }).click();
 
     await page.locator(PROFILE_MENU_BUTTON).click();
     const page1Promise = page.waitForEvent('popup');
