@@ -1,0 +1,42 @@
+Browser: chromium, Version: 151.0.7922.34, OS: linux
+Dragging 'signature'. Attempt 1/5
+Dragging 'signature' from (1039.5625, 446.078125) to (600, 200)
+Dragged and dropped widget 'signature' to (600, 200).
+'signature' widget successfully dropped.
+Dragging 'stamp'. Attempt 1/5
+Dragging 'stamp' from (1179.3203125, 446.078125) to (600, 250)
+Dragged and dropped widget 'stamp' to (600, 250).
+'stamp' widget successfully dropped.
+Dragging 'initials'. Attempt 1/5
+Dragging 'initials' from (1039.5625, 501.078125) to (600, 300)
+Dragged and dropped widget 'initials' to (600, 300).
+'initials' widget successfully dropped.
+Dragging 'name'. Attempt 1/5
+Dragging 'name' from (1179.3203125, 556.078125) to (600, 350)
+Dragged and dropped widget 'name' to (600, 350).
+'name' widget successfully dropped.
+Dragging 'job title'. Attempt 1/5
+Dragging 'job title' from (1039.5625, 611.078125) to (600, 390)
+Dragged and dropped widget 'job title' to (600, 390).
+'job title' widget successfully dropped.
+Dragging 'company'. Attempt 1/5
+Dragging 'company' from (1179.3203125, 611.078125) to (600, 410)
+Dragged and dropped widget 'company' to (600, 410).
+'company' widget successfully dropped.
+Dragging 'date' from (1179.3203125, 666.078125) to (600, 440)
+Dragged and dropped widget 'date' to (600, 440).
+Dragging 'text input'. Attempt 1/5
+Dragging 'text input' from (1179.3203125, 501.078125) to (600, 470)
+Dragged and dropped widget 'text input' to (600, 470).
+'text input' widget successfully dropped.
+Dragging 'checkbox' from (1179.3203125, 698.078125) to (600, 500)
+Dragged and dropped widget 'checkbox' to (600, 500).
+Save button in signer modal clicked.
+Dragging 'image'. Attempt 1/5
+Dragging 'image' from (1039.5625, 568.078125) to (600, 540)
+Dragged and dropped widget 'image' to (600, 540).
+'image' widget successfully dropped.
+Dragging 'email'. Attempt 1/5
+Dragging 'email' from (1039.5625, 403.078125) to (600, 600)
+Dragged and dropped widget 'email' to (600, 600).
+'email' widget successfully dropped.

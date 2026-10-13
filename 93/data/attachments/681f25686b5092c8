@@ -1,0 +1,419 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/APItoken.spec.js >> API Token >> Verify that free user can generate the sanbox test token.
+- Location: tests/MainAppPages/APItoken.spec.js:31:1
+
+# Error details
+
+```
+Error: locator.click: Error: strict mode violation: getByLabel('Close') resolved to 2 elements:
+    1) <button type="button" aria-label="Close" class="relative mr-1 flex h-11 w-11 items-center justify-center border-0 bg-transparent p-0">…</button> aka getByRole('button', { name: 'Close', exact: true })
+    2) <button aria-label="Close Tour" class="reactour__close-button">…</button> aka getByRole('button', { name: 'Close Tour' })
+
+Call log:
+  - waiting for getByLabel('Close')
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - text: "New Feature: Qualified Electronics Signatures now available —"
+        - button "Try it now." [ref=e8] [cursor=pointer]
+      - button "Close" [ref=e10] [cursor=pointer]:
+        - generic [ref=e14]: 
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - button "Open navigation" [expanded] [ref=e19] [cursor=pointer]:
+          - generic [ref=e20]: 
+        - button [ref=e22] [cursor=pointer]:
+          - img "logo" [ref=e23]
+      - generic [ref=e24]:
+        - button "Upgrade now" [ref=e26] [cursor=pointer]
+        - button "Open app drawer" [ref=e29] [cursor=pointer]:
+          - generic [ref=e30]: 
+        - button "Profile" [ref=e31] [cursor=pointer]:
+          - img "img" [ref=e32]
+        - button "Open profile menu" [ref=e33] [cursor=pointer]: Mathew Wade
+        - generic [ref=e34]:
+          - button "Open profile menu" [ref=e35] [cursor=pointer]:
+            - generic [ref=e36]: 
+          - text:         
+  - generic [ref=e37]:
+    - complementary [ref=e38]:
+      - generic [ref=e39]:
+        - button "Profile" [ref=e40] [cursor=pointer]:
+          - img "Profile" [ref=e41]
+        - generic [ref=e42]:
+          - button "Mathew Wade" [ref=e43] [cursor=pointer]
+          - button "qikAi.com" [ref=e44] [cursor=pointer]
+      - menubar "OpenSign Sidebar Navigation" [ref=e45]:
+        - list [ref=e46]:
+          - menuitem "Dashboard" [ref=e47]:
+            - generic [ref=e48]: 
+          - menuitem "Sign yourself" [ref=e51]:
+            - generic [ref=e52]: 
+          - menuitem "Request signatures" [ref=e55]:
+            - generic [ref=e56]: 
+          - button " Templates" [ref=e59] [cursor=pointer]:
+            - generic [ref=e60]: 
+            - generic [ref=e62]:
+              - generic [ref=e63]: Templates
+              - generic [ref=e64]: 
+          - menuitem "OpenSign™ Drive" [ref=e65]:
+            - generic [ref=e66]: 
+          - button " Documents" [ref=e69] [cursor=pointer]:
+            - generic [ref=e70]: 
+            - generic [ref=e72]:
+              - generic [ref=e73]: Documents
+              - generic [ref=e74]: 
+          - menuitem "Contactbook" [ref=e75]:
+            - generic [ref=e76]: 
+          - button " Settings" [ref=e79] [cursor=pointer]:
+            - generic [ref=e80]: 
+            - generic [ref=e82]:
+              - generic [ref=e83]: Settings
+              - generic [ref=e84]: 
+      - generic [ref=e85]:
+        - link "OpenSign's Github" [ref=e86]:
+          - /url: https://github.com/opensignlabs/opensign
+          - generic [ref=e87]: 
+        - link "OpenSign's LinkedIn" [ref=e89]:
+          - /url: https://www.linkedin.com/company/opensign%E2%84%A2/
+          - generic [ref=e90]: 
+        - link "OpenSign's Twitter" [ref=e92]:
+          - /url: https://www.twitter.com/opensignlabs
+          - generic [ref=e93]: 
+        - link "OpenSign's Discord" [ref=e95]:
+          - /url: https://discord.com/invite/xe9TDuyAyj
+          - generic [ref=e96]: 
+    - main [ref=e98]:
+      - generic [ref=e99]:
+        - generic [ref=e101]:
+          - heading "Dashboard" [level=1] [ref=e102]
+          - generic [ref=e104]:
+            - button "Sign yourself" [ref=e105] [cursor=pointer]:
+              - generic [ref=e106]:
+                - generic [ref=e107]: 
+                - generic [ref=e110]:
+                  - text: Sign yourself
+                  - generic [ref=e111]: Use this option to sign the document yourself without adding others
+            - button "Request signatures" [ref=e112] [cursor=pointer]:
+              - generic [ref=e113]:
+                - generic [ref=e114]: 
+                - generic [ref=e117]:
+                  - text: Request signatures
+                  - generic [ref=e118]: Use this option to request signatures from others and yourself together.
+          - generic [ref=e119]:
+            - button "Need your signature" [ref=e122] [cursor=pointer]:
+              - generic [ref=e123]:
+                - generic [ref=e124]: 
+                - generic [ref=e126]:
+                  - generic [ref=e127]: Need your signature
+                  - generic [ref=e128]: "0"
+              - superscript [ref=e131]:
+                - generic [ref=e132]: "?"
+            - button "Out for signatures" [ref=e135] [cursor=pointer]:
+              - generic [ref=e136]:
+                - generic [ref=e137]: 
+                - generic [ref=e139]:
+                  - generic [ref=e140]: Out for signatures
+                  - generic [ref=e141]: "0"
+              - superscript [ref=e144]:
+                - generic [ref=e145]: "?"
+            - generic [ref=e150]:
+              - generic [ref=e151]:
+                - generic [ref=e152]: Recent signature requests
+                - button "Search" [ref=e154] [cursor=pointer]:
+                  - generic [ref=e155]: 
+              - region "Documents" [ref=e156]:
+                - table [ref=e157]:
+                  - rowgroup [ref=e158]:
+                    - row [ref=e159]:
+                      - columnheader "Title" [ref=e160]
+                      - columnheader "File" [ref=e161]
+                      - columnheader "Owner" [ref=e162]
+                      - columnheader "Signers" [ref=e163]
+                      - columnheader "Action"
+                  - rowgroup
+                - generic [ref=e164]:
+                  - img "No data available" [ref=e166]
+                  - generic [ref=e167]: No data available
+            - generic [ref=e173]:
+              - generic [ref=e174]:
+                - generic [ref=e175]: Recently sent for signatures
+                - button "Search" [ref=e177] [cursor=pointer]:
+                  - generic [ref=e178]: 
+              - region "Documents" [ref=e179]:
+                - table [ref=e180]:
+                  - rowgroup [ref=e181]:
+                    - row [ref=e182]:
+                      - columnheader "Title" [ref=e183]
+                      - columnheader "File" [ref=e184]
+                      - columnheader "Owner" [ref=e185]
+                      - columnheader "Signers" [ref=e186]
+                      - columnheader "Action"
+                  - rowgroup
+                - generic [ref=e187]:
+                  - img "No data available" [ref=e189]
+                  - generic [ref=e190]: No data available
+            - generic [ref=e196]:
+              - generic [ref=e197]:
+                - generic [ref=e198]: Drafts
+                - searchbox "Search documents…" [ref=e201]
+              - region "Documents" [ref=e202]:
+                - table [ref=e203]:
+                  - rowgroup [ref=e204]:
+                    - row [ref=e205]:
+                      - columnheader "Title" [ref=e206]
+                      - columnheader "Note" [ref=e207]
+                      - columnheader "Folder" [ref=e208]
+                      - columnheader "File" [ref=e209]
+                      - columnheader "Owner" [ref=e210]
+                      - columnheader "Signers" [ref=e211]
+                      - columnheader "Action"
+                  - rowgroup
+                - generic [ref=e212]:
+                  - img "No data available" [ref=e214]
+                  - generic [ref=e215]: No data available
+        - generic [ref=e217]:
+          - complementary [ref=e219]:
+            - paragraph [ref=e220]:
+              - text: All rights reserved © 2026
+              - 'link "OpenSign™ ( version: v2.41.3)" [ref=e221] [cursor=pointer]':
+                - /url: https://github.com/OpenSignLabs/OpenSign/releases/tag/v2.41.3
+          - text: 
+  - generic [ref=e223]:
+    - generic [ref=e224]: "1"
+    - button "Close Tour" [ref=e225] [cursor=pointer]
+    - text: You have logged in successfully! Let's take a look.
+    - generic [ref=e228]:
+      - button "Go to prev step" [ref=e229]
+      - generic [ref=e232]:
+        - button "Go to step 1" [ref=e233] [cursor=pointer]
+        - button "Go to step 2" [ref=e234] [cursor=pointer]
+        - button "Go to step 3" [ref=e235] [cursor=pointer]
+        - button "Go to step 4" [ref=e236] [cursor=pointer]
+        - button "Go to step 5" [ref=e237] [cursor=pointer]
+        - button "Go to step 6" [ref=e238] [cursor=pointer]
+        - button "Go to step 7" [ref=e239] [cursor=pointer]
+        - button "Go to step 8" [ref=e240] [cursor=pointer]
+      - button "Go to next step" [ref=e241] [cursor=pointer]
+```
+
+# Test source
+
+```ts
+  33  |   await page.locator(locators.nameInput).first().fill(name);
+  34  |   await page.locator(locators.emailInput).fill(email);
+  35  |   await page.locator(locators.phoneInput).fill(phone);
+  36  |   await page.locator(locators.companyInput).nth(1).fill(company);
+  37  |   await page.locator(locators.jobTitleInput).nth(2).fill(jobTitle);
+  38  |   await page.locator(locators.passwordInput).fill(password);
+  39  |   await page.locator(locators.termsCheckbox).click();
+  40  | };
+  41  | 
+  42  | test.beforeEach(async ({ browserName, browser }) => {
+  43  |   const browserVersion = await browser.version();
+  44  |   const osPlatform = process.platform;
+  45  |   allure.label("Browser Name", browserName);
+  46  |   allure.label("Browser Version", browserVersion);
+  47  |   allure.label("OS", osPlatform);
+  48  |   console.log(`Browser: ${browserName}, Version: ${browserVersion}, OS: ${osPlatform}`);
+  49  | });
+  50  | 
+  51  | export class CommonSteps {
+  52  |   constructor(page) {
+  53  |     this.page = page;
+  54  |   }
+  55  | 
+  56  |   async navigateToBaseUrl() {
+  57  |     await this.page.goto(BASEURL, { timeout: 120000 });
+  58  |   }
+  59  |   //This is the generic login method for the user who will test the teams plan features excluding custom storage for custome storage user we have separate method loginForCustomStorgeUser()
+  60  |   async login() {
+  61  |     /*
+  62  |     await this.page.locator('#username').fill(loginCredentials.email);
+  63  |     await this.page.locator('#password').fill(loginCredentials.password);
+  64  |     await this.page.locator('#kc-login').click();*/
+  65  |     await this.page.locator('#email').fill(loginCredentials.email);
+  66  |     await this.page.locator('#password').fill(loginCredentials.password);
+  67  |     await this.page.getByRole('button', { name: 'Login' }).click();
+  68  |   }
+  69  | //This methof is specifically for the user who will test the Profession plan features
+  70  |   async ProfessionPlanUserlogin() {
+  71  |     /*
+  72  |     await this.page.locator('#username').fill(loginCredentials.ProplanUsername);
+  73  |     await this.page.locator('#password').fill(loginCredentials.ProPlanpassword);
+  74  |     await this.page.locator('#kc-login').click();
+  75  |     */
+  76  |    await this.page.locator('#email').fill(loginCredentials.ProplanUsername);
+  77  |     await this.page.locator('#password').fill(loginCredentials.ProPlanpassword);
+  78  |     await this.page.getByRole('button', { name: 'Login' }).click();
+  79  |   }
+  80  | async LoadPlaceholder(page)
+  81  | {
+  82  |   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  83  |   await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  84  |    await page.waitForLoadState("networkidle");
+  85  | 
+  86  | }
+  87  |   async NewUserlogin() {
+  88  |       if (!loginCredentials.FreeplanUsername) {
+  89  |       console.log('FreeplanUsername is empty. Running signup test...');
+  90  |       await this.signupTestFreeUser(this.page);
+  91  |     } else {
+  92  |       console.log(`FreeplanUsername exists: ${loginCredentials.FreeplanUsername}`);
+  93  |       await this.page.locator('#email').fill(loginCredentials.FreeplanUsername);
+  94  |       await this.page.locator('#password').fill(loginCredentials.FreePlanpassword);
+  95  |       await this.page.getByRole('button', { name: 'Login' }).click();
+  96  |     }
+  97  |   }
+  98  |   //This login method is specifically for the user who will test custom storage functionality 
+  99  |   async loginForCustomStorgeUser() {
+  100 |     await this.page.locator('#email').fill(loginCredentials.CustomStorageUser_Username);
+  101 |     await this.page.locator('#password').fill(loginCredentials.CustomStorageUser_Password);
+  102 |     await this.page.getByRole('button', { name: /login/i }).click();
+  103 |   }
+  104 |   async verifyPageTitle(expectedTitle) {
+  105 |     const title = await this.page.title();
+  106 |     if (title === expectedTitle) {
+  107 |       console.log(`Page title is correct: ${expectedTitle}`);
+  108 |     } else {
+  109 |       console.error(`Page title is incorrect. Expected: "${expectedTitle}", Got: "${title}"`);
+  110 |     }
+  111 |   }
+  112 | 
+  113 |   async signupTestFreeUser(page) {
+  114 |     await page.getByRole('button', { name: 'Create account' }).click({ timeout: 120000 });
+  115 |     await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible({ timeout: 120000 });
+  116 | 
+  117 |     const email = `kelvinsjohnson24+${Math.random()}@gmail.com`; // Generate a unique email for each test run
+  118 |     loginCredentials.FreeplanUsername = email;
+  119 |     loginCredentials.FreePlanpassword = 'Nxglabs@123';
+  120 | 
+  121 |     await fillSignupForm(page, {
+  122 |       name: 'Mathew Wade',
+  123 |       email,
+  124 |       phone: '8238988998',
+  125 |       company: 'qikAi.com',
+  126 |       jobTitle: 'HrExecative',
+  127 |       password: loginCredentials.FreePlanpassword,
+  128 |     });
+  129 | 
+  130 |     await page.locator(locators.registerButton).click();
+  131 |     await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible({ timeout: 120000 });
+  132 |     await page.locator(locators.freePlanButton).click();
+> 133 |     await page.getByLabel('Close').click();
+      |                                    ^ Error: locator.click: Error: strict mode violation: getByLabel('Close') resolved to 2 elements:
+  134 |     await expect(page.locator('//div[@id="profile-menu"]//parent::button[text()="Upgrade now"]')).toBeVisible();
+  135 | 
+  136 |     const title = await page.title();
+  137 |     expect(title).toBe('Dashboard - OpenSign™');
+  138 |     console.log(`✅ Signup successful. User: ${loginCredentials.FreeplanUsername}`);
+  139 |   }
+  140 |   //// Generate random title starting with current date-time
+  141 | async fillDocumentTitleWithTimestamp(prefix) {
+  142 |   const now = new Date();
+  143 |   const formattedDateTime = now.toISOString().replace(/[:.]/g, '-');
+  144 |   const title = `${formattedDateTime} ${prefix}`;
+  145 |   console.log(`Document Title: ${title}`);
+  146 |   return title;
+  147 | }
+  148 |   // ↓↓↓ ADDED ALL CommonMethods METHODS ↓↓↓
+  149 |   async validateAndAcceptTerms() {
+  150 |     const page = this.page;
+  151 |     await allure.step('Agree to Digital Signing Agreement', async () => {
+  152 |       await expect(page.getByRole('button', { name: 'I confirm & agree to continue' })).toBeVisible({ timeout: 120000 });
+  153 |       await expect(page.locator('body')).toContainText('I confirm that I have read and understood the Electronic Record and Signature Disclosure and consent to use electronic records and signatures.');
+  154 |       await expect(page.locator("//div[@class='mt-2  text-base-content']//span[@class='text-[11px]']")).toContainText('Note: Agreeing to this does not mean you are signing the document immediately. This only allows you to review the document electronically. You will have the opportunity to read it in full and decide whether to sign it afterward.');
+  155 |       await page.getByRole('button', { name: 'I confirm & agree to continue' }).click();
+  156 |     });
+  157 |   }
+  158 | async DragAndDropWidget(WidgetName, x, y) {
+  159 |   const { page } = this;
+  160 | 
+  161 |   const widgetLocator = page.locator(
+  162 |     `//div[@data-tut="addWidgets"]//button[@aria-label="${WidgetName}"]`
+  163 |    
+  164 |   );
+  165 | await widgetLocator.waitFor({
+  166 |   state: 'attached',
+  167 |   timeout: 90000
+  168 | });
+  169 | 
+  170 | await widgetLocator.scrollIntoViewIfNeeded();
+  171 |   await expect(widgetLocator).toBeVisible({
+  172 |     timeout: 90000
+  173 |   });
+  174 | 
+  175 |   const maxAttempts = 5;
+  176 | 
+  177 |   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+  178 |     try {
+  179 |       console.log(
+  180 |         `Dragging '${WidgetName}'. Attempt ${attempt}/${maxAttempts}`
+  181 |       );
+  182 | 
+  183 |       // Use the common dragAndDrop method
+  184 |       await this.dragAndDrop(WidgetName, x, y);
+  185 | 
+  186 |       await page.waitForTimeout(1000);
+  187 | 
+  188 |       // Verify widget placed on the document
+  189 |      const droppedWidget = page.locator(
+  190 |   `//div[contains(@class,'signYourselfBlock')]` +
+  191 |   `//*[self::div or self::span][starts-with(normalize-space(.), '${WidgetName}-')]`
+  192 | );
+  193 | 
+  194 |       if (
+  195 |         await droppedWidget.count() > 0 &&
+  196 |         await droppedWidget.last().isVisible()
+  197 |       ) {
+  198 |         console.log(
+  199 |           `'${WidgetName}' widget successfully dropped.`
+  200 |         );
+  201 |         return;
+  202 |       }
+  203 | 
+  204 |       console.log(
+  205 |         `'${WidgetName}' was not created. Retrying...`
+  206 |       );
+  207 | 
+  208 |     } catch (error) {
+  209 |       console.log(
+  210 |         `Drag/drop attempt ${attempt} failed for '${WidgetName}':`,
+  211 |         error
+  212 |       );
+  213 |     }
+  214 | 
+  215 |     await page.waitForTimeout(1000);
+  216 |   }
+  217 | 
+  218 |   throw new Error(
+  219 |     `Failed to drag and drop '${WidgetName}' after ${maxAttempts} attempts.`
+  220 |   );
+  221 | }
+  222 | async dragAndDrop(label, x, y) {
+  223 |   const { page } = this;
+  224 | 
+  225 |   const widget = page.locator(
+  226 |     `//div[@data-tut="addWidgets"]//button[@aria-label="${label}"]`
+  227 |   );
+  228 | 
+  229 |   await expect(widget).toBeVisible({
+  230 |     timeout: 90000
+  231 |   });
+  232 | await widget.scrollIntoViewIfNeeded();
+  233 | 
+```
