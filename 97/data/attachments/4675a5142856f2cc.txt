@@ -1,3 +1,0 @@
-Browser: chromium, Version: 151.0.7922.34, OS: linux
-FreeplanUsername is empty. Running signup test...
-✅ Signup successful. User: kelvinsjohnson24+0.8520490239998948@gmail.com

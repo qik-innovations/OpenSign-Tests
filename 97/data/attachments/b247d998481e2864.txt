@@ -1,5 +1,0 @@
-Browser: chromium, Version: 151.0.7922.34, OS: linux
-9414
-Karl Vanderson 9414
-karl9414@opensignlabs.com
-Generated password: N7UnpNcSKK3O
