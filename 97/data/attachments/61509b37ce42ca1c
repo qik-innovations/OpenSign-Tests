@@ -1,0 +1,212 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: ConsoleApp/ConsoleStorage.spec.js >> Console app >> Verify that a Team Plan user can configure custom file storage using DigitalOcean and is able to update the storage settings.
+- Location: tests/ConsoleApp/ConsoleStorage.spec.js:104:1
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByRole('button', { name: 'Save & activate' })
+Expected: visible
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 120000ms
+  - waiting for getByRole('button', { name: 'Save & activate' })
+  - Test timeout of 120000ms exceeded.
+
+```
+
+```yaml
+- banner:
+  - button "Open navigation" [expanded]: 
+  - button "logo":
+    - img "logo"
+  - button "Billing": TEAM
+  - button "Open app drawer": 
+  - button "Profile":
+    - img "img"
+  - button "Open profile menu": Pravin Testing account
+  - button "Open profile menu": 
+- complementary:
+  - img "Profile"
+  - paragraph: Pravin Testing account
+  - paragraph: OpenSign pvt ltd
+  - navigation "OpenSign Sidebar Navigation":
+    - menubar "OpenSign Sidebar Navigation":
+      - menuitem "Analytics"
+      - menuitem "General"
+      - menuitem "Branding"
+      - menuitem "Global SMTP"
+      - menuitem "Mail"
+      - menuitem "Storage"
+      - menuitem "Signing certificate"
+      - button " Teams"
+  - link "OpenSign's Github":
+    - /url: https://github.com/opensignlabs/opensign
+  - link "OpenSign's LinkedIn":
+    - /url: https://www.linkedin.com/company/opensign%E2%84%A2/
+  - link "OpenSign's Twitter":
+    - /url: https://www.twitter.com/opensignlabs
+  - link "OpenSign's Discord":
+    - /url: https://discord.com/invite/xe9TDuyAyj
+- main:
+  - heading "Setup file storage ?" [level=1]:
+    - text: Setup file storage
+    - superscript: "?"
+  - text:  Active File Adapter*
+  - combobox:
+    - option "select"
+    - option "pravinDegitalocean"
+    - option "File adaptor aws s3" [selected]
+  - text: Storage Provider*
+  - combobox [disabled]:
+    - option "select"
+    - option "AWS S3" [selected]
+    - option "DigitalOcean"
+  - text: Bucket Name*
+  - textbox "Enter bucket name" [disabled]: Demo aws s3
+  - text: Region*
+  - textbox "Enter region of bucket" [disabled]: us-west
+  - text: Endpoint*
+  - 'textbox "https://s3.{region}.amazonaws.com" [disabled]': https://nyc3.digitaloceanspaces.com
+  - text: BaseUrl*
+  - 'textbox "https://{bucketName}.s3.{region}.amazonaws.com" [disabled]': https://demodigital.nyc3.digitaloceanspaces.com
+  - text: AccessKeyId*
+  - textbox "Enter access key": DO00QAQWJJKSDKLJKLW
+  - text: SecretAccessKey*
+  - textbox "Enter secret access key": SDADFKJFHSJKFASFSsdsdf
+  - text: 
+  - button "Update"
+  - button "Reconnect to OpenSign™"
+  - complementary:
+    - paragraph:
+      - text: All rights reserved © 2026
+      - 'link "OpenSign™ ( version: v2.41.3)"':
+        - /url: https://github.com/OpenSignLabs/OpenSign/releases/tag/v2.41.3
+```
+
+# Test source
+
+```ts
+  11  |   await page.getByRole('button', { name: /Console/ }).click();
+  12  |   const popup = await popupPromise;
+  13  |   await popup.waitForLoadState('networkidle');
+  14  |   return popup;
+  15  | }
+  16  | 
+  17  | async function openStoragePanel(page) {
+  18  |   await page.getByText('Storage').first().click();
+  19  |   await page.waitForURL('**/console/storage', { timeout: 120000 });
+  20  |   await expect(page.getByRole('heading', { name: STORAGE_HEADING })).toBeVisible({ timeout: 120000 });
+  21  |   await expect(page.locator(STORAGE_PAGE)).toBeVisible({ timeout: 120000 });
+  22  | }
+  23  | 
+  24  | async function revealStorageForm(page) {
+  25  |   // Try clicking common edit icons until the storage form inputs/selects appear
+  26  |   const target = page.locator('select[name="fileAdapterName"], input[name="fileAdapterName"]');
+  27  |   for (let i = 0; i < 4; i++) {
+  28  |     try {
+  29  |       await page.locator('#renderList i').nth(i).click();
+  30  |     } catch (e) {
+  31  |       // ignore click failures
+  32  |     }
+  33  |     try {
+  34  |       await target.waitFor({ state: 'visible', timeout: 2000 });
+  35  |       return;
+  36  |     } catch (e) {
+  37  |       // continue
+  38  |     }
+  39  |   }
+  40  |   // final attempt: click the first edit icon and wait longer
+  41  |   await page.locator('#renderList i').first().click();
+  42  |   await target.waitFor({ state: 'visible', timeout: 10000 });
+  43  | }
+  44  | test.describe('Console app', () => {
+  45  | test('Verify that a free user cannot access the Storage page in the console application and is prompted to upgrade.', async ({ page }) => {
+  46  |     const commonSteps = new CommonSteps(page);
+  47  |     // Step 1: Navigate to Base URL and log in
+  48  |     await commonSteps.navigateToBaseUrl();
+  49  |     await commonSteps.NewUserlogin();
+  50  |     const closeTourButton = page.getByRole('button', { name: 'Close Tour' });
+  51  |     await closeTourButton.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+  52  |     if (await closeTourButton.isVisible()) {
+  53  |       await closeTourButton.click({ force: true });
+  54  |       await expect(page.locator('.reactour__mask')).toBeHidden({ timeout: 10000 });
+  55  |     }
+  56  |     const page1 = await openConsolePopup(page);
+  57  | //verify the profile name on the profile
+  58  |   await expect(page1.locator('#root')).toContainText('Mathew Wade', { timeout: 120000 });
+  59  |   await expect(page1.locator('#root')).toContainText('qikAi.com');
+  60  |   await openStoragePanel(page1);
+  61  |   await expect(page1.locator(STORAGE_PAGE)).toContainText(/Enabling BYOC lets you connect your own S3 storage/i);
+  62  |   await expect(page1.locator(STORAGE_PAGE)).toContainText(/upgrade to .*team plan|upgrade now|upgrade/i);
+  63  |   await expect(page1.locator(`${STORAGE_PAGE} >> text=/Upgrade/i`)).toBeVisible({ timeout: 120000 });
+  64  | });
+  65  | 
+  66  | test('Verify that Professional plan user cannot access the Storage page in the console application and is prompted to upgrade Team plan.', async ({ page }) => {
+  67  |     const commonSteps = new CommonSteps(page);
+  68  |     // Step 1: Navigate to Base URL and log in
+  69  |     await commonSteps.navigateToBaseUrl();
+  70  |     await commonSteps.ProfessionPlanUserlogin();
+  71  |     const page1 = await openConsolePopup(page);
+  72  | //verify the profile name on the profile
+  73  | await expect(page1.locator('#root')).toContainText('Pro plan User', { timeout: 120000 });
+  74  | await expect(page1.locator('#root')).toContainText('OpenSign');
+  75  |   await openStoragePanel(page1);
+  76  |   await expect(page1.locator('#root')).toContainText('PRO');
+  77  |   await expect(page1.locator(STORAGE_PAGE)).toContainText(/Enabling BYOC lets you connect your own S3 storage/i);
+  78  |   await expect(page1.locator(STORAGE_PAGE)).toContainText(/upgrade to .*team plan|upgrade now|upgrade/i);
+  79  |   await expect(page1.locator(PRO_USER_UPGRADE_BUTTON)).toBeVisible();
+  80  | });
+  81  | 
+  82  | test('Verify that Team plan user set the custom file storage AWSS3', async ({ page }) => {
+  83  |   const commonSteps = new CommonSteps(page);
+  84  |   await commonSteps.navigateToBaseUrl();
+  85  |   await commonSteps.login();
+  86  |   const page1 = await openConsolePopup(page);
+  87  |   await openStoragePanel(page1);
+  88  |   await revealStorageForm(page1);
+  89  |   const storageAdapter = page1.locator('select[name="fileAdapterName"]');
+  90  |   const awsS3Adapter = 'File adaptor aws s3';
+  91  |   await expect(storageAdapter.locator(`option[value="${awsS3Adapter}"]`)).toHaveCount(1);
+  92  |   if (await storageAdapter.inputValue() !== awsS3Adapter) {
+  93  |     await storageAdapter.selectOption(awsS3Adapter);
+  94  |   }
+  95  | 
+  96  |   const activateStorageButton = page1.getByRole('button', { name: 'Save & activate' });
+  97  |   if (await activateStorageButton.isVisible().catch(() => false)) {
+  98  |     await activateStorageButton.click();
+  99  |   }
+  100 |   await expect(storageAdapter).toHaveValue(awsS3Adapter);
+  101 |   await expect(page1.getByRole('button', { name: 'Update' })).toBeVisible();
+  102 |   await expect(page1.getByRole('button', { name: /Reconnect to OpenSign/i })).toBeVisible();
+  103 | });
+  104 | test('Verify that a Team Plan user can configure custom file storage using DigitalOcean and is able to update the storage settings.', async ({ page }) => {
+  105 |     const commonSteps = new CommonSteps(page);
+  106 |     await commonSteps.navigateToBaseUrl();
+  107 |     await commonSteps.login();
+  108 |     const page1 = await openConsolePopup(page);
+  109 |     await openStoragePanel(page1);
+  110 |     await revealStorageForm(page1);
+> 111 |     await expect(page1.getByRole('button', { name: 'Save & activate' })).toBeVisible({ timeout: 120000 });
+      |                                                                          ^ Error: expect(locator).toBeVisible() failed
+  112 | 
+  113 | });
+  114 | });
+  115 | 
+  116 |  
+  117 | 
+```

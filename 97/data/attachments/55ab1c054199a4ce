@@ -1,0 +1,282 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: ConsoleApp/General.spec.js >> Console app - General page >> Verify that a Team plan user can access the General page and update the individual user smtp setting.
+- Location: tests/ConsoleApp/General.spec.js:149:1
+
+# Error details
+
+```
+Error: expect(locator).toContainText(expected) failed
+
+Locator: locator('#panel-0')
+Expected substring: "OpenSign™ default SMTP"
+Received string:    "Allowed signature typesdrawtypeuploaddefaultNotify on signaturesYesNoSend in orderYesNoAllow offline signingYesNoUse profile name as senderEnable tourYesNoTimezone(GMT+5:30) Chennai, Kolkata, Mumbai, New DelhiDate formatMM/DD/YYYYMM-DD-YYYYMM.DD.YYYYDD/MM/YYYYDD-MM-YYYYDD.MM.YYYYYYYY-MM-DDMMM DD, YYYYMMMM DD, YYYYDD MMM, YYYYDD MMMM, YYYYDD-MMM-YYYY12 hr24 hr10/14/2026, 00:29:14 GMT +05:30Qualified SignaturesNot setLTV enabled signaturesBETADocument download filename formatdocument Name.pdfdocument Name - Signed.pdfdocument Name - name@domain.com.pdfdocument Name - name@domain.com - date.pdfPreview: Agreement.pdfMerge Certificate to PDFYesNoSave"
+Timeout: 5000ms
+
+Call log:
+  - Expect "toContainText" with timeout 5000ms
+  - waiting for locator('#panel-0')
+    8 × locator resolved to <div id="panel-0" role="tabpanel" class="px-6 pt-4 pb-6" aria-labelledby="tab-0">…</div>
+      - unexpected value "Allowed signature typesdrawtypeuploaddefaultNotify on signaturesYesNoSend in orderYesNoAllow offline signingYesNoUse profile name as senderEnable tourYesNoTimezone(GMT+5:30) Chennai, Kolkata, Mumbai, New DelhiDate formatMM/DD/YYYYMM-DD-YYYYMM.DD.YYYYDD/MM/YYYYDD-MM-YYYYDD.MM.YYYYYYYY-MM-DDMMM DD, YYYYMMMM DD, YYYYDD MMM, YYYYDD MMMM, YYYYDD-MMM-YYYY12 hr24 hr10/14/2026, 00:29:14 GMT +05:30Qualified SignaturesNot setLTV enabled signaturesBETADocument download filename formatdocument Name.pdfdocument Name - Signed.pdfdocument Name - name@domain.com.pdfdocument Name - name@domain.com - date.pdfPreview: Agreement.pdfMerge Certificate to PDFYesNoSave"
+
+```
+
+```yaml
+- tabpanel:
+  - text: Allowed signature types
+  - superscript: "?"
+  - checkbox "draw" [checked]
+  - text: draw
+  - checkbox "type" [checked]
+  - text: type
+  - checkbox "upload" [checked]
+  - text: upload
+  - checkbox "default" [checked]
+  - text: default Notify on signatures
+  - superscript: "?"
+  - radio "Yes" [checked]
+  - text: "Yes"
+  - radio "No"
+  - text: No Send in order
+  - superscript: "?"
+  - radio "Yes" [checked]
+  - text: "Yes"
+  - radio "No"
+  - text: No Allow offline signing
+  - superscript: "?"
+  - radio "Yes"
+  - text: "Yes"
+  - radio "No" [checked]
+  - text: No Use profile name as sender
+  - superscript: "?"
+  - checkbox "Use profile name as sender" [checked]
+  - text: Enable tour
+  - superscript: "?"
+  - radio "Yes" [checked]
+  - text: "Yes"
+  - radio "No"
+  - text: "No"
+  - heading "Timezone" [level=1]
+  - log
+  - text: (GMT+5:30) Chennai, Kolkata, Mumbai, New Delhi
+  - combobox
+  - text: Date format
+  - combobox:
+    - option "MM/DD/YYYY" [selected]
+    - option "MM-DD-YYYY"
+    - option "MM.DD.YYYY"
+    - option "DD/MM/YYYY"
+    - option "DD-MM-YYYY"
+    - option "DD.MM.YYYY"
+    - option "YYYY-MM-DD"
+    - option "MMM DD, YYYY"
+    - option "MMMM DD, YYYY"
+    - option "DD MMM, YYYY"
+    - option "DD MMMM, YYYY"
+    - option "DD-MMM-YYYY"
+  - radio
+  - text: 12 hr
+  - radio [checked]
+  - text: 24 hr
+  - paragraph:
+    - strong: 10/14/2026, 00:29:14 GMT +05:30
+  - text: Qualified Signatures
+  - superscript: "?"
+  - text: Not set
+  - button ""
+  - text: LTV enabled signatures BETA
+  - checkbox "LTV enabled signatures"
+  - text: Document download filename format
+  - link "?":
+    - /url: /
+    - superscript: "?"
+  - combobox:
+    - option "document Name.pdf" [selected]
+    - option "document Name - Signed.pdf"
+    - option "document Name - name@domain.com.pdf"
+    - option "document Name - name@domain.com - date.pdf"
+  - text: "Preview: Agreement.pdf Merge Certificate to PDF"
+  - superscript: "?"
+  - radio "Yes"
+  - text: "Yes"
+  - radio "No" [checked]
+  - text: "No"
+  - button "Save"
+```
+
+# Test source
+
+```ts
+  58  | 
+  59  |   test('Verify that signature type selection in Console reflects in Preferences.', async ({
+  60  |     page,
+  61  |   }) => {
+  62  |     const commonSteps = new CommonSteps(page);
+  63  | 
+  64  |     await commonSteps.navigateToBaseUrl();
+  65  |     await commonSteps.login();
+  66  |     await expect(page).toHaveURL(/.*dashboard/);
+  67  | 
+  68  |     const consolePage = await openConsoleGeneral(page);
+  69  | 
+  70  |     await expect(consolePage.locator('#renderList')).toContainText(
+  71  |       /Enabled Signature Types/i
+  72  |     );
+  73  |     await expect(consolePage.locator('#renderList')).toContainText(/draw/i);
+  74  |     await expect(consolePage.locator('#renderList')).toContainText(/typed/i);
+  75  |     await expect(consolePage.locator('#renderList')).toContainText(/upload/i);
+  76  |     await expect(consolePage.locator('#renderList')).toContainText(/default/i);
+  77  | 
+  78  |     const typedOptionCheckbox = consolePage.locator('#checkbox-typed');
+  79  | 
+  80  |     await expect(typedOptionCheckbox).toBeVisible({ timeout: 60000 });
+  81  | 
+  82  |     if (await typedOptionCheckbox.isChecked()) {
+  83  |       await typedOptionCheckbox.uncheck();
+  84  |       await consolePage.getByRole('button', { name: /Save/i }).click();
+  85  |     }
+  86  | 
+  87  |     await consolePage.close();
+  88  | 
+  89  |     await openPreferences(page);
+  90  | 
+  91  |     const preferencesPanel = page.locator('#root');
+  92  | 
+  93  |     await expect(preferencesPanel).toContainText(/Allowed signature types/i);
+  94  |     await expect(preferencesPanel).toContainText(/draw/i);
+  95  |     await expect(preferencesPanel).toContainText(/upload/i);
+  96  |     await expect(preferencesPanel).toContainText(/default/i);
+  97  |     await expect(preferencesPanel).not.toContainText(/typed/i);
+  98  | 
+  99  |     // Restore the account setting so later tests start clean.
+  100 |     const restoredConsolePage = await openConsoleGeneral(page);
+  101 |     const restoredTypedCheckbox = restoredConsolePage.locator('#checkbox-typed');
+  102 | 
+  103 |     await expect(restoredTypedCheckbox).not.toBeChecked();
+  104 |     await restoredTypedCheckbox.check();
+  105 |     await restoredConsolePage.getByRole('button', { name: /Save/i }).click();
+  106 |     await restoredConsolePage.close();
+  107 |   });
+  108 | 
+  109 |   test('Verify that a Team plan user can access the General page and update the individual email template setting.', async ({
+  110 |     page,
+  111 |   }) => {
+  112 |     const commonSteps = new CommonSteps(page);
+  113 | 
+  114 |     await commonSteps.navigateToBaseUrl();
+  115 |     await commonSteps.login();
+  116 |     await expect(page).toHaveURL(/.*dashboard/);
+  117 |   await page.getByRole('button', { name: ' Settings' }).click();
+  118 |   await page.getByRole('menuitem', { name: 'Preferences' }).click();
+  119 |   await page.getByText('Email', { exact: true }).click();
+  120 |   await expect(page.getByPlaceholder('{{sender_name}} has requested')).toHaveValue('{{sender_name}} has requested you to sign {{document_title}}');
+  121 |   await expect(page.locator('#panel-2')).toContainText('Hi {{receiver_name}},We hope this email finds you well. {{sender_name}} has requested you to review and sign {{document_title}}.Your signature is crucial to proceed with the next steps as it signifies your agreement and authorization.Sign hereIf you have any questions or need further clarification regarding the document or the signing process, please contact the sender.ThanksTeam OpenSign™');
+  122 |   await expect(page.getByPlaceholder('{{sender_name}}  has')).toHaveValue('Document {{document_title}} has been signed by all parties');
+  123 |   await expect(page.locator('#panel-2')).toContainText('Hi {{sender_name}},All parties have successfully signed the document {{document_title}}. Kindly download the document from the attachment.ThanksTeam OpenSign™');
+  124 |    const consolePage = await openConsoleGeneral(page);
+  125 | 
+  126 | await expect(consolePage.locator('#renderList')).toContainText(/General/i);
+  127 | await expect(consolePage.locator('#console-general')).toContainText(
+  128 |   'Allow email template customization for users individually'
+  129 | );
+  130 | 
+  131 | const individualTemplateToggle = consolePage.locator(
+  132 |   `xpath=//label[contains(normalize-space(.), 'Allow email template customization for users individually')]/following-sibling::div//input[@type='checkbox']`
+  133 | );
+  134 | await individualTemplateToggle.uncheck();
+  135 | await expect(consolePage.getByText('Saved successfully.')).toBeVisible();
+  136 | 
+  137 | await consolePage.close();
+  138 |   await page.goto('https://staging-app.opensignlabs.com/preferences');
+  139 |   await page.getByText('Email', { exact: true }).click();
+  140 | await expect(page.locator('#panel-2')).toContainText(
+  141 |   'To let individual users customize their own email templates, navigate to Console → General.'
+  142 | );
+  143 | 
+  144 | await page.getByText('Console → General.').click();
+  145 | await expect(page.locator('#renderList')).toContainText('General');
+  146 | await page.locator(`xpath=//label[contains(normalize-space(.), 'Allow email template customization for users individually')]/following-sibling::div//input[@type='checkbox']`).check();
+  147 | await expect(page.getByText('Saved successfully.')).toBeVisible();
+  148 |   });
+  149 | test('Verify that a Team plan user can access the General page and update the individual user smtp setting.', async ({
+  150 |     page,
+  151 |   }) => {
+  152 |     const commonSteps = new CommonSteps(page);
+  153 |     await commonSteps.navigateToBaseUrl();
+  154 |     await commonSteps.login();
+  155 |     await expect(page).toHaveURL(/.*dashboard/);
+  156 |   await page.getByRole('button', { name: ' Settings' }).click();
+  157 |   await page.getByRole('menuitem', { name: 'Preferences' }).click();
+> 158 |   await expect(page.locator('#panel-0')).toContainText('OpenSign™ default SMTP');
+      |                                          ^ Error: expect(locator).toContainText(expected) failed
+  159 |    const consolePage = await openConsoleGeneral(page);
+  160 | await expect(consolePage.locator('#renderList')).toContainText(/General/i);
+  161 | await expect(consolePage.locator('#console-general')).toContainText(
+  162 |   'Disable individual user smtp settings'
+  163 | );
+  164 | 
+  165 | const individualSmtpToggle = consolePage.locator(
+  166 |   `xpath=//label[
+  167 |     contains(normalize-space(.), 'Disable individual user smtp settings')
+  168 |     or contains(normalize-space(.), 'Enable individual user smtp settings')
+  169 |   ]/following-sibling::div//input[@type='checkbox']`
+  170 | );
+  171 | 
+  172 | await individualSmtpToggle.uncheck({ force: true });
+  173 | await expect(individualSmtpToggle).not.toBeChecked();
+  174 | await expect(consolePage.getByText('Saved successfully.')).toBeVisible();
+  175 | await consolePage.close();
+  176 |   await page.goto('https://staging-app.opensignlabs.com/preferences');
+  177 | await expect(
+  178 |   page.locator(`xpath=//button[normalize-space(.)='OpenSign™ default SMTP']`)
+  179 | ).not.toBeVisible();
+  180 |  const consolePage1 = await openConsoleGeneral(page);
+  181 | await expect(consolePage1.locator('#renderList')).toContainText(/General/i);
+  182 | await expect(consolePage1.locator('#console-general')).toContainText(
+  183 |   'Enable individual user smtp settings'
+  184 | );
+  185 | 
+  186 | const individualSmtpToggle1 = consolePage1.locator(
+  187 |   `xpath=//label[
+  188 |     contains(normalize-space(.), 'Disable individual user smtp settings')
+  189 |     or contains(normalize-space(.), 'Enable individual user smtp settings')
+  190 |   ]/following-sibling::div//input[@type='checkbox']`
+  191 | );
+  192 | 
+  193 | await individualSmtpToggle1.check({ force: true });
+  194 | 
+  195 |   });
+  196 | 
+  197 |   test('Verify that professional plan users cannot access the General page.', async ({
+  198 |     page,
+  199 |   }) => {
+  200 |     const commonSteps = new CommonSteps(page);
+  201 | 
+  202 |     await commonSteps.navigateToBaseUrl();
+  203 |     await commonSteps.ProfessionPlanUserlogin();
+  204 |     await expect(page).toHaveURL(/.*dashboard/);
+  205 | 
+  206 |     const consolePage = await openConsoleGeneral(page);
+  207 | 
+  208 |     await expect(consolePage.locator(PROFILE_NAME)).toContainText('Pro plan User', {
+  209 |       timeout: 120000,
+  210 |     });
+  211 |     await expect(consolePage.locator(PROFILE_DOMAIN)).toContainText('OpenSign');
+  212 |     await expect(consolePage.locator('#root')).toContainText('PRO');
+  213 |     await expect(consolePage.locator('#renderList')).toContainText(/General/i);
+  214 |     await expect(consolePage.locator('#renderList')).toContainText(
+  215 |       /upgrade to .*team plan|upgrade now|upgrade/i
+  216 |     );
+  217 |     await expect(consolePage.locator(UPGRADE_BUTTON)).toBeVisible();
+  218 | 
+  219 |     await consolePage.close();
+  220 |   });
+  221 | });
+  222 | 
+```

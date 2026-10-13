@@ -1,5 +1,0 @@
-Browser: chromium, Version: 151.0.7922.34, OS: linux
-2605
-Karl Vanderson 2605
-karl2605@opensignlabs.com
-Generated password: 52NIv1POOpOQ

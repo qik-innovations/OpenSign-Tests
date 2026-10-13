@@ -1,5 +1,0 @@
-Browser: chromium, Version: 151.0.7922.34, OS: linux
-8732
-Karl Vanderson 8732
-karl8732@opensignlabs.com
-Generated password: IX1XmwYa363C

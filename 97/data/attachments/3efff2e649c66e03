@@ -1,0 +1,683 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: ConsoleApp/ConsoleOrgAdmins.spec.js >> Console app >> Verify that Teams plan user can access OrgAdmins page and add OrgAdmin
+- Location: tests/ConsoleApp/ConsoleOrgAdmins.spec.js:54:1
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for getByRole('button', { name: '' })
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - button "Open navigation" [expanded] [ref=e9] [cursor=pointer]:
+          - generic [ref=e10]: 
+        - button [ref=e12] [cursor=pointer]:
+          - img "logo" [ref=e13]
+      - generic [ref=e14]:
+        - button "Billing" [ref=e15] [cursor=pointer]:
+          - generic [ref=e16]: TEAM
+        - button "Open app drawer" [ref=e19] [cursor=pointer]:
+          - generic [ref=e20]: 
+        - button "Profile" [ref=e21] [cursor=pointer]:
+          - img "img" [ref=e22]
+        - button "Open profile menu" [ref=e23] [cursor=pointer]: Pravin Testing account
+        - generic [ref=e24]:
+          - button "Open profile menu" [expanded] [ref=e25] [cursor=pointer]:
+            - generic [ref=e26]: 
+          - menu [ref=e27]:
+            - listitem [ref=e28]:
+              - button " Docs" [ref=e29] [cursor=pointer]:
+                - generic [ref=e30]: 
+                - text: Docs
+            - listitem [ref=e31]:
+              - button " Profile" [ref=e32] [cursor=pointer]:
+                - generic [ref=e33]: 
+                - text: Profile
+            - listitem [ref=e34]:
+              - button " Change password" [ref=e35] [cursor=pointer]:
+                - generic [ref=e36]: 
+                - text: Change password
+            - listitem [ref=e37]:
+              - button " Console" [active] [ref=e38] [cursor=pointer]:
+                - generic [ref=e39]: 
+                - text: Console
+            - listitem [ref=e40]:
+              - button " Billing" [ref=e41] [cursor=pointer]:
+                - generic [ref=e42]: 
+                - text: Billing
+            - listitem [ref=e43]:
+              - button " Verify document" [ref=e44] [cursor=pointer]:
+                - generic [ref=e45]: 
+                - text: Verify document
+            - listitem [ref=e46]:
+              - generic [ref=e47]:
+                - generic [ref=e48]: 
+                - text: Dark mode
+                - generic [ref=e49]: BETA
+                - checkbox [ref=e50] [cursor=pointer]
+            - listitem [ref=e51]:
+              - button " Log Out" [ref=e52] [cursor=pointer]:
+                - generic [ref=e53]: 
+                - text: Log Out
+  - generic [ref=e54]:
+    - complementary [ref=e55]:
+      - generic [ref=e56]:
+        - button "Profile" [ref=e57] [cursor=pointer]:
+          - img "Profile" [ref=e58]
+        - generic [ref=e59]:
+          - button "Pravin Testing account" [ref=e60] [cursor=pointer]
+          - button "OpenSign pvt ltd" [ref=e61] [cursor=pointer]
+      - menubar "OpenSign Sidebar Navigation" [ref=e62]:
+        - list [ref=e63]:
+          - menuitem "Dashboard" [ref=e64]:
+            - generic [ref=e65]: 
+          - menuitem "Sign yourself" [ref=e68]:
+            - generic [ref=e69]: 
+          - menuitem "Request signatures" [ref=e72]:
+            - generic [ref=e73]: 
+          - button " Templates" [ref=e76] [cursor=pointer]:
+            - generic [ref=e77]: 
+            - generic [ref=e79]:
+              - generic [ref=e80]: Templates
+              - generic [ref=e81]: 
+          - menuitem "OpenSign™ Drive" [ref=e82]:
+            - generic [ref=e83]: 
+          - button " Documents" [ref=e86] [cursor=pointer]:
+            - generic [ref=e87]: 
+            - generic [ref=e89]:
+              - generic [ref=e90]: Documents
+              - generic [ref=e91]: 
+          - menuitem "Contactbook" [ref=e92]:
+            - generic [ref=e93]: 
+          - button " Settings" [ref=e96] [cursor=pointer]:
+            - generic [ref=e97]: 
+            - generic [ref=e99]:
+              - generic [ref=e100]: Settings
+              - generic [ref=e101]: 
+      - generic [ref=e102]:
+        - link "OpenSign's Github" [ref=e103]:
+          - /url: https://github.com/opensignlabs/opensign
+          - generic [ref=e104]: 
+        - link "OpenSign's LinkedIn" [ref=e106]:
+          - /url: https://www.linkedin.com/company/opensign%E2%84%A2/
+          - generic [ref=e107]: 
+        - link "OpenSign's Twitter" [ref=e109]:
+          - /url: https://www.twitter.com/opensignlabs
+          - generic [ref=e110]: 
+        - link "OpenSign's Discord" [ref=e112]:
+          - /url: https://discord.com/invite/xe9TDuyAyj
+          - generic [ref=e113]: 
+    - main [ref=e115]:
+      - generic [ref=e116]:
+        - generic [ref=e118]:
+          - heading "Dashboard" [level=1] [ref=e119]
+          - generic [ref=e121]:
+            - button "Sign yourself" [ref=e122] [cursor=pointer]:
+              - generic [ref=e123]:
+                - generic [ref=e124]: 
+                - generic [ref=e127]:
+                  - text: Sign yourself
+                  - generic [ref=e128]: Use this option to sign the document yourself without adding others
+            - button "Request signatures" [ref=e129] [cursor=pointer]:
+              - generic [ref=e130]:
+                - generic [ref=e131]: 
+                - generic [ref=e134]:
+                  - text: Request signatures
+                  - generic [ref=e135]: Use this option to request signatures from others and yourself together.
+          - generic [ref=e136]:
+            - button "Need your signature" [ref=e139] [cursor=pointer]:
+              - generic [ref=e140]:
+                - generic [ref=e141]: 
+                - generic [ref=e143]:
+                  - generic [ref=e144]: Need your signature
+                  - generic [ref=e145]: "31"
+              - superscript [ref=e148]:
+                - generic [ref=e149]: "?"
+            - button "Out for signatures" [ref=e152] [cursor=pointer]:
+              - generic [ref=e153]:
+                - generic [ref=e154]: 
+                - generic [ref=e156]:
+                  - generic [ref=e157]: Out for signatures
+                  - generic [ref=e158]: "470"
+              - superscript [ref=e161]:
+                - generic [ref=e162]: "?"
+            - generic [ref=e167]:
+              - generic [ref=e168]:
+                - generic [ref=e169]: Recent signature requests
+                - button "Search" [ref=e171] [cursor=pointer]:
+                  - generic [ref=e172]: 
+              - region "Documents" [ref=e173]:
+                - table [ref=e174]:
+                  - rowgroup [ref=e175]:
+                    - row [ref=e176]:
+                      - columnheader "Title" [ref=e177]
+                      - columnheader "File" [ref=e178]
+                      - columnheader "Owner" [ref=e179]
+                      - columnheader "Signers" [ref=e180]
+                      - columnheader "Action"
+                  - rowgroup [ref=e181]:
+                    - row [ref=e182]:
+                      - cell "Sample-joining-letter Expires 28-Oct-2026" [ref=e183]:
+                        - generic "Sample-joining-letter" [ref=e184]
+                        - generic [ref=e185]: Expires 28-Oct-2026
+                      - cell [ref=e186]:
+                        - button "Download" [ref=e187] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e188]
+                      - cell [ref=e189]:
+                        - button "View" [ref=e190] [cursor=pointer]
+                      - cell [ref=e191]:
+                        - button "SIGN" [ref=e193] [cursor=pointer]:
+                          - generic [ref=e194]: 
+                          - generic [ref=e195]: sign
+                    - row [ref=e196]:
+                      - cell "Sample-joining-letter Expires 28-Oct-2026" [ref=e197]:
+                        - generic "Sample-joining-letter" [ref=e198]
+                        - generic [ref=e199]: Expires 28-Oct-2026
+                      - cell [ref=e200]:
+                        - button "Download" [ref=e201] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e202]
+                      - cell [ref=e203]:
+                        - button "View" [ref=e204] [cursor=pointer]
+                      - cell [ref=e205]:
+                        - button "SIGN" [ref=e207] [cursor=pointer]:
+                          - generic [ref=e208]: 
+                          - generic [ref=e209]: sign
+                    - row [ref=e210]:
+                      - cell "Sample-joining-letter Expires 28-Oct-2026" [ref=e211]:
+                        - generic "Sample-joining-letter" [ref=e212]
+                        - generic [ref=e213]: Expires 28-Oct-2026
+                      - cell [ref=e214]:
+                        - button "Download" [ref=e215] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e216]
+                      - cell [ref=e217]:
+                        - button "View" [ref=e218] [cursor=pointer]
+                      - cell [ref=e219]:
+                        - button "SIGN" [ref=e221] [cursor=pointer]:
+                          - generic [ref=e222]: 
+                          - generic [ref=e223]: sign
+                    - row [ref=e224]:
+                      - cell "Sample-joining-letter Expires 28-Oct-2026" [ref=e225]:
+                        - generic "Sample-joining-letter" [ref=e226]
+                        - generic [ref=e227]: Expires 28-Oct-2026
+                      - cell [ref=e228]:
+                        - button "Download" [ref=e229] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e230]
+                      - cell [ref=e231]:
+                        - button "View" [ref=e232] [cursor=pointer]
+                      - cell [ref=e233]:
+                        - button "SIGN" [ref=e235] [cursor=pointer]:
+                          - generic [ref=e236]: 
+                          - generic [ref=e237]: sign
+                    - row [ref=e238]:
+                      - cell "Sample-joining-letter Expires 28-Oct-2026" [ref=e239]:
+                        - generic "Sample-joining-letter" [ref=e240]
+                        - generic [ref=e241]: Expires 28-Oct-2026
+                      - cell [ref=e242]:
+                        - button "Download" [ref=e243] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e244]
+                      - cell [ref=e245]:
+                        - button "View" [ref=e246] [cursor=pointer]
+                      - cell [ref=e247]:
+                        - button "SIGN" [ref=e249] [cursor=pointer]:
+                          - generic [ref=e250]: 
+                          - generic [ref=e251]: sign
+              - generic [ref=e252]:
+                - button "Prev" [ref=e253] [cursor=pointer]
+                - button "1" [ref=e254] [cursor=pointer]
+                - button "2" [ref=e255] [cursor=pointer]
+                - button "3" [ref=e256] [cursor=pointer]
+                - button "4" [ref=e257] [cursor=pointer]
+                - button "5" [ref=e258] [cursor=pointer]
+                - button "6" [ref=e259] [cursor=pointer]
+                - button "7" [ref=e260] [cursor=pointer]
+                - button "Next" [ref=e261] [cursor=pointer]
+            - generic [ref=e266]:
+              - generic [ref=e267]:
+                - generic [ref=e268]: Recently sent for signatures
+                - button "Search" [ref=e270] [cursor=pointer]:
+                  - generic [ref=e271]: 
+              - region "Documents" [ref=e272]:
+                - table [ref=e273]:
+                  - rowgroup [ref=e274]:
+                    - row [ref=e275]:
+                      - columnheader "Title" [ref=e276]
+                      - columnheader "File" [ref=e277]
+                      - columnheader "Owner" [ref=e278]
+                      - columnheader "Signers" [ref=e279]
+                      - columnheader "Action"
+                  - rowgroup [ref=e280]:
+                    - row [ref=e281]:
+                      - cell "Sample Test Doc Line Expires 28-Oct-2026" [ref=e282]:
+                        - generic "Sample Test Doc Line" [ref=e283]
+                        - generic [ref=e284]: Expires 28-Oct-2026
+                      - cell [ref=e285]:
+                        - button "Download" [ref=e286] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e287]
+                      - cell [ref=e288]:
+                        - button "View" [ref=e289] [cursor=pointer]
+                      - cell [ref=e290]:
+                        - generic [ref=e291]:
+                          - button "Share" [ref=e292] [cursor=pointer]:
+                            - generic [ref=e293]: 
+                          - button "View" [ref=e294] [cursor=pointer]:
+                            - generic [ref=e295]: 
+                          - button "Option" [ref=e296] [cursor=pointer]:
+                            - generic [ref=e297]: 
+                    - row [ref=e298]:
+                      - cell "Sample Test Doc Line Expires 28-Oct-2026" [ref=e299]:
+                        - generic "Sample Test Doc Line" [ref=e300]
+                        - generic [ref=e301]: Expires 28-Oct-2026
+                      - cell [ref=e302]:
+                        - button "Download" [ref=e303] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e304]
+                      - cell [ref=e305]:
+                        - button "View" [ref=e306] [cursor=pointer]
+                      - cell [ref=e307]:
+                        - generic [ref=e308]:
+                          - button "Share" [ref=e309] [cursor=pointer]:
+                            - generic [ref=e310]: 
+                          - button "View" [ref=e311] [cursor=pointer]:
+                            - generic [ref=e312]: 
+                          - button "Option" [ref=e313] [cursor=pointer]:
+                            - generic [ref=e314]: 
+                    - row [ref=e315]:
+                      - cell "Sample Test Doc Line Expires 28-Oct-2026" [ref=e316]:
+                        - generic "Sample Test Doc Line" [ref=e317]
+                        - generic [ref=e318]: Expires 28-Oct-2026
+                      - cell [ref=e319]:
+                        - button "Download" [ref=e320] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e321]
+                      - cell [ref=e322]:
+                        - button "View" [ref=e323] [cursor=pointer]
+                      - cell [ref=e324]:
+                        - generic [ref=e325]:
+                          - button "Share" [ref=e326] [cursor=pointer]:
+                            - generic [ref=e327]: 
+                          - button "View" [ref=e328] [cursor=pointer]:
+                            - generic [ref=e329]: 
+                          - button "Option" [ref=e330] [cursor=pointer]:
+                            - generic [ref=e331]: 
+                    - row [ref=e332]:
+                      - cell "Sample Test Doc Line Expires 28-Oct-2026" [ref=e333]:
+                        - generic "Sample Test Doc Line" [ref=e334]
+                        - generic [ref=e335]: Expires 28-Oct-2026
+                      - cell [ref=e336]:
+                        - button "Download" [ref=e337] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e338]
+                      - cell [ref=e339]:
+                        - button "View" [ref=e340] [cursor=pointer]
+                      - cell [ref=e341]:
+                        - generic [ref=e342]:
+                          - button "Share" [ref=e343] [cursor=pointer]:
+                            - generic [ref=e344]: 
+                          - button "View" [ref=e345] [cursor=pointer]:
+                            - generic [ref=e346]: 
+                          - button "Option" [ref=e347] [cursor=pointer]:
+                            - generic [ref=e348]: 
+                    - row [ref=e349]:
+                      - cell "Sample Test Doc Line Expires 28-Oct-2026" [ref=e350]:
+                        - generic "Sample Test Doc Line" [ref=e351]
+                        - generic [ref=e352]: Expires 28-Oct-2026
+                      - cell [ref=e353]:
+                        - button "Download" [ref=e354] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e355]
+                      - cell [ref=e356]:
+                        - button "View" [ref=e357] [cursor=pointer]
+                      - cell [ref=e358]:
+                        - generic [ref=e359]:
+                          - button "Share" [ref=e360] [cursor=pointer]:
+                            - generic [ref=e361]: 
+                          - button "View" [ref=e362] [cursor=pointer]:
+                            - generic [ref=e363]: 
+                          - button "Option" [ref=e364] [cursor=pointer]:
+                            - generic [ref=e365]: 
+              - generic [ref=e366]:
+                - button "Prev" [ref=e367] [cursor=pointer]
+                - button "1" [ref=e368] [cursor=pointer]
+                - button "2" [ref=e369] [cursor=pointer]
+                - button "3" [ref=e370] [cursor=pointer]
+                - button "4" [ref=e371] [cursor=pointer]
+                - button "Next" [ref=e372] [cursor=pointer]
+            - generic [ref=e377]:
+              - generic [ref=e378]:
+                - generic [ref=e379]: Drafts
+                - searchbox "Search documents…" [ref=e382]
+              - region "Documents" [ref=e383]:
+                - table [ref=e384]:
+                  - rowgroup [ref=e385]:
+                    - row [ref=e386]:
+                      - columnheader "Title" [ref=e387]
+                      - columnheader "Note" [ref=e388]
+                      - columnheader "Folder" [ref=e389]
+                      - columnheader "File" [ref=e390]
+                      - columnheader "Owner" [ref=e391]
+                      - columnheader "Signers" [ref=e392]
+                      - columnheader "Action"
+                  - rowgroup [ref=e393]:
+                    - row [ref=e394]:
+                      - cell "Sample Test Doc Line Expires 28-Oct-2026" [ref=e395]:
+                        - generic "Sample Test Doc Line" [ref=e396]
+                        - generic [ref=e397]: Expires 28-Oct-2026
+                      - cell [ref=e398]:
+                        - button "Note to myself" [ref=e399] [cursor=pointer]
+                      - cell "OpenSign™ Drive" [ref=e400]
+                      - cell [ref=e401]:
+                        - button "Download" [ref=e402] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e403]
+                      - cell "-" [ref=e404]
+                      - cell [ref=e405]:
+                        - generic [ref=e406]:
+                          - button "Edit" [ref=e407] [cursor=pointer]:
+                            - generic [ref=e408]: 
+                          - button "Delete" [ref=e409] [cursor=pointer]:
+                            - generic [ref=e410]: 
+                    - row [ref=e411]:
+                      - cell "Sample Test Doc Line Expires 28-Oct-2026" [ref=e412]:
+                        - generic "Sample Test Doc Line" [ref=e413]
+                        - generic [ref=e414]: Expires 28-Oct-2026
+                      - cell [ref=e415]:
+                        - button "Note to myself" [ref=e416] [cursor=pointer]
+                      - cell "OpenSign™ Drive" [ref=e417]
+                      - cell [ref=e418]:
+                        - button "Download" [ref=e419] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e420]
+                      - cell "-" [ref=e421]
+                      - cell [ref=e422]:
+                        - generic [ref=e423]:
+                          - button "Edit" [ref=e424] [cursor=pointer]:
+                            - generic [ref=e425]: 
+                          - button "Delete" [ref=e426] [cursor=pointer]:
+                            - generic [ref=e427]: 
+                    - row [ref=e428]:
+                      - cell "Sample Test Doc Line Expires 28-Oct-2026" [ref=e429]:
+                        - generic "Sample Test Doc Line" [ref=e430]
+                        - generic [ref=e431]: Expires 28-Oct-2026
+                      - cell [ref=e432]:
+                        - button "Note to myself" [ref=e433] [cursor=pointer]
+                      - cell "OpenSign™ Drive" [ref=e434]
+                      - cell [ref=e435]:
+                        - button "Download" [ref=e436] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e437]
+                      - cell "-" [ref=e438]
+                      - cell [ref=e439]:
+                        - generic [ref=e440]:
+                          - button "Edit" [ref=e441] [cursor=pointer]:
+                            - generic [ref=e442]: 
+                          - button "Delete" [ref=e443] [cursor=pointer]:
+                            - generic [ref=e444]: 
+                    - row [ref=e445]:
+                      - cell "Sample Test Doc Line Expires 28-Oct-2026" [ref=e446]:
+                        - generic "Sample Test Doc Line" [ref=e447]
+                        - generic [ref=e448]: Expires 28-Oct-2026
+                      - cell [ref=e449]:
+                        - button "Note to myself" [ref=e450] [cursor=pointer]
+                      - cell "OpenSign™ Drive" [ref=e451]
+                      - cell [ref=e452]:
+                        - button "Download" [ref=e453] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e454]
+                      - cell "-" [ref=e455]
+                      - cell [ref=e456]:
+                        - generic [ref=e457]:
+                          - button "Edit" [ref=e458] [cursor=pointer]:
+                            - generic [ref=e459]: 
+                          - button "Delete" [ref=e460] [cursor=pointer]:
+                            - generic [ref=e461]: 
+                    - row [ref=e462]:
+                      - cell "Sample Test Doc Line Expires 28-Oct-2026" [ref=e463]:
+                        - generic "Sample Test Doc Line" [ref=e464]
+                        - generic [ref=e465]: Expires 28-Oct-2026
+                      - cell [ref=e466]:
+                        - button "Note to myself" [ref=e467] [cursor=pointer]
+                      - cell "OpenSign™ Drive" [ref=e468]
+                      - cell [ref=e469]:
+                        - button "Download" [ref=e470] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e471]
+                      - cell "-" [ref=e472]
+                      - cell [ref=e473]:
+                        - generic [ref=e474]:
+                          - button "Edit" [ref=e475] [cursor=pointer]:
+                            - generic [ref=e476]: 
+                          - button "Delete" [ref=e477] [cursor=pointer]:
+                            - generic [ref=e478]: 
+              - generic [ref=e479]:
+                - button "Prev" [ref=e480] [cursor=pointer]
+                - button "1" [ref=e481] [cursor=pointer]
+                - button "2" [ref=e482] [cursor=pointer]
+                - button "3" [ref=e483] [cursor=pointer]
+                - button "4" [ref=e484] [cursor=pointer]
+                - button "Next" [ref=e485] [cursor=pointer]
+        - generic [ref=e486]:
+          - complementary [ref=e488]:
+            - paragraph [ref=e489]:
+              - text: All rights reserved © 2026
+              - 'link "OpenSign™ ( version: v2.41.3)" [ref=e490] [cursor=pointer]':
+                - /url: https://github.com/OpenSignLabs/OpenSign/releases/tag/v2.41.3
+          - text: 
+```
+
+# Test source
+
+```ts
+  38  |     await page.locator(CONSOLE_OPTION).click();
+  39  |     const page1 = await page1Promise;
+  40  | //verify the profile name on the profile
+  41  | await expect(page1.locator('#root')).toContainText('Pro plan User', { timeout: 120000 });
+  42  | await expect(page1.locator('#root')).toContainText('OpenSign');
+  43  |   await page1.getByRole('button', { name: ' Teams' }).click();
+  44  |   await page1.getByRole('menuitem', { name: 'OrgAdmins' }).click();
+  45  |     const title = await page1.title();
+  46  |     if (title.includes('OpenSign')) {
+  47  |       console.log(`Page title is correct: ${title}`);
+  48  |     } else {
+  49  |       console.error(`Page title is incorrect. Expected an OpenSign page, Got: "${title}"`);
+  50  |     }
+  51  |     await expect(page1.locator('#renderList')).toContainText('OrgAdmins');
+  52  |     await expect(page1.locator('#renderList')).toContainText(/Upgrade to teams? plan/i);
+  53  | });
+  54  | test('Verify that Teams plan user can access OrgAdmins page and add OrgAdmin', async ({ page }) => {
+  55  |   const commonSteps = new CommonSteps(page);
+  56  | 
+  57  |   // Step 1: Navigate to Base URL and log in
+  58  |   await test.step('Login as Teams Plan user', async () => {
+  59  |     await commonSteps.navigateToBaseUrl();
+  60  |     await commonSteps.login();
+  61  |   });
+  62  | let userName = '';
+  63  | let email = '';
+  64  | let password = '';
+  65  |   // Step 2: Open Console (new popup)
+  66  |     await page.locator(PROFILE_MENU_BUTTON).click();
+  67  |     const page1Promise = page.waitForEvent('popup');
+  68  |     await page.locator(CONSOLE_OPTION).click();
+  69  |   const page1 = await page1Promise;
+  70  |   // Step 3: Verify profile info
+  71  |   await test.step('Verify profile info', async () => {
+  72  |     await expect(page1.locator('#root')).toContainText('Pravin Testing account', { timeout: 120000 });
+  73  |     
+  74  |   });
+  75  | 
+  76  |   // Step 4: Navigate to OrgAdmins page
+  77  |   await test.step('Open OrgAdmins page', async () => {
+  78  |     await page1.getByRole('button', { name: ' Teams' }).click();
+  79  |     await page1.getByRole('menuitem', { name: 'OrgAdmins' }).click();
+  80  | await expect(page1.locator('#renderList')).toContainText('OrgAdmins');
+  81  |     const title = await page1.title();
+  82  |     expect(title).toContain('OpenSign');
+  83  |     await expect(page1.locator('#renderList')).toContainText('OrgAdmins');
+  84  |     await expect(page1.locator('#renderList')).toContainText('Buy more users');
+  85  |     // Verify table headers
+  86  |     for (const header of ['Sr.No', 'Name', 'Email', 'Organization', 'IsActive']) {
+  87  |       await expect(page1.locator('thead')).toContainText(header);
+  88  |     }
+  89  |   });
+  90  | 
+  91  |   // Step 5: Buy more users
+  92  |   await test.step('Buy more users flow', async () => {
+  93  |     await page1.getByText('Buy more users').click();
+  94  |     await expect(page1.getByRole('heading')).toContainText('Add seats');
+  95  |     await expect(page1.locator('form')).toContainText('Quantity of users *');
+  96  |     await expect(page1.locator('form')).toContainText('Price (1 * 100)');
+  97  |     await expect(page1.locator('form')).toContainText('INR 100');
+  98  |     await page1.getByRole('button', { name: 'Proceed' }).click();
+  99  |   });
+  100 | 
+  101 |   // Step 6: Add new OrgAdmin
+  102 |   await test.step('Add new OrgAdmin', async () => {
+  103 |     await page1.locator('#renderList i').nth(1).click();
+  104 |     await expect(page1.getByRole('heading')).toContainText('Add OrgAdmin');
+  105 | 
+  106 |     const randomNum = Math.floor(1000 + Math.random() * 9000);
+  107 |     console.log(randomNum);
+  108 |     userName = `Karl Vanderson ${randomNum}`;
+  109 |     console.log(userName);
+  110 |     email = 'karl' + randomNum + '@opensignlabs.com';
+  111 |     console.log(email);
+  112 | 
+  113 |     await fillOrgAdminForm(page1, { userName, email, phone: '9823409343' });
+  114 | 
+  115 |     // Copy password
+  116 |     password = await page1.locator("//div[@class='break-all']").innerText();
+  117 |     console.log('Generated password:', password?.trim());
+  118 |     await page1.getByRole('button', { name: 'Submit' }).click();
+  119 |   });
+  120 | 
+  121 |   // Step 7: Validate new OrgAdmin row
+  122 |   await test.step('Validate OrgAdmin list', async () => {
+  123 |     for (const header of ['Sr.No', 'Name', 'Email', 'Organization']) {
+  124 |       await expect(page1.locator('thead')).toContainText(header);
+  125 |     }
+  126 | // Locate the row for the specific user
+  127 | // Locate the first row in the table
+  128 | const row = page1.getByRole('row').nth(1); // nth(0) is usually the header row, so nth(1) = first data row
+  129 | 
+  130 | // Assert that row contains the expected values
+  131 | await expect(row).toContainText(userName);
+  132 | await expect(row).toContainText(email);
+  133 | await expect(row).toContainText('OpenSign pvt ltd');
+  134 | 
+  135 | // Assert that the checkbox inside the row is visible
+  136 | const checkbox = row.getByRole('checkbox');
+  137 | await expect(checkbox).toBeVisible();
+> 138 |  await page1.getByRole('button', { name: '' }).click();
+      |                                                 ^ Error: locator.click: Test timeout of 120000ms exceeded.
+  139 |   await page1.getByText('Log Out').click();
+  140 | await page1.getByRole('heading', { name: 'Welcome back!' }).waitFor({ timeout: 120000 });
+  141 | await page1.getByRole('textbox', { name: 'Email' }).fill(email);
+  142 | await page1.getByRole('textbox', { name: 'Email' }).press('Tab');
+  143 | await page1.getByRole('textbox', { name: 'Password' }).fill(password.trim());
+  144 | await page1.getByRole('button', { name: 'Login' }).click();
+  145 |   // Wait until dashboard loads
+  146 | await expect(page1).toHaveURL(/dashboard/, { timeout: 120000 });
+  147 | 
+  148 | // Skip onboarding if it is not shown
+  149 | const dialog = page1.getByRole('dialog');
+  150 | 
+  151 | if (await dialog.isVisible().catch(() => false)) {
+  152 |   while (await dialog.isVisible().catch(() => false)) {
+  153 |     const nextButton = page1.locator('.sc-gsFSXq > button:nth-child(3)');
+  154 | 
+  155 |     if (await nextButton.isVisible().catch(() => false)) {
+  156 |       await nextButton.click();
+  157 |     } else {
+  158 |       break;
+  159 |     }
+  160 |   }
+  161 | }
+  162 |   });
+  163 | 
+  164 | });
+  165 | test('Verify that inactive orgAdmin cannot login.', async ({ page }) => {
+  166 |   const commonSteps = new CommonSteps(page);
+  167 | 
+  168 |   // Step 1: Navigate to Base URL and log in
+  169 |   await test.step('Login as Teams Plan user', async () => {
+  170 |     await commonSteps.navigateToBaseUrl();
+  171 |     await commonSteps.login();
+  172 |   });
+  173 | let userName = '';
+  174 | let email = '';
+  175 | let password = '';
+  176 |   // Step 2: Open Console (new popup)
+  177 |     await page.locator(PROFILE_MENU_BUTTON).click();
+  178 |     const page1Promise = page.waitForEvent('popup');
+  179 |     await page.locator(CONSOLE_OPTION).click();
+  180 |   const page1 = await page1Promise;
+  181 |   // Step 3: Verify profile info
+  182 |   await test.step('Verify profile info', async () => {
+  183 |     await expect(page1.locator('#root')).toContainText('Pravin Testing account', { timeout: 120000 });
+  184 |     
+  185 |   });
+  186 | 
+  187 |   // Step 4: Navigate to OrgAdmins page
+  188 |   await test.step('Open OrgAdmins page', async () => {
+  189 |     await page1.getByRole('button', { name: ' Teams' }).click();
+  190 |     await page1.getByRole('menuitem', { name: 'OrgAdmins' }).click();
+  191 | await expect(page1.locator('#renderList')).toContainText('OrgAdmins');
+  192 |     const title = await page1.title();
+  193 |     expect(title).toContain('OpenSign');
+  194 |     
+  195 |   });
+  196 | 
+  197 |   // Step 5: Buy more users
+  198 |   await test.step('Buy more users flow', async () => {
+  199 |     await page1.getByText('Buy more users').click();
+  200 |     await expect(page1.getByRole('heading')).toContainText('Add seats');
+  201 |     await page1.getByRole('button', { name: 'Proceed' }).click();
+  202 |   });
+  203 | 
+  204 |   // Step 6: Add new OrgAdmin
+  205 |   await test.step('Add new OrgAdmin', async () => {
+  206 |     await page1.locator('#renderList i').nth(1).click();
+  207 |     await expect(page1.getByRole('heading')).toContainText('Add OrgAdmin');
+  208 | 
+  209 |     const randomNum = Math.floor(1000 + Math.random() * 9000);
+  210 |     console.log(randomNum);
+  211 |     userName = `Karl Vanderson ${randomNum}`;
+  212 |     console.log(userName);
+  213 |     email = 'karl' + randomNum + '@opensignlabs.com';
+  214 |     console.log(email);
+  215 | 
+  216 |     await fillOrgAdminForm(page1, { userName, email, phone: '9823409343' });
+  217 | 
+  218 |     // Copy password
+  219 |     password = await page1.locator("//div[@class='break-all']").innerText();
+  220 |     console.log('Generated password:', password?.trim());
+  221 |     await page1.getByRole('button', { name: 'Submit' }).click();
+  222 |   });
+  223 | 
+  224 |   // Step 7: Validate new OrgAdmin row
+  225 |   await test.step('Validate OrgAdmin list', async () => {
+  226 | // Locate the first row in the table
+  227 | const row = page1.getByRole('row').nth(1); // nth(0) is usually the header row, so nth(1) = first data row
+  228 | // Assert that row contains the expected values
+  229 | await expect(row).toContainText(userName);
+  230 | await expect(row).toContainText(email);
+  231 | await expect(row).toContainText('OpenSign pvt ltd');
+  232 | // Assert that the checkbox inside the row is visible
+  233 | const checkbox = row.getByRole('checkbox');
+  234 | checkbox.click({ force: true });
+  235 | await expect(page1.getByRole('heading')).toContainText('User status');
+  236 | await expect(page1.locator('#selectSignerModal')).toContainText('User status✕Are you sure you want to deactivate User?YesNo');
+  237 | await page1.getByRole('button', { name: 'Yes' }).click();
+  238 |  await page1.getByRole('button', { name: 'Open profile menu' }).nth(1).click();
+```

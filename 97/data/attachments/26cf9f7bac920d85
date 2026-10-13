@@ -1,0 +1,297 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/APItoken.spec.js >> API Token >> Verify that free user cannot generate the live api token.
+- Location: tests/MainAppPages/APItoken.spec.js:4:1
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for getByRole('button', { name: ' Settings' })
+    - locator resolved to <button type="button" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-Settings" class="os-submenu-button flex gap-x-5 items-center justify-start text-left p-3 text-base-content hover:text-base-content focus:bg-base-300 hover:bg-base-300 hover:no-underline">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <rect></rect> from <div class="reactour__mask">…</div> subtree intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <rect></rect> from <div class="reactour__mask">…</div> subtree intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    223 × waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <rect></rect> from <div class="reactour__mask">…</div> subtree intercepts pointer events
+      - retrying click action
+        - waiting 500ms
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - button "Open navigation" [expanded] [ref=e9] [cursor=pointer]:
+          - generic [ref=e10]: 
+        - button [ref=e12] [cursor=pointer]:
+          - img "logo" [ref=e13]
+      - generic [ref=e14]:
+        - button "Upgrade now" [ref=e16] [cursor=pointer]
+        - button "Open app drawer" [ref=e19] [cursor=pointer]:
+          - generic [ref=e20]: 
+        - button "Profile" [ref=e21] [cursor=pointer]:
+          - img "img" [ref=e22]
+        - button "Open profile menu" [ref=e23] [cursor=pointer]: Mathew Wade
+        - generic [ref=e24]:
+          - button "Open profile menu" [ref=e25] [cursor=pointer]:
+            - generic [ref=e26]: 
+          - text:         
+  - generic [ref=e27]:
+    - complementary [ref=e28]:
+      - generic [ref=e29]:
+        - button "Profile" [ref=e30] [cursor=pointer]:
+          - img "Profile" [ref=e31]
+        - generic [ref=e32]:
+          - button "Mathew Wade" [ref=e33] [cursor=pointer]
+          - button "qikAi.com" [ref=e34] [cursor=pointer]
+      - menubar "OpenSign Sidebar Navigation" [ref=e35]:
+        - list [ref=e36]:
+          - menuitem "Dashboard" [ref=e37]:
+            - generic [ref=e38]: 
+          - menuitem "Sign yourself" [ref=e41]:
+            - generic [ref=e42]: 
+          - menuitem "Request signatures" [ref=e45]:
+            - generic [ref=e46]: 
+          - button " Templates" [ref=e49] [cursor=pointer]:
+            - generic [ref=e50]: 
+            - generic [ref=e52]:
+              - generic [ref=e53]: Templates
+              - generic [ref=e54]: 
+          - menuitem "OpenSign™ Drive" [ref=e55]:
+            - generic [ref=e56]: 
+          - button " Documents" [ref=e59] [cursor=pointer]:
+            - generic [ref=e60]: 
+            - generic [ref=e62]:
+              - generic [ref=e63]: Documents
+              - generic [ref=e64]: 
+          - menuitem "Contactbook" [ref=e65]:
+            - generic [ref=e66]: 
+          - button " Settings" [ref=e69] [cursor=pointer]:
+            - generic [ref=e70]: 
+            - generic [ref=e72]:
+              - generic [ref=e73]: Settings
+              - generic [ref=e74]: 
+      - generic [ref=e75]:
+        - link "OpenSign's Github" [ref=e76]:
+          - /url: https://github.com/opensignlabs/opensign
+          - generic [ref=e77]: 
+        - link "OpenSign's LinkedIn" [ref=e79]:
+          - /url: https://www.linkedin.com/company/opensign%E2%84%A2/
+          - generic [ref=e80]: 
+        - link "OpenSign's Twitter" [ref=e82]:
+          - /url: https://www.twitter.com/opensignlabs
+          - generic [ref=e83]: 
+        - link "OpenSign's Discord" [ref=e85]:
+          - /url: https://discord.com/invite/xe9TDuyAyj
+          - generic [ref=e86]: 
+    - main [ref=e88]:
+      - generic [ref=e89]:
+        - generic [ref=e91]:
+          - heading "Dashboard" [level=1] [ref=e92]
+          - generic [ref=e94]:
+            - button "Sign yourself" [ref=e95] [cursor=pointer]:
+              - generic [ref=e96]:
+                - generic [ref=e97]: 
+                - generic [ref=e100]:
+                  - text: Sign yourself
+                  - generic [ref=e101]: Use this option to sign the document yourself without adding others
+            - button "Request signatures" [ref=e102] [cursor=pointer]:
+              - generic [ref=e103]:
+                - generic [ref=e104]: 
+                - generic [ref=e107]:
+                  - text: Request signatures
+                  - generic [ref=e108]: Use this option to request signatures from others and yourself together.
+          - generic [ref=e109]:
+            - button "Need your signature" [ref=e112] [cursor=pointer]:
+              - generic [ref=e113]:
+                - generic [ref=e114]: 
+                - generic [ref=e116]:
+                  - generic [ref=e117]: Need your signature
+                  - generic [ref=e118]: "0"
+              - superscript [ref=e121]:
+                - generic [ref=e122]: "?"
+            - button "Out for signatures" [ref=e125] [cursor=pointer]:
+              - generic [ref=e126]:
+                - generic [ref=e127]: 
+                - generic [ref=e129]:
+                  - generic [ref=e130]: Out for signatures
+                  - generic [ref=e131]: "0"
+              - superscript [ref=e134]:
+                - generic [ref=e135]: "?"
+            - generic [ref=e140]:
+              - generic [ref=e141]:
+                - generic [ref=e142]: Recent signature requests
+                - button "Search" [ref=e144] [cursor=pointer]:
+                  - generic [ref=e145]: 
+              - region "Documents" [ref=e146]:
+                - table [ref=e147]:
+                  - rowgroup [ref=e148]:
+                    - row [ref=e149]:
+                      - columnheader "Title" [ref=e150]
+                      - columnheader "File" [ref=e151]
+                      - columnheader "Owner" [ref=e152]
+                      - columnheader "Signers" [ref=e153]
+                      - columnheader "Action"
+                  - rowgroup
+                - generic [ref=e154]:
+                  - img "No data available" [ref=e156]
+                  - generic [ref=e157]: No data available
+            - generic [ref=e163]:
+              - generic [ref=e164]:
+                - generic [ref=e165]: Recently sent for signatures
+                - button "Search" [ref=e167] [cursor=pointer]:
+                  - generic [ref=e168]: 
+              - region "Documents" [ref=e169]:
+                - table [ref=e170]:
+                  - rowgroup [ref=e171]:
+                    - row [ref=e172]:
+                      - columnheader "Title" [ref=e173]
+                      - columnheader "File" [ref=e174]
+                      - columnheader "Owner" [ref=e175]
+                      - columnheader "Signers" [ref=e176]
+                      - columnheader "Action"
+                  - rowgroup
+                - generic [ref=e177]:
+                  - img "No data available" [ref=e179]
+                  - generic [ref=e180]: No data available
+            - generic [ref=e186]:
+              - generic [ref=e187]:
+                - generic [ref=e188]: Drafts
+                - searchbox "Search documents…" [ref=e191]
+              - region "Documents" [ref=e192]:
+                - table [ref=e193]:
+                  - rowgroup [ref=e194]:
+                    - row [ref=e195]:
+                      - columnheader "Title" [ref=e196]
+                      - columnheader "Note" [ref=e197]
+                      - columnheader "Folder" [ref=e198]
+                      - columnheader "File" [ref=e199]
+                      - columnheader "Owner" [ref=e200]
+                      - columnheader "Signers" [ref=e201]
+                      - columnheader "Action"
+                  - rowgroup
+                - generic [ref=e202]:
+                  - img "No data available" [ref=e204]
+                  - generic [ref=e205]: No data available
+        - generic [ref=e207]:
+          - complementary [ref=e209]:
+            - paragraph [ref=e210]:
+              - text: All rights reserved © 2026
+              - 'link "OpenSign™ ( version: v2.41.3)" [ref=e211] [cursor=pointer]':
+                - /url: https://github.com/OpenSignLabs/OpenSign/releases/tag/v2.41.3
+          - text: 
+  - generic [ref=e213]:
+    - generic [ref=e214]: "1"
+    - button "Close Tour" [ref=e215] [cursor=pointer]
+    - text: You have logged in successfully! Let's take a look.
+    - generic [ref=e218]:
+      - button "Go to prev step" [ref=e219]
+      - generic [ref=e222]:
+        - button "Go to step 1" [ref=e223] [cursor=pointer]
+        - button "Go to step 2" [ref=e224] [cursor=pointer]
+        - button "Go to step 3" [ref=e225] [cursor=pointer]
+        - button "Go to step 4" [ref=e226] [cursor=pointer]
+        - button "Go to step 5" [ref=e227] [cursor=pointer]
+        - button "Go to step 6" [ref=e228] [cursor=pointer]
+        - button "Go to step 7" [ref=e229] [cursor=pointer]
+        - button "Go to step 8" [ref=e230] [cursor=pointer]
+      - button "Go to next step" [ref=e231] [cursor=pointer]
+```
+
+# Test source
+
+```ts
+  1  | const { test, expect } = require('@playwright/test');
+  2  | const CommonSteps = require('../utils/CommonSteps');
+  3  | test.describe('API Token', () => {
+  4  | test('Verify that free user cannot generate the live api token.', async ({ page }) => {
+  5  |     const commonSteps = new CommonSteps(page);
+  6  |     // Step 1: Navigate to Base URL and log in
+  7  |     await commonSteps.navigateToBaseUrl();
+  8  |     await commonSteps.NewUserlogin();
+> 9  |     await page.getByRole('button', { name: ' Settings' }).click();
+     |                                                            ^ Error: locator.click: Test timeout of 120000ms exceeded.
+  10 |     await page.getByRole('menuitem', { name: 'API token' }).click();
+  11 | 
+  12 |     const title = await page.title();
+  13 |     if (title === 'API Token - OpenSign™') {
+  14 |       console.log('Page title is correct: API Token - OpenSign™');
+  15 |     } else {
+  16 |       console.error(`Page title is incorrect. Expected: "API Token - OpenSign™", Got: "${title}"`);
+  17 |     }
+  18 |     const generateLiveTokenButton = page.getByRole('button', {
+  19 |       name: /^(Generate|Regenerate) live token$/i,
+  20 |     });
+  21 |     await expect(generateLiveTokenButton).toBeVisible();
+  22 |     await generateLiveTokenButton.click();
+  23 |     const unlockPremiumFeatures = page.getByText('Unlock premium features');
+  24 |     await expect(unlockPremiumFeatures).toBeVisible();
+  25 |     await unlockPremiumFeatures.click();
+  26 |     await expect(page.getByRole('heading', { name: 'Upgrade to Paid Plan' })).toBeVisible();
+  27 |     await expect(page.getByText('Upgrade now to generate')).toBeVisible();
+  28 |     await expect(
+  29 |       page.locator("//span[@class='cursor-pointer' and contains(text(),'live.')]")
+  30 |     ).toHaveCount(0);
+  31 |    
+  32 | 
+  33 | });
+  34 | test('Verify that free user can generate the sanbox test token.', async ({ page }) => {
+  35 |     const commonSteps = new CommonSteps(page);
+  36 |     // Step 1: Navigate to Base URL and log in
+  37 |     await commonSteps.navigateToBaseUrl();
+  38 |     await commonSteps.NewUserlogin();
+  39 |     await page.getByRole('button', { name: ' Settings' }).click();
+  40 |     await page.getByRole('menuitem', { name: 'API token' }).click();
+  41 | 
+  42 |     const title = await page.title();
+  43 |     if (title === 'API Token - OpenSign™') {
+  44 |       console.log('Page title is correct: API Token - OpenSign™');
+  45 |     } else {
+  46 |       console.error(`Page title is incorrect. Expected: "API Token - OpenSign™", Got: "${title}"`);
+  47 |     }
+  48 |     await expect(page).toHaveTitle(/API Token\s+-\s+OpenSign/i);
+  49 | 
+  50 |     const generateTestTokenButton = page.getByRole('button', {
+  51 |       name: /^(Generate|Regenerate) test token$/i,
+  52 |     });
+  53 |     await expect(generateTestTokenButton).toBeVisible();
+  54 |     await generateTestTokenButton.click();
+  55 | 
+  56 |     const testToken = page.locator("//span[@class='cursor-pointer' and contains(text(),'test.')]");
+  57 |     await expect(testToken).toBeVisible({ timeout: 30000 });
+  58 |     await expect(testToken).toContainText(/test\./i);
+  59 |     
+  60 | });});
+  61 | 
+```
