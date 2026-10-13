@@ -59,13 +59,24 @@ class CommonSteps {
 
   async closeTourIfVisible() {
     const page = this.page;
-    const tourButton = page.getByRole('button', { name: /Close Tour|Skip/i }).first();
-    const tourCount = await tourButton.count();
-    if (tourCount > 0) {
+
+    const roleTourButton = page.getByRole('button', { name: /Close Tour|Skip/i }).first();
+    if (await roleTourButton.count() > 0) {
       try {
-        await tourButton.click({ force: true, timeout: 15000 });
+        await roleTourButton.click({ force: true, timeout: 15000 });
       } catch (error) {
-        console.log('Tour close button not clickable, continuing:', error.message || error);
+        console.log('Tour close button not clickable via role selector, continuing:', error.message || error);
+      }
+      await page.locator('.reactour__mask').waitFor({ state: 'hidden', timeout: 10000 }).catch(() => {});
+      return;
+    }
+
+    const xpathTourButton = page.locator("//div[@class='reactour__popover']//button[@class='reactour__close-button' and @aria-label='Close Tour']").first();
+    if (await xpathTourButton.count() > 0) {
+      try {
+        await xpathTourButton.click({ force: true, timeout: 15000 });
+      } catch (error) {
+        console.log('Tour close button not clickable via XPath, continuing:', error.message || error);
       }
       await page.locator('.reactour__mask').waitFor({ state: 'hidden', timeout: 10000 }).catch(() => {});
     }
@@ -96,8 +107,7 @@ class CommonSteps {
     await this.page.getByRole('button', { name: 'Login' }).click();
   }
 
-  async LoadPlaceholder(page)
-  {
+  async LoadPlaceholder(page) {
     await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 });
     await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
     await page.waitForLoadState("networkidle");
@@ -170,8 +180,8 @@ class CommonSteps {
     const page = this.page;
     await allure.step('Agree to Digital Signing Agreement', async () => {
       await expect(page.getByRole('button', { name: 'I confirm & agree to continue' })).toBeVisible({ timeout: 120000 });
-      await expect(page.locator('body')).toContainText('I confirm that I have read and understood the Electronic Record and Signature Disclosure and consent to use electronic records and signatur[...]');
-      await expect(page.locator("//div[@class='mt-2  text-base-content']//span[@class='text-[11px]']")).toContainText('Note: Agreeing to this does not mean you are signing the document immediatel[...]');
+      await expect(page.locator('body')).toContainText('I confirm that I have read and understood the Electronic Record and Signature Disclosure and consent to use electronic records and signatur');
+      await expect(page.locator("//div[@class='mt-2  text-base-content']//span[@class='text-[11px]']")).toContainText('Note: Agreeing to this does not mean you are signing the document immediately');
       await page.getByRole('button', { name: 'I confirm & agree to continue' }).click();
     });
   }
