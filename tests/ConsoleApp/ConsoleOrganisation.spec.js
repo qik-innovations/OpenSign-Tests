@@ -1,6 +1,4 @@
-const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
-const path = require('path');
 const CommonSteps = require('../utils/CommonSteps');
 
 const PROFILE_MENU_BUTTON = '//button[@aria-controls="profile-menu-list"]';
@@ -22,22 +20,22 @@ test('Verify that a free user cannot access the Organisations page in the consol
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-    await page.getByRole('button', { name: 'Close Tour' }).click();
-      await page.locator(PROFILE_MENU_BUTTON).click();
+    const closeTourButton = page.getByRole('button', { name: 'Close Tour' });
+    await closeTourButton.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+    if (await closeTourButton.isVisible()) {
+      await closeTourButton.click({ force: true });
+      await expect(page.locator('.reactour__mask')).toBeHidden({ timeout: 10000 });
+    }
+    await page.locator(PROFILE_MENU_BUTTON).click();
     const page1Promise = page.waitForEvent('popup');
-    await page.locator(CONSOLE_OPTION).click();
+    await page.getByRole('button', { name: /Console/ }).click();
     const page1 = await page1Promise;
 //verify the profile name on the profile
   await expect(page1.locator('#root')).toContainText('Mathew Wade', { timeout: 120000 });
   await expect(page1.locator('#root')).toContainText('qikAi.com');
   await page1.getByRole('button', { name: ' Teams' }).click();
   await page1.getByRole('menuitem', { name: 'Organizations' }).click();
-    const title = await page1.title();
-    if (title.includes('OpenSign')) {
-      console.log(`Page title is correct: ${title}`);
-    } else {
-      console.error(`Page title is incorrect. Expected an OpenSign page, Got: "${title}"`);
-    }
+    await expect(page1).toHaveTitle(/OpenSign/i, { timeout: 120000 });
     await expect(page1.locator('#renderList')).toContainText('Organizations');
     await expect(page1.locator('#renderList')).toContainText(/Upgrade to teams? plan/i);
 });
@@ -46,10 +44,10 @@ test('Verify that Professional plan user cannot access the Organisations page in
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.ProfessionPlanUserlogin();
-     await page.locator(PROFILE_MENU_BUTTON).click();
-    const page1Promise = page.waitForEvent('popup');
-    await page.locator(CONSOLE_OPTION).click();
-    const page1 = await page1Promise;
+  await page.locator(PROFILE_MENU_BUTTON).click();
+  const consolePagePromise = page.waitForEvent('popup');
+  await page.getByRole('button', { name: /Console/ }).click();
+    const page1 = await consolePagePromise;
 //verify the profile name on the profile
 await expect(page1.locator('#root')).toContainText('Pro plan User', { timeout: 120000 });
 await expect(page1.locator('#root')).toContainText('OpenSign');
@@ -72,9 +70,9 @@ test('Verify that Teams plan user can access Organizations page and create an or
   await commonSteps.login();
 
   // Step 2: Open Console in new popup
-     await page.locator(PROFILE_MENU_BUTTON).click();
-    const page1Promise = page.waitForEvent('popup');
-    await page.locator(CONSOLE_OPTION).click();
+  await page.locator(PROFILE_MENU_BUTTON).click();
+  const consolePagePromise = page.waitForEvent('popup');
+  await page.getByRole('button', { name: /Console/ }).click();
   const consolePage = await consolePagePromise;
 
   // Step 3: Verify console landing

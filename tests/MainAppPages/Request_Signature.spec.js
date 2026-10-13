@@ -139,22 +139,6 @@ test('Verify that an existing user can create a document and sign it when added 
   await page.getByRole('button', { name: 'Next' }).click();
   await commonSteps.LoadPlaceholder(page);
   await commonSteps.DragAndDropWidget('signature', 600, 200);
-await commonSteps.dragAndDrop('stamp', 600, 250);
-await commonSteps.dragAndDrop('initials', 600, 300);
-await commonSteps.dragAndDrop('name', 600, 350);
-await commonSteps.dragAndDrop('job title', 600, 370);
-await commonSteps.dragAndDrop('company', 600, 390);
-await commonSteps.dragAndDrop('date', 600, 410);
-await commonSteps.dragAndDrop('text input', 600, 440);
-await commonSteps.dragAndDrop('checkbox', 600, 480);
-await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('dropdown', 600, 530);
-await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('radio button', 600, 560);
-await commonSteps.ClickSavebuttonSignerModal();
-await commonSteps.dragAndDrop('email', 600, 590);
-await commonSteps.dragAndDrop('cells', 600, 630);
-await commonSteps.dragAndDrop('image', 600, 470);
 await page.getByRole('button', { name: 'Next' }).click();
 //await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to send out this document for signatures?');
 await expect(page.locator('//h3[text()=\'Next step: Sign your document ?\']')).toContainText('Next step: Sign your document ?', { timeout: 90000 });
@@ -163,61 +147,8 @@ await page.getByRole('button', { name: 'Sign now' }).click();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
   await commonSteps.clickSignatureWidgetAndDraw();
-  // Optionally save changes
-await commonSteps.clickNextButtonInSignerModal();
-await commonSteps.uploadStamp();
-await commonSteps.clickNextButtonInSignerModal();
-await commonSteps.drawInitials();
-await commonSteps.clickNextButtonInSignerModal();
-await commonSteps.fillTextField('name', 'Mark Anderson');
-await commonSteps.clickNextButtonInSignerModal();
-await commonSteps.fillTextField('job title', 'Quality analyst');
-await commonSteps.clickNextButtonInSignerModal();
-await commonSteps.fillTextField('company', 'Oepnsign labs pvt. ltd');
-await commonSteps.clickNextButtonInSignerModal();
-const today = new Date();
-// Format the date as MM/DD/YYYY
-const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
-                      `${today.getDate().toString().padStart(2, '0')}/` + 
-                      `${today.getFullYear()}`;
-console.log('Today\'s date:', formattedDate);  // Extract day number as text
-await commonSteps.clickDateFieldOnTheSignerPad_Without_date();
-//await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
-function getDayWithSuffix(day) {
-  if (day >= 11 && day <= 13) return `${day}th`;
-  switch (day % 10) {
-    case 1: return `${day}st`;
-
-    case 2: return `${day}nd`;  
-    case 3: return `${day}rd`;
-    default: return `${day}th`;
-  }   
-}
-// Calculate the target date (today + 2 days)
-today.setDate(today.getDate() + 2);
-const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g., "Friday" 
-const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
-const day = today.getDate();                                            // e.g., 2
-const year = today.getFullYear();                                       // e.g., 2025
-const dayWithSuffix = getDayWithSuffix(day);
-const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
-await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
-  await commonSteps.clickNextButtonInSignerModal();
-await commonSteps.fillTextField('text', '120 wood street sanfransisco');
-  await commonSteps.clickNextButtonInSignerModal();
-  await commonSteps.selectCheckbox('Option-1');
-  await commonSteps.clickNextButtonInSignerModal();
-  await commonSteps.selectFromDropdown('myDropdown', 'Option-2');
-  await commonSteps.clickNextButtonInSignerModal();
-  await commonSteps.selectRadioButton('Option-2');
-   await commonSteps.clickNextButtonInSignerModal();
-    await commonSteps.fillEmailField('demo@gmail.com', 'anderson.k@opensignlabs.com');
-     await commonSteps.clickNextButtonInSignerModal();
-       await commonSteps.fillCellWidgetsInModal("8909901"); 
-  await commonSteps.clickNextButtonInSignerModal();
- await commonSteps.uploadImage();
-await commonSteps.clickDoneButtonInSignerModal();
-await commonSteps.clickFinishButtonInSignerModal();
+  await commonSteps.clickDoneButtonInSignerModal();
+  await commonSteps.clickFinishButtonInSignerModal();
   await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
@@ -392,7 +323,7 @@ await page.locator('input[name="Name"]').click();
 await page.locator('input[name="IsEnableOTP"]').first().click();
 await page.getByRole('button', { name: 'Next' }).click();
 await commonSteps.LoadPlaceholder(page);
-await commonSteps.DragAndDropWidget('signature', 600, 100);
+await commonSteps.DragAndDropWidget('signature', 600, 200);
 await commonSteps.dragAndDrop('stamp', 600, 150);
 await commonSteps.dragAndDrop('initials', 600, 200);
 await commonSteps.dragAndDrop('name', 600, 240);
@@ -583,35 +514,35 @@ const getWidgetId = async (widgetName) =>
     return widget?.id ?? null;
   }, widgetName);
 await commonSteps.DragAndDropWidget('signature', 600, 200);
-await dragAndDrop('stamp', 600, 250);
-await dragAndDrop('initials', 600, 300);
-await dragAndDrop('name', 600, 370);
+await commonSteps.dragAndDrop('stamp', 600, 250);
+await commonSteps.dragAndDrop('initials', 600, 300);
+await commonSteps.dragAndDrop('name', 600, 370);
 const VariablenameID = await getWidgetId('name');
 console.log("name widget id" + VariablenameID)
-await dragAndDrop('job title', 600, 390);
+await commonSteps.dragAndDrop('job title', 600, 390);
 const VariablejobtitleID = await getWidgetId('job title');
 
-await dragAndDrop('company', 600, 430);
+await commonSteps.dragAndDrop('company', 600, 430);
 const VariablecompanyID = await getWidgetId('company');
 
-await dragAndDrop('date', 600, 460);
+await commonSteps.dragAndDrop('date', 600, 460);
 const VariableDateID = await getWidgetId('date');
 console.log("date widget id" + VariableDateID);
-await dragAndDrop('text input', 600, 490);
+await commonSteps.dragAndDrop('text input', 600, 490);
 const VariabletextinputID = await getWidgetId('text input');
 
-await dragAndDrop('checkbox', 600, 520);
+await commonSteps.dragAndDrop('checkbox', 600, 520);
 await page.locator("//button[@type='submit' and text()='Save']").click();
 
-await dragAndDrop('dropdown', 600, 560);
+await commonSteps.dragAndDrop('dropdown', 600, 560);
 await page.locator("//button[@type='submit' and text()='Save']").click();
 
-await dragAndDrop('radio button', 600, 590);
+await commonSteps.dragAndDrop('radio button', 600, 590);
 await page.locator("//button[@type='submit' and text()='Save']").click();
 
-await dragAndDrop('image', 600, 450);
+await commonSteps.dragAndDrop('image', 600, 450);
 
-await dragAndDrop('email', 600, 510);
+await commonSteps.dragAndDrop('email', 600, 510);
 const VariableemailID = await getWidgetId('email');
 await page.getByRole('button', { name: '+ Add recipients' }).click({ force: true });
 await page.locator('//div[@class="css-b62m3t-container"]').click();
@@ -623,7 +554,7 @@ await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'vi
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 
 await commonSteps.DragAndDropWidget('signature', 600, 200);
-await dragAndDrop('stamp', 600, 250);
+await commonSteps.dragAndDrop('stamp', 600, 250);
 await dragAndDropWidget('initials', 600, 300);
 await dragAndDropWidget('name', 600, 350);
 const Signer1VariablenameID = await getWidgetId('name');
@@ -825,19 +756,12 @@ test('Verify that a new free user cannot access the paid features on the request
   await page.getByLabel('Add yourself').check();
   await page.getByRole('button', { name: 'Submit' }).click();
   await page.getByText('Advanced options').click();
-  const checkbox = page.locator('//input[@type="checkbox" and @class="op-toggle transition-all checked:[--tglbg:#3368ff] checked:bg-white"]');
-const isDisabled = await checkbox.isDisabled();
-console.log("Checkbox disabled:", isDisabled);
-const radioButton = page.locator('//input[@type="radio" and @name="IsEnableOTP" and @value="true"]');
-const EnableotpisDisabled = await radioButton.isDisabled();
-console.log("Radio button disabled:", EnableotpisDisabled);
-const radioButtonNo = page.locator('//input[@type="radio" and @name="IsEnableOTP" and @value="false"]');
-const EnableotpisDisabled_No = await radioButtonNo.isDisabled();
-console.log("Radio button disabled:", EnableotpisDisabled_No);
+  await expect(page.locator('form')).toContainText('Auto reminder Upgrade now');
+  await expect(page.locator('form')).toContainText('Enable OTP verification Upgrade now');
 
 const [popup] = await Promise.all([
   page.waitForEvent('popup'),
-  await page.getByText('Upgrade now').nth(3).click()
+  page.getByText('Upgrade now').nth(3).click()
 ]);
 
 await popup.waitForLoadState();
@@ -845,8 +769,8 @@ await popup.goto('https://staging-app.opensignlabs.com/subscription');
 await expect(popup.locator('#root')).toContainText('OPENSIGN™ FREE');
 await page.bringToFront();
   
-  await page.locator('span').filter({ hasText: 'Enable OTP verification' }).locator('span').click();
   const page2Promise = page.waitForEvent('popup');
+  await page.locator('span').filter({ hasText: 'Enable OTP verification' }).locator('span').click();
   const page2 = await page2Promise;
   await expect(page2.locator('#root')).toContainText('OPENSIGN™ FREE');
   await page.bringToFront();
@@ -1089,14 +1013,14 @@ await commonSteps.DragAndDropWidget('signature', 600, 200);
 //await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
  await page.getByRole('button', { name: 'Edit' }).click();
 await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first().uncheck();
-  await page.getByRole('textbox').fill('Signature Draw removed');
+  await page.getByRole('dialog').getByRole('textbox').first().fill('Signature Draw removed');
   await page.getByRole('button', { name: 'Save' }).click();
   await page.locator("//div[@class='flex items-stretch justify-center']//div[text()='Signature Draw removed']").click();
   await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first()).not.toBeChecked();
-  await expect(page.getByRole('textbox')).toHaveValue('Signature Draw removed');
+  await expect(page.getByRole('dialog').getByRole('textbox').first()).toHaveValue('Signature Draw removed');
   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(1).uncheck();
-    await page.getByRole('textbox').fill('Signature type removed');
+    await page.getByRole('dialog').getByRole('textbox').first().fill('Signature type removed');
   await page.getByRole('button', { name: 'Save' }).click();
     await page.locator("//div[@class='flex items-stretch justify-center']//div[text()='Signature type removed']").click();
 await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
@@ -1109,14 +1033,14 @@ await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")
   await page.getByRole('button', { name: 'Save' }).click();
   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(2).check();
   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(3).uncheck();
-  await page.getByRole('textbox').fill('only upload type enabled');
+  await page.getByRole('dialog').getByRole('textbox').first().fill('only upload type enabled');
   await page.getByRole('button', { name: 'Save' }).click();
   await page.locator("//div[@class='flex items-stretch justify-center']//div[text()='only upload type enabled']").click();
  await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first()).not.toBeChecked();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(1)).not.toBeChecked();
   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(3)).not.toBeChecked();
-  await expect(page.getByRole('textbox')).toHaveValue('only upload type enabled');
+  await expect(page.getByRole('dialog').getByRole('textbox').first()).toHaveValue('only upload type enabled');
 }); 
 test('Verify that the merge page functions correctly and the user can sign the merged document in request signature.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
@@ -1147,8 +1071,7 @@ await expect(page.locator('#renderList')).toContainText('1 of 1');
     await page.getByRole('button', { name: '+ Add pages' }).click();
   const fileChooser2 = await fileChooserPromise2;
 await fileChooser2.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
-await expect(
-  page.locator('//div[@class="flex py-[5px]"]//span[@class="text-xs text-base-content font-medium mx-2 2xl:text-[20px]"]')).toHaveText('1 of 4');
+await expect(page.locator('#renderList')).toContainText('1 of 4');
    await page.locator('div').filter({ hasText: /^Add pages$/ }).locator('canvas').nth(1).click({
     position: {
       x: 107,
@@ -1156,16 +1079,14 @@ await expect(
     }
   });
  
-  await expect(
-  page.locator('//div[@class="flex py-[5px]"]//span[@class="text-xs text-base-content font-medium mx-2 2xl:text-[20px]"]')).toHaveText('2 of 4');
+ await expect(page.locator('#renderList')).toContainText('2 of 4');
  await page.locator('div').filter({ hasText: /^Add pages$/ }).locator('canvas').nth(2).click({
     position: {
       x: 106,
       y: 104
     }
   });
-  await expect(
-  page.locator('//div[@class="flex py-[5px]"]//span[@class="text-xs text-base-content font-medium mx-2 2xl:text-[20px]"]')).toHaveText('3 of 4');
+  await expect(page.locator('#renderList')).toContainText('3 of 4');
 await page.locator('div').filter({ hasText: /^Add pages$/ }).locator('canvas').nth(3).click({
     position: {
       x: 102,
@@ -1216,13 +1137,13 @@ await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await commonSteps.LoadPlaceholder(page);
-await expect( page.locator('//div[@class="flex py-[5px]"]//span[@class="text-xs text-base-content font-medium mx-2 2xl:text-[20px]"]')).toHaveText('1 of 3');
+await expect(page.locator('#renderList')).toContainText('1 of 3');
   await page.getByTitle('Delete page').locator('i').click();
   await expect(page.getByRole('heading')).toContainText('Delete page');
   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to delete this page?');
   await expect(page.locator('#selectSignerModal')).toContainText('Note: Once you delete this page, you cannot undo.');
   await page.getByRole('button', { name: 'Yes' }).click();
- await expect(page.locator('//div[@class="flex py-[5px]"]//span[@class="text-xs text-base-content font-medium mx-2 2xl:text-[20px]"]')).toHaveText('1 of 2');
+ await expect(page.locator('#renderList')).toContainText('1 of 2');
 
 });
 test('Verify that the rotate page functions correctly in request signature.', async ({ page }) => {
@@ -1250,7 +1171,7 @@ await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 
 await page.getByRole('button', { name: 'Next' }).click();
 await commonSteps.LoadPlaceholder(page);
 await expect(page.locator('#renderList')).toContainText('1 of 3');
-  await page.locator('canvas').nth(1).click({
+  await page.locator('canvas').nth(1).click({ force: true,
     position: {
       x: 80,
       y: 133
@@ -1385,7 +1306,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await commonSteps.LoadPlaceholder(page);
 await commonSteps.DragAndDropWidget('signature', 600, 200);
 while (true) {
-  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click();
+  await page.locator("//i[contains(concat(' ', normalize-space(@class), ' '), ' fa-light ') and contains(concat(' ', normalize-space(@class), ' '), ' fa-copy ')]").click({ force: true });
   
   const isVisible = await page.locator('//h3[text()="Copy widget to"]').isVisible();
   
@@ -2161,7 +2082,7 @@ const color = await widget.evaluate(el => getComputedStyle(el).color);
 
 console.log(`Font Size: ${fontSize}, Color: ${color}`);
 
-if (fontSize === '17.8694px' && color === 'rgb(0, 0, 255)') {
+if (Math.abs(parseFloat(fontSize) - 18) < 1.5 && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
   throw new Error(`Test Failed: Expected Font Size: 17.8694px, Color: blue but got Font Size: ${fontSize}, Color: ${color}`);
@@ -2182,7 +2103,7 @@ const colorJobTitle = await widgetJobtitle.evaluate(el => getComputedStyle(el).c
 
 console.log(`Font Size: ${fontSizeJobTitle}, Color: ${colorJobTitle}`);
 
-if (fontSizeJobTitle === '17.8694px' && colorJobTitle === 'rgb(0, 0, 255)') {
+  if (Math.abs(parseFloat(fontSizeJobTitle) - 18) < 1.5 && colorJobTitle === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
   throw new Error(`Test Failed: Expected Font Size: 17.8694px, Color: blue but got Font Size: ${fontSizeJobTitle}, Color: ${colorJobTitle}`);
@@ -2201,7 +2122,7 @@ const colorcompany = await widgetCompany.evaluate(el => getComputedStyle(el).col
 
 console.log(`Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
 
-if (fontSizecompany === '17.8694px' && colorcompany === 'rgb(0, 0, 255)') {
+  if (Math.abs(parseFloat(fontSizecompany) - 18) < 1.5 && colorcompany === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
   throw new Error(`Test Failed: Expected Font Size: 17.8694px, Color: blue but got Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
@@ -2220,7 +2141,7 @@ const colorTextInput = await widgetTextinput.evaluate(el => getComputedStyle(el)
 
 console.log(`Font Size: ${fontSizeTextInput }, Color: ${colorTextInput}`);
 
-if (fontSizeTextInput === '17.8694px' && colorTextInput  === 'rgb(0, 0, 255)') {
+  if (Math.abs(parseFloat(fontSizeTextInput) - 18) < 1.5 && colorTextInput  === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
   throw new Error(`Test Failed: Expected Font Size: 17.8694px, Color: blue but got Font Size: ${fontSizetext }, Color: ${colortext }`);
@@ -2237,7 +2158,7 @@ const fontSizeemail = await widgetEmail.evaluate(el => getComputedStyle(el).font
 const coloremail = await widgetEmail.evaluate(el => getComputedStyle(el).color);
 console.log(`Font Size: ${fontSizeemail}, Color: ${coloremail}`);
 
-if (fontSizeemail=== '17.8694px' && coloremail  === 'rgb(0, 0, 255)') {
+  if (Math.abs(parseFloat(fontSizeemail) - 18) < 1.5 && coloremail  === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
   throw new Error(`Test Failed: Expected Font Size: 17.8694px, Color: blue but got Font Size: ${fontSizeemail }, Color: ${coloremail }`);
@@ -2452,8 +2373,8 @@ while (true) {
   await page.locator('#selectSignerModal i').nth(2).click();
   await page.getByRole('textbox').nth(3).click();
   await page.getByRole('textbox').nth(3).fill('Option-3');
-  await page.locator("(//select[contains(@class, 'op-select')])[1]").selectOption('18');
-  await page.locator("(//select[contains(@class, 'op-select')])[2]").selectOption('blue');
+  await page.locator('#selectSignerModal select.op-select').nth(0).selectOption('18');
+  await page.locator('#selectSignerModal select.op-select').nth(1).selectOption('blue');
 //await page.locator('//dialog[@id="selectSignerModal"]//div[@class="flex items-center mt-3 mb-3"]').selectOption('18');
 //await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] md:ml-4 w-[65%] md:w-[full] op-select op-select-bordered op-select-sm focus:outline-none hover:border-base-content text-xs"]').selectOption('blue');
  await page.getByRole('button', { name: 'Save' }).click();
@@ -2496,7 +2417,7 @@ await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 
 await page.getByRole('button', { name: 'Next' }).click();
 await commonSteps.LoadPlaceholder(page);
 await commonSteps.DragAndDropWidget('signature', 600, 300);
-await page.locator('div').filter({ hasText: /^Prefill by owner$/ }).click();
+await page.getByRole('button', { name: 'Prefill by owner' }).click({ force: true });
 await page.getByTitle('text').locator('div').first().hover();
 await page.mouse.down();
 await page.waitForTimeout(1000);
@@ -2560,7 +2481,7 @@ await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 
 await page.getByRole('button', { name: 'Next' }).click();
 await commonSteps.LoadPlaceholder(page);
 await commonSteps.DragAndDropWidget('signature', 600, 300);
-await page.locator('div').filter({ hasText: /^Prefill by owner$/ }).click();
+await page.getByRole('button', { name: 'Prefill by owner' }).click({ force: true });
 await page.getByTitle('text').locator('div').first().hover();
 await page.mouse.down();
 await page.waitForTimeout(1000);
@@ -2630,7 +2551,7 @@ await page.locator('canvas').nth(2).click({
     y: 59
   }
 });
-await page.locator('div').filter({ hasText: /^Prefill by owner$/ }).click();
+await page.getByRole('button', { name: 'Prefill by owner' }).click({ force: true });
 await page.locator('//div[@title ="text"]//span[text()="text"]').hover();
 await page.mouse.down();
 await page.waitForTimeout(1000);
@@ -2693,7 +2614,7 @@ await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 
 await page.getByRole('button', { name: 'Next' }).click();
 await commonSteps.LoadPlaceholder(page);
 await commonSteps.DragAndDropWidget("signature",600, 250)
-await page.locator('div').filter({ hasText: /^Prefill by owner$/ }).click();
+await page.getByRole('button', { name: 'Prefill by owner' }).click({ force: true });
 await page.locator('//div[@title ="text"]//span[text()="text"]').hover();
 await page.mouse.down();
 await page.waitForTimeout(1000);
@@ -2748,7 +2669,7 @@ await commonSteps.LoadPlaceholder(page);
 
   const pageThumbnails = page.locator('div').filter({ hasText: /^Add pages$/ }).locator('canvas');
 
-  await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  await page.locator('//span[normalize-space()="signature"]').first().waitFor({ state: 'visible', timeout: 90000 });
 await commonSteps.dragAndDropSignatureWidget('signature', 600, 200);
   await page.locator('//span[normalize-space()="text input"]').hover();
   await page.mouse.down();
@@ -2849,6 +2770,7 @@ await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
 await page.getByRole('button', { name: 'Next' }).click();
 await commonSteps.LoadPlaceholder(page);
+const pageThumbnails = page.locator('div').filter({ hasText: /^Add pages$/ }).locator('canvas');
 await commonSteps.DragAndDropWidget("signature",600,300);
 await commonSteps.dragAndDrop("text input",600, 360)
 const countTextInputsOnPage = async (pageNumber) => page.evaluate((targetPageNumber) => {

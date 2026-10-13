@@ -1,6 +1,4 @@
-const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
-const path = require('path');
 const CommonSteps = require('../utils/CommonSteps');
 // XPath Selectors
 const PROFILE_MENU_BUTTON = '//button[@aria-controls="profile-menu-list"]';
@@ -22,21 +20,22 @@ test.describe('Console analytics', () => {
     const commonSteps = new CommonSteps(page);
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-     await page.getByRole('button', { name: 'Close Tour' }).click();
-    await page.locator(PROFILE_MENU_BUTTON).click();
-    const page1Promise = page.waitForEvent('popup');
-   await page.locator(CONSOLE_OPTION).click();
-  const page1 = await page1Promise;
-    await expect(page1.locator(PROFILE_NAME)).toContainText('Mathew Wade', { timeout: 120000 });
-    await expect(page1.locator(PROFILE_DOMAIN)).toContainText('qikAi.com');
-    const title = await page1.title();
-    if (title === 'Analytics - OpenSign™') {
-      console.log('Page title is correct: Analytics - OpenSign™');
-    } else {
-      console.error(`Page title is incorrect. Expected: "Analytics - OpenSign™", Got: "${title}"`);
+    const closeTourButton = page.getByRole('button', { name: 'Close Tour' });
+    await closeTourButton.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+    if (await closeTourButton.isVisible()) {
+      await closeTourButton.click({ force: true });
+      await expect(page.locator('.reactour__mask')).toBeHidden({ timeout: 10000 });
     }
-   
- await page1.locator('#renderList').getByRole('button', { name: 'Upgrade now' }).click();
+    await page.locator(PROFILE_MENU_BUTTON).click();
+    const consolePagePromise = page.waitForEvent('popup');
+    await page.getByRole('button', { name: /Console/ }).click();
+    const consolePage = await consolePagePromise;
+    await expect(consolePage.locator(PROFILE_NAME)).toContainText('Mathew Wade', { timeout: 120000 });
+    await expect(consolePage.locator(PROFILE_DOMAIN)).toContainText('qikAi.com');
+    await expect(consolePage).toHaveTitle(/Analytics\s+-\s+OpenSign/i, { timeout: 120000 });
+    const upgradeButton = consolePage.locator('#renderList').getByRole('button', { name: /Upgrade now/i });
+    await expect(upgradeButton).toBeVisible({ timeout: 120000 });
+    await expect(upgradeButton).toBeEnabled();
   });
 
   test('Verify that Profession plan User can access the Analytics page in the console application.', async ({ page }) => {

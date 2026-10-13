@@ -1,19 +1,17 @@
-const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
 const CommonSteps = require('../utils/CommonSteps');
 const PROFILE_MENU_BUTTON = '//button[@aria-controls="profile-menu-list"]';
-const CONSOLE_OPTION = '//button[@type="button" and contains(., "Console")]//i[contains(@class,"fa-id-card")]';
 const PROFILE_NAME =
   '//div[@id="root"]//p[@class="text-[14px] font-bold text-base-content"]';
 const PROFILE_DOMAIN =
   '//div[@id="root"]//p[@class="cursor-pointer text-[12px] text-base-content mt-2"]';
-const UPGRADE_BUTTON = '#renderList button:has-text("Upgrade now")';
+const UPGRADE_BUTTON = '#renderList button:has-text("Upgrade")';
 
 async function openConsoleGeneral(page) {
   await page.locator(PROFILE_MENU_BUTTON).click();
 
   const popupPromise = page.waitForEvent('popup');
-  await page.locator(CONSOLE_OPTION).click();
+  await page.getByRole('button', { name: /Console/ }).click();
 
   const consolePage = await popupPromise;
   const generalMenuItem = consolePage.locator('span:has-text("General")').first();
@@ -207,8 +205,16 @@ await individualSmtpToggle1.check({ force: true });
 
     const consolePage = await openConsoleGeneral(page);
 
+    await expect(consolePage.locator(PROFILE_NAME)).toContainText('Pro plan User', {
+      timeout: 120000,
+    });
+    await expect(consolePage.locator(PROFILE_DOMAIN)).toContainText('OpenSign');
+    await expect(consolePage.locator('#root')).toContainText('PRO');
     await expect(consolePage.locator('#renderList')).toContainText(/General/i);
-    await expect(consolePage.locator(UPGRADE_BUTTON)).toContainText(/Upgrade/i);
+    await expect(consolePage.locator('#renderList')).toContainText(
+      /upgrade to .*team plan|upgrade now|upgrade/i
+    );
+    await expect(consolePage.locator(UPGRADE_BUTTON)).toBeVisible();
 
     await consolePage.close();
   });

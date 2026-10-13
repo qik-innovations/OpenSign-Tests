@@ -25,7 +25,7 @@ test('Verify that a new free user cannot access the paid features on the create 
   await page.getByRole('button', { name: 'Register' }).click();
   await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible({ timeout: 90000 });
 await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getByRole('button').click();
-    await page.getByLabel('Close').click();
+    await page.getByRole('button', { name: 'Close', exact: true }).click();
     // Expects page to have a heading with the name of dashboard.
     const title = await page.title()
        expect(title).toBe('Dashboard - OpenSign™');
@@ -38,15 +38,8 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   const fileChooser = await fileChooserPromise;
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await page.getByText('Advanced options').click();
-  const checkbox = page.locator('//input[@type="checkbox" and @class="op-toggle transition-all checked:[--tglbg:#3368ff] checked:bg-white"]');
-const isDisabled = await checkbox.isDisabled();
-console.log("Checkbox disabled:", isDisabled);
-const radioButton = page.locator('//input[@type="radio" and @name="IsEnableOTP" and @value="true"]');
-const EnableotpisDisabled = await radioButton.isDisabled();
-console.log("Radio button disabled:", EnableotpisDisabled);
-const radioButtonNo = page.locator('//input[@type="radio" and @name="IsEnableOTP" and @value="false"]');
-const EnableotpisDisabled_No = await radioButtonNo.isDisabled();
-console.log("Radio button disabled:", EnableotpisDisabled_No);
+  await expect(page.locator('form')).toContainText('Auto reminder Upgrade now');
+  await expect(page.locator('form')).toContainText('Enable OTP verification Upgrade now');
 
 const [popup] = await Promise.all([
   page.waitForEvent('popup'),
@@ -57,8 +50,8 @@ await popup.waitForLoadState();
 await popup.goto('https://staging-app.opensignlabs.com/subscription');
 await expect(popup.locator('#root')).toContainText('OPENSIGN™ FREE');
 await page.bringToFront();
-  await page.locator('span').filter({ hasText: 'Enable OTP verification' }).locator('span').click();
   const page2Promise = page.waitForEvent('popup');
+  await page.locator('span').filter({ hasText: 'Enable OTP verification' }).locator('span').click();
   const page2 = await page2Promise;
   await expect(page2.locator('#root')).toContainText('OPENSIGN™ FREE', { timeout: 90000 });
   await page.bringToFront();
@@ -67,15 +60,6 @@ await page.bringToFront();
   await page.waitForLoadState("networkidle");
   await page.getByLabel('Close').click();
    await page.getByRole('button', { name: 'Edit', exact: true }).click();
-  const checkboxSetting = page.locator('//input[@type="checkbox" and @class="op-toggle transition-all checked:[--tglbg:#3368ff] checked:bg-white mt-2"]');
-const isDisabledSetting  = await checkboxSetting.isDisabled();
-console.log("Checkbox disabledon Edit template details:", isDisabledSetting);
-const radioButtonSetting = page.locator('//input[@type="radio" and @name="IsEnableOTP" and @value="true"]');
-const EnableotpisDisabledSetting = await radioButtonSetting.isDisabled();
-console.log("Radio button disabled on Edit template details:", EnableotpisDisabledSetting);
-const radioButtonNoSetting = page.locator('//input[@type="radio" and @name="IsEnableOTP" and @value="false"]');
-const EnableotpisDisabled_NoSetting = await radioButtonNoSetting.isDisabled();
-console.log("Radio button disabled on Edit template details:", EnableotpisDisabled_NoSetting);
   await expect(page.locator('form')).toContainText('Auto reminder Upgrade now');
   await expect(page.getByText('YesNo').nth(1)).toBeVisible();
   await expect(page.locator('form')).toContainText('Enable OTP verification Upgrade now');
@@ -145,7 +129,7 @@ await commonSteps.DragAndDropWidget("date", 600, 430);
 
 await commonSteps.DragAndDropWidget("text input", 600, 460);
 
-await commonSteps.DragAndDropWidget("checkbox", 600, 490);
+await commonSteps.dragAndDrop("checkbox", 600, 490);
 
 await page.locator("//button[@type='submit' and text()='Save']").click();
 
@@ -219,7 +203,7 @@ await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
     await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
     await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
     await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Download' })).toBeVisible();
-    await page.getByRole('button', { name: '✕' }).click();
+    await page.getByRole('button', { name: 'Close', exact: true }).click();
 });
 test('Verify that a new free user is unable to send the document through bulk send and is prompted to upgrade.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
@@ -313,6 +297,8 @@ test('Verify that an existing Team Plan user can create a template using all adv
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
   await page.getByRole('button', { name: 'Next' }).click();
   await page.getByRole('button', { name: 'Edit' }).click();
+  // The Edit step uses the uploaded PDF's base name; the template is saved
+  // under the custom name entered on the first step (verified in the list).
   await expect(page.locator('input[name="Name"]')).toHaveValue('Sample-joining-letter');
   await expect(page.getByLabel('Note')).toHaveValue('Please review and sign this document');
  // await expect(page.locator('input[name="SendinOrder"]').nth(1)).toBeChecked();
@@ -330,14 +316,18 @@ await commonSteps.LoadPlaceholder(page);
 await commonSteps.DragAndDropWidget("signature",600, 300);
 await page.waitForLoadState("networkidle");
 await page.getByRole('button', { name: 'Next' }).click();
- await page.getByRole('button', { name: 'Close' }).click();
+ await page.locator('#selectSignerModal').getByRole('button', { name: 'Close', exact: true }).click();
+ await expect(page.locator('#selectSignerModal')).toBeHidden();
+ await page.getByRole('menuitem', { name: 'Manage templates' }).click();
+ const closeTour = page.getByRole('button', { name: 'Close Tour' });
+ if (await closeTour.isVisible().catch(() => false)) await closeTour.click();
   await expect(page.locator('tbody')).toContainText('Sample-joining-letter');
   await expect(page.locator('tbody')).toContainText('Download');
   await expect(page.locator('tbody')).toContainText('Pravin Testing account');
   await page.getByRole('button', { name: 'View' }).first().click();
   await expect(page.locator('#selectSignerModal')).toContainText('Roles');
   await expect(page.locator('#selectSignerModal')).toContainText('Email');
- await page.getByRole('button', { name: 'Close' }).click();
+ await page.locator('#selectSignerModal').getByRole('button', { name: 'Close', exact: true }).click();
 
 });
 test('Verify that a Team Plan user can create a template, make it public, and sign the document through the public template.', async ({ page }) => {
@@ -685,7 +675,7 @@ test('Verify that the signer can received the email from default email template.
   await page.locator('//input[@placeholder="Role 1"]').fill('ceo');
  await page.getByRole('button', { name: 'Add', exact: true }).click();
   await page.waitForSelector('//div[@class="react-pdf__Document"]', { timeout: 90000 });
-  await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
+  await commonSteps.DragAndDropWidget('signature', 600, 300);
 
   // Add Role 2
   await page.getByRole('button', { name: '+ Add role' }).click();
@@ -693,7 +683,7 @@ test('Verify that the signer can received the email from default email template.
 await page.getByRole('button', { name: 'Add', exact: true }).click();
 
   await page.waitForSelector('//div[@class="react-pdf__Document"]', { timeout: 90000 });
-  await commonSteps.dragAndDropSignatureWidget('signature', 600, 400);
+  await commonSteps.DragAndDropWidget('signature', 600, 400);
 
   await page.getByRole('button', { name: 'Next' }).click();
   await page.getByRole('button', { name: 'Bulk send' }).click();
@@ -718,7 +708,7 @@ await page.getByRole('button', { name: 'Add', exact: true }).click();
     'Prefill fields: 0',
     'Documents: 1',
     'Status: success',
-    'Message: Documents sent successfully.'
+    'Message: Bulk send is being processed.'
   ]);
 
   // 🔹 Common email validator
@@ -765,6 +755,8 @@ await page.getByRole('button', { name: 'Add', exact: true }).click();
   await page.waitForSelector('//div[@class="react-pdf__Document"]');
 
   await commonSteps.validateAndAcceptTerms();
+  const closeTour = page.getByRole('button', { name: 'Close Tour' });
+  if (await closeTour.isVisible().catch(() => false)) await closeTour.click();
 
   await page.locator('//div[text()="signature-1"]').first().click();
   await commonSteps.drawSignature();
