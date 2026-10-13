@@ -1,0 +1,3 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","120413","Verify that Profession plan User can access the Analytics page in the console application.","chromium","2026-10-13","broken","2026-10-13","Console analytics","ConsoleApp/ConsoleAnalytics.spec.js","",""
+"","120435","Verify that a free user cannot access the Analytics page in the console application and is prompted to upgrade.","chromium","2026-10-13","broken","2026-10-13","Console analytics","ConsoleApp/ConsoleAnalytics.spec.js","",""
