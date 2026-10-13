@@ -130,7 +130,7 @@ async LoadPlaceholder(page)
     await page.locator(locators.registerButton).click();
     await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible({ timeout: 120000 });
     await page.locator(locators.freePlanButton).click();
-    await page.getByLabel('Close').click();
+    await page.getByRole('button', { name: 'Close', exact: true }).click({ force: true });
     await expect(page.locator('//div[@id="profile-menu"]//parent::button[text()="Upgrade now"]')).toBeVisible();
 
     const title = await page.title();
@@ -186,10 +186,12 @@ await widgetLocator.scrollIntoViewIfNeeded();
       await page.waitForTimeout(1000);
 
       // Verify widget placed on the document
-     const droppedWidget = page.locator(
-  `//div[contains(@class,'signYourselfBlock')]` +
-  `//*[self::div or self::span][starts-with(normalize-space(.), '${WidgetName}-')]`
-);
+     const droppedWidget = WidgetName === 'date'
+       ? page.locator("//div[contains(@class,'signYourselfBlock')]//*[normalize-space(.)='MM/dd/yyyy']")
+       : page.locator(
+           `//div[contains(@class,'signYourselfBlock')]` +
+           `//*[self::div or self::span][starts-with(normalize-space(.), '${WidgetName}-')]`
+         );
 
       if (
         await droppedWidget.count() > 0 &&
@@ -488,8 +490,14 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
   async selectFromDropdown(dropdownId, value) {
     const page = this.page;
     await allure.step(`Select '${value}' from dropdown '${dropdownId}'`, async () => {
-      await page.locator(`//select[@id='${dropdownId}']`).selectOption(value);
-      console.log(`Selected value '${value}' from dropdown with id '${dropdownId}'.`);
+      const nativeDropdown = page.locator(`select#${dropdownId}`);
+      if (await nativeDropdown.count()) {
+        await nativeDropdown.selectOption(value);
+      } else {
+        await page.getByText('Choose One', { exact: true }).click();
+        await page.getByText(value, { exact: true }).last().click();
+      }
+      console.log(`Selected value '${value}' from dropdown.`);
     });
   }
 
@@ -507,7 +515,9 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
   async selectCheckbox(labelText) {
     const page = this.page;
     await allure.step(`Select checkbox with label '${labelText}'`, async () => {
-      await page.locator(`//div[@class='flex justify-center']//label[contains(., '${labelText}')]/input[@type='checkbox']`).click({ force: true });
+      await page.getByRole('dialog')
+        .getByRole('checkbox', { name: labelText, exact: true })
+        .check({ force: true });
       console.log(`Checkbox with label '${labelText}' selected.`);
 
     });
@@ -525,7 +535,8 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
 
   async selectRadioButton(label) {
     const page = this.page;
-    await page.locator(`//div[@class='flex justify-center']//label[contains(., '${label}')]/input[@type='radio']`).click();
+    await page.getByRole('dialog').getByRole('radio', { name: label, exact: true })
+      .check({ force: true });
     console.log(`Radio button with label '${label}' selected.`);
   }
 
