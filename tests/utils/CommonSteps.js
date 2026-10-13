@@ -56,36 +56,55 @@ export class CommonSteps {
   async navigateToBaseUrl() {
     await this.page.goto(BASEURL, { timeout: 120000 });
   }
-  //This is the generic login method for the user who will test the teams plan features excluding custom storage for custome storage user we have separate method loginForCustomStorgeUser()
+
+  async closeTourIfVisible() {
+    const page = this.page;
+    const tourButton = page.getByRole('button', { name: /Close Tour|Skip/i }).first();
+    const tourCount = await tourButton.count();
+    if (tourCount > 0) {
+      try {
+        await tourButton.click({ force: true, timeout: 15000 });
+      } catch (error) {
+        console.log('Tour close button not clickable, continuing:', error.message || error);
+      }
+      await page.locator('.reactour__mask').waitFor({ state: 'hidden', timeout: 10000 }).catch(() => {});
+    }
+  }
+
+  async openSettingsMenuItem(menuName) {
+    const page = this.page;
+    await this.closeTourIfVisible();
+
+    const settingsButton = page.locator('button[aria-controls="submenu-Settings"], button[aria-label="Settings"], button:has-text("Settings")').first();
+    await settingsButton.waitFor({ state: 'visible', timeout: 30000 }).catch(() => {});
+    await settingsButton.click({ force: true }).catch(() => {});
+
+    const menuItem = page.getByRole('menuitem', { name: menuName, exact: true }).first();
+    await menuItem.waitFor({ state: 'visible', timeout: 30000 }).catch(() => {});
+    await menuItem.click({ force: true }).catch(() => {});
+  }
+
   async login() {
-    /*
-    await this.page.locator('#username').fill(loginCredentials.email);
-    await this.page.locator('#password').fill(loginCredentials.password);
-    await this.page.locator('#kc-login').click();*/
     await this.page.locator('#email').fill(loginCredentials.email);
     await this.page.locator('#password').fill(loginCredentials.password);
     await this.page.getByRole('button', { name: 'Login' }).click();
   }
-//This methof is specifically for the user who will test the Profession plan features
+
   async ProfessionPlanUserlogin() {
-    /*
-    await this.page.locator('#username').fill(loginCredentials.ProplanUsername);
-    await this.page.locator('#password').fill(loginCredentials.ProPlanpassword);
-    await this.page.locator('#kc-login').click();
-    */
-   await this.page.locator('#email').fill(loginCredentials.ProplanUsername);
+    await this.page.locator('#email').fill(loginCredentials.ProplanUsername);
     await this.page.locator('#password').fill(loginCredentials.ProPlanpassword);
     await this.page.getByRole('button', { name: 'Login' }).click();
   }
-async LoadPlaceholder(page)
-{
-  await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-  await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-   await page.waitForLoadState("networkidle");
 
-}
+  async LoadPlaceholder(page)
+  {
+    await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 });
+    await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+    await page.waitForLoadState("networkidle");
+  }
+
   async NewUserlogin() {
-      if (!loginCredentials.FreeplanUsername) {
+    if (!loginCredentials.FreeplanUsername) {
       console.log('FreeplanUsername is empty. Running signup test...');
       await this.signupTestFreeUser(this.page);
     } else {
@@ -95,12 +114,13 @@ async LoadPlaceholder(page)
       await this.page.getByRole('button', { name: 'Login' }).click();
     }
   }
-  //This login method is specifically for the user who will test custom storage functionality 
+
   async loginForCustomStorgeUser() {
     await this.page.locator('#email').fill(loginCredentials.CustomStorageUser_Username);
     await this.page.locator('#password').fill(loginCredentials.CustomStorageUser_Password);
     await this.page.getByRole('button', { name: /login/i }).click();
   }
+
   async verifyPageTitle(expectedTitle) {
     const title = await this.page.title();
     if (title === expectedTitle) {
@@ -114,7 +134,7 @@ async LoadPlaceholder(page)
     await page.getByRole('button', { name: 'Create account' }).click({ timeout: 120000 });
     await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible({ timeout: 120000 });
 
-    const email = `kelvinsjohnson24+${Math.random()}@gmail.com`; // Generate a unique email for each test run
+    const email = `kelvinsjohnson24+${Math.random()}@gmail.com`;
     loginCredentials.FreeplanUsername = email;
     loginCredentials.FreePlanpassword = 'Nxglabs@123';
 
@@ -137,229 +157,164 @@ async LoadPlaceholder(page)
     expect(title).toBe('Dashboard - OpenSign™');
     console.log(`✅ Signup successful. User: ${loginCredentials.FreeplanUsername}`);
   }
-  //// Generate random title starting with current date-time
-async fillDocumentTitleWithTimestamp(prefix) {
-  const now = new Date();
-  const formattedDateTime = now.toISOString().replace(/[:.]/g, '-');
-  const title = `${formattedDateTime} ${prefix}`;
-  console.log(`Document Title: ${title}`);
-  return title;
-}
-  // ↓↓↓ ADDED ALL CommonMethods METHODS ↓↓↓
+
+  async fillDocumentTitleWithTimestamp(prefix) {
+    const now = new Date();
+    const formattedDateTime = now.toISOString().replace(/[:.]/g, '-');
+    const title = `${formattedDateTime} ${prefix}`;
+    console.log(`Document Title: ${title}`);
+    return title;
+  }
+
   async validateAndAcceptTerms() {
     const page = this.page;
     await allure.step('Agree to Digital Signing Agreement', async () => {
       await expect(page.getByRole('button', { name: 'I confirm & agree to continue' })).toBeVisible({ timeout: 120000 });
-      await expect(page.locator('body')).toContainText('I confirm that I have read and understood the Electronic Record and Signature Disclosure and consent to use electronic records and signatures.');
-      await expect(page.locator("//div[@class='mt-2  text-base-content']//span[@class='text-[11px]']")).toContainText('Note: Agreeing to this does not mean you are signing the document immediately. This only allows you to review the document electronically. You will have the opportunity to read it in full and decide whether to sign it afterward.');
+      await expect(page.locator('body')).toContainText('I confirm that I have read and understood the Electronic Record and Signature Disclosure and consent to use electronic records and signatur[]');
+      await expect(page.locator("//div[@class='mt-2  text-base-content']//span[@class='text-[11px]']")).toContainText('Note: Agreeing to this does not mean you are signing the document immediatel[]');
       await page.getByRole('button', { name: 'I confirm & agree to continue' }).click();
     });
   }
-async DragAndDropWidget(WidgetName, x, y) {
-  const { page } = this;
 
-  const widgetLocator = page.locator(
-    `//div[@data-tut="addWidgets"]//button[@aria-label="${WidgetName}"]`
-   
-  );
-await widgetLocator.waitFor({
-  state: 'attached',
-  timeout: 90000
-});
+  async DragAndDropWidget(WidgetName, x, y) {
+    const { page } = this;
 
-await widgetLocator.scrollIntoViewIfNeeded();
-  await expect(widgetLocator).toBeVisible({
-    timeout: 90000
-  });
+    const widgetLocator = page.locator(
+      `//div[@data-tut="addWidgets"]//button[@aria-label="${WidgetName}"]`
+    );
+    await widgetLocator.waitFor({ state: 'attached', timeout: 90000 });
 
-  const maxAttempts = 5;
+    await widgetLocator.scrollIntoViewIfNeeded();
+    await expect(widgetLocator).toBeVisible({ timeout: 90000 });
 
-  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    try {
-      console.log(
-        `Dragging '${WidgetName}'. Attempt ${attempt}/${maxAttempts}`
-      );
+    const maxAttempts = 5;
 
-      // Use the common dragAndDrop method
-      await this.dragAndDrop(WidgetName, x, y);
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        console.log(`Dragging '${WidgetName}'. Attempt ${attempt}/${maxAttempts}`);
+        await this.dragAndDrop(WidgetName, x, y);
+        await page.waitForTimeout(1000);
 
-      await page.waitForTimeout(1000);
+        const droppedWidget = WidgetName === 'date'
+          ? page.locator("//div[contains(@class,'signYourselfBlock')]//*[normalize-space(.)='MM/dd/yyyy']")
+          : page.locator(
+              `//div[contains(@class,'signYourselfBlock')]` +
+              `//*[self::div or self::span][starts-with(normalize-space(.), '${WidgetName}-')]`
+            );
 
-      // Verify widget placed on the document
-     const droppedWidget = WidgetName === 'date'
-       ? page.locator("//div[contains(@class,'signYourselfBlock')]//*[normalize-space(.)='MM/dd/yyyy']")
-       : page.locator(
-           `//div[contains(@class,'signYourselfBlock')]` +
-           `//*[self::div or self::span][starts-with(normalize-space(.), '${WidgetName}-')]`
-         );
+        if (await droppedWidget.count() > 0 && await droppedWidget.last().isVisible()) {
+          console.log(`'${WidgetName}' widget successfully dropped.`);
+          return;
+        }
 
-      if (
-        await droppedWidget.count() > 0 &&
-        await droppedWidget.last().isVisible()
-      ) {
-        console.log(
-          `'${WidgetName}' widget successfully dropped.`
-        );
-        return;
+        console.log(`'${WidgetName}' was not created. Retrying...`);
+      } catch (error) {
+        console.log(`Drag/drop attempt ${attempt} failed for '${WidgetName}':`, error);
       }
-
-      console.log(
-        `'${WidgetName}' was not created. Retrying...`
-      );
-
-    } catch (error) {
-      console.log(
-        `Drag/drop attempt ${attempt} failed for '${WidgetName}':`,
-        error
-      );
+      await page.waitForTimeout(1000);
     }
 
-    await page.waitForTimeout(1000);
+    throw new Error(`Failed to drag and drop '${WidgetName}' after ${maxAttempts} attempts.`);
   }
 
-  throw new Error(
-    `Failed to drag and drop '${WidgetName}' after ${maxAttempts} attempts.`
-  );
-}
-async dragAndDrop(label, x, y) {
-  const { page } = this;
+  async dragAndDrop(label, x, y) {
+    const { page } = this;
 
-  const widget = page.locator(
-    `//div[@data-tut="addWidgets"]//button[@aria-label="${label}"]`
-  );
-
-  await expect(widget).toBeVisible({
-    timeout: 90000
-  });
-await widget.scrollIntoViewIfNeeded();
-
-  const box = await widget.boundingBox();
-
-  if (!box) {
-    throw new Error(
-      `Widget '${label}' is not visible or has no bounding box.`
+    const widget = page.locator(
+      `//div[@data-tut="addWidgets"]//button[@aria-label="${label}"]`
     );
+
+    await expect(widget).toBeVisible({ timeout: 90000 });
+    await widget.scrollIntoViewIfNeeded();
+
+    const box = await widget.boundingBox();
+
+    if (!box) {
+      throw new Error(`Widget '${label}' is not visible or has no bounding box.`);
+    }
+
+    const startX = box.x + box.width / 2;
+    const startY = box.y + box.height / 2;
+
+    console.log(`Dragging '${label}' from (${startX}, ${startY}) to (${x}, ${y})`);
+    await page.mouse.move(startX, startY);
+    await page.mouse.down();
+    await page.mouse.move(startX + 5, startY + 5, { steps: 5 });
+    await page.waitForTimeout(300);
+    await page.mouse.move(x, y, { steps: 20 });
+    await page.waitForTimeout(300);
+    await page.mouse.up();
+
+    console.log(`Dragged and dropped widget '${label}' to (${x}, ${y}).`);
   }
 
-  const startX = box.x + box.width / 2;
-  const startY = box.y + box.height / 2;
-
-  console.log(
-    `Dragging '${label}' from (${startX}, ${startY}) to (${x}, ${y})`
-  );
-
-  // Move to the widget
-  await page.mouse.move(startX, startY);
-
-  // Start drag
-  await page.mouse.down();
-
-  // Small movement to trigger drag
-  await page.mouse.move(startX + 5, startY + 5, {
-    steps: 5
-  });
-
-  await page.waitForTimeout(300);
-
-  // Move to target
-  await page.mouse.move(x, y, {
-    steps: 20
-  });
-
-  await page.waitForTimeout(300);
-
-  // Drop
-  await page.mouse.up();
-
-  console.log(
-    `Dragged and dropped widget '${label}' to (${x}, ${y}).`
-  );
-}
   async getElementIdByWidgetName(widgetName) {
-  const xpath = widgetName === 'cells'
-    ? `//div[contains(@class, 'signYourselfBlock') and .//div[contains(text(), '${widgetName}')]]`
-    : `//div[span[text()='${widgetName}']]/ancestor::div[contains(@class, 'signYourselfBlock')]`;
+    const xpath = widgetName === 'cells'
+      ? `//div[contains(@class, 'signYourselfBlock') and .//div[contains(text(), '${widgetName}')]]`
+      : `//div[span[text()='${widgetName}']]/ancestor::div[contains(@class, 'signYourselfBlock')]`;
 
-  const id = await this.page.evaluate((xpath) => {
-    const element = document.evaluate(
-      xpath,
-      document,
-      null,
-      XPathResult.FIRST_ORDERED_NODE_TYPE,
-      null
-    ).singleNodeValue;
+    const id = await this.page.evaluate((xpath) => {
+      const element = document.evaluate(
+        xpath,
+        document,
+        null,
+        XPathResult.FIRST_ORDERED_NODE_TYPE,
+        null
+      ).singleNodeValue;
 
-    return element ? element.id : null;
-  }, xpath);
+      return element ? element.id : null;
+    }, xpath);
 
-  return id;
-}
+    return id;
+  }
 
-async dragDropSignaturewidgetInSignyourselfPage(WidgetName, x, y) {
-  const { page } = this;
+  async dragDropSignaturewidgetInSignyourselfPage(WidgetName, x, y) {
+    const { page } = this;
 
-  await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("networkidle");
 
-  await page
-    .locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]')
-    .waitFor({
+    await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({
       state: 'visible',
       timeout: 90000
     });
 
-  const saveButton = page.locator(
-    "//dialog[@id='selectSignerModal']//button[normalize-space()='Save']"
-  );
-
-  try {
-    for (let i = 0; i < 5; i++) {
-
-      console.log(`Drag and drop attempt ${i + 1}`);
-
-      // Drag and drop signature widget
-      await this.dragAndDrop(WidgetName, x, y);
-
-      await page.waitForTimeout(1000);
-
-      // Check whether Save button appeared
-      const saveVisible = await saveButton.isVisible().catch(() => false);
-      const saveEnabled = saveVisible
-        ? await saveButton.isEnabled().catch(() => false)
-        : false;
-
-      if (saveVisible && saveEnabled) {
-        console.log("Save button is visible and enabled.");
-
-        await saveButton.click();
-
-        console.log("Save button clicked successfully!");
-        break;
-      }
-
-      console.log(
-        `Save button not available after attempt ${i + 1}.`
-      );
-
-      // Continue loop and drag/drop again
-      if (i < 4) {
-        await page.waitForTimeout(1000);
-      }
-    }
-
-    // After 5 attempts, verify Save was clicked
-    if (await saveButton.isVisible().catch(() => false)) {
-      console.log("Save button is still visible after 5 attempts.");
-    }
-
-  } catch (error) {
-    console.log(
-      "Error while dragging widget or clicking Save:",
-      error
+    const saveButton = page.locator(
+      "//dialog[@id='selectSignerModal']//button[normalize-space()='Save']"
     );
-    throw error;
+
+    try {
+      for (let i = 0; i < 5; i++) {
+        console.log(`Drag and drop attempt ${i + 1}`);
+        await this.dragAndDrop(WidgetName, x, y);
+        await page.waitForTimeout(1000);
+
+        const saveVisible = await saveButton.isVisible().catch(() => false);
+        const saveEnabled = saveVisible ? await saveButton.isEnabled().catch(() => false) : false;
+
+        if (saveVisible && saveEnabled) {
+          console.log("Save button is visible and enabled.");
+          await saveButton.click();
+          console.log("Save button clicked successfully!");
+          break;
+        }
+
+        console.log(`Save button not available after attempt ${i + 1}.`);
+
+        if (i < 4) {
+          await page.waitForTimeout(1000);
+        }
+      }
+
+      if (await saveButton.isVisible().catch(() => false)) {
+        console.log("Save button is still visible after 5 attempts.");
+      }
+    } catch (error) {
+      console.log("Error while dragging widget or clicking Save:", error);
+      throw error;
+    }
   }
-}
-async drawSignature() {
+
+  async drawSignature() {
     const page = this.page;
     await allure.step('Sign Signature Widget', async () => {
       const canvasLocator = page.locator("//canvas[contains(@class, 'signatureCanvas')]");
@@ -374,6 +329,7 @@ async drawSignature() {
       await page.mouse.up();
     });
   }
+
   async clickSignatureWidgetAndType() {
     const page = this.page;
     await page.locator('//div[@id="container"]//div[text()="signature"]').click();
@@ -381,6 +337,7 @@ async drawSignature() {
     await page.locator('//input[@id="signature"]').fill('Mathew Wade');
     console.log('Signature typed in input field');
   }
+
   async clickSignatureWidgetAndUpload() {
     const page = this.page;
     await page.locator('//div[@id="container"]//div[text()="signature"]').click();
@@ -389,16 +346,17 @@ async drawSignature() {
     await page.locator('//input[@id="signature"]').setInputFiles(filePath);
     console.log('Signature uploaded from file');
   }
+
   async clickSignatureWidgetAndDraw() {
     const page = this.page;
     await page.locator('//div[@id="container"]//div[text()="signature-1"]').click();
     console.log('Signature widget clicked');
     await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').waitFor({ state: 'visible', timeout: 90000 });
-await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').click();
+    await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').click();
     await this.drawSignature();
   }
 
-  async drawSignature() {
+  async drawSignatureAgain() {
     const page = this.page;
     await allure.step('Sign Signature Widget', async () => {
       const canvasLocator = page.locator("//canvas[contains(@class, 'signatureCanvas')]");
@@ -427,7 +385,7 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
       const fileChooserPromise = page.waitForEvent('filechooser');
       await page.locator('//div[@class="flex justify-center"]//i[@class="fa-light fa-cloud-upload-alt uploadImgLogo text-base-content"]').click();
       const imagePath = path.resolve(__dirname, '../TestData/Images/stamp.jpg');
-      console.log("Image Path:", imagePath);
+      console.log('Image Path:', imagePath);
       await fileChooserPromise.then(fileChooser => fileChooser.setFiles(imagePath));
       console.log('Stamp image uploaded successfully.');
     });
@@ -487,6 +445,7 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
       await this.clickCloseButtonInSignerModal();
     });
   }
+
   async selectFromDropdown(dropdownId, value) {
     const page = this.page;
     await allure.step(`Select '${value}' from dropdown '${dropdownId}'`, async () => {
@@ -507,19 +466,15 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
       await page.locator(`//div[@class='select-none-cls pointer-events-none']//span[text()='${labelText}']`).click({ force: true });
       console.log(`Checkbox with label '${labelText}' clicked.`);
       await page.locator(`//div[@class='flex justify-center']//label[contains(., '${labelText}')]/input[@type='checkbox']`).click({ force: true });
-      console.log(`Checkbox with label '${labelText}' selected.`);  
-    
+      console.log(`Checkbox with label '${labelText}' selected.`);
     });
   }
 
   async selectCheckbox(labelText) {
     const page = this.page;
     await allure.step(`Select checkbox with label '${labelText}'`, async () => {
-      await page.getByRole('dialog')
-        .getByRole('checkbox', { name: labelText, exact: true })
-        .check({ force: true });
+      await page.getByRole('dialog').getByRole('checkbox', { name: labelText, exact: true }).check({ force: true });
       console.log(`Checkbox with label '${labelText}' selected.`);
-
     });
   }
 
@@ -535,8 +490,7 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
 
   async selectRadioButton(label) {
     const page = this.page;
-    await page.getByRole('dialog').getByRole('radio', { name: label, exact: true })
-      .check({ force: true });
+    await page.getByRole('dialog').getByRole('radio', { name: label, exact: true }).check({ force: true });
     console.log(`Radio button with label '${label}' selected.`);
   }
 
@@ -553,8 +507,7 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
   async fillTextField(placeholder, value) {
     const page = this.page;
     await page.locator(`//dialog[@id='selectSignerModal']//input[@placeholder='${placeholder}']`).fill(value);
-       console.log(`Filled '${placeholder}' widget with value '${value}'.`);
-   
+    console.log(`Filled '${placeholder}' widget with value '${value}'.`);
   }
 
   async clickEmailWidgetAndFill(placeholder, value) {
@@ -580,14 +533,15 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
       console.log(`Date field with value '${dateString}' clicked on the signer modal.`);
     });
   }
- async clickDateFieldOnTheSignerPad(dateString) {
 
+  async clickDateFieldOnTheSignerPad(dateString) {
     const page = this.page;
     await allure.step(`Select date field with value '${dateString}'`, async () => {
       await page.locator(`//div[@class='flex justify-center']//div[@class='react-datepicker__input-container']//div[contains(text(), '${dateString}')]`).click({ force: true });
       console.log(`Date field with value '${dateString}' clicked on the signer modal.`);
     });
-  } 
+  }
+
   async clickDateFieldOnTheSignerPad_Without_date() {
     const page = this.page;
     await allure.step(`click on the date field on the signer pad`, async () => {
@@ -595,6 +549,7 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
       console.log(`Date field clicked on the signer modal.`);
     });
   }
+
   async selectCalendarDateByLabel(label) {
     const page = this.page;
     await allure.step(`Select date from calendar by aria-label '${label}'`, async () => {
@@ -618,13 +573,15 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
   }
 
   async clickCloseButtonInSignerModal() {
-    await this.page.getByRole('button', { name: '✕' }).click();
+    await this.page.locator('button[aria-label="Close"]').nth(0).click();
     console.log('Close button in signer modal clicked.');
   }
- async clickDoneButtonInSignerModal() {
+
+  async clickDoneButtonInSignerModal() {
     await this.page.locator('#selectSignerModal').getByRole('button', { name: 'Done' }).click();
     console.log('Done button in signer modal clicked.');
   }
+
   async clickFinishButtonInSignerModal() {
     await this.page.locator('#selectSignerModal').getByRole('button', { name: 'Finish' }).click();
     console.log('Finish button in signer modal clicked.');
@@ -634,15 +591,17 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
     await this.page.getByRole('button', { name: 'Finish' }).click();
     console.log('Finish button on placeholder clicked.');
   }
-async ClickSavebuttonSignerModal() {
-  await this.page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`).click();
+
+  async ClickSavebuttonSignerModal() {
+    await this.page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`).click();
     console.log('Save button in signer modal clicked.');
   }
-async ClickApplybuttonSignerModal() {
-  await this.page.locator(`//dialog[@id='selectSignerModal']//button[text()='Apply']`).click();
+
+  async ClickApplybuttonSignerModal() {
+    await this.page.locator(`//dialog[@id='selectSignerModal']//button[text()='Apply']`).click();
     console.log('Apply button in signer modal clicked.');
   }
- 
+
   async getWidgetIdByLabel(label) {
     return await this.page.evaluate((labelText) => {
       const xpath = labelText === 'Choose One'
@@ -665,77 +624,333 @@ async ClickApplybuttonSignerModal() {
       return element ? element.id : null;
     }, type);
   }
- async fillCellWidgetsInModal(value) {
-  const page = this.page;
 
-  await allure.step(`Fill cell widget with value '${value}'`, async () => {
-    // Fill input inside modal
-    await page.locator("//dialog[@id='selectSignerModal']//input[@placeholder='cells']").fill(value);
-  });
-}
+  async fillCellWidgetsInModal(value) {
+    const page = this.page;
+    await allure.step(`Fill cell widget with value '${value}'`, async () => {
+      await page.locator("//dialog[@id='selectSignerModal']//input[@placeholder='cells']").fill(value);
+    });
+  }
 
   async ClickCopyOption() {
-  const page = this.page;
+    const page = this.page;
+    await page.locator('//i[contains(@class,"fa-copy") and contains(@class,"icon")]').click();
 
-  // Click on the copy icon
-  await page.locator('//i[contains(@class,"fa-copy") and contains(@class,"icon")]').click();
+    const isVisible = await page
+      .locator('//h3[text()="Copy widget to"]')
+      .isVisible()
+      .catch(() => false);
 
-  // Check if the "Copy widget to" modal is visible
-  const isVisible = await page
-    .locator('//h3[text()="Copy widget to"]')
-    .isVisible()
-    .catch(() => false);
-
-  if (isVisible) {
-    console.log('"Copy widget to" is visible. Stopping the loop.');
-    return true;
-  }
-
-  // Small delay between attempts (optional)
-}
- async waitAndPlaceSignatureAndClickSave(fieldName, x, y) {
-  const page = this.page;
-
-  // Wait for PDF document and signature field to load completely
-  await page.waitForLoadState("networkidle");
-  await page.waitForSelector('//div[@class="react-pdf__Document"]', { timeout: 90000 });
-
-  await page.waitForLoadState("networkidle");
-  await page.locator(`//span[normalize-space()="${fieldName}"]`)
-            .waitFor({ state: 'visible', timeout: 90000 });
-
-  await page.waitForLoadState("networkidle");
-
-  // Drag and drop the field onto the document
-  await this.dragAndDrop(fieldName, x, y);
-
-  // Retry clicking Save button inside selectSignerModal
-  try {
-    const saveButton = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
-
-    for (let i = 0; i < 5; i++) {
-      if (await saveButton.isVisible() && await saveButton.isEnabled()) {
-        await saveButton.click();
-        console.log("Save button clicked successfully!");
-        break;
-      } else {
-        console.log(`Attempt ${i + 1}: Save button not visible, retrying...`);
-
-        // Repeat drag-and-drop to trigger Save button visibility
-        await this.dragAndDrop(fieldName, x, y);
-
-        await page.waitForTimeout(1000); // small delay
-      }
-
-      if (i === 4) {
-        console.log("Save button did not become visible after multiple attempts.");
-      }
+    if (isVisible) {
+      console.log('"Copy widget to" is visible. Stopping the loop.');
+      return true;
     }
-
-  } catch (error) {
-    console.log("Error clicking Save button, continuing execution.", error);
   }
-}
+
+  async waitAndPlaceSignatureAndClickSave(fieldName, x, y) {
+    const page = this.page;
+    await page.waitForLoadState("networkidle");
+    await page.waitForSelector('//div[@class="react-pdf__Document"]', { timeout: 90000 });
+    await page.waitForLoadState("networkidle");
+    await page.locator(`//span[normalize-space()="${fieldName}"]`).waitFor({ state: 'visible', timeout: 90000 });
+    await page.waitForLoadState("networkidle");
+    await this.dragAndDrop(fieldName, x, y);
+
+    try {
+      const saveButton = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
+
+      for (let i = 0; i < 5; i++) {
+        if (await saveButton.isVisible() && await saveButton.isEnabled()) {
+          await saveButton.click();
+          console.log("Save button clicked successfully!");
+          break;
+        } else {
+          console.log(`Attempt ${i + 1}: Save button not visible, retrying...`);
+          await this.dragAndDrop(fieldName, x, y);
+          await page.waitForTimeout(1000);
+        }
+
+        if (i === 4) {
+          console.log("Save button did not become visible after multiple attempts.");
+        }
+      }
+    } catch (error) {
+      console.log("Error clicking Save button, continuing execution.", error);
+    }
+  }
 }
 
 module.exports = CommonSteps;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+,
