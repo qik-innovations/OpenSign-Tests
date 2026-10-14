@@ -1,0 +1,222 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/Login.spec.js >> Login Page Tests >> Login State and Session Tests >> Verify that after successful login, going back to login URL redirects to dashboard
+- Location: tests/MainAppPages/Login.spec.js:345:5
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+```
+Error: page.waitForLoadState: Test timeout of 120000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=f2e5]:
+  - heading "404" [level=1] [ref=f2e6]
+  - paragraph [ref=f2e7]: Page not found
+```
+
+# Test source
+
+```ts
+  250 |         await expect(createButton).toBeEnabled();
+  251 |       }
+  252 |     });
+  253 | 
+  254 |     test('Verify that Forgot password link is visible', async ({ page }) => {
+  255 |       allure.description('Verify Forgot password link is visible on login page');
+  256 |       await loginPage.navigateToLogin(BASEURL);
+  257 |       const forgotLink = page.locator('a:has-text("Forgot password?"), button:has-text("Forgot password?")').first();
+  258 |       const isForgotVisible = await forgotLink.isVisible().catch(() => false);
+  259 |       console.log('Forgot password link visible: ' + isForgotVisible);
+  260 |     });
+  261 | 
+  262 |     test('Verify that form fields accept proper input', async ({ page }) => {
+  263 |       allure.description('Verify form fields properly accept and store input values');
+  264 |       await loginPage.navigateToLogin(BASEURL);
+  265 |       const testEmail = 'test@example.com';
+  266 |       const testPassword = 'TestPassword123!';
+  267 |       const emailOk = await loginPage.fillEmailAndVerify(testEmail);
+  268 |       const passwordOk = await loginPage.fillPasswordAndVerify(testPassword);
+  269 |       expect(emailOk).toBe(true);
+  270 |       expect(passwordOk).toBe(true);
+  271 |     });
+  272 | 
+  273 |     test('Verify that email field clears correctly', async ({ page }) => {
+  274 |       allure.description('Verify email field can be cleared');
+  275 |       await loginPage.navigateToLogin(BASEURL);
+  276 |       
+  277 |       await loginPage.fillEmail('test@example.com');
+  278 |       await loginPage.clearEmailField();
+  279 |       const value = await loginPage.getEmailFieldValue();
+  280 |       
+  281 |       expect(value).toBe('');
+  282 |     });
+  283 | 
+  284 |     test('Verify that password field clears correctly', async ({ page }) => {
+  285 |       allure.description('Verify password field can be cleared');
+  286 |       await loginPage.navigateToLogin(BASEURL);
+  287 |       
+  288 |       await loginPage.fillPassword('TestPassword123');
+  289 |       await loginPage.clearPasswordField();
+  290 |       const value = await loginPage.getPasswordFieldValue();
+  291 |       
+  292 |       expect(value).toBe('');
+  293 |     });
+  294 | 
+  295 |     test('Verify that Tab navigation works between form fields', async ({ page }) => {
+  296 |       allure.description('Verify tab key navigates between form fields');
+  297 |       await loginPage.navigateToLogin(BASEURL);
+  298 |       
+  299 |       const emailField = page.locator('#email');
+  300 |       await emailField.focus();
+  301 |       await emailField.type('test@example.com');
+  302 |       
+  303 |       // Tab to password field
+  304 |       await emailField.press('Tab');
+  305 |       const passwordField = page.locator('#password');
+  306 |       const isFocused = await passwordField.evaluate(el => document.activeElement === el).catch(() => false);
+  307 |       
+  308 |       console.log('Password field focused after tab: ' + isFocused);
+  309 |     });
+  310 |   });
+  311 | 
+  312 |   // ==================== STATE AND PERSISTENCE TEST CASES ====================
+  313 |   test.describe('Login State and Session Tests', () => {
+  314 |     test('Verify that multiple sequential login attempts work correctly', async ({ page }) => {
+  315 |       allure.description('Verify multiple login attempts work without issues');
+  316 |       await loginPage.navigateToLogin(BASEURL);
+  317 |       
+  318 |       // First attempt with wrong password
+  319 |       await loginPage.fillEmail(loginCredentials.email);
+  320 |       await loginPage.fillPassword('WrongPassword123');
+  321 |       await loginPage.clickLogin();
+  322 |       await page.waitForLoadState('networkidle', { timeout: 60000 });
+  323 |       
+  324 |       // Clear fields
+  325 |       await loginPage.clearAllFields();
+  326 |       
+  327 |       // Second attempt with correct password
+  328 |       await loginPage.fillEmail(loginCredentials.email);
+  329 |       await loginPage.fillPassword(loginCredentials.password);
+  330 |       await loginPage.clickLogin();
+  331 |   await page.waitForLoadState("networkidle");
+  332 |   //write the for loop until page title "Dashboard" is not available in 3 second
+  333 |     const maxRetries = 5;
+  334 |     let retries = 0;
+  335 |     let pageTitle = await loginPage.getPageTitle();
+  336 |     while (!pageTitle.includes('Dashboard') && retries < maxRetries) {
+  337 |       console.log('Page title after login attempt: ' + pageTitle);
+  338 |       await page.waitForTimeout(3000);
+  339 |          pageTitle = await loginPage.getPageTitle();
+  340 |         retries++;
+  341 |     }   
+  342 |         console.log('Final page title after login attempts: ' + pageTitle);
+  343 |     });
+  344 | 
+  345 |     test('Verify that after successful login, going back to login URL redirects to dashboard', async ({ page }) => {
+  346 |       allure.description('Verify logged-in user cannot access login page directly');
+  347 |       const commonSteps = new CommonSteps(page);
+  348 |       await commonSteps.navigateToBaseUrl();
+  349 |       await commonSteps.login();
+> 350 |       await page.waitForLoadState('networkidle', { timeout: 120000 });
+      |                  ^ Error: page.waitForLoadState: Test timeout of 120000ms exceeded.
+  351 |       
+  352 |       // Navigate to login page directly
+  353 |       await loginPage.navigateToLogin(BASEURL);
+  354 |       await page.waitForLoadState('networkidle', { timeout: 120000 });
+  355 |       
+  356 |       // Should be redirected away from login page
+  357 |       const url = page.url();
+  358 |       console.log('URL after navigating to login while logged in: ' + url);
+  359 |     });
+  360 | 
+  361 |     test('Verify that session is cleared after failed login attempt', async ({ page }) => {
+  362 |       allure.description('Verify failed login does not create a session');
+  363 |       await loginPage.navigateToLogin(BASEURL);
+  364 |       
+  365 |       // Attempt login with invalid credentials
+  366 |       await loginPage.fillEmail('invalid@email.com');
+  367 |       await loginPage.fillPassword('InvalidPassword');
+  368 |       await loginPage.clickLogin();
+  369 |       await page.waitForLoadState('networkidle', { timeout: 60000 });
+  370 |       
+  371 |       // Verify still on login page
+  372 |       const emailFieldVisible = await loginPage.isEmailFieldVisible();
+  373 |       expect(emailFieldVisible).toBe(true);
+  374 |     });
+  375 | 
+  376 |     test('Verify that browser back button works correctly on login page', async ({ page }) => {
+  377 |       allure.description('Verify browser back navigation on login page');
+  378 |       await loginPage.navigateToLogin(BASEURL);
+  379 |       
+  380 |       // Navigate to another page first
+  381 |       await page.goto(BASEURL + '?from=somewhere', { timeout: 120000 });
+  382 |       
+  383 |       // Go back
+  384 |       await loginPage.clickBrowserBack();
+  385 |       await page.waitForLoadState('networkidle', { timeout: 60000 });
+  386 |       
+  387 |       // Verify login page is still accessible
+  388 |       const emailFieldVisible = await loginPage.isEmailFieldVisible();
+  389 |       expect(emailFieldVisible).toBe(true);
+  390 |     });
+  391 |   });
+  392 | 
+  393 |   // ==================== ACCESSIBILITY AND USABILITY TEST CASES ====================
+  394 |   test.describe('Login Page Accessibility Tests', () => {
+  395 |     test('Verify that all interactive elements are keyboard accessible', async ({ page }) => {
+  396 |       allure.description('Verify login form elements are accessible via keyboard');
+  397 |       await loginPage.navigateToLogin(BASEURL);
+  398 |       
+  399 |       const emailField = page.locator('#email');
+  400 |       const passwordField = page.locator('#password');
+  401 |       const loginButton = page.getByRole('button', { name: 'Login' });
+  402 |       
+  403 |       // Try to focus on elements with keyboard
+  404 |       await emailField.focus();
+  405 |       let focused = await emailField.evaluate(el => document.activeElement === el).catch(() => false);
+  406 |       expect(focused).toBe(true);
+  407 |       
+  408 |       await passwordField.focus();
+  409 |       focused = await passwordField.evaluate(el => document.activeElement === el).catch(() => false);
+  410 |       expect(focused).toBe(true);
+  411 |       
+  412 |       await loginButton.focus();
+  413 |       focused = await loginButton.evaluate(el => document.activeElement === el).catch(() => false);
+  414 |       expect(focused).toBe(true);
+  415 |     });
+  416 | 
+  417 |     test('Verify that form does not auto-submit when clicking in field', async ({ page }) => {
+  418 |       allure.description('Verify login form requires explicit submit action');
+  419 |       await loginPage.navigateToLogin(BASEURL);
+  420 |       
+  421 |       await loginPage.fillEmail(loginCredentials.email);
+  422 |       await page.waitForTimeout(1000);
+  423 |       
+  424 |       // Verify still on login page
+  425 |       const loginButtonVisible = await loginPage.isLoginButtonVisible();
+  426 |       expect(loginButtonVisible).toBe(true);
+  427 |     });
+  428 | 
+  429 |     test('Verify that page scroll to top when login page loads', async ({ page }) => {
+  430 |       allure.description('Verify login page scroll position is at top');
+  431 |       await loginPage.navigateToLogin(BASEURL);
+  432 |       const scrollTop = await page.evaluate(() => window.scrollY);
+  433 |       console.log('Scroll position at login page load: ' + scrollTop);
+  434 |     });
+  435 |   });
+  436 | });
+  437 | 
+```

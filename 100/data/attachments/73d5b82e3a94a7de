@@ -1,0 +1,235 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/Dashboard.spec.js >> Verify that pagination is functioning correctly in the dashboard recent signature requests.
+- Location: tests/MainAppPages/Dashboard.spec.js:309:1
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+```
+Error: locator.waitFor: Target page, context or browser has been closed
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=f2e5]:
+  - heading "404" [level=1] [ref=f2e6]
+  - paragraph [ref=f2e7]: Page not found
+```
+
+# Test source
+
+```ts
+  218 |  await page.locator("//button[normalize-space()='Send']").click();
+  219 | });
+  220 | test('Verify that pagination is functioning correctly in the dashboard drafts document.', async ({ page }) => {
+  221 |     const commonSteps = new CommonSteps(page);
+  222 |     // Step 1: Navigate to Base URL and log in
+  223 |     await commonSteps.navigateToBaseUrl();
+  224 |     await commonSteps.login();
+  225 |     // Wait up to 90 seconds for the text to appear
+  226 |     await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+  227 |     // Now assert the text
+  228 |     //await expect(page.locator('#renderList')).toContainText('Drafts');
+  229 |     //Check if Pagination Buttons Exist
+  230 |     const isPaginationVisible = await page.locator('//div[@data-tut="tourreport3"]//button[@class="op-join-item op-btn op-btn-sm" and text()="Next"]').isVisible();
+  231 |     //expect(isPaginationVisible).toBeTruthy();
+  232 |     const isPaginationVisiblePrev = await page.locator('//div[@data-tut="tourreport3"]//button[@class="op-join-item op-btn op-btn-sm" and text()="Prev"]').isVisible();
+  233 |     //expect(isPaginationVisiblePrev).toBeTruthy();
+  234 |     const page1Data = await page.locator('//div[@data-tut="tourreport3"]//table[1]//tbody//tr').allTextContents();
+  235 |     await page.locator('//div[@data-tut="tourreport3"]//button[@class="op-join-item op-btn op-btn-sm" and text()="Next"]').click();
+  236 |     await page.waitForLoadState('domcontentloaded');
+  237 |     //const firstPageContent = await page.locator('//button[@class=\'op-btn-active op-join-item op-btn op-btn-sm\' and text()=\'2\']').first().textContent(); // Capture first item
+  238 |   const page2Data = await page.locator('//div[@data-tut="tourreport3"]//table[1]//tbody//tr').allTextContents();
+  239 |   expect(page2Data).not.toEqual(page1Data);// Ensure content changes
+  240 |   //Verify 'Previous' and 'Next' Buttons Work
+  241 |   await page.locator('//div[@data-tut="tourreport3"]//button[@class="op-join-item op-btn op-btn-sm" and text()="Prev"]').click();
+  242 |   await page.waitForLoadState('domcontentloaded');
+  243 |   const page1DataPrev = await page.locator('//div[@data-tut="tourreport3"]//table[1]//tbody//tr').allTextContents();
+  244 |   expect(page2Data).not.toEqual(page1DataPrev);// Ensure content changes
+  245 |   
+  246 |   });
+  247 | 
+  248 | test('Verify that owner can create the document and sign it from the dashboard recent signature requests.', async ({ page }) => {
+  249 |   const commonSteps = new CommonSteps(page);
+  250 |   // Step 1: Navigate to Base URL and log in
+  251 |   await commonSteps.navigateToBaseUrl();
+  252 |   await commonSteps.login();
+  253 | //const title = await page.title()
+  254 |   //Expects page to have a heading with the name of dashboard.
+  255 | //expect(title).toBe('Dashboard - OpenSign™');
+  256 | await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  257 |   const Renameddoctitle =await commonSteps.fillDocumentTitleWithTimestamp('Recent signatures rquest');
+  258 |    await page.locator('input[name="Name"]').fill(Renameddoctitle);
+  259 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  260 | await page.locator('input[type="file"]').click();
+  261 | const fileChooser = await fileChooserPromise;
+  262 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  263 | await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  264 | await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+  265 | await page.locator('input[name="Name"]').click();
+  266 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  267 | await page.getByRole('button', { name: 'Next' }).click();
+  268 | await commonSteps.LoadPlaceholder(page);
+  269 | await commonSteps.dragAndDrop('signature', 600, 250);
+  270 | await commonSteps.dragAndDrop("stamp",600,300);
+  271 | await commonSteps.dragAndDrop("initials",600, 420);
+  272 | await commonSteps.dragAndDrop("name",600,470);
+  273 | await page.getByRole('button', { name: 'Next' }).click();
+  274 |  await page.getByRole('button', { name: 'Sign now' }).click();
+  275 | await page.getByRole('menuitem', { name: 'Dashboard' }).click();
+  276 | // Wait up to 90 seconds for the text to appear
+  277 | await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
+  278 | // Now assert the text
+  279 | await expect(page.locator('//div[@data-tut="tourreport1"]//div[text()="Recent signature requests"]')).toBeVisible({ timeout: 12000 });
+  280 | await expect(page.locator('//div[@data-tut="tourreport1"]//th[1]')).toContainText('Title');
+  281 | await expect(page.locator('//div[@data-tut="tourreport1"]//th[2]')).toContainText('File');
+  282 | await expect(page.locator('//div[@data-tut="tourreport1"]//th[3]')).toContainText('Owner');
+  283 | await expect(page.locator('//div[@data-tut="tourreport1"]//th[4]')).toContainText('Signers');
+  284 | await expect(page.locator('//div[@data-tut="tourreport1"]//div[@class="font-semibold break-words"]').first()).toContainText('Sample-joining-letter');
+  285 | await expect(page.locator('//div[@data-tut="tourreport1"]//td[2]').first()).toContainText('Download');
+  286 | await expect(page.locator('//div[@data-tut="tourreport1"]//td[3]').first()).toContainText('Pravin Testing account');  
+  287 | await page.locator('//div[@data-tut="tourreport1"]//div[@role="button"and @title="SIGN"]').first().click();
+  288 | await commonSteps.validateAndAcceptTerms();
+  289 | await page.waitForLoadState("networkidle");
+  290 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  291 | await page.locator('//div[contains(text(),"signature-1")]').click();
+  292 | await page.mouse.down();
+  293 | await page.mouse.move(120, 122)
+  294 | await page.mouse.up();
+  295 | // Optionally save changes
+  296 | await commonSteps.clickNextButtonInSignerModal();
+  297 |     await commonSteps.uploadStamp();
+  298 | await commonSteps.clickNextButtonInSignerModal();
+  299 | await commonSteps.drawInitials();
+  300 | await commonSteps.clickNextButtonInSignerModal();
+  301 | await commonSteps.clickDoneButtonInSignerModal();
+  302 | await commonSteps.clickFinishButtonInSignerModal();
+  303 | await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
+  304 | await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
+  305 | await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
+  306 | await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Download' })).toBeVisible();
+  307 |  await page.getByRole('button', { name: 'Close' }).click();
+  308 | });
+  309 | test('Verify that pagination is functioning correctly in the dashboard recent signature requests.', async ({ page }) => {
+  310 | 
+  311 |   const commonSteps = new CommonSteps(page);
+  312 | 
+  313 |   // Step 1: Navigate to Base URL and log in
+  314 |   await commonSteps.navigateToBaseUrl();
+  315 |   await commonSteps.login();
+  316 | 
+  317 |   // Wait for Recent Signature Requests section
+> 318 |   await page.locator('#renderList').waitFor({
+      |                                     ^ Error: locator.waitFor: Target page, context or browser has been closed
+  319 |     state: 'visible',
+  320 |     timeout: 90000,
+  321 |   });
+  322 | 
+  323 |   // Verify Recent Signature Requests section
+  324 |   await expect(
+  325 |     page.locator(
+  326 |       '//div[@data-tut="tourreport1"]//div[@class="font-light" and text()="Recent signature requests"]'
+  327 |     )
+  328 |   ).toHaveText('Recent signature requests');
+  329 | 
+  330 |   const paginationSection = page.locator(
+  331 |     '//div[@data-tut="tourreport1"]'
+  332 |   );
+  333 | 
+  334 |   const nextButton = paginationSection.locator(
+  335 |     'button',
+  336 |     { hasText: 'Next' }
+  337 |   );
+  338 | 
+  339 |   const prevButton = paginationSection.locator(
+  340 |     'button',
+  341 |     { hasText: 'Prev' }
+  342 |   );
+  343 | 
+  344 |   const tableRows = paginationSection.locator(
+  345 |     'table tbody tr'
+  346 |   );
+  347 | 
+  348 |   // Capture first page data
+  349 |   const page1Data = await tableRows.allTextContents();
+  350 | 
+  351 |   console.log('Page 1 records:', page1Data);
+  352 | 
+  353 |   // Check whether Next button is available
+  354 |   if (await nextButton.count() === 0 || !(await nextButton.isVisible())) {
+  355 | 
+  356 |     console.log(
+  357 |       'ℹ️ Next button is not visible. There are no additional records/pages.'
+  358 |     );
+  359 | 
+  360 |     // Since there is only one page, pagination cannot be tested further.
+  361 |     return;
+  362 |   }
+  363 | 
+  364 |   // Next button is available, so verify pagination
+  365 |   await expect(nextButton).toBeVisible();
+  366 | 
+  367 |   // Click Next
+  368 |   await nextButton.click();
+  369 | 
+  370 |   // Wait for table data to change
+  371 |   await expect
+  372 |     .poll(
+  373 |       async () => await tableRows.allTextContents(),
+  374 |       {
+  375 |         timeout: 10000,
+  376 |       }
+  377 |     )
+  378 |     .not.toEqual(page1Data);
+  379 | 
+  380 |   const page2Data = await tableRows.allTextContents();
+  381 | 
+  382 |   console.log('Page 2 records:', page2Data);
+  383 | 
+  384 |   expect(page2Data).not.toEqual(page1Data);
+  385 | 
+  386 |   // Check whether Previous button is available
+  387 |   if (await prevButton.count() === 0 || !(await prevButton.isVisible())) {
+  388 |     throw new Error(
+  389 |       'Previous button is not visible after navigating to the next page.'
+  390 |     );
+  391 |   }
+  392 | 
+  393 |   // Click Previous
+  394 |   await prevButton.click();
+  395 | 
+  396 |   // Wait until first page data appears again
+  397 |   await expect
+  398 |     .poll(
+  399 |       async () => await tableRows.allTextContents(),
+  400 |       {
+  401 |         timeout: 10000,
+  402 |       }
+  403 |     )
+  404 |     .toEqual(page1Data);
+  405 | 
+  406 |   const page1DataAgain = await tableRows.allTextContents();
+  407 | 
+  408 |   expect(page1DataAgain).toEqual(page1Data);
+  409 | 
+  410 |   console.log('✅ Pagination is functioning correctly.');
+  411 | });
+  412 | 
+  413 | test('Verify that the document sent for a signature request appears in the Recently Sent for Signatures section on the dashboard.', async ({ page }) => {
+  414 |   const commonSteps = new CommonSteps(page);
+  415 |   // Step 1: Navigate to Base URL and log in
+  416 |   await commonSteps.navigateToBaseUrl();
+  417 |   await commonSteps.login();
+  418 | //const title = await page.title()
+```

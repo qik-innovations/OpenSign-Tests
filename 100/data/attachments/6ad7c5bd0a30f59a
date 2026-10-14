@@ -1,0 +1,200 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: ConsoleApp/ConsoleOrgAdmins.spec.js >> Console app >> Verify that Teams plan user can access OrgAdmins page and add OrgAdmin
+- Location: tests/ConsoleApp/ConsoleOrgAdmins.spec.js:54:1
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+```
+Error: locator.click: Target page, context or browser has been closed
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=f2e5]:
+  - heading "404" [level=1] [ref=f2e6]
+  - paragraph [ref=f2e7]: Page not found
+```
+
+# Test source
+
+```ts
+  1   | const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+  2   | const { test, expect } = require('@playwright/test');
+  3   | const path = require('path');
+  4   | const CommonSteps = require('../utils/CommonSteps');
+  5   | 
+  6   | const PROFILE_MENU_BUTTON = '//button[@aria-controls="profile-menu-list"]';
+  7   | const CONSOLE_OPTION = '//button[@type="button" and contains(., "Console")]//i[contains(@class,"fa-id-card")]';
+  8   | const PROFILE_NAME = '//div[@id="root"]//p[@class="text-[14px] font-bold text-base-content"]';
+  9   | async function fillOrgAdminForm(page1, { userName, email, phone }) {
+  10  |   const modal = page1.locator('#selectSignerModal');
+  11  |   await expect(modal).toBeVisible();
+  12  |   await modal.locator('.op-loading').waitFor({ state: 'hidden', timeout: 60000 }).catch(() => {});
+  13  | 
+  14  |   const nameField = modal.locator('input[name="name"]').first();
+  15  |   const emailField = modal.locator('input[name="email"], input[type="email"]').first();
+  16  |   const phoneField = modal.locator('input[name="phone"], input[placeholder="optional"], input[type="tel"]').first();
+  17  |   const organizationSelect = modal.locator('select[name="organization"]').first();
+  18  | 
+  19  |   await expect(nameField).toBeVisible({ timeout: 60000 });
+  20  |   await expect(emailField).toBeVisible({ timeout: 60000 });
+  21  |   await expect(phoneField).toBeVisible({ timeout: 60000 });
+  22  |   await expect(organizationSelect).toBeVisible({ timeout: 60000 });
+  23  | 
+  24  |   await nameField.fill(userName);
+  25  |   await emailField.fill(email);
+  26  |   await phoneField.fill(phone);
+  27  |   await organizationSelect.selectOption({ label: 'OpenSign pvt ltd' });
+  28  | }
+  29  | 
+  30  | test.describe('Console app', () => {
+  31  | test('Verify that professional user cannot access the OrgAdmins page in the console application and is prompted to upgrade team plan.', async ({ page }) => {
+  32  |     const commonSteps = new CommonSteps(page);
+  33  |     // Step 1: Navigate to Base URL and log in
+  34  |     await commonSteps.navigateToBaseUrl();
+  35  |     await commonSteps.ProfessionPlanUserlogin();
+  36  |       await page.locator(PROFILE_MENU_BUTTON).click();
+  37  |     const page1Promise = page.waitForEvent('popup');
+  38  |     await page.locator(CONSOLE_OPTION).click();
+  39  |     const page1 = await page1Promise;
+  40  | //verify the profile name on the profile
+  41  | await expect(page1.locator('#root')).toContainText('Pro plan User', { timeout: 120000 });
+  42  | await expect(page1.locator('#root')).toContainText('OpenSign');
+  43  |   await page1.getByRole('button', { name: ' Teams' }).click();
+  44  |   await page1.getByRole('menuitem', { name: 'OrgAdmins' }).click();
+  45  |     const title = await page1.title();
+  46  |     if (title.includes('OpenSign')) {
+  47  |       console.log(`Page title is correct: ${title}`);
+  48  |     } else {
+  49  |       console.error(`Page title is incorrect. Expected an OpenSign page, Got: "${title}"`);
+  50  |     }
+  51  |     await expect(page1.locator('#renderList')).toContainText('OrgAdmins');
+  52  |     await expect(page1.locator('#renderList')).toContainText(/Upgrade to teams? plan/i);
+  53  | });
+  54  | test('Verify that Teams plan user can access OrgAdmins page and add OrgAdmin', async ({ page }) => {
+  55  |   const commonSteps = new CommonSteps(page);
+  56  | 
+  57  |   // Step 1: Navigate to Base URL and log in
+  58  |   await test.step('Login as Teams Plan user', async () => {
+  59  |     await commonSteps.navigateToBaseUrl();
+  60  |     await commonSteps.login();
+  61  |   });
+  62  | let userName = '';
+  63  | let email = '';
+  64  | let password = '';
+  65  |   // Step 2: Open Console (new popup)
+> 66  |     await page.locator(PROFILE_MENU_BUTTON).click();
+      |                                             ^ Error: locator.click: Target page, context or browser has been closed
+  67  |     const page1Promise = page.waitForEvent('popup');
+  68  |     await page.locator(CONSOLE_OPTION).click();
+  69  |   const page1 = await page1Promise;
+  70  |   // Step 3: Verify profile info
+  71  |   await test.step('Verify profile info', async () => {
+  72  |     await expect(page1.locator('#root')).toContainText('Pravin Testing account', { timeout: 120000 });
+  73  |     
+  74  |   });
+  75  | 
+  76  |   // Step 4: Navigate to OrgAdmins page
+  77  |   await test.step('Open OrgAdmins page', async () => {
+  78  |     await page1.getByRole('button', { name: ' Teams' }).click();
+  79  |     await page1.getByRole('menuitem', { name: 'OrgAdmins' }).click();
+  80  | await expect(page1.locator('#renderList')).toContainText('OrgAdmins');
+  81  |     const title = await page1.title();
+  82  |     expect(title).toContain('OpenSign');
+  83  |     await expect(page1.locator('#renderList')).toContainText('OrgAdmins');
+  84  |     await expect(page1.locator('#renderList')).toContainText('Buy more users');
+  85  |     // Verify table headers
+  86  |     for (const header of ['Sr.No', 'Name', 'Email', 'Organization', 'IsActive']) {
+  87  |       await expect(page1.locator('thead')).toContainText(header);
+  88  |     }
+  89  |   });
+  90  | 
+  91  |   // Step 5: Buy more users
+  92  |   await test.step('Buy more users flow', async () => {
+  93  |     await page1.getByText('Buy more users').click();
+  94  |     await expect(page1.getByRole('heading')).toContainText('Add seats');
+  95  |     await expect(page1.locator('form')).toContainText('Quantity of users *');
+  96  |     await expect(page1.locator('form')).toContainText('Price (1 * 100)');
+  97  |     await expect(page1.locator('form')).toContainText('INR 100');
+  98  |     await page1.getByRole('button', { name: 'Proceed' }).click();
+  99  |   });
+  100 | 
+  101 |   // Step 6: Add new OrgAdmin
+  102 |   await test.step('Add new OrgAdmin', async () => {
+  103 |     await page1.locator('#renderList i').nth(1).click();
+  104 |     await expect(page1.getByRole('heading')).toContainText('Add OrgAdmin');
+  105 | 
+  106 |     const randomNum = Math.floor(1000 + Math.random() * 9000);
+  107 |     console.log(randomNum);
+  108 |     userName = `Karl Vanderson ${randomNum}`;
+  109 |     console.log(userName);
+  110 |     email = 'karl' + randomNum + '@opensignlabs.com';
+  111 |     console.log(email);
+  112 | 
+  113 |     await fillOrgAdminForm(page1, { userName, email, phone: '9823409343' });
+  114 | 
+  115 |     // Copy password
+  116 |     password = await page1.locator("//div[@class='break-all']").innerText();
+  117 |     console.log('Generated password:', password?.trim());
+  118 |     await page1.getByRole('button', { name: 'Submit' }).click();
+  119 |   });
+  120 | 
+  121 |   // Step 7: Validate new OrgAdmin row
+  122 |   await test.step('Validate OrgAdmin list', async () => {
+  123 |     for (const header of ['Sr.No', 'Name', 'Email', 'Organization']) {
+  124 |       await expect(page1.locator('thead')).toContainText(header);
+  125 |     }
+  126 | // Locate the row for the specific user
+  127 | // Locate the first row in the table
+  128 | const row = page1.getByRole('row').nth(1); // nth(0) is usually the header row, so nth(1) = first data row
+  129 | 
+  130 | // Assert that row contains the expected values
+  131 | await expect(row).toContainText(userName);
+  132 | await expect(row).toContainText(email);
+  133 | await expect(row).toContainText('OpenSign pvt ltd');
+  134 | 
+  135 | // Assert that the checkbox inside the row is visible
+  136 | const checkbox = row.getByRole('checkbox');
+  137 | await expect(checkbox).toBeVisible();
+  138 |  await page1.getByRole('button', { name: '' }).click();
+  139 |   await page1.getByText('Log Out').click();
+  140 | await page1.getByRole('heading', { name: 'Welcome back!' }).waitFor({ timeout: 120000 });
+  141 | await page1.getByRole('textbox', { name: 'Email' }).fill(email);
+  142 | await page1.getByRole('textbox', { name: 'Email' }).press('Tab');
+  143 | await page1.getByRole('textbox', { name: 'Password' }).fill(password.trim());
+  144 | await page1.getByRole('button', { name: 'Login' }).click();
+  145 |   // Wait until dashboard loads
+  146 | await expect(page1).toHaveURL(/dashboard/, { timeout: 120000 });
+  147 | 
+  148 | // Skip onboarding if it is not shown
+  149 | const dialog = page1.getByRole('dialog');
+  150 | 
+  151 | if (await dialog.isVisible().catch(() => false)) {
+  152 |   while (await dialog.isVisible().catch(() => false)) {
+  153 |     const nextButton = page1.locator('.sc-gsFSXq > button:nth-child(3)');
+  154 | 
+  155 |     if (await nextButton.isVisible().catch(() => false)) {
+  156 |       await nextButton.click();
+  157 |     } else {
+  158 |       break;
+  159 |     }
+  160 |   }
+  161 | }
+  162 |   });
+  163 | 
+  164 | });
+  165 | test('Verify that inactive orgAdmin cannot login.', async ({ page }) => {
+  166 |   const commonSteps = new CommonSteps(page);
+```

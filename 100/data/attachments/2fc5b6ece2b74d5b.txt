@@ -1,0 +1,4 @@
+browser name: chromium
+Browser version: 151.0.7922.34
+Browser Platform: linux
+Page title on login page: Login - OpenSign™

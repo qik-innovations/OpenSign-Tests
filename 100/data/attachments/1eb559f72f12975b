@@ -1,0 +1,265 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/CreateTemplate.spec.js >> Templates >> Verify that a new user can create a template and use it to create the document for selfsign.
+- Location: tests/MainAppPages/CreateTemplate.spec.js:72:1
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByRole('heading', { name: 'OPENSIGN™ FREE' })
+Expected: visible
+Timeout: 90000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 90000ms
+  - waiting for getByRole('heading', { name: 'OPENSIGN™ FREE' })
+
+```
+
+```yaml
+- img "logo"
+- heading "Create account!" [level=2]
+- tablist:
+  - tab "global"
+  - tab "gdpr europe":
+    - img "gdpr"
+    - text: europe
+- text: Name *
+- textbox: Mathew Wade
+- separator
+- text: Email *
+- textbox: pravin+0.805077571090932@nxglabs.in
+- separator
+- text: Phone *
+- textbox: "8238988998"
+- separator
+- text: Company *
+- textbox: qikAi.com
+- separator
+- text: Job title *
+- textbox: Hr Execative
+- separator
+- text: Password *
+- textbox: Nxglabs@123
+- text: 
+- paragraph: ✓Password should be 8 characters long
+- paragraph: ✓Password should contain uppercase letter, lowercase letter, digit
+- paragraph: ✓ Password should contain special character
+- checkbox "I agree to theTerms of ServiceandPrivacy Policy." [checked]
+- text: I agree to theTerms of ServiceandPrivacy Policy.
+- button "Register"
+- button "Login"
+- img "loader"
+- combobox:
+  - option "select" [disabled]
+  - option "English" [selected]
+  - option "Española"
+  - option "Français"
+  - option "Italiano"
+  - option "Deutsch"
+  - option "हिन्दी"
+  - option "한국어"
+```
+
+# Test source
+
+```ts
+  1   | const { test, expect } = require('@playwright/test');
+  2   | const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+  3   | const CommonSteps = require('../utils/CommonSteps');
+  4   | const path = require('path');
+  5   | import { apiRequest } from '../utils/authentication';
+  6   | import {getLatestEmail} from '../utils/getLatestEmail';
+  7   | import { gmailConfig } from '../utils/mailConfigs';
+  8   | import { fetchOTP } from '../utils/otpHelper';
+  9   | test.describe('Templates', () => {
+  10  | test('Verify that a new free user cannot access the paid features on the create template and edit template page.', async ({ page }) => {
+  11  |   const commonSteps = new CommonSteps(page);
+  12  |     // Step 1: Navigate to Base URL and log in
+  13  |     await commonSteps.navigateToBaseUrl();
+  14  |   await page.getByRole('button', { name: 'Create account' }).click();
+  15  |   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
+  16  |   await page.locator('input[type="text"]').first().fill('Mathew Wade');
+  17  |   //here we are creating the random email id
+  18  |   let x = "pravin+" + Math.random() + "@nxglabs.in"
+  19  |   await page.locator('#email').fill(x);
+  20  |   await page.locator('input[type="tel"]').fill('8238988998');
+  21  |   await page.locator('input[type="text"]').nth(1).fill('qikAi.com');
+  22  |   await page.locator('input[type="text"]').nth(2).fill('Hr Execative');
+  23  |   await page.locator('input[name="password"]').fill('Nxglabs@123');
+  24  |   await page.locator('input[id="termsandcondition"]').click();
+  25  |   await page.getByRole('button', { name: 'Register' }).click();
+  26  |   await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible({ timeout: 90000 });
+  27  | await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getByRole('button').click();
+  28  |     await page.getByRole('button', { name: 'Close', exact: true }).click();
+  29  |     // Expects page to have a heading with the name of dashboard.
+  30  |     const title = await page.title()
+  31  |        expect(title).toBe('Dashboard - OpenSign™');
+  32  |          await page.getByRole('button', { name: 'Close Tour' }).click();
+  33  |  await page.getByRole('button', { name: ' Templates' }).click();
+  34  |   await page.getByRole('menuitem', { name: 'Create template' }).click();
+  35  |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  36  |   const fileChooserPromise = page.waitForEvent('filechooser');
+  37  |   await page.locator('input[type="file"]').click();
+  38  |   const fileChooser = await fileChooserPromise;
+  39  |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  40  |   await page.getByText('Advanced options').click();
+  41  |   await expect(page.locator('form')).toContainText('Auto reminder Upgrade now');
+  42  |   await expect(page.locator('form')).toContainText('Enable OTP verification Upgrade now');
+  43  | 
+  44  | const [popup] = await Promise.all([
+  45  |   page.waitForEvent('popup'),
+  46  |   page.locator('span').filter({ hasText: 'Auto reminder Upgrade now' }).locator('span').click()
+  47  | ]);
+  48  | 
+  49  | await popup.waitForLoadState();
+  50  | await popup.goto('https://staging-app.opensignlabs.com/subscription');
+  51  | await expect(popup.locator('#root')).toContainText('OPENSIGN™ FREE');
+  52  | await page.bringToFront();
+  53  |   const page2Promise = page.waitForEvent('popup');
+  54  |   await page.locator('span').filter({ hasText: 'Enable OTP verification' }).locator('span').click();
+  55  |   const page2 = await page2Promise;
+  56  |   await expect(page2.locator('#root')).toContainText('OPENSIGN™ FREE', { timeout: 90000 });
+  57  |   await page.bringToFront();
+  58  |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  59  |   await page.getByRole('button', { name: 'Next' }).click();
+  60  |   await page.waitForLoadState("networkidle");
+  61  |   await page.getByLabel('Close').click();
+  62  |    await page.getByRole('button', { name: 'Edit', exact: true }).click();
+  63  |   await expect(page.locator('form')).toContainText('Auto reminder Upgrade now');
+  64  |   await expect(page.getByText('YesNo').nth(1)).toBeVisible();
+  65  |   await expect(page.locator('form')).toContainText('Enable OTP verification Upgrade now');
+  66  |   await expect(page.getByText('YesNo').nth(2)).toBeVisible();
+  67  |   await expect(page.locator('form')).toContainText('Upgrade now');
+  68  |   await expect(page.getByText('YesNo').nth(4)).toBeVisible();
+  69  |   await page.getByRole('button', { name: 'Submit' }).click();
+  70  | 
+  71  | });
+  72  | test('Verify that a new user can create a template and use it to create the document for selfsign.', async ({ page }) => {
+  73  |   const commonSteps = new CommonSteps(page);
+  74  |     // Step 1: Navigate to Base URL and log in
+  75  |     await commonSteps.navigateToBaseUrl();
+  76  |   await page.getByRole('button', { name: 'Create account' }).click();
+  77  |   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
+  78  |   await page.locator('input[type="text"]').first().fill('Mathew Wade');
+  79  |   //here we are creating the random email id
+  80  |   let x = "pravin+" + Math.random() + "@nxglabs.in"
+  81  |   await page.locator('#email').fill(x);
+  82  |   await page.locator('input[type="tel"]').fill('8238988998');
+  83  |   await page.locator('input[type="text"]').nth(1).fill('qikAi.com');
+  84  |   await page.locator('input[type="text"]').nth(2).fill('Hr Execative');
+  85  |   await page.locator('input[name="password"]').fill('Nxglabs@123');
+  86  |   await page.locator('input[id="termsandcondition"]').click();
+  87  |   await page.getByRole('button', { name: 'Register' }).click();
+> 88  |   await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible({ timeout: 90000 });
+      |                                                                       ^ Error: expect(locator).toBeVisible() failed
+  89  | await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getByRole('button').click();
+  90  |     // Expects page to have a heading with the name of dashboard.
+  91  |     const title = await page.title()
+  92  |        expect(title).toBe('subscription - OpenSign™');
+  93  |       await page.getByRole('button', { name: 'Close Tour' }).click();
+  94  |   await page.getByRole('button', { name: ' Templates' }).click();
+  95  |   await page.getByRole('menuitem', { name: 'Create template' }).click();
+  96  |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  97  |   const fileChooserPromise = page.waitForEvent('filechooser');
+  98  |   await page.locator('input[type="file"]').click();
+  99  |   const fileChooser = await fileChooserPromise;
+  100 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  101 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  102 |   await page.getByRole('button', { name: 'Next' }).click();
+  103 |   await expect(page.locator('//div[@class="reactour__popover"]')).toContainText('Use this option to enter information in advance before sending the document to recipients.',{ timeout: 90000 });
+  104 |   await page.getByRole('button', { name: 'Go to next step' }).click();
+  105 |    await expect(page.locator('//div[@class="reactour__popover"]')).toContainText('Clicking \'Add role\' button will allow you to add various signer roles. You can attach users to each role in subsequent steps.');
+  106 |   await page.getByRole('button', { name: 'Go to next step' }).click();
+  107 |    await expect(page.locator('//div[@class="reactour__popover"]')).toContainText('After adding roles, choose one from the list to place a widget for that recipient. You can either click the widget or drag it onto the document. Once placed, the widget will display in the same color as the selected role.');
+  108 |   await page.getByRole('button', { name: 'Go to next step' }).click();
+  109 |    await expect(page.locator('//div[@class="reactour__popover"]')).toContainText('Click these buttons to add, delete, rearrange, rotate and zoom pages.');
+  110 |   await page.getByRole('button', { name: 'Go to next step' }).click();
+  111 |    await expect(page.locator('//div[@class="reactour__popover"]')).toContainText('Clicking \'Next\' will store the current template. After saving, you\'ll be prompted to create a new document from this template if you wish.');
+  112 |    await page.getByRole('button', { name: 'Close Tour' }).click();
+  113 |    await commonSteps.LoadPlaceholder(page);
+  114 |   await page.getByRole('button', { name: '+ Add role' }).click();
+  115 |   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
+  116 |   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+  117 | await commonSteps.DragAndDropWidget("signature",600,200);
+  118 | await commonSteps.DragAndDropWidget("stamp", 600, 250);
+  119 | 
+  120 | await commonSteps.DragAndDropWidget("initials", 600, 300);
+  121 | 
+  122 | await commonSteps.DragAndDropWidget("name", 600, 350);
+  123 | 
+  124 | await commonSteps.DragAndDropWidget("job title", 600, 370);
+  125 | 
+  126 | await commonSteps.DragAndDropWidget("company", 600, 400);
+  127 | 
+  128 | await commonSteps.DragAndDropWidget("date", 600, 430);
+  129 | 
+  130 | await commonSteps.DragAndDropWidget("text input", 600, 460);
+  131 | 
+  132 | await commonSteps.dragAndDrop("checkbox", 600, 490);
+  133 | 
+  134 | await page.locator("//button[@type='submit' and text()='Save']").click();
+  135 | 
+  136 | await commonSteps.DragAndDropWidget("image", 600, 530);
+  137 | 
+  138 | await commonSteps.DragAndDropWidget("email", 600, 600);
+  139 | await page.getByRole('button', { name: 'Next' }).click();
+  140 | await page.getByRole('button', { name: 'Use Template' }).click();
+  141 |   await page.locator('.css-n9qnu9').first().click();
+  142 |   await page.locator('#selectSignerModal').getByText('HR').click();
+  143 |   await page.locator('#selectSignerModal div').filter({ hasText: /^HR$/ }).getByRole('button').click();
+  144 |   await page.getByLabel('Add yourself').check();
+  145 |   await page.getByRole('button', { name: 'Submit' }).click();
+  146 |   await page.locator('#selectSignerModal').getByRole('button', { name: 'Next' }).click();
+  147 | await page.getByRole('button', { name: 'Sign now' }).click();
+  148 |     await commonSteps.validateAndAcceptTerms();
+  149 |     await page.waitForLoadState("networkidle");
+  150 |     await page.getByLabel('Don\'t show this again').check();
+  151 |       await page.getByRole('button', { name: 'Close Tour' }).click();
+  152 |     await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  153 |     await page.locator('//div[contains(text(),"signature")]').click();
+  154 |    await commonSteps.drawSignature();
+  155 |    await commonSteps.clickNextButtonInSignerModal();
+  156 |   await commonSteps.uploadStamp();
+  157 |   await commonSteps.clickNextButtonInSignerModal();
+  158 | await commonSteps.drawInitials();
+  159 |   await commonSteps.clickNextButtonInSignerModal();
+  160 |   await commonSteps.fillTextField('name','Mathew Steven');
+  161 |       await commonSteps.clickNextButtonInSignerModal();
+  162 |         await commonSteps.fillTextField('job title','Quality Analyst');
+  163 |       await commonSteps.clickNextButtonInSignerModal();
+  164 |         await commonSteps.fillTextField('company','Opensignlabs pvt. ltd');
+  165 |       await commonSteps.clickNextButtonInSignerModal();
+  166 |       const today = new Date();
+  167 | // Format the date as MM/DD/YYYY
+  168 | const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
+  169 |                       `${today.getDate().toString().padStart(2, '0')}/` + 
+  170 |                       `${today.getFullYear()}`;
+  171 | console.log('Today\'s date:', formattedDate);  // Extract day number as text
+  172 | await commonSteps.clickDateFieldOnTheSignerPad_Without_date();
+  173 | //await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
+  174 | function getDayWithSuffix(day) {
+  175 |   if (day >= 11 && day <= 13) return `${day}th`;
+  176 |   switch (day % 10) {
+  177 |     case 1: return `${day}st`;
+  178 |     case 2: return `${day}nd`;  
+  179 |     case 3: return `${day}rd`;
+  180 |     default: return `${day}th`;
+  181 |   }   
+  182 | }
+  183 | // Calculate the target date (today + 2 days)
+  184 | today.setDate(today.getDate() + 2);
+  185 | const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g., "Friday" 
+  186 | const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
+  187 | const day = today.getDate();                                            // e.g., 2
+  188 | const year = today.getFullYear();                                       // e.g., 2025
+```

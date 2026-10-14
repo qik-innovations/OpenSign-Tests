@@ -1,0 +1,234 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/pdfsCompatibility.spec.js >> Incompatiblepdfs >> Verify that the user can successfully sign a PDF that was previously incompatible pdf 10pages.
+- Location: tests/MainAppPages/pdfsCompatibility.spec.js:91:1
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+```
+Error: locator.click: Target page, context or browser has been closed
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=f2e5]:
+  - heading "404" [level=1] [ref=f2e6]
+  - paragraph [ref=f2e7]: Page not found
+```
+
+# Test source
+
+```ts
+  1   | const { test, expect } = require('@playwright/test');
+  2   | const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+  3   | const CommonSteps = require('../utils/CommonSteps');
+  4   | const path = require('path');
+  5   | test.describe('Incompatiblepdfs', () => {
+  6   | test('Verify that the user can successfully sign a PDF that was previously incompatible ERR_PDF', async ({ page }) => {
+  7   |     const commonSteps = new CommonSteps(page);
+  8   |     // Step 1: Navigate to Base URL and log in
+  9   |     await commonSteps.navigateToBaseUrl();
+  10  |     await commonSteps.login();
+  11  |   //const title = await page.title()
+  12  |     //Expects page to have a heading with the name of dashboard.
+  13  |   //expect(title).toBe('Dashboard - OpenSign™');
+  14  |   await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+  15  |     await page.locator('input[name="Name"]').click();
+  16  |     await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  17  |     await page.locator('input[name="Name"]').press('Tab');
+  18  |     await page.locator('input[name="Note"]').click();
+  19  |     const fileChooserPromise = page.waitForEvent('filechooser');
+  20  |   await page.locator('input[type="file"]').click();
+  21  | const fileChooser = await fileChooserPromise;
+  22  | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/IncompatiblePDFs/errpdf.pdf'));
+  23  |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  24  |   await page.getByRole('button', { name: 'Next' }).click();
+  25  | const dialog = page.getByRole('dialog');
+  26  | 
+  27  | const noButton = dialog.getByRole('button', { name: 'No' });
+  28  | 
+  29  | await noButton.click({ timeout: 90000 });
+  30  |   await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature', 600, 300);
+  31  | await commonSteps.dragAndDrop('stamp',600, 360);
+  32  | await commonSteps.uploadStamp(); 
+  33  | await commonSteps.ClickSavebuttonSignerModal();
+  34  | await commonSteps.dragAndDrop('initials',600, 420);
+  35  | await commonSteps.ClickSavebuttonSignerModal();
+  36  | await commonSteps.dragAndDrop('name',600, 450); 
+  37  | await commonSteps.ClickSavebuttonSignerModal();
+  38  | await commonSteps.clickFinishButtonOnPlaceholder();
+  39  | await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
+  40  |   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
+  41  |   await page.locator("//button[normalize-space()='Send']").click();
+  42  | 
+  43  | });
+  44  | test('Verify that the user can successfully sign a PDF that was previously incompatible pdf Order Form', async ({ page }) => {
+  45  |     const commonSteps = new CommonSteps(page);
+  46  |     // Step 1: Navigate to Base URL and log in
+  47  |     await commonSteps.navigateToBaseUrl();
+  48  |     await commonSteps.login();
+  49  |   //const title = await page.title()
+  50  |     //Expects page to have a heading with the name of dashboard.
+  51  |   //expect(title).toBe('Dashboard - OpenSign™');
+  52  |   
+  53  |   await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+  54  |     await page.locator('input[name="Name"]').click();
+  55  |     await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  56  |     await page.locator('input[name="Name"]').press('Tab');
+  57  |     await page.locator('input[name="Note"]').click();
+  58  |     const fileChooserPromise = page.waitForEvent('filechooser');
+  59  |   await page.locator('input[type="file"]').click();
+  60  |   const fileChooser = await fileChooserPromise;
+  61  |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/IncompatiblePDFs/Order_Form.pdf'));
+  62  |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  63  |   await page.getByRole('button', { name: 'Next' }).click();
+  64  |   await page.waitForSelector("//div[@class='react-pdf__Document']//div[@id='container']", { timeout: 90000 }); 
+  65  |   await page.getByRole('button', { name: 'No', exact: true }).click();
+  66  |    await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature', 600, 300);
+  67  | await commonSteps.dragAndDrop('stamp',600, 360);
+  68  | await commonSteps.uploadStamp(); 
+  69  | await commonSteps.ClickSavebuttonSignerModal();
+  70  | await commonSteps.dragAndDrop('initials',600, 420);
+  71  | await commonSteps.ClickSavebuttonSignerModal();
+  72  | await commonSteps.dragAndDrop('name',600, 450);
+  73  | await commonSteps.ClickSavebuttonSignerModal();
+  74  | await commonSteps.dragAndDrop('job title',600, 480);
+  75  | await commonSteps.ClickSavebuttonSignerModal();
+  76  | await commonSteps.dragAndDrop('company',600, 520);
+  77  | await commonSteps.ClickSavebuttonSignerModal();
+  78  | await commonSteps.dragAndDrop('checkbox',600, 600); 
+  79  | await commonSteps.ClickSavebuttonSignerModal();
+  80  | await commonSteps.dragAndDrop('image',600, 630);
+  81  | await commonSteps.uploadImage();
+  82  | await commonSteps.ClickSavebuttonSignerModal(); 
+  83  | await commonSteps.dragAndDrop('email',600, 650);
+  84  | await commonSteps.ClickSavebuttonSignerModal(); 
+  85  | await commonSteps.clickFinishButtonOnPlaceholder();
+  86  | await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
+  87  |   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
+  88  |   await page.locator("//button[normalize-space()='Send']").click();
+  89  | 
+  90  | });
+  91  | test('Verify that the user can successfully sign a PDF that was previously incompatible pdf 10pages.', async ({ page }) => {
+  92  |     const commonSteps = new CommonSteps(page);
+  93  |     // Step 1: Navigate to Base URL and log in
+  94  |     await commonSteps.navigateToBaseUrl();
+  95  |     await commonSteps.login();
+  96  |   //const title = await page.title()
+  97  |     //Expects page to have a heading with the name of dashboard.
+  98  |   //expect(title).toBe('Dashboard - OpenSign™');
+  99  |   
+> 100 |   await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+      |                                                               ^ Error: locator.click: Target page, context or browser has been closed
+  101 |     await page.locator('input[name="Name"]').click();
+  102 |     await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  103 |     await page.locator('input[name="Name"]').press('Tab');
+  104 |     await page.locator('input[name="Note"]').click();
+  105 |     const fileChooserPromise = page.waitForEvent('filechooser');
+  106 |   await page.locator('input[type="file"]').click();
+  107 |   const fileChooser = await fileChooserPromise;
+  108 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/IncompatiblePDFs/10pages.pdf'));
+  109 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  110 |   await page.getByRole('button', { name: 'Next' }).click();
+  111 |  await page
+  112 |   .locator("//div[@class='react-pdf__Document']//div[@id='container']")
+  113 |   .waitFor({ state: 'visible', timeout: 90000 });
+  114 |  await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature',600,300);
+  115 | await commonSteps.clickFinishButtonOnPlaceholder();
+  116 | await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
+  117 |   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
+  118 |   await page.locator("//button[normalize-space()='Send']").click();
+  119 | 
+  120 | });
+  121 | test('Verify that the user can successfully sign a PDF that was previously incompatible pdf 20pages', async ({ page }) => {
+  122 |     const commonSteps = new CommonSteps(page);
+  123 |     // Step 1: Navigate to Base URL and log in
+  124 |     await commonSteps.navigateToBaseUrl();
+  125 |     await commonSteps.login();
+  126 |   //const title = await page.title()
+  127 |     //Expects page to have a heading with the name of dashboard.
+  128 |   //expect(title).toBe('Dashboard - OpenSign™');
+  129 |   
+  130 |   await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+  131 |     await page.locator('input[name="Name"]').click();
+  132 |     await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  133 |     await page.locator('input[name="Name"]').press('Tab');
+  134 |     await page.locator('input[name="Note"]').click();
+  135 |     const fileChooserPromise = page.waitForEvent('filechooser');
+  136 |   await page.locator('input[type="file"]').click();
+  137 |   const fileChooser = await fileChooserPromise;
+  138 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/IncompatiblePDFs/20pages.pdf'));
+  139 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  140 |   await page.getByRole('button', { name: 'Next' }).click();
+  141 |   await page.waitForSelector("//div[@class='react-pdf__Document']//div[@id='container']", { timeout: 90000 }); 
+  142 |   await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature',600,300);
+  143 | await commonSteps.clickFinishButtonOnPlaceholder();
+  144 | await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
+  145 |   await page.locator("//input[@placeholder='Add an email address and hit enter']").fill('pravin@Nxglabs.in');
+  146 |   await page.locator("//button[normalize-space()='Send']").click();
+  147 | 
+  148 | });
+  149 | /*
+  150 | test('Verify that the user can successfully sign a PDF that was previously incompatible (10MB-TESTFILE.ORG)', async ({ page }) => {
+  151 |     const commonSteps = new CommonSteps(page);
+  152 |     // Step 1: Navigate to Base URL and log in
+  153 |     await commonSteps.navigateToBaseUrl();
+  154 |     await commonSteps.login();
+  155 |   //const title = await page.title()
+  156 |     //Expects page to have a heading with the name of dashboard.
+  157 |   //expect(title).toBe('Dashboard - OpenSign™');
+  158 |   
+  159 |   await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+  160 |     await page.locator('input[name="Name"]').click();
+  161 |     await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  162 |     await page.locator('input[name="Name"]').press('Tab');
+  163 |     await page.locator('input[name="Note"]').click();
+  164 |     const fileChooserPromise = page.waitForEvent('filechooser');
+  165 |   await page.locator('input[type="file"]').click();
+  166 |   const fileChooser = await fileChooserPromise;
+  167 |   await fileChooser.setFiles(path.join(__dirname, '/TestData/Samplepdfs/IncompatiblePDFs/10MB-TESTFILE.ORG.pdf'));
+  168 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  169 |   await page.getByRole('button', { name: 'Next' }).click();
+  170 |   await page.waitForSelector('//div[@id=\'container\']//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  171 |   await page.waitForLoadState("networkidle");
+  172 |   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  173 | await page.locator('//span[normalize-space()="signature"]').hover();
+  174 | await page.mouse.down();
+  175 | await page.mouse.move(600, 300)
+  176 | await page.mouse.up();
+  177 | // Optionally save changes
+  178 | await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
+  179 | 
+  180 | await page.locator('//span[normalize-space()="stamp"]').hover();
+  181 | await page.mouse.down();
+  182 | await page.mouse.move(600, 360)
+  183 | await page.mouse.up();
+  184 | const fileChooserPromise1 = page.waitForEvent('filechooser');
+  185 | await page.locator('//i[@class=\'fa-light fa-cloud-upload-alt uploadImgLogo\']').click();
+  186 | const fileChooser1 = await fileChooserPromise1;
+  187 | await fileChooser1.setFiles(path.join(__dirname, '/TestData/Images/stamp.jpg'));
+  188 | await page.locator("//button[normalize-space()='Save']").click();
+  189 | await page.locator('//span[normalize-space()="initials"]').hover();
+  190 | await page.mouse.down();
+  191 | await page.mouse.move(600, 420)
+  192 | await page.mouse.up();
+  193 | await page.locator("//button[@type='button' and text()='Save']/parent::div").click();
+  194 | await page.locator('//span[normalize-space()="name"]').hover();
+  195 | await page.mouse.down();
+  196 | await page.mouse.move(600, 470)
+  197 | await page.mouse.up();
+  198 | await page.locator('//span[normalize-space()="job title"]').hover();
+  199 | await page.mouse.down();
+  200 | await page.mouse.move(600, 480)
+```

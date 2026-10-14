@@ -1,0 +1,5 @@
+browser name: chromium
+Browser version: 151.0.7922.34
+Browser Platform: linux
+Email label visible: false
+Password label visible: false

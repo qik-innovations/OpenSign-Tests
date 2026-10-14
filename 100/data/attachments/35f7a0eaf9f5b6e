@@ -1,0 +1,235 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/Login.spec.js >> Login Page Tests >> Positive Login Tests >> Verify that user profile menu is visible after login
+- Location: tests/MainAppPages/Login.spec.js:111:5
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+```
+Error: page.waitForLoadState: Test timeout of 120000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=f2e5]:
+  - heading "404" [level=1] [ref=f2e6]
+  - paragraph [ref=f2e7]: Page not found
+```
+
+# Test source
+
+```ts
+  17  |   test.beforeEach(async ({ page, browserName, browser }) => {
+  18  |     loginPage = new LoginPage(page);
+  19  |     const browserVersion = await browser.version();
+  20  |     const osPlatform = process.platform;
+  21  |     allure.label("Browser Name", browserName);
+  22  |     console.log("browser name: " + browserName);
+  23  |     allure.label("Browser Version", browserVersion);
+  24  |     console.log("Browser version: " + browserVersion);
+  25  |     allure.label("OS", osPlatform);
+  26  |     console.log("Browser Platform: " + osPlatform);
+  27  |   });
+  28  | 
+  29  |   // ==================== POSITIVE TEST CASES ====================
+  30  |   test.describe('Positive Login Tests', () => {
+  31  |     test('Verify that user can login with valid credentials Teams plan user', async ({ page }) => {
+  32  |       allure.description('Verify successful login with Teams plan user credentials');
+  33  |       await loginPage.navigateToLogin(BASEURL);
+  34  |       await loginPage.verifyLoginPageLoaded();
+  35  |       
+  36  |       await loginPage.fillEmail(loginCredentials.email);
+  37  |       await loginPage.fillPassword(loginCredentials.password);
+  38  |       await loginPage.clickLogin();
+  39  |       
+  40  |       await page.waitForLoadState('networkidle', { timeout: 120000 });
+  41  |       
+  42  |       // Verify dashboard is loaded
+  43  |       const maxRetries = 5;
+  44  |       let retries = 0;
+  45  |       let pageTitle = await loginPage.getPageTitle();
+  46  |       while (!pageTitle.includes('Dashboard') && retries < maxRetries) {
+  47  |         console.log('Page title after login attempt: ' + pageTitle);
+  48  |         await page.waitForTimeout(3000);
+  49  |          pageTitle = await loginPage.getPageTitle();
+  50  |         retries++;
+  51  |       }   
+  52  |         console.log('Final page title after login attempts: ' + pageTitle);     
+  53  |     });
+  54  | 
+  55  |     test('Verify that user can login with valid Pro plan credentials', async ({ page }) => {
+  56  |       allure.description('Verify successful login with Pro plan user credentials');
+  57  |       await loginPage.navigateToLogin(BASEURL);
+  58  |       await loginPage.verifyLoginPageLoaded();
+  59  |       
+  60  |       await loginPage.fillEmail(loginCredentials.ProplanUsername);
+  61  |       await loginPage.fillPassword(loginCredentials.ProPlanpassword);
+  62  |       await loginPage.clickLogin();
+  63  |       
+  64  |       await page.waitForLoadState('networkidle', { timeout: 120000 });
+  65  |       
+  66  |       // Verify dashboard is loaded
+  67  |       const maxRetries = 5;
+  68  |       let retries = 0;
+  69  |       let pageTitle = await loginPage.getPageTitle();
+  70  |       while (!pageTitle.includes('Dashboard') && retries < maxRetries) {
+  71  |         console.log('Page title after login attempt: ' + pageTitle);
+  72  |         await page.waitForTimeout(3000);
+  73  |          pageTitle = await loginPage.getPageTitle();
+  74  |         retries++;
+  75  |       }   
+  76  |         console.log('Final page title after login attempts: ' + pageTitle);  
+  77  |       
+  78  |     });
+  79  | 
+  80  |     test('Verify that login page displays correct page title', async ({ page }) => {
+  81  |       allure.description('Verify login page has correct page title on initial load');
+  82  |       await loginPage.navigateToLogin(BASEURL);
+  83  |       
+  84  |       const pageTitle = await loginPage.getPageTitle();
+  85  |       expect(pageTitle).toBeTruthy();
+  86  |       console.log('Page title on login page: ' + pageTitle);
+  87  |     });
+  88  | 
+  89  |     test('Verify that form submission works with Enter key on password field', async ({ page }) => {
+  90  |       allure.description('Verify login form submission using Enter key on password field');
+  91  |       await loginPage.navigateToLogin(BASEURL);
+  92  |       await loginPage.verifyLoginPageLoaded();
+  93  |       
+  94  |       await loginPage.submitLoginWithEnterKey(loginCredentials.email, loginCredentials.password);
+  95  |    
+  96  |       await page.waitForLoadState('networkidle', { timeout: 120000 });
+  97  |       
+  98  |       // Verify dashboard is loaded
+  99  |       const maxRetries = 5;
+  100 |       let retries = 0;
+  101 |       let pageTitle = await loginPage.getPageTitle();
+  102 |       while (!pageTitle.includes('Dashboard') && retries < maxRetries) {
+  103 |         console.log('Page title after login attempt: ' + pageTitle);
+  104 |         await page.waitForTimeout(3000);
+  105 |          pageTitle = await loginPage.getPageTitle();
+  106 |         retries++;
+  107 |       }   
+  108 |         console.log('Final page title after login attempts: ' + pageTitle);  
+  109 |     });
+  110 | 
+  111 |     test('Verify that user profile menu is visible after login', async ({ page }) => {
+  112 |       allure.description('Verify user profile menu/info is displayed after successful login');
+  113 |       const commonSteps = new CommonSteps(page);
+  114 |       await commonSteps.navigateToBaseUrl();
+  115 |       await commonSteps.login();
+  116 |       
+> 117 |       await page.waitForLoadState('networkidle', { timeout: 120000 });
+      |                  ^ Error: page.waitForLoadState: Test timeout of 120000ms exceeded.
+  118 |       
+  119 |       // Check for profile menu button or user info
+  120 |         await page.getByRole('button', { name: '' }).click();
+  121 |   await page.getByText('Profile').click();
+  122 |   await expect(page.getByRole('list')).toContainText('pravin+testaccount@nxglabs.in');
+  123 | 
+  124 |     });
+  125 | 
+  126 |     test('Verify that user is redirected to dashboard after successful login', async ({ page }) => {
+  127 |       allure.description('Verify user is redirected to dashboard URL after login');
+  128 |       await loginPage.navigateToLogin(BASEURL);
+  129 |       await loginPage.submitLoginForm(loginCredentials.email, loginCredentials.password);
+  130 |       
+  131 |       await page.waitForLoadState('networkidle', { timeout: 120000 });
+  132 |       
+  133 |       const url = page.url();
+  134 |       console.log('URL after login: ' + url);
+  135 |       expect(url).toContain(BASEURL.replace(/\/$/, ''));
+  136 |     });
+  137 |   });
+  138 | 
+  139 |   // ==================== NEGATIVE TEST CASES ====================
+  140 |   test.describe('Negative Login Tests', () => {
+  141 |     test('Verify that login fails with invalid email address', async ({ page }) => {
+  142 |       allure.description('Verify login fails with invalid email format');
+  143 |       await loginPage.navigateToLogin(BASEURL);
+  144 |       await loginPage.verifyLoginPageLoaded();
+  145 |       
+  146 |       await loginPage.fillEmail('invalidemail@fakeemail.com');
+  147 |       await loginPage.fillPassword('SomePassword123');
+  148 |       await loginPage.clickLogin();
+  149 |       
+  150 |       await page.waitForLoadState('networkidle', { timeout: 60000 });
+  151 |       
+  152 |       // Verify user is still on login page (not logged in)
+  153 |       const loginButton = await loginPage.isLoginButtonVisible();
+  154 |       expect(loginButton).toBe(true);
+  155 |     });
+  156 | 
+  157 |     test('Verify that login fails with invalid password', async ({ page }) => {
+  158 |       allure.description('Verify login fails with invalid password for valid email');
+  159 |       await loginPage.navigateToLogin(BASEURL);
+  160 |       await loginPage.verifyLoginPageLoaded();
+  161 |       
+  162 |       await loginPage.fillEmail(loginCredentials.email);
+  163 |       await loginPage.fillPassword('WrongPassword123!@#');
+  164 |       await loginPage.clickLogin();
+  165 |       
+  166 |       await page.waitForLoadState('networkidle', { timeout: 60000 });
+  167 |       
+  168 |       // Verify user is still on login page
+  169 |       const loginButton = await loginPage.isLoginButtonVisible();
+  170 |       expect(loginButton).toBe(true);
+  171 |     });
+  172 | 
+  173 | 
+  174 |     test('Verify that login is not allowed with both email and password empty', async ({ page }) => {
+  175 |       allure.description('Verify login with both fields empty is prevented');
+  176 |       await loginPage.navigateToLogin(BASEURL);
+  177 |       await loginPage.verifyLoginPageLoaded();
+  178 |       
+  179 |       // Try to submit without filling fields
+  180 |       await loginPage.clickLogin();
+  181 |       
+  182 |       // Verify user is still on login page
+  183 |       const emailField = await loginPage.isEmailFieldVisible();
+  184 |       expect(emailField).toBe(true);
+  185 |     });
+  186 | 
+  187 |     test('Verify that user cannot login with email only (no password)', async ({ page }) => {
+  188 |       allure.description('Verify login attempt with email only is prevented');
+  189 |       await loginPage.navigateToLogin(BASEURL);
+  190 |       await loginPage.verifyLoginPageLoaded();
+  191 |       
+  192 |       await loginPage.fillEmail(loginCredentials.email);
+  193 |       await loginPage.clickLogin();
+  194 |       
+  195 |       // Verify still on login page
+  196 |       const loginButton = await loginPage.isLoginButtonVisible();
+  197 |       expect(loginButton).toBe(true);
+  198 |     });
+  199 | 
+  200 |     test('Verify that user cannot login with password only (no email)', async ({ page }) => {
+  201 |       allure.description('Verify login attempt with password only is prevented');
+  202 |       await loginPage.navigateToLogin(BASEURL);
+  203 |       await loginPage.verifyLoginPageLoaded();
+  204 |       
+  205 |       await loginPage.fillPassword(loginCredentials.password);
+  206 |       await loginPage.clickLogin();
+  207 |       
+  208 |       // Verify still on login page
+  209 |       const loginButton = await loginPage.isLoginButtonVisible();
+  210 |       expect(loginButton).toBe(true);
+  211 |     });
+  212 |   });
+  213 | 
+  214 |   // ==================== UI/VALIDATION TEST CASES ====================
+  215 |   test.describe('Login Page UI and Validation Tests', () => {
+  216 |     test('Verify that email and password fields have proper labels', async ({ page }) => {
+  217 |       allure.description('Verify email and password input fields have labels');
+```

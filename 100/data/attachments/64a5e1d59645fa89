@@ -1,0 +1,235 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/CreateTemplate.spec.js >> Templates >> Verify that the signature settings function correctly for the signature widget on the create template.
+- Location: tests/MainAppPages/CreateTemplate.spec.js:376:1
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+```
+Error: locator.click: Target page, context or browser has been closed
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=f2e5]:
+  - heading "404" [level=1] [ref=f2e6]
+  - paragraph [ref=f2e7]: Page not found
+```
+
+# Test source
+
+```ts
+  281 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  282 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  283 |   await page.locator('input[type="file"]').click();
+  284 |   const fileChooser = await fileChooserPromise;
+  285 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  286 |   await page.locator("//input[@name='SendinOrder' and @value='false']").click();
+  287 |   await page.getByText('Advanced options').click();
+  288 |   await page.locator('input[name="TimeToCompleteDays"]').fill('2');
+  289 |   await page.locator('.css-n9qnu9').first().click();
+  290 |   await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+  291 |   await page.locator('input[name="IsEnableOTP"]').nth(1).check();
+  292 |  // await page.locator('input[name="IsTourEnabled"]').nth(1).check();
+  293 |   //await page.locator('div').filter({ hasText: /^Notify on signaturesYesNo$/ }).getByRole('radio').nth(1).check();
+  294 |   //await page.locator('div:nth-child(5) > div > div > .mr-\\[2px\\]').first().check();
+  295 |   
+  296 |   await page.locator('input[name="RedirectUrl"]').fill('https://staging-app.opensignlabs.com/');
+  297 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  298 |   await page.getByRole('button', { name: 'Next' }).click();
+  299 |   await page.getByRole('button', { name: 'Edit' }).click();
+  300 |   // The Edit step uses the uploaded PDF's base name; the template is saved
+  301 |   // under the custom name entered on the first step (verified in the list).
+  302 |   await expect(page.locator('input[name="Name"]')).toHaveValue('Sample-joining-letter');
+  303 |   await expect(page.getByLabel('Note')).toHaveValue('Please review and sign this document');
+  304 |  // await expect(page.locator('input[name="SendinOrder"]').nth(1)).toBeChecked();
+  305 |  //await expect(page.locator('input[name="IsEnableOTP"]').first()).toBeChecked();
+  306 |  // await expect(page.locator('input[name="IsTourEnabled"]').first()).not.toBeChecked();
+  307 |   //await expect(page.locator('input[name="IsTourEnabled"]').nth(1)).toBeChecked();
+  308 |  // await page.locator('div').filter({ hasText: /^Notify on signatures YesNo$/ }).getByRole('radio').nth(1).check();
+  309 |   await expect(page.locator('input[name="RedirectUrl"]')).toHaveValue('https://staging-app.opensignlabs.com/');
+  310 |   await expect(page.locator('input[name="TimeToCompleteDays"]')).toHaveValue('2');
+  311 |   await page.getByRole('button', { name: 'Submit' }).click();
+  312 |   await page.getByRole('button', { name: '+ Add role' }).click();
+  313 |   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
+  314 |   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+  315 | await commonSteps.LoadPlaceholder(page);
+  316 | await commonSteps.DragAndDropWidget("signature",600, 300);
+  317 | await page.waitForLoadState("networkidle");
+  318 | await page.getByRole('button', { name: 'Next' }).click();
+  319 |  await page.locator('#selectSignerModal').getByRole('button', { name: 'Close', exact: true }).click();
+  320 |  await expect(page.locator('#selectSignerModal')).toBeHidden();
+  321 |  await page.getByRole('menuitem', { name: 'Manage templates' }).click();
+  322 |  const closeTour = page.getByRole('button', { name: 'Close Tour' });
+  323 |  if (await closeTour.isVisible().catch(() => false)) await closeTour.click();
+  324 |   await expect(page.locator('tbody')).toContainText('Sample-joining-letter');
+  325 |   await expect(page.locator('tbody')).toContainText('Download');
+  326 |   await expect(page.locator('tbody')).toContainText('Pravin Testing account');
+  327 |   await page.getByRole('button', { name: 'View' }).first().click();
+  328 |   await expect(page.locator('#selectSignerModal')).toContainText('Roles');
+  329 |   await expect(page.locator('#selectSignerModal')).toContainText('Email');
+  330 |  await page.locator('#selectSignerModal').getByRole('button', { name: 'Close', exact: true }).click();
+  331 | 
+  332 | });
+  333 | test('Verify that a Team Plan user can create a template, make it public, and sign the document through the public template.', async ({ page }) => {
+  334 |   const commonSteps = new CommonSteps(page);
+  335 |     // Step 1: Navigate to Base URL and log in
+  336 |     await commonSteps.navigateToBaseUrl();
+  337 |     await commonSteps.login();
+  338 |      await page.getByRole('button', { name: ' Templates' }).click();
+  339 |   await page.getByRole('menuitem', { name: 'Create template' }).click();
+  340 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  341 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  342 |   await page.locator('input[type="file"]').click();
+  343 |   const fileChooser = await fileChooserPromise;
+  344 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  345 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  346 |   await page.getByRole('button', { name: 'Next' }).click();
+  347 | await commonSteps.LoadPlaceholder(page);
+  348 |   await page.getByRole('button', { name: '+ Add role' }).click();
+  349 |   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
+  350 |   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+  351 |   await commonSteps.DragAndDropWidget("signature", 600,300)
+  352 | await page.getByRole('button', { name: 'Next' }).click();
+  353 | await page.getByRole('button', { name: 'Copy public URL' }).click();
+  354 |   await page.getByRole('button', { name: 'Yes' }).click();
+  355 |   const page1Promise = page.waitForEvent('popup');
+  356 |   await page.getByRole('link', { name: 'https://staging-app.' }).click();
+  357 |   const page1 = await page1Promise;
+  358 |   await page1.getByRole('button', { name: 'Sign now' }).click();
+  359 |   await page1.locator('#name').click();
+  360 |   await page1.locator('#name').fill('Andrews Mark');
+  361 |   await page1.locator('input[name="email"]').click();
+  362 |   await page1.locator('input[name="email"]').fill('pravin+andrews@nxglabs.in');
+  363 |   await page1.getByRole('button', { name: 'Optional details' }).click();
+  364 |   await page1.locator('input[name="phone"]').fill('7657567566');
+  365 |   await page1.getByRole('button', { name: 'Submit' }).click();
+  366 |   const commonStepspage1 = new CommonSteps(page1);
+  367 |   await commonStepspage1.validateAndAcceptTerms();
+  368 |   await page1.getByText('signature-1').click();
+  369 |    await commonStepspage1.drawSignature();
+  370 |   await commonStepspage1.clickDoneButtonInSignerModal();
+  371 |   await commonStepspage1.clickFinishButtonInSignerModal();
+  372 |   await expect(page1.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 120000 });
+  373 |   await expect(page1.locator('#selectSignerModal')).toContainText('Print');
+  374 | 
+  375 | });
+  376 | test('Verify that the signature settings function correctly for the signature widget on the create template.', async ({ page }) => {
+  377 |   const commonSteps = new CommonSteps(page);
+  378 |     // Step 1: Navigate to Base URL and log in
+  379 |     await commonSteps.navigateToBaseUrl();
+  380 |     await commonSteps.login();
+> 381 |  await page.getByRole('button', { name: ' Templates' }).click();
+      |                                                          ^ Error: locator.click: Target page, context or browser has been closed
+  382 |   await page.getByRole('menuitem', { name: 'Create template' }).click();
+  383 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  384 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  385 |   await page.locator('input[type="file"]').click();
+  386 |   const fileChooser = await fileChooserPromise;
+  387 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  388 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  389 |   await page.getByRole('button', { name: 'Next' }).click();
+  390 | await commonSteps.LoadPlaceholder(page);
+  391 | await page.getByRole('button', { name: '+ Add role' }).click();
+  392 |   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
+  393 |   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+  394 | await commonSteps.DragAndDropWidget("signature", 600,300)
+  395 | await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
+  396 | await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first().uncheck();
+  397 |   await page.getByRole('textbox').fill('Signature Draw removed');
+  398 |   await page.getByRole('button', { name: 'Save' }).click();
+  399 |   await page.locator("//div[@class='flex items-stretch justify-center']//div[text()='Signature Draw removed']").click();
+  400 |   await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
+  401 |   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first()).not.toBeChecked();
+  402 |   await expect(page.getByRole('textbox')).toHaveValue('Signature Draw removed');
+  403 |   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(1).uncheck();
+  404 |     await page.getByRole('textbox').fill('Signature type removed');
+  405 |   await page.getByRole('button', { name: 'Save' }).click();
+  406 |     await page.locator("//div[@class='flex items-stretch justify-center']//div[text()='Signature type removed']").click();
+  407 | await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
+  408 |   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(1)).not.toBeChecked();
+  409 |   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(2).uncheck();
+  410 |   page.once('dialog', dialog => {
+  411 |     console.log(`Dialog message: ${dialog.message()}`);
+  412 |     dialog.dismiss().catch(() => {});
+  413 |   });
+  414 |   await page.getByRole('button', { name: 'Save' }).click();
+  415 |   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(2).check();
+  416 |   await page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(3).uncheck();
+  417 |   await page.getByRole('textbox').fill('only upload type enabled');
+  418 |   await page.getByRole('button', { name: 'Save' }).click();
+  419 |   await page.locator("//div[@class='flex items-stretch justify-center']//div[text()='only upload type enabled']").click();
+  420 |  await page.locator('//i[contains(@class, "fa-gear") and contains(@class, "icon")]').click();
+  421 |   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').first()).not.toBeChecked();
+  422 |   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(1)).not.toBeChecked();
+  423 |   await expect(page.locator('//input[@class="mr-[2px] op-checkbox op-checkbox-xs" and @type="checkbox"]').nth(3)).not.toBeChecked();
+  424 |   await expect(page.getByRole('textbox')).toHaveValue('only upload type enabled');
+  425 | }); 
+  426 | test('Verify that the merge page functions correctly and the user can sign the merged document in the create template.', async ({ page }) => {
+  427 |   const commonSteps = new CommonSteps(page);
+  428 |     // Step 1: Navigate to Base URL and log in
+  429 |     await commonSteps.navigateToBaseUrl();
+  430 |     await commonSteps.login();
+  431 |    await page.getByRole('button', { name: ' Templates' }).click();
+  432 |   await page.getByRole('menuitem', { name: 'Create template' }).click();
+  433 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  434 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  435 |   await page.locator('input[type="file"]').click();
+  436 |   const fileChooser = await fileChooserPromise;
+  437 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  438 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  439 |   await page.getByRole('button', { name: 'Next' }).click();
+  440 | await commonSteps.LoadPlaceholder(page);
+  441 | await expect(page.locator('#renderList')).toContainText('1 of 1');
+  442 |   const fileChooserPromise2 = page.waitForEvent('filechooser');
+  443 |   await page.getByRole('button', { name: '+ Add pages' }).click();
+  444 |   const fileChooser2 = await fileChooserPromise2;
+  445 | await fileChooser2.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
+  446 |   await expect(page.locator('#renderList')).toContainText('1 of 4');
+  447 |   await page.locator('canvas').nth(1).click({
+  448 |     position: {
+  449 |       x: 69,
+  450 |       y: 42
+  451 |     }
+  452 |   });
+  453 |   await page.locator('canvas').nth(2).click({
+  454 |     position: {
+  455 |       x: 47,
+  456 |       y: 53
+  457 |     }
+  458 |   });
+  459 |   await page.locator('canvas').nth(3).click({
+  460 |     position: {
+  461 |       x: 65,
+  462 |       y: 49
+  463 |     }
+  464 |   });
+  465 | 
+  466 |   await page.getByRole('button', { name: '+ Add role' }).click();
+  467 |   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
+  468 |   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+  469 |   await commonSteps.DragAndDropWidget("signature", 600,200);
+  470 | await commonSteps.DragAndDropWidget("stamp", 600,250);
+  471 | await commonSteps.DragAndDropWidget("initials", 600,300);
+  472 | await commonSteps.DragAndDropWidget("name", 600,350);
+  473 | await commonSteps.DragAndDropWidget("job title", 600,390);
+  474 | await commonSteps.DragAndDropWidget("company", 600,410);
+  475 | await commonSteps.dragAndDrop("date", 600,440);
+  476 | await commonSteps.DragAndDropWidget("text input", 600,470);
+  477 | await commonSteps.dragAndDrop("checkbox", 600,500);
+  478 | await commonSteps.ClickSavebuttonSignerModal();
+  479 | await commonSteps.DragAndDropWidget("image", 600,540);
+  480 | await commonSteps.DragAndDropWidget("email", 600,600);
+  481 | await page.getByRole('button', { name: 'Next' }).click();
+```

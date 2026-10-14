@@ -1,0 +1,118 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: ConsoleApp/ConsoleSignCertificate.spec.js >> Console app >> Verify that Professional plan user cannot access the Signing certificate page in the console application and is prompted to upgrade Team plan.
+- Location: tests/ConsoleApp/ConsoleSignCertificate.spec.js:35:1
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+```
+Error: locator.click: Target page, context or browser has been closed
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=f2e5]:
+  - heading "404" [level=1] [ref=f2e6]
+  - paragraph [ref=f2e7]: Page not found
+```
+
+# Test source
+
+```ts
+  1  | const { test, expect } = require('@playwright/test');
+  2  | const path = require('path');
+  3  | const CommonSteps = require('../utils/CommonSteps');
+  4  | 
+  5  | const PROFILE_MENU_BUTTON = '//button[@aria-controls="profile-menu-list"]';
+  6  | const CONSOLE_OPTION = '//button[@type="button" and contains(., "Console")]//i[contains(@class,"fa-id-card")]';
+  7  | const PROFILE_NAME = '//div[@id="root"]//p[@class="text-[14px] font-bold text-base-content"]';
+  8  | test.describe('Console app', () => {
+  9  | test('Verify that a free user cannot access the Signing certificate page in the console application and is prompted to upgrade.', async ({ page }) => {
+  10 |     const commonSteps = new CommonSteps(page);
+  11 |     // Step 1: Navigate to Base URL and log in
+  12 |     await commonSteps.navigateToBaseUrl();
+  13 |     await commonSteps.NewUserlogin();
+  14 |     const closeTourButton = page.getByRole('button', { name: 'Close Tour' });
+  15 |     await closeTourButton.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+  16 |     if (await closeTourButton.isVisible()) {
+  17 |       await closeTourButton.click({ force: true });
+  18 |       await expect(page.locator('.reactour__mask')).toBeHidden({ timeout: 10000 });
+  19 |     }
+  20 | 
+  21 |     await page.locator(PROFILE_MENU_BUTTON).click();
+  22 |     const page1Promise = page.waitForEvent('popup');
+  23 |     await page.getByRole('button', { name: /Console/ }).click();
+  24 |     const page1 = await page1Promise;
+  25 | 
+  26 |     await expect(page1.locator('#root')).toContainText('Mathew Wade', { timeout: 120000 });
+  27 |     await expect(page1.locator('#root')).toContainText('qikAi.com');
+  28 |     await page1.getByRole('menuitem', { name: 'Signing certificate' }).click();
+  29 | 
+  30 |     await expect(page1).toHaveTitle(/OpenSign/i, { timeout: 120000 });
+  31 |     await expect(page1.getByRole('heading')).toContainText(/custom signing certificate/i);
+  32 |     await expect(page1.locator('#renderList')).toContainText(/upgrade to .*plan/i);
+  33 |   
+  34 | });
+  35 | test('Verify that Professional plan user cannot access the Signing certificate page in the console application and is prompted to upgrade Team plan.', async ({ page }) => {
+  36 |     const commonSteps = new CommonSteps(page);
+  37 |     // Step 1: Navigate to Base URL and log in
+  38 |     await commonSteps.navigateToBaseUrl();
+  39 |     await commonSteps.ProfessionPlanUserlogin();
+> 40 |      await page.locator(PROFILE_MENU_BUTTON).click();
+     |                                              ^ Error: locator.click: Target page, context or browser has been closed
+  41 |     const page1Promise = page.waitForEvent('popup');
+  42 |     await page.locator(CONSOLE_OPTION).click();
+  43 |     const page1 = await page1Promise;
+  44 | //verify the profile name on the profile
+  45 | await expect(page1.locator('#root')).toContainText('Pro plan User', { timeout: 120000 });
+  46 | await expect(page1.locator('#root')).toContainText('OpenSign');
+  47 |   await page1.getByRole('menuitem', { name: 'Signing certificate' }).click();
+  48 |     const title = await page1.title();
+  49 |     if (title.includes('OpenSign')) {
+  50 |       console.log(`Page title is correct: ${title}`);
+  51 |     } else {
+  52 |       console.error(`Page title is incorrect. Expected an OpenSign page, Got: "${title}"`);
+  53 |     }
+  54 |     
+  55 |   await expect(page1.getByRole('heading')).toContainText(/custom signing certificate/i);
+  56 |   await expect(page1.locator('#renderList')).toContainText(/upgrade to .*plan/i);
+  57 |   
+  58 | });
+  59 | test('Verify that Team plan user can access the Signing certificate page in the console application and can upload the pfx certificate.', async ({ page }) => {
+  60 |     const commonSteps = new CommonSteps(page);
+  61 |     // Step 1: Navigate to Base URL and log in
+  62 |     await commonSteps.navigateToBaseUrl();
+  63 |     await commonSteps.login();
+  64 |      await page.locator(PROFILE_MENU_BUTTON).click();
+  65 |     const page1Promise = page.waitForEvent('popup');
+  66 |     await page.locator(CONSOLE_OPTION).click();
+  67 |     const page1 = await page1Promise;
+  68 | //verify the profile name on the profile
+  69 | await expect(page1.locator('#root')).toContainText('Pravin Testing account', { timeout: 120000 });
+  70 | await expect(page1.locator('#root')).toContainText('OpenSign pvt ltd');
+  71 |   await page1.getByRole('menuitem', { name: 'Signing certificate' }).click();
+  72 |     await expect(page1.getByRole('heading')).toContainText(/custom signing certificate/i);
+  73 |     const certificateFile = path.join(__dirname, '../TestData/fred.pfx');
+  74 |     const fileInput = page1.locator('input[type="file"][accept=".pfx"]');
+  75 |     await expect(fileInput).toBeAttached({ timeout: 120000 });
+  76 |     await fileInput.setInputFiles(certificateFile);
+  77 |     await page1.getByPlaceholder('Enter password of pfx file').fill('apples');
+  78 |     const saveButton = page1.getByRole('button', { name: /^(Save|Update)$/i });
+  79 |     await expect(saveButton).toBeEnabled({ timeout: 120000 });
+  80 |     await saveButton.click();
+  81 |     await page1.getByRole('button', { name: 'Use default OpenSign™ certificate' }).click();
+  82 | });
+  83 | });
+  84 | 
+```

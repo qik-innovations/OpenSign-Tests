@@ -1,0 +1,189 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/Contact.spec.js >> Contact >> Verify that user can import contacts from an Excel file and delete them across pages.
+- Location: tests/MainAppPages/Contact.spec.js:165:1
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+```
+Error: locator.click: Target page, context or browser has been closed
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=f2e5]:
+  - heading "404" [level=1] [ref=f2e6]
+  - paragraph [ref=f2e7]: Page not found
+```
+
+# Test source
+
+```ts
+  73  |   await commonSteps.login();
+  74  | 
+  75  |   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
+  76  |   await page.waitForLoadState('networkidle');
+  77  | 
+  78  |   const addContactButton = page.locator(
+  79  |     "//div[contains(@class,'cursor-pointer') and .//i[contains(@class,'fa-square-plus')]]"
+  80  |   );
+  81  | 
+  82  |   const closeModalButton = page.locator(
+  83  |     "//dialog[@id='selectSignerModal']//button[text()='✕']"
+  84  |   );
+  85  | 
+  86  |   const deleteContactIfExists = async () => {
+  87  |     const maxPages = 5;
+  88  | 
+  89  |     for (let i = 0; i < maxPages; i++) {
+  90  |       const row = page.getByRole('row').filter({
+  91  |         hasText: contactEmail,
+  92  |       });
+  93  | 
+  94  |       if (await row.count()) {
+  95  |         await row.first().getByRole('button').nth(1).click();
+  96  |         await page.getByRole('button', { name: 'Yes' }).click();
+  97  |         await page.waitForLoadState('networkidle');
+  98  |         return;
+  99  |       }
+  100 | 
+  101 |       const nextButton = page.getByRole('button', { name: 'Next' });
+  102 | 
+  103 |       if (
+  104 |         (await nextButton.isVisible().catch(() => false)) &&
+  105 |         !(await nextButton.isDisabled())
+  106 |       ) {
+  107 |         await nextButton.click();
+  108 |         await page.waitForLoadState('networkidle');
+  109 |       } else {
+  110 |         break;
+  111 |       }
+  112 |     }
+  113 |   };
+  114 | 
+  115 |   try {
+  116 |     // Cleanup before test
+  117 |     await deleteContactIfExists();
+  118 | 
+  119 |     // Create contact
+  120 |     await addContactButton.click();
+  121 | 
+  122 |     await page.getByLabel('Name *').fill(contactName);
+  123 |     await page.getByLabel('Email *').fill(contactEmail);
+  124 | 
+  125 |     await page.getByRole('button', { name: 'Submit' }).click();
+  126 |     await page.waitForLoadState('networkidle');
+  127 | 
+  128 |     // Try to create duplicate contact
+  129 |     await addContactButton.click();
+  130 | 
+  131 |     await page.getByLabel('Name *').fill('Andrews Wade');
+  132 |     await page.getByLabel('Email *').fill(contactEmail);
+  133 | 
+  134 |     // Alert validation is skipped because it is not exposed in Playwright
+  135 |     await page.getByRole('button', { name: 'Submit' }).click();
+  136 |     await page.waitForLoadState('networkidle');
+  137 | 
+  138 |     // Close modal if it is still open
+  139 |     if (await closeModalButton.isVisible().catch(() => false)) {
+  140 |       await closeModalButton.click();
+  141 |     }
+  142 |     await page.waitForLoadState('networkidle');
+  143 |     await page.waitForLoadState('networkidle');
+  144 | 
+  145 |     const duplicateRows = page.getByRole('row').filter({
+  146 |       hasText: contactEmail,
+  147 |     });
+  148 | 
+  149 |     const rowCount = await duplicateRows.count();
+  150 | 
+  151 |     console.log(`Duplicate contact count: ${rowCount}`);
+  152 | 
+  153 |     if (rowCount === 1) {
+  154 |       console.log('Duplicate contact was not created.');
+  155 |     } else if (rowCount === 0) {
+  156 |       console.log('Contact is not visible in the current table. Skipping duplicate validation.');
+  157 |     } else {
+  158 |       console.log(`Found ${rowCount} contacts with the same email.`);
+  159 |     }
+  160 |   } finally {
+  161 |     // Cleanup
+  162 |     await deleteContactIfExists();
+  163 |   }
+  164 | });
+  165 | test('Verify that user can import contacts from an Excel file and delete them across pages.', async ({ page }) => {
+  166 |   const commonSteps = new CommonSteps(page);
+  167 | 
+  168 |   // Step 1: Navigate to Base URL and log in
+  169 |   await commonSteps.navigateToBaseUrl();
+  170 |   await commonSteps.login();
+  171 | 
+  172 |   // Navigate to Contactbook
+> 173 |   await page.getByRole('menuitem', { name: 'Contactbook' }).click();
+      |                                                             ^ Error: locator.click: Target page, context or browser has been closed
+  174 | 
+  175 |   // Trigger Import
+  176 |   await page.locator("//div[contains(@class, 'cursor-pointer') and .//i[contains(@class, 'fa-upload')]]").click();
+  177 |   await page.getByRole('button', { name: 'Import' }).click();
+  178 | 
+  179 |   // Handle file chooser
+  180 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  181 |   await page.locator('input[type="file"]').click();
+  182 |   const fileChooser = await fileChooserPromise;
+  183 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Contactbookready.xlsx'));
+  184 | 
+  185 |   // Perform Import
+  186 |   await page.getByRole('button', { name: 'Import' }).click();
+  187 | await page.waitForTimeout(5000);
+  188 |   // Contacts to verify and delete
+  189 |   const contacts = [
+  190 |     { name: 'Tony Stark', email: 'tonys@nxglabs.in' },
+  191 |     { name: 'Steve Head', email: 'stevehead@nxglabs.in' }
+  192 |   ];
+  193 | 
+  194 |   for (const contact of contacts) {
+  195 |     let contactFound = false;
+  196 |     // Loop through pages until contact is found
+  197 |     while (!contactFound) {
+  198 |       const contactCell = page.getByRole('cell', { name: contact.name });
+  199 | await page.waitForTimeout(2000);
+  200 |       if (await contactCell.isVisible().catch(() => false)) {
+  201 |         // Step: Verify contact name is visible
+  202 |         await expect(contactCell).toBeVisible({ timeout: 5000 });
+  203 |         // Step: Verify contact email is visible
+  204 |         await expect(
+  205 |           page.getByRole('cell', { name: contact.email })).toBeVisible({ timeout: 5000 });
+  206 | 
+  207 |         // Step: Delete the contact
+  208 |         const row = await page.getByRole('row', { name: new RegExp(`${contact.name}.*${contact.email}`)
+  209 |         });
+  210 |         await row.getByRole('button').nth(1).click();
+  211 |         await page.getByRole('button', { name: 'Yes' }).click();
+  212 |         contactFound = true;
+  213 |       } else {
+  214 |         // Try to go to the next page
+  215 |         const nextButton = page.locator('//button[@class ="op-join-item op-btn op-btn-sm" and text()="Next"]');
+  216 |         if (await nextButton.isVisible() && !(await nextButton.isDisabled())) {
+  217 |           await nextButton.click();
+  218 |           await page.waitForLoadState('networkidle');
+  219 |         } else {
+  220 |           throw new Error(`Contact "${contact.name}" not found in the contact book.`);
+  221 |         }
+  222 |       }
+  223 |     }
+  224 |   }
+  225 | });
+  226 | 
+  227 | });
+```
