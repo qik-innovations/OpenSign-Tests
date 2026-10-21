@@ -20,6 +20,35 @@ class CommonSteps {
     await this.page.getByRole('button', { name: /log in|login/i }).click().catch(() => {});
     await this.page.waitForLoadState('networkidle').catch(() => {});
   }
+<<<<<<< HEAD
+  //This is the generic login method for the user who will test the teams plan features excluding custom storage for custome storage user we have separate method loginForCustomStorgeUser()
+  async login() {
+    /*
+    await this.page.locator('#username').fill(loginCredentials.email);
+    await this.page.locator('#password').fill(loginCredentials.password);
+    await this.page.locator('#kc-login').click();*/
+    await this.page.locator('#email').fill(loginCredentials.email);
+    await this.page.locator('#password').fill(loginCredentials.password);
+    await this.page.locator('//button[@type="submit" and text()="Log in"]').click();
+  }
+//This methof is specifically for the user who will test the Profession plan features
+  async ProfessionPlanUserlogin() {
+    /*
+    await this.page.locator('#username').fill(loginCredentials.ProplanUsername);
+    await this.page.locator('#password').fill(loginCredentials.ProPlanpassword);
+    await this.page.locator('#kc-login').click();
+    */
+   await this.page.locator('#email').fill(loginCredentials.ProplanUsername);
+    await this.page.locator('#password').fill(loginCredentials.ProPlanpassword);
+    await this.page.getByRole('button', { name: 'Login' }).click();
+  }
+async LoadPlaceholder(page)
+{
+  await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+   await page.waitForLoadState("networkidle");
+=======
+>>>>>>> 651c5c5278669c435ebc6c20eecf02267d3800d7
 
   async NewUserlogin() {
     return this.login(loginCredentials.FreeplanUsername || loginCredentials.email, loginCredentials.FreePlanpassword || loginCredentials.password);
