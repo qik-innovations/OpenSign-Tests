@@ -64,7 +64,7 @@ export class CommonSteps {
     await this.page.locator('#kc-login').click();*/
     await this.page.locator('#email').fill(loginCredentials.email);
     await this.page.locator('#password').fill(loginCredentials.password);
-    await this.page.getByRole('button', { name: 'Login' }).click();
+    await this.page.locator('//button[@type="submit" and text()="Log in"]').click();
   }
 //This methof is specifically for the user who will test the Profession plan features
   async ProfessionPlanUserlogin() {
