@@ -1,0 +1,1 @@
+[{"uid":"1903f04b19d790d5","name":"Verify that a free user cannot access the Analytics page in the console application and is prompted to upgrade.","time":{"start":1793800642667,"stop":1793800763116,"duration":120449},"status":"broken","severity":"normal"}]
