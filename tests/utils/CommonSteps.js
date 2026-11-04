@@ -20,6 +20,7 @@ class CommonSteps {
     await this.page.getByRole('button', { name: /log in|login/i }).click().catch(() => {});
     await this.page.waitForLoadState('networkidle').catch(() => {});
   }
+
   async NewUserlogin() {
     return this.login(loginCredentials.FreeplanUsername || loginCredentials.email, loginCredentials.FreePlanpassword || loginCredentials.password);
   }
@@ -61,7 +62,7 @@ class CommonSteps {
     const draggable = page.locator(`//span[normalize-space()='${widgetName}']`).first();
     if (await draggable.isVisible({ timeout: 15000 }).catch(() => false)) {
       await draggable.hover();
-      await page.mouse.move(x, y); 
+      await page.mouse.move(x, y);
     }
   }
 
