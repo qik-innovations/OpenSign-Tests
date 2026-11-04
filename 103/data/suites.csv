@@ -1,0 +1,7 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","120413","Profession plan user is prompted to upgrade when accessing the Branding page.","chromium","2026-11-04","broken","2026-11-04","Console app - Branding Access Validation","ConsoleApp/ConsoleBranding.spec.js","",""
+"","120439","Verify that Teams plan User can access the Analytics page in the console application.","chromium","2026-11-04","broken","2026-11-04","Console analytics","ConsoleApp/ConsoleAnalytics.spec.js","",""
+"","120428","Verify that a free user cannot access the Analytics page in the console application and is prompted to upgrade.","chromium","2026-11-04","broken","2026-11-04","Console analytics","ConsoleApp/ConsoleAnalytics.spec.js","",""
+"","120423","Verify that Profession plan User can access the Analytics page in the console application.","chromium","2026-11-04","broken","2026-11-04","Console analytics","ConsoleApp/ConsoleAnalytics.spec.js","",""
+"","120432","Team plan user is prompted to upgrade when accessing the Branding page.","chromium","2026-11-04","broken","2026-11-04","Console app - Branding Access Validation","ConsoleApp/ConsoleBranding.spec.js","",""
+"","120428","Free user is prompted to upgrade when accessing the Branding page.","chromium","2026-11-04","broken","2026-11-04","Console app - Branding Access Validation","ConsoleApp/ConsoleBranding.spec.js","",""

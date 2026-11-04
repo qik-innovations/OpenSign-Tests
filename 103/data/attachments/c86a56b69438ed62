@@ -1,0 +1,133 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: ConsoleApp/ConsoleAnalytics.spec.js >> Console analytics >> Verify that Teams plan User can access the Analytics page in the console application.
+- Location: tests/ConsoleApp/ConsoleAnalytics.spec.js:67:3
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+```
+Error: locator.click: Target page, context or browser has been closed
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=f2e5]:
+  - heading "404" [level=1] [ref=f2e6]
+  - paragraph [ref=f2e7]: Page not found
+```
+
+# Test source
+
+```ts
+  1  | const { test, expect } = require('@playwright/test');
+  2  | const CommonSteps = require('../utils/CommonSteps');
+  3  | // XPath Selectors
+  4  | const PROFILE_MENU_BUTTON = '//button[@aria-controls="profile-menu-list"]';
+  5  | const CONSOLE_OPTION = '//button[@type="button" and contains(., "Console")]//i[contains(@class,"fa-id-card")]';
+  6  | const PROFILE_NAME = '//div[@id="root"]//p[@class="text-[14px] font-bold text-base-content"]';
+  7  | const PROFILE_DOMAIN = '//div[@id="root"]//p[@class="cursor-pointer text-[12px] text-base-content mt-2"]';
+  8  | const UPGRADE_BUTTON = '//div[@class="relative"]//button[@class="op-btn op-btn-accent shadow-lg"]';
+  9  | const PLAN_BADGE = '//button[@aria-label="Billing"]';
+  10 | const DOCUMENTS_COUNT = '//div[text()="Documents count"]';
+  11 | const TEMPLATES_COUNT = '//div[text()="Templates count"]';
+  12 | const EMAILS_SENT = '//div[text()="Emails sent"]';
+  13 | const STORAGE_USED = '//div[text()="Storage used"]';
+  14 | const GREEN_CHART = '.bg-\\[\\#2ed8b6\\]';
+  15 | const GRID_SECOND = '.grid > div:nth-child(2)';
+  16 | const GRID_THIRD = '.grid > div:nth-child(3)';
+  17 | test.describe('Console analytics', () => {
+  18 | 
+  19 |   test('Verify that a free user cannot access the Analytics page in the console application and is prompted to upgrade.', async ({ page }) => {
+  20 |     const commonSteps = new CommonSteps(page);
+  21 |     await commonSteps.navigateToBaseUrl();
+  22 |     await commonSteps.NewUserlogin();
+  23 |     const closeTourButton = page.getByRole('button', { name: 'Close Tour' });
+  24 |     await closeTourButton.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+  25 |     if (await closeTourButton.isVisible()) {
+  26 |       await closeTourButton.click({ force: true });
+  27 |       await expect(page.locator('.reactour__mask')).toBeHidden({ timeout: 10000 });
+  28 |     }
+  29 |     await page.locator(PROFILE_MENU_BUTTON).click();
+  30 |     const consolePagePromise = page.waitForEvent('popup');
+  31 |     await page.getByRole('button', { name: /Console/ }).click();
+  32 |     const consolePage = await consolePagePromise;
+  33 |     await expect(consolePage.locator(PROFILE_NAME)).toContainText('Mathew Wade', { timeout: 120000 });
+  34 |     await expect(consolePage.locator(PROFILE_DOMAIN)).toContainText('qikAi.com');
+  35 |     await expect(consolePage).toHaveTitle(/Analytics\s+-\s+OpenSign/i, { timeout: 120000 });
+  36 |     const upgradeButton = consolePage.locator('#renderList').getByRole('button', { name: /Upgrade now/i });
+  37 |     await expect(upgradeButton).toBeVisible({ timeout: 120000 });
+  38 |     await expect(upgradeButton).toBeEnabled();
+  39 |   });
+  40 | 
+  41 |   test('Verify that Profession plan User can access the Analytics page in the console application.', async ({ page }) => {
+  42 |     const commonSteps = new CommonSteps(page);
+  43 |     await commonSteps.navigateToBaseUrl();
+  44 |     await commonSteps.ProfessionPlanUserlogin();
+  45 |     await page.locator(PROFILE_MENU_BUTTON).click();
+  46 |     const page1Promise = page.waitForEvent('popup');
+  47 |     await page.locator(CONSOLE_OPTION).click();
+  48 |     const page1 = await page1Promise;
+  49 |     await expect(page1.locator(PROFILE_NAME)).toContainText('Pro plan User', { timeout: 120000 });
+  50 |     await expect(page1.locator(PROFILE_DOMAIN)).toContainText('OpenSign');
+  51 |     const title = await page1.title();
+  52 |     if (title === 'Analytics - OpenSign™') {
+  53 |       console.log('Page title is correct: Analytics - OpenSign™');
+  54 |     } else {
+  55 |       console.error(`Page title is incorrect. Expected: "Analytics - OpenSign™", Got: "${title}"`);
+  56 |     }
+  57 |     //Validate elements on the Analytics page for PRO plan user
+  58 |     await expect(page1.locator(PLAN_BADGE)).toContainText('PRO');
+  59 |     await expect(page1.locator(DOCUMENTS_COUNT)).toContainText('Documents count');
+  60 |     await expect(page1.locator(TEMPLATES_COUNT)).toContainText('Templates count');
+  61 |     await expect(page1.locator(EMAILS_SENT)).toContainText('Emails sent');
+  62 |     await expect(page1.locator(GREEN_CHART).first()).toBeVisible();
+  63 |     await expect(page1.locator(GRID_SECOND)).toBeVisible();
+  64 |     await expect(page1.locator(GRID_THIRD)).toBeVisible();
+  65 |   });
+  66 | 
+  67 |   test('Verify that Teams plan User can access the Analytics page in the console application.', async ({ page }) => {
+  68 |     const commonSteps = new CommonSteps(page);
+  69 | 
+  70 |     await commonSteps.navigateToBaseUrl();
+  71 |     await commonSteps.login();
+  72 | 
+> 73 |     await page.locator(PROFILE_MENU_BUTTON).click();
+     |                                             ^ Error: locator.click: Target page, context or browser has been closed
+  74 |     const page1Promise = page.waitForEvent('popup');
+  75 |     await page.locator(CONSOLE_OPTION).click();
+  76 |     const page1 = await page1Promise;
+  77 | 
+  78 |     await expect(page1.locator(PROFILE_NAME)).toContainText('Pravin Testing account', { timeout: 120000 });
+  79 |     await expect(page1.locator(PROFILE_DOMAIN)).toContainText('OpenSign pvt ltd');
+  80 | 
+  81 |     const title = await page1.title();
+  82 |     if (title === 'Analytics - OpenSign™') {
+  83 |       console.log('Page title is correct: Analytics - OpenSign™');
+  84 |     } else {
+  85 |       console.error(`Page title is incorrect. Expected: "Analytics - OpenSign™", Got: "${title}"`);
+  86 |     }
+  87 | 
+  88 |     await expect(page1.locator(PLAN_BADGE)).toContainText('TEAM');
+  89 |     await expect(page1.locator(DOCUMENTS_COUNT)).toContainText('Documents count');
+  90 |     await expect(page1.locator(TEMPLATES_COUNT)).toContainText('Templates count');
+  91 |     await expect(page1.locator(EMAILS_SENT)).toContainText('Emails sent');
+  92 |     await expect(page1.locator(STORAGE_USED)).toContainText('Storage used', { timeout: 120000 });
+  93 |     await expect(page1.locator(GREEN_CHART).first()).toBeVisible();
+  94 |     await expect(page1.locator(GRID_SECOND)).toBeVisible();
+  95 |     await expect(page1.locator(GRID_THIRD)).toBeVisible();
+  96 |   });
+  97 | 
+  98 | });
+  99 | 
+```
