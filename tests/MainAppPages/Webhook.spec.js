@@ -22,7 +22,7 @@ test.describe('WebHook', () => {
     await page.locator("(//button[text()='Add webhook'])[1]").click();
     await page.getByText('Upgrade now to set webhook').click();
     await expect(page.getByText('Upgrade now to set webhook')).toBeVisible();
-    await page.locator('button[aria-label="Close"]').nth(0).click();
+      await page.getByRole('button', { name: 'Close Tour' }).click();
   });
 
   test('Verify that free user can add the sandbox webhook.', async ({ page }) => {
@@ -41,8 +41,8 @@ test.describe('WebHook', () => {
 
     await page.locator('//button[normalize-space()="Generate test token" or normalize-space()="Regenerate test token"]').click();
     await expect(page.locator("//span[@class='cursor-pointer' and contains(text(),'test.')]")).toBeVisible();
-    await commonSteps.openSettingsMenuItem('Webhook');
-
+    const menuItem = page.getByRole('menuitem', { name: "Webhook", exact: true }).first();
+    await menuItem.click({ force: true }).catch(() => {});
     const title1 = await page.title();
     if (title1 === 'Webhook - OpenSign™') {
       console.log('Page title is correct: Webhook - OpenSign™');

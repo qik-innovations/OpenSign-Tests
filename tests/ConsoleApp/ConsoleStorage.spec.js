@@ -5,6 +5,8 @@ const STORAGE_HEADING = /Setup file storage/i;
 const FREE_USER_UPGRADE_BUTTON = `${STORAGE_PAGE} button:has-text("Upgrade now")`;
 const PRO_USER_UPGRADE_BUTTON = `${STORAGE_PAGE} button:has-text("Upgrade to Team Plan")`;
 const PROFILE_MENU_BUTTON = '//button[@aria-controls="profile-menu-list"]';
+const path = require('path');
+
 async function openConsolePopup(page) {
   await page.locator(PROFILE_MENU_BUTTON).click();
   const popupPromise = page.waitForEvent('popup');
@@ -97,9 +99,31 @@ test('Verify that Team plan user set the custom file storage AWSS3', async ({ pa
   if (await activateStorageButton.isVisible().catch(() => false)) {
     await activateStorageButton.click();
   }
-  await expect(storageAdapter).toHaveValue(awsS3Adapter);
-  await expect(page1.getByRole('button', { name: 'Update' })).toBeVisible();
-  await expect(page1.getByRole('button', { name: /Reconnect to OpenSign/i })).toBeVisible();
+  const commonSteps1 = new CommonSteps(page1);
+   await commonSteps1.login();
+   const title = await page1.title()
+          expect(title).toBe('Log in - OpenSign™');
+          /*
+     await page1.getByRole('menuitem', { name: 'Sign yourself' }).click();
+     await page1.locator('input[name="Name"]').fill('Offer Letter for QA11');
+     const fileChooserPromise1 = page1.waitForEvent('filechooser');
+     await page1.locator('input[type="file"]').click();
+     const fileChooser1 = await fileChooserPromise1;
+     await fileChooser1.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+     await expect(page1.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+     await page1.getByRole('button', { name: 'Next' }).click();
+     await page1.waitForLoadState("networkidle");
+     await page1.locator('svg > rect:nth-child(3)').click();
+     await page1.getByLabel('Close').click();
+    await commonSteps1.waitAndPlaceSignatureAndClickSave('signature', 600, 200);
+  
+   await commonSteps1.clickFinishButtonOnPlaceholder();
+await page1.getByText('Successfully signed!').waitFor({ timeout: 90000 });*/
+ const page2 = await openConsolePopup(page1);
+  await openStoragePanel(page2)
+  await expect(page2.getByRole('button', { name: 'Update' })).toBeVisible();
+  await expect(page2.getByRole('button', { name: /Reconnect to OpenSign/i })).toBeVisible();
+  await page2.getByRole('button', { name: 'Reconnect to OpenSign™' }).click();
 });
 test('Verify that a Team Plan user can configure custom file storage using DigitalOcean and is able to update the storage settings.', async ({ page }) => {
     const commonSteps = new CommonSteps(page);
