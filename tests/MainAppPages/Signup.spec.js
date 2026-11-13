@@ -6,7 +6,7 @@ const { fetchOTP } = require('../utils/otpHelper.js');
 const { gmailConfig } = require('../utils/mailConfigs.js');
 const PageActions = require('../utils/PageActions.js');
 
-const PROFILE_MENU_BUTTON = '//button[@type="button" and @aria-controls="profile-menu-list"]//i[contains(@class, "fa-angle-down")]';
+const PROFILE_MENU_BUTTON = '//button[@aria-controls="profile-menu-list"]';
 const DEFAULT_PASSWORD = 'Nxglabs@123';
 const DEFAULT_PHONE = '8238988998';
 const TEST_CARD = {
@@ -368,7 +368,7 @@ async function closeModalIfVisible(page) {
  * @param {import('@playwright/test').Page} page
  */
 async function openProfile(page) {
-  await page.locator('//button[@type="button" and @aria-controls="profile-menu-list"]//i[contains(@class, "fa-angle-down")]').click();
+  await page.locator('//button[@aria-controls="profile-menu-list"]').click();
   await page.getByText('Profile').click();
 }
 
@@ -376,7 +376,7 @@ async function openProfile(page) {
  * @param {import('@playwright/test').Page} page
  */
 async function openBilling(page) {
-  await page.locator('//button[@type="button" and @aria-controls="profile-menu-list"]//i[contains(@class, "fa-angle-down")]').click();
+  await page.locator('//button[@aria-controls="profile-menu-list"]').click();
   await page.getByText('Billing').click();
 }
 

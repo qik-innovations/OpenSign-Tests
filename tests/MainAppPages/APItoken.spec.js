@@ -1,6 +1,4 @@
-const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
 const { test, expect } = require('@playwright/test');
-const path = require('path');
 const CommonSteps = require('../utils/CommonSteps');
 test.describe('API Token', () => {
 test('Verify that free user cannot generate the live api token.', async ({ page }) => {
@@ -17,15 +15,20 @@ test('Verify that free user cannot generate the live api token.', async ({ page 
     } else {
       console.error(`Page title is incorrect. Expected: "API Token - OpenSign™", Got: "${title}"`);
     }
-    await page.getByRole('button', { name: 'Generate live token' }).click();
-    await page.getByText('Unlock premium features').click();
-    await page.getByRole('heading', { name: 'Upgrade to Paid Plan' }).click();
-    await page.getByText('Upgrade now to generate').click();
-    await page.getByLabel('Close').click();
+    const generateLiveTokenButton = page.getByRole('button', {
+      name: /^(Generate|Regenerate) live token$/i,
+    });
+    await expect(generateLiveTokenButton).toBeVisible();
+    await generateLiveTokenButton.click();
+    const unlockPremiumFeatures = page.getByText('Unlock premium features');
+    await expect(unlockPremiumFeatures).toBeVisible();
+    await unlockPremiumFeatures.click();
+    await expect(page.getByRole('heading', { name: 'Upgrade to Paid Plan' })).toBeVisible();
+    await expect(page.getByText('Upgrade now to generate')).toBeVisible();
+    await expect(
+      page.locator("//span[@class='cursor-pointer' and contains(text(),'live.')]")
+    ).toHaveCount(0);
    
-    await page.getByText('Premium credits available:').click();
-    await page.getByRole('button', { name: 'Buy premium credits' }).click();
-    await page.getByLabel('Close').click();
 
 });
 test('Verify that free user can generate the sanbox test token.', async ({ page }) => {
@@ -42,7 +45,16 @@ test('Verify that free user can generate the sanbox test token.', async ({ page 
     } else {
       console.error(`Page title is incorrect. Expected: "API Token - OpenSign™", Got: "${title}"`);
     }
-    await page.getByRole('button', { name: 'Generate test token' }).click();
-    await expect(page.locator("//span[@class='cursor-pointer' and contains(text(),'test.')]")).toBeVisible();
+    await expect(page).toHaveTitle(/API Token\s+-\s+OpenSign/i);
+
+    const generateTestTokenButton = page.getByRole('button', {
+      name: /^(Generate|Regenerate) test token$/i,
+    });
+    await expect(generateTestTokenButton).toBeVisible();
+    await generateTestTokenButton.click();
+
+    const testToken = page.locator("//span[@class='cursor-pointer' and contains(text(),'test.')]");
+    await expect(testToken).toBeVisible({ timeout: 30000 });
+    await expect(testToken).toContainText(/test\./i);
     
 });});

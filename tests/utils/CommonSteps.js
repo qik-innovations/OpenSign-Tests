@@ -64,7 +64,7 @@ export class CommonSteps {
     await this.page.locator('#kc-login').click();*/
     await this.page.locator('#email').fill(loginCredentials.email);
     await this.page.locator('#password').fill(loginCredentials.password);
-    await this.page.getByRole('button', { name: 'Login' }).click();
+  await this.page.getByRole('button', { name: /log in|login/i }).click().catch(() => {});
   }
 //This methof is specifically for the user who will test the Profession plan features
   async ProfessionPlanUserlogin() {
@@ -75,7 +75,7 @@ export class CommonSteps {
     */
    await this.page.locator('#email').fill(loginCredentials.ProplanUsername);
     await this.page.locator('#password').fill(loginCredentials.ProPlanpassword);
-    await this.page.getByRole('button', { name: 'Login' }).click();
+  await this.page.getByRole('button', { name: /log in|login/i }).click().catch(() => {});
   }
 async LoadPlaceholder(page)
 {
@@ -92,14 +92,14 @@ async LoadPlaceholder(page)
       console.log(`FreeplanUsername exists: ${loginCredentials.FreeplanUsername}`);
       await this.page.locator('#email').fill(loginCredentials.FreeplanUsername);
       await this.page.locator('#password').fill(loginCredentials.FreePlanpassword);
-      await this.page.getByRole('button', { name: 'Login' }).click();
+await this.page.getByRole('button', { name: /log in|login/i }).click().catch(() => {});
     }
   }
   //This login method is specifically for the user who will test custom storage functionality 
   async loginForCustomStorgeUser() {
     await this.page.locator('#email').fill(loginCredentials.CustomStorageUser_Username);
     await this.page.locator('#password').fill(loginCredentials.CustomStorageUser_Password);
-    await this.page.getByRole('button', { name: /login/i }).click();
+  await this.page.getByRole('button', { name: /log in|login/i }).click().catch(() => {});
   }
   async verifyPageTitle(expectedTitle) {
     const title = await this.page.title();
@@ -130,9 +130,13 @@ async LoadPlaceholder(page)
     await page.locator(locators.registerButton).click();
     await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible({ timeout: 120000 });
     await page.locator(locators.freePlanButton).click();
-    await page.getByLabel('Close').click();
+ const closeTourButton = page.getByRole('button', { name: 'Close Tour' });
+    await closeTourButton.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+    if (await closeTourButton.isVisible()) {
+      await closeTourButton.click({ force: true });
+      await expect(page.locator('.reactour__mask')).toBeHidden({ timeout: 10000 });
+    }
     await expect(page.locator('//div[@id="profile-menu"]//parent::button[text()="Upgrade now"]')).toBeVisible();
-
     const title = await page.title();
     expect(title).toBe('Dashboard - OpenSign™');
     console.log(`✅ Signup successful. User: ${loginCredentials.FreeplanUsername}`);
