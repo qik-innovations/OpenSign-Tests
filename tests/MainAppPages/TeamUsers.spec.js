@@ -46,16 +46,16 @@ test('Verify admin user can add a team user if user has a Teams plan', async ({ 
 
   await page.getByRole('button', { name: 'Submit' }).click();
   await expect(page.getByRole('cell', { name: email })).toBeVisible();
+  await page.locator(PROFILE_MENU_BUTTON).click();
 
-  await page.locator("//div[@id='profile-menu']//div[contains(@class,'op-btn-ghost')]").click();
   await page.getByText('Log Out').click();
 
   await page.waitForSelector('input[name="email"]');
   await page.locator('input[name="email"]').fill(email);
   await page.locator('input[name="password"]').fill(randomPass);
-  await page.getByRole('button', { name: 'Login' }).click();
+  await page.getByRole('button', { name: 'Log in' }).click();
 
-  await page.getByLabel('Close').click();
+  await commonSteps.closeTourIfVisible();
   await expect(page.locator("//span[text()='Sign yourself']")).toBeVisible();
 });
 
