@@ -22,7 +22,7 @@ test.describe('WebHook', () => {
     await page.locator("(//button[text()='Add webhook'])[1]").click();
     await page.getByText('Upgrade now to set webhook').click();
     await expect(page.getByText('Upgrade now to set webhook')).toBeVisible();
-    await page.locator('button[aria-label="Close"]').nth(0).click();
+      await page.getByRole('button', { name: 'Close Tour' }).click();
   });
 
   test('Verify that free user can add the sandbox webhook.', async ({ page }) => {

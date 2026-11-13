@@ -1,12 +1,12 @@
 const { test, expect } = require('@playwright/test');
 const CommonSteps = require('../utils/CommonSteps');
-const PROFILE_MENU_BUTTON = '//button[@aria-controls="profile-menu-list"]';
 const PROFILE_NAME =
   '//div[@id="root"]//p[@class="text-[14px] font-bold text-base-content"]';
 const PROFILE_DOMAIN =
   '//div[@id="root"]//p[@class="cursor-pointer text-[12px] text-base-content mt-2"]';
 const UPGRADE_BUTTON = '#renderList button:has-text("Upgrade")';
-
+const PROFILE_MENU_BUTTON = '//button[@aria-controls="profile-menu-list"]';
+const CONSOLE_OPTION = '//button[@type="button" and contains(., "Console")]//i[contains(@class,"fa-id-card")]';
 async function openConsoleGeneral(page) {
   await page.locator(PROFILE_MENU_BUTTON).click();
 
@@ -43,14 +43,13 @@ test.describe('Console app - General page', () => {
 
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-await page.getByRole('button', { name: 'Close Tour' }).click();
-    const consolePage = await openConsoleGeneral(page);
-
-    await expect(consolePage.locator(PROFILE_NAME)).toContainText('Mathew Wade', {
-      timeout: 120000,
-    });
+    await page.locator(PROFILE_MENU_BUTTON).click();
+    const consolePagePromise = page.waitForEvent('popup');
+    await page.getByRole('button', { name: /Console/ }).click();
+    const consolePage = await consolePagePromise;
+    await expect(consolePage.locator(PROFILE_NAME)).toContainText('Mathew Wade', { timeout: 120000 });
     await expect(consolePage.locator(PROFILE_DOMAIN)).toContainText('qikAi.com');
-    await expect(consolePage.locator('#renderList')).toContainText(/General/i);
+     await consolePage.getByRole('menuitem', { name: 'General' }).click();
     await expect(consolePage.locator(UPGRADE_BUTTON)).toContainText(/Upgrade/i);
 
     await consolePage.close();
