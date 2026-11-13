@@ -47,6 +47,7 @@ test('Verify admin user can add a team user if user has a Teams plan', async ({ 
   await page.getByRole('button', { name: 'Submit' }).click();
   await expect(page.getByRole('cell', { name: email })).toBeVisible();
 
+  // Step 7: Logout from admin account
   await page.locator("//div[@id='profile-menu']//div[contains(@class,'op-btn-ghost')]").click();
   await page.getByText('Log Out').click();
 
@@ -55,7 +56,8 @@ test('Verify admin user can add a team user if user has a Teams plan', async ({ 
   await page.locator('input[name="password"]').fill(randomPass);
   await page.getByRole('button', { name: 'Login' }).click();
 
-  await page.getByLabel('Close').click();
+  // Step 9: Verify successful login
+  await page.getByRole('button', { name: /close tour/i }).click({ force: true }).catch(() => {});
   await expect(page.locator("//span[text()='Sign yourself']")).toBeVisible();
 });
 
