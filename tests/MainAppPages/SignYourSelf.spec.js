@@ -39,7 +39,7 @@ await expect(page.locator('input[name="Note"]')).toBeDisabled();
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
   await page.locator('svg > rect:nth-child(3)').click();
-  await page.getByLabel('Close').click();
+  await page.getByLabel('close tour').click();
   await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
 await actions.waitForNetworkIdle();

@@ -219,6 +219,30 @@ await widgetLocator.scrollIntoViewIfNeeded();
     `Failed to drag and drop '${WidgetName}' after ${maxAttempts} attempts.`
   );
 }
+
+async closeTourIfVisible() {
+    const page = this.page;
+
+    const closeButton = page.getByRole('button', { name: /close tour|Close Tour/i }).first();
+    if (await closeButton.isVisible({ timeout: 5000 }).catch(() => false)) {
+      await closeButton.click().catch(() => {});
+    }
+
+    await page.waitForTimeout(500).catch(() => {});
+  }
+
+  async openSettingsMenuItem(menuName) {
+    const page = this.page;
+    await this.closeTourIfVisible();
+    const settingsButton = page.locator('//button//span[text()="Settings"]').first();
+    await settingsButton.waitFor({ state: 'visible', timeout: 30000 }).catch(() => {});
+    await settingsButton.click({ force: true }).catch(() => {});
+    const menuItem = page.getByRole('menuitem', { name: menuName, exact: true }).first();
+    await menuItem.waitFor({ state: 'visible', timeout: 30000 }).catch(() => {});
+    await menuItem.click({ force: true }).catch(() => {});
+    await page.waitForTimeout(500).catch(() => {});
+  }
+
 async dragAndDrop(label, x, y) {
   const { page } = this;
 

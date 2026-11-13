@@ -54,7 +54,7 @@ try {
   await expect(page.getByRole('cell', { name: email })).toBeVisible();
 
   // Step 7: Logout from admin account
-await page.locator("//div[@id='profile-menu']//div[contains(@class,'op-btn-ghost')]").click();
+  await page.locator("//div[@id='profile-menu']//div[contains(@class,'op-btn-ghost')]").click();
   await page.getByText('Log Out').click();
 
   // Step 8: Login as newly created user
@@ -64,7 +64,7 @@ await page.locator("//div[@id='profile-menu']//div[contains(@class,'op-btn-ghost
   await page.getByRole('button', { name: 'Login' }).click();
 
   // Step 9: Verify successful login
-  await page.getByLabel('Close').click();
+  await page.getByRole('button', { name: /close tour/i }).click({ force: true }).catch(() => {});
   await expect(page.locator("//span[text()='Sign yourself']")).toBeVisible();
 });
 
