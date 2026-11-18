@@ -1,0 +1,260 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/Login.spec.js >> Login Page Tests >> Positive Login Tests >> Verify that user can login with valid Pro plan credentials
+- Location: tests/MainAppPages/Login.spec.js:55:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByRole('button', { name: 'Login' })
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByRole('button', { name: 'Login' })
+
+```
+
+```yaml
+- region "Welcome back!":
+  - img "applogo"
+  - form "Login Form":
+    - heading "Welcome back!" [level=1]
+    - group "Log in to your account":
+      - text: Log in to your account
+      - tablist "Select login region":
+        - tab "global" [selected]
+        - tab "gdpr europe":
+          - img "gdpr"
+          - text: europe
+      - tabpanel "global":
+        - text: Email
+        - textbox "Email"
+        - separator
+        - text: Password
+        - textbox "Password"
+        - button "Show or hide password": 
+        - link "Forgot password?":
+          - /url: /forgetpassword
+        - button "Log in"
+        - button "Create account"
+    - button "Sign in with passkey":
+      - img
+      - text: Sign in with passkey
+  - text: OR
+  - button "Sign in with SSO"
+  - combobox:
+    - option "select" [disabled]
+    - option "English" [selected]
+    - option "Española"
+    - option "Français"
+    - option "Italiano"
+    - option "Deutsch"
+    - option "हिन्दी"
+    - option "한국어"
+```
+
+# Test source
+
+```ts
+  57  |   async clickForgotPassword() {
+  58  |     const forgotLink = this.page.locator('a:has-text("Forgot password?")');
+  59  |     await forgotLink.click();
+  60  |   }
+  61  | 
+  62  |   // Form state checks
+  63  |   async isLoginButtonEnabled() {
+  64  |     return await this.page.getByRole('button', { name: 'Login' }).isEnabled();
+  65  |   }
+  66  | 
+  67  |   async isLoginButtonDisabled() {
+  68  |     return !(await this.isLoginButtonEnabled());
+  69  |   }
+  70  | 
+  71  |   async isPasswordFieldMasked() {
+  72  |     const passwordField = this.page.locator(this.passwordField);
+  73  |     const fieldType = await passwordField.getAttribute('type');
+  74  |     return fieldType === 'password';
+  75  |   }
+  76  | 
+  77  |   async getEmailFieldValue() {
+  78  |     return await this.page.locator(this.emailField).inputValue();
+  79  |   }
+  80  | 
+  81  |   async getPasswordFieldValue() {
+  82  |     return await this.page.locator(this.passwordField).inputValue();
+  83  |   }
+  84  | 
+  85  |   async clearEmailField() {
+  86  |     await this.page.locator(this.emailField).clear();
+  87  |   }
+  88  | 
+  89  |   async clearPasswordField() {
+  90  |     await this.page.locator(this.passwordField).clear();
+  91  |   }
+  92  | 
+  93  |   async clearAllFields() {
+  94  |     await this.clearEmailField();
+  95  |     await this.clearPasswordField();
+  96  |   }
+  97  | 
+  98  |   // Visibility and presence checks
+  99  |   async isEmailFieldVisible() {
+  100 |     return await this.page.locator(this.emailField).isVisible();
+  101 |   }
+  102 | 
+  103 |   async isPasswordFieldVisible() {
+  104 |     return await this.page.locator(this.passwordField).isVisible();
+  105 |   }
+  106 | 
+  107 |   async isLoginButtonVisible() {
+  108 |     return await this.page.getByRole('button', { name: 'Login' }).isVisible();
+  109 |   }
+  110 | 
+  111 |   async isCreateAccountButtonVisible() {
+  112 |     return await this.page.locator(this.createAccountButton).isVisible();
+  113 |   }
+  114 | 
+  115 |   async isForgotPasswordLinkVisible() {
+  116 |     return await this.page.locator('a:has-text("Forgot password?")').isVisible();
+  117 |   }
+  118 | 
+  119 |   async isEmailLabelVisible() {
+  120 |     return await this.page.locator('label:has-text("Email")').isVisible();
+  121 |   }
+  122 | 
+  123 |   async isPasswordLabelVisible() {
+  124 |     return await this.page.locator('label:has-text("Password")').isVisible();
+  125 |   }
+  126 | 
+  127 |   // Error handling
+  128 |   async getErrorMessage() {
+  129 |     try {
+  130 |       const errorElements = await this.page.locator('[role="alert"], .error-message, .invalid-feedback').all();
+  131 |       if (errorElements.length > 0) {
+  132 |         return await errorElements[0].textContent();
+  133 |       }
+  134 |       return null;
+  135 |     } catch (error) {
+  136 |       return null;
+  137 |     }
+  138 |   }
+  139 | 
+  140 |   async hasErrorMessage() {
+  141 |     const errorMsg = await this.getErrorMessage();
+  142 |     return errorMsg !== null && errorMsg.trim().length > 0;
+  143 |   }
+  144 | 
+  145 |   async verifyErrorMessageVisible(expectedMessage) {
+  146 |     await expect(this.page.locator('[role="alert"], .error-message, .invalid-feedback').first()).toContainText(expectedMessage);
+  147 |   }
+  148 | 
+  149 |   async waitForErrorMessage(timeout = 5000) {
+  150 |     await this.page.waitForSelector('[role="alert"], .error-message, .invalid-feedback', { timeout });
+  151 |   }
+  152 | 
+  153 |   // Page state verification
+  154 |   async verifyLoginPageLoaded() {
+  155 |     await expect(this.page.locator(this.emailField)).toBeVisible();
+  156 |     await expect(this.page.locator(this.passwordField)).toBeVisible();
+> 157 |     await expect(this.page.getByRole('button', { name: 'Login' })).toBeVisible();
+      |                                                                    ^ Error: expect(locator).toBeVisible() failed
+  158 |   }
+  159 | 
+  160 |   async verifyAllLoginElementsPresent() {
+  161 |     await this.verifyLoginPageLoaded();
+  162 |     const createAccountBtn = await this.isCreateAccountButtonVisible();
+  163 |     const forgotLink = await this.isForgotPasswordLinkVisible();
+  164 |     return createAccountBtn || forgotLink;
+  165 |   }
+  166 | 
+  167 |   // Wait methods
+  168 |   async waitForLoginPageLoad(timeout = 120000) {
+  169 |     await this.page.locator(this.emailField).waitFor({ state: 'visible', timeout });
+  170 |   }
+  171 | 
+  172 |   async waitForNavigationAfterLogin(timeout = 120000) {
+  173 |     await this.page.waitForURL(/.*dashboard|.*home|.*document/, { timeout });
+  174 |   }
+  175 | 
+  176 |   async waitForErrorToAppear(timeout = 5000) {
+  177 |     try {
+  178 |       await this.page.waitForSelector('[role="alert"], .error-message, .invalid-feedback', { timeout });
+  179 |       return true;
+  180 |     } catch {
+  181 |       return false;
+  182 |     }
+  183 |   }
+  184 | 
+  185 |   // Page title and URL checks
+  186 |   async getPageTitle() {
+  187 |     return await this.page.title();
+  188 |   }
+  189 | 
+  190 |   async verifyPageTitleContains(text) {
+  191 |     await expect(this.page).toHaveTitle(new RegExp(text, 'i'));
+  192 |   }
+  193 | 
+  194 |   // Placeholder checks
+  195 |   async getEmailPlaceholder() {
+  196 |     return await this.page.locator(this.emailField).getAttribute('placeholder');
+  197 |   }
+  198 | 
+  199 |   async getPasswordPlaceholder() {
+  200 |     return await this.page.locator(this.passwordField).getAttribute('placeholder');
+  201 |   }
+  202 | 
+  203 |   // Input validation
+  204 |   async fillEmailAndVerify(email) {
+  205 |     await this.fillEmail(email);
+  206 |     const value = await this.getEmailFieldValue();
+  207 |     return value === email;
+  208 |   }
+  209 | 
+  210 |   async fillPasswordAndVerify(password) {
+  211 |     await this.fillPassword(password);
+  212 |     const value = await this.getPasswordFieldValue();
+  213 |     return value === password;
+  214 |   }
+  215 | 
+  216 |   // Tab navigation
+  217 |   async tabToNextField(fromField) {
+  218 |     await this.page.locator(fromField).press('Tab');
+  219 |   }
+  220 | 
+  221 |   async tabFromEmailToPassword() {
+  222 |     await this.tabToNextField(this.emailField);
+  223 |   }
+  224 | 
+  225 |   async tabFromPasswordToLogin() {
+  226 |     await this.tabToNextField(this.passwordField);
+  227 |   }
+  228 | 
+  229 |   // Browser back/forward navigation
+  230 |   async clickBrowserBack() {
+  231 |     await this.page.goBack();
+  232 |   }
+  233 | 
+  234 |   async getCurrentUrl() {
+  235 |     return this.page.url();
+  236 |   }
+  237 | 
+  238 |   async isOnLoginPage() {
+  239 |     const url = await this.getCurrentUrl();
+  240 |     return url.includes('login') || await this.isEmailFieldVisible();
+  241 |   }
+  242 | }
+  243 | 
+  244 | module.exports = LoginPage;
+  245 | 
+```

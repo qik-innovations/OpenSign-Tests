@@ -1,0 +1,7 @@
+Browser: chromium, Version: 151.0.7922.34, OS: linux
+Document Title: 2026-11-18T17-49-17-552Z Rename document
+Dragging 'signature'. Attempt 1/5
+Dragging 'signature' from (1039.5625, 430.890625) to (600, 300)
+Dragged and dropped widget 'signature' to (600, 300).
+'signature' widget successfully dropped.
+Document Title: 2026-11-18T17-49-26-492Z undefined

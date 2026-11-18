@@ -1,0 +1,7 @@
+Browser: chromium, Version: 151.0.7922.34, OS: linux
+Dragging 'signature'. Attempt 1/5
+Dragging 'signature' from (1039.5625, 446.078125) to (600, 300)
+Dragged and dropped widget 'signature' to (600, 300).
+'signature' widget successfully dropped.
+Done button in signer modal clicked.
+Finish button in signer modal clicked.

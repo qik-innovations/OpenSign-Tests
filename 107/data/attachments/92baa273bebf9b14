@@ -1,0 +1,297 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/Signup.spec.js >> SignupPage >> Reg_TC-03 Verify that a new user can successfully create an account using the Free Plan.
+- Location: tests/MainAppPages/Signup.spec.js:647:3
+
+# Error details
+
+```
+Error: expect(locator).toContainText(expected) failed
+
+Locator: locator('#renderList')
+Expected substring: "To have a username less than 8 character please subscribe"
+Received string:    "AdminMathew W Karlpravin+1795028387394jxcddl6a@nxglabs.inProfileSaveCancelContact detailsNamePhoneCompanyJob titleSecurityIs email verifiedNot verifiedVerifyDisable documentIdUpgrade nowLanguageselectEnglishEspañolaFrançaisItalianoDeutschहिन्दी한국어Public profileTagline Delete accountDelete account✕Upgrade to PlanTo have a username shorter than 8 characters, please subscribe.Upgrade nowAll rights reserved © 2026  OpenSign™ ( version: v3.1.1)"
+Timeout: 5000ms
+
+Call log:
+  - Expect "toContainText" with timeout 5000ms
+  - waiting for locator('#renderList')
+    14 × locator resolved to <main id="renderList" class="os-page-scroll flex-1 min-w-0 min-h-0 overflow-auto">…</main>
+       - unexpected value "AdminMathew W Karlpravin+1795028387394jxcddl6a@nxglabs.inProfileSaveCancelContact detailsNamePhoneCompanyJob titleSecurityIs email verifiedNot verifiedVerifyDisable documentIdUpgrade nowLanguageselectEnglishEspañolaFrançaisItalianoDeutschहिन्दी한국어Public profileTagline Delete accountDelete account✕Upgrade to PlanTo have a username shorter than 8 characters, please subscribe.Upgrade nowAll rights reserved © 2026  OpenSign™ ( version: v3.1.1)"
+
+```
+
+```yaml
+- main:
+  - complementary:
+    - img "Profile"
+    - button "Choose File"
+    - paragraph: Admin
+    - heading "Mathew W Karl" [level=1]
+    - paragraph: pravin+1795028387394jxcddl6a@nxglabs.in
+  - main:
+    - heading "Profile" [level=2]
+    - button "Save"
+    - button "Cancel"
+    - heading "Contact details" [level=3]
+    - text: Name
+    - textbox "Name": Mathew W Karl
+    - text: Phone
+    - textbox "Phone": "8806607524"
+    - text: Company
+    - textbox "Company": OpenSign pvt. ltd
+    - text: Job title
+    - textbox "Job title": Quality Analyst
+    - heading "Security" [level=3]
+    - paragraph: Is email verified
+    - text: Not verified
+    - button "Verify"
+    - heading "Disable documentId" [level=3]
+    - paragraph:
+      - button "?":
+        - superscript: "?"
+      - superscript: Upgrade now
+    - checkbox [disabled]
+    - heading "Language" [level=3]
+    - combobox:
+      - option "select" [disabled]
+      - option "English" [selected]
+      - option "Española"
+      - option "Français"
+      - option "Italiano"
+      - option "Deutsch"
+      - option "हिन्दी"
+      - option "한국어"
+    - heading "Public profile" [level=3]
+    - button "?":
+      - superscript: "?"
+    - textbox "Enter user name": Testing
+    - heading "Tagline" [level=3]
+    - button "?":
+      - superscript: "?"
+    - textbox "Enter tagline": Seal the deal openly
+    - paragraph: Delete account
+    - button "Delete account"
+  - text: ✕
+  - heading "Upgrade to Plan" [level=2]
+  - paragraph: To have a username shorter than 8 characters, please subscribe.
+  - button "Upgrade now"
+  - complementary:
+    - paragraph:
+      - text: All rights reserved © 2026
+      - 'link "OpenSign™ ( version: v3.1.1)"':
+        - /url: https://github.com/OpenSignLabs/OpenSign/releases/tag/v3.1.1
+```
+
+# Test source
+
+```ts
+  564 |     page.getByRole('heading', { name: plan.slug, exact: true })
+  565 |   ).toBeVisible();
+  566 |   const expectedPlan = plan.billingText || 'Free';
+  567 |   await expect(page.locator('#renderList')).toContainText(expectedPlan);
+  568 |   page.locator('div').filter({ hasText: /^active$/ });
+  569 | }
+  570 | 
+  571 | /**
+  572 |  * @param {import('@playwright/test').Page} page
+  573 |  * @param {number} monthsToAdd
+  574 |  */
+  575 | async function expectNextBillingDate(page, monthsToAdd) {
+  576 |   const text = await page.locator('//span[@class="op-text-primary font-medium"]').textContent();
+  577 |   if (!text) throw new Error('No billing date found');
+  578 | 
+  579 |   const actualDate = new Date(text.trim());
+  580 |   if (Number.isNaN(actualDate.getTime())) throw new Error(`Invalid billing date format: ${text}`);
+  581 | 
+  582 |   const expectedDate = new Date();
+  583 |   expectedDate.setMonth(expectedDate.getMonth() + monthsToAdd);
+  584 | 
+  585 |   expect(actualDate.toISOString().split('T')[0]).toBe(expectedDate.toISOString().split('T')[0]);
+  586 | }
+  587 | 
+  588 | /**
+  589 |  * @param {string} email
+  590 |  */
+  591 | async function expectSubscriptionInvoiceEmail(email) {
+  592 |   const invoiceText = await fetchOTP({
+  593 |     ...gmailConfig,
+  594 |     otpRegex: /(invoice|receipt|subscription|payment successful)/i,
+  595 |     expectedTo: email,
+  596 |   });
+  597 | 
+  598 |   expect(invoiceText.toLowerCase()).toMatch(/invoice|receipt|subscription|payment successful/);
+  599 | }
+  600 | 
+  601 | /**
+  602 |  * @param {import('@playwright/test').Page} page
+  603 |  * @param {{name: string, email: string, phone: string, company: string, jobTitle: string, password: string, acceptTerms?: boolean}} data
+  604 |  */
+  605 | async function registerNewUser(page, data) {
+  606 |   await openSignupPage(page);
+  607 |   await fillSignupForm(page, data);
+  608 |   await submitRegistration(page);
+  609 | }
+  610 | 
+  611 | test.describe('SignupPage', () => {
+  612 |   test('Reg_TC-01 Verify all page-level and field-level validations on the new user registration form.', async ({ page }) => {
+  613 |     await openSignupPage(page);
+  614 | 
+  615 |     await submitRegistration(page);
+  616 |     await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
+  617 |     await expect(page.locator(locators.emailInput)).toBeVisible();
+  618 |     await expect(page.locator(locators.passwordInput)).toBeVisible();
+  619 |     await expect(page.locator(locators.termsCheckbox)).toBeVisible();
+  620 | 
+  621 |     await fillSignupForm(page, signupData({
+  622 |       name: '',
+  623 |       email: '',
+  624 |       phone: '',
+  625 |       company: '',
+  626 |       jobTitle: '',
+  627 |       password: '',
+  628 |       acceptTerms: false,
+  629 |     }));
+  630 | 
+  631 |     await submitRegistration(page);
+  632 |     await expect(page.locator('#root')).toContainText(/required|valid|terms|condition/i);
+  633 | 
+  634 |     await page.locator(locators.phoneInput).fill('abc');
+  635 |     await page.locator(locators.passwordInput).fill('123');
+  636 |     await submitRegistration(page);
+  637 |     await expect(page.locator('#root')).toContainText(/phone|password|valid|minimum|required/i);
+  638 |   });
+  639 | 
+  640 |   test('Reg_TC-02 Verify error message for incorrect email on register.', async ({ page }) => {
+  641 |     await openSignupPage(page);
+  642 |     await fillSignupForm(page, signupData({ email: 'incorrect-email' }));
+  643 |     await submitRegistration(page);
+  644 |     await expect(page.locator('#root')).toContainText(/valid email|invalid email|email/i);
+  645 |   });
+  646 | 
+  647 |   test('Reg_TC-03 Verify that a new user can successfully create an account using the Free Plan.', async ({ page }) => {
+  648 |     const data = signupData({
+  649 |       email: uniqueNxgEmail(),
+  650 |       company: 'qikAi.com',
+  651 |     });
+  652 |     loginCredentials.FreeplanUsername = data.email;
+  653 |     loginCredentials.FreePlanpassword = data.password;
+  654 | 
+  655 |     await registerNewUser(page, data);
+  656 |     await selectFreePlan(page);
+  657 |     await expect(page).toHaveTitle('Dashboard - OpenSign™');
+  658 |  await page.locator('//button[@aria-label="Close Tour"]').click();
+  659 |     await openProfile(page);
+  660 |     await expectProfileDetails(page, data);
+  661 |     const tooShortUsername = 'Testing';
+  662 |     await editProfile(page, { username: tooShortUsername });
+  663 |     await expect(page.locator('#renderList')).toContainText('Upgrade to Plan');
+> 664 |   await expect(page.locator('#renderList')).toContainText('To have a username less than 8 character please subscribe');
+      |                                             ^ Error: expect(locator).toContainText(expected) failed
+  665 |   await page.getByText('✕').click();
+  666 |  const randomNumber = Math.floor(100000 + Math.random() * 900000);
+  667 | const longUsername = `public_userName${randomNumber}`;
+  668 | console.log(longUsername);
+  669 | // Example: DemoTestname483921
+  670 | const updated = await editProfilewithoutEditbuttonClick(page, { username: longUsername })
+  671 |  /*   await expectProfileDetails(
+  672 |       page,
+  673 |       { ...data, ...updated },
+  674 |       { username: updated.username, tagline: updated.tagline },
+  675 |     );*/
+  676 | 
+  677 |     await openBilling(page);
+  678 |     await expectBillingDetails(page, planDefinitions.free);
+  679 | 
+  680 |     for (let i = 0; i < 10; i++) {
+  681 |       //await page.getByRole('button', { name: '' }).click();
+  682 |       if (await page.locator("//*[contains(normalize-space(.), 'Sent this month')]//i[contains(@class, 'fa-envelope')]").isVisible()) break;
+  683 |       await page.waitForTimeout(500);
+  684 |     }
+  685 | 
+  686 |     await page.locator("//*[contains(normalize-space(.), 'Sent this month')]//i[contains(@class, 'fa-envelope')]").click();
+  687 |     await expect(page.locator('#selectSignerModal')).toContainText('To maintain service quality and prevent spam, OpenSign allows up to 15 emails per month on the free plan.');
+  688 |     await expect(page.locator('#selectSignerModal')).toContainText('Tip: You can still sign unlimited documents by manually sharing the signing request link.');
+  689 |     await expect(page.locator('#selectSignerModal')).toContainText('Upgrade now');
+  690 |     await page.locator('div').filter({ hasText: /^✕$/ }).click();
+  691 |   });
+  692 | 
+  693 |   test('Reg_TC-04 Verify that a user cannot register using an already existing email address.', async ({ page }) => {
+  694 |     await openSignupPage(page);
+  695 |     await fillSignupForm(page, signupData({
+  696 |       name: 'Mathew Lowrence',
+  697 |       email: 'pravin+y4@nxglabs.in',
+  698 |       phone: '8888778888',
+  699 |       company: 'Qik Class Pvt. Ltd',
+  700 |       jobTitle: 'Manager',
+  701 |       password: 'Nsg@12345',
+  702 |     }));
+  703 |     await submitRegistration(page);
+  704 |     await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
+  705 |     //This is failing because the error message is displyed on the brower messge pop and whic i sno tworking in playwright execution
+  706 |   //await expect(page.locator('#root')).toContainText('User already registered.');
+  707 |  
+  708 |   });
+  709 | 
+  710 |   test('Reg_TC-05 Verify Professional Monthly signup and subscription invoice email.', async ({ page }) => {
+  711 |     test.setTimeout(280 * 1000);
+  712 |     const data = signupData();
+  713 |     await registerNewUser(page, data);
+  714 |     // ---------- Step 2: Select Professional Plan ----------
+  715 |     await page.getByRole('tab', { name: 'Monthly' }).click();
+  716 |    await completePaidCheckoutMonthly(page, data.email, planDefinitions.professionalMonthly);
+  717 |     //await expectSubscriptionInvoiceEmail(data.email);
+  718 | await page.locator(PROFILE_MENU_BUTTON).click();
+  719 |  await page.getByRole('button', { name: ' Profile' }).click();
+  720 |     await expectProfileDetails(page, data, { shouldShowUpgrade: true });
+  721 |     const updated = await editProfile(page);
+  722 |     await expectProfileDetails(page, { ...data, ...updated }, {
+  723 |       username: updated.username,
+  724 |       tagline: updated.tagline,
+  725 |       shouldShowUpgrade: true,
+  726 |     });
+  727 | 
+  728 |     await openBilling(page);
+  729 |     await expectBillingDetails(page, planDefinitions.professionalMonthly);
+  730 |    // await expectNextBillingDate(page, 12);
+  731 |   });
+  732 | 
+  733 |   test('Reg_TC-06 Verify Professional Yearly signup and subscription invoice email.', async ({ page }) => {
+  734 |     test.setTimeout(280 * 1000);
+  735 |     const data = signupData();
+  736 | 
+  737 |     await registerNewUser(page, data);
+  738 |     await completePaidCheckout(page, data.email, planDefinitions.professionalYearly);
+  739 |     await expectSubscriptionInvoiceEmail(data.email);
+  740 |  //await page.locator('//button[@aria-label="Close Tour"]').click();
+  741 |     await openProfile(page);
+  742 |     await expectProfileDetails(page, data, { shouldShowUpgrade: true });
+  743 |     const updated = await editProfile(page);
+  744 |     await expectProfileDetails(page, { ...data, ...updated }, {
+  745 |       username: updated.username,
+  746 |       tagline: updated.tagline,
+  747 |       shouldShowUpgrade: true,
+  748 |     });
+  749 | 
+  750 |     await openBilling(page);
+  751 |     await expectBillingDetails(page, planDefinitions.professionalYearly);
+  752 |     await expectNextBillingDate(page, 12);
+  753 |   });
+  754 | 
+  755 |   test('Reg_TC-07 Verify Teams Monthly signup and subscription invoice email.', async ({ page }) => {
+  756 |     test.setTimeout(280 * 1000);
+  757 |     const data = signupData();
+  758 |     await registerNewUser(page, data);
+  759 |     await page.getByRole('tab', { name: 'Monthly' }).click();
+  760 |     await completePaidCheckout(page, data.email, planDefinitions.teamsMonthly);
+  761 |     await expectSubscriptionInvoiceEmail(data.email);
+  762 |     await openProfile(page);
+  763 |     await expectProfileDetails(page, data, { shouldShowUpgrade: false });
+  764 |     const updated = await editProfile(page);
+```

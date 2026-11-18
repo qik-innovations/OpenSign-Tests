@@ -1,0 +1,379 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/Preferences.spec.js >> Verify that a new free user cannot save email preferences is prompted to upgrade
+- Location: tests/MainAppPages/Preferences.spec.js:5:1
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for locator('//div[text()="(GMT+10:00) Canberra, Melbourne, Sydney"]')
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - button "Open navigation" [expanded] [ref=e9] [cursor=pointer]:
+          - generic [ref=e10]: 
+        - button [ref=e12] [cursor=pointer]:
+          - img "logo" [ref=e13]
+      - generic [ref=e14]:
+        - button "Upgrade now" [ref=e16] [cursor=pointer]
+        - button "Open app drawer" [ref=e19] [cursor=pointer]:
+          - generic [ref=e20]: 
+        - button "Profile" [ref=e21] [cursor=pointer]:
+          - img "img" [ref=e22]
+        - button "Open profile menu" [ref=e23] [cursor=pointer]: Mathew Wade
+        - generic [ref=e24]:
+          - button "Open profile menu" [ref=e25] [cursor=pointer]:
+            - generic [ref=e26]: 
+          - text:         
+  - generic [ref=e27]:
+    - complementary [ref=e28]:
+      - generic [ref=e29]:
+        - button "Profile" [ref=e30] [cursor=pointer]:
+          - img "Profile" [ref=e31]
+        - generic [ref=e32]:
+          - button "Mathew Wade" [ref=e33] [cursor=pointer]
+          - button "qikAi.com" [ref=e34] [cursor=pointer]
+      - menubar "OpenSign Sidebar Navigation" [ref=e35]:
+        - list [ref=e36]:
+          - menuitem "Dashboard" [ref=e37]:
+            - generic [ref=e38]: 
+          - menuitem "Sign yourself" [ref=e41]:
+            - generic [ref=e42]: 
+          - menuitem "Request signatures" [ref=e45]:
+            - generic [ref=e46]: 
+          - button " Templates" [ref=e49] [cursor=pointer]:
+            - generic [ref=e50]: 
+            - generic [ref=e52]:
+              - generic [ref=e53]: Templates
+              - generic [ref=e54]: 
+          - menuitem "OpenSign™ Drive" [ref=e55]:
+            - generic [ref=e56]: 
+          - button " Documents" [ref=e59] [cursor=pointer]:
+            - generic [ref=e60]: 
+            - generic [ref=e62]:
+              - generic [ref=e63]: Documents
+              - generic [ref=e64]: 
+          - menuitem "Contactbook" [ref=e65]:
+            - generic [ref=e66]: 
+          - button " Settings" [expanded] [ref=e69] [cursor=pointer]:
+            - generic [ref=e70]: 
+            - generic [ref=e72]:
+              - generic [ref=e73]: Settings
+              - generic [ref=e74]: 
+          - menu "Settings submenu" [ref=e75]:
+            - menuitem "My signature" [ref=e76] [cursor=pointer]:
+              - generic [ref=e77]: 
+            - menuitem "API token" [ref=e80] [cursor=pointer]:
+              - generic [ref=e81]: 
+            - menuitem "Webhook" [ref=e84] [cursor=pointer]:
+              - generic [ref=e85]: 
+            - menuitem "Preferences" [ref=e88] [cursor=pointer]:
+              - generic [ref=e89]: 
+            - menuitem "Teams" [ref=e92] [cursor=pointer]:
+              - generic [ref=e93]: 
+            - menuitem "Users" [ref=e96] [cursor=pointer]:
+              - generic [ref=e97]: 
+      - generic [ref=e100]:
+        - link "OpenSign's Github" [ref=e101]:
+          - /url: https://github.com/opensignlabs/opensign
+          - generic [ref=e102]: 
+        - link "OpenSign's LinkedIn" [ref=e104]:
+          - /url: https://www.linkedin.com/company/opensign%E2%84%A2/
+          - generic [ref=e105]: 
+        - link "OpenSign's Twitter" [ref=e107]:
+          - /url: https://www.twitter.com/opensignlabs
+          - generic [ref=e108]: 
+        - link "OpenSign's Discord" [ref=e110]:
+          - /url: https://discord.com/invite/xe9TDuyAyj
+          - generic [ref=e111]: 
+    - main [ref=e113]:
+      - generic [ref=e114]:
+        - generic [ref=e116]:
+          - heading "OpenSign™ Preferences" [level=1] [ref=e117]
+          - tablist [ref=e119]:
+            - tab " General" [selected] [ref=e120] [cursor=pointer]:
+              - generic [ref=e121]: 
+              - generic "General" [ref=e122]
+            - tab " Widgets" [ref=e123] [cursor=pointer]:
+              - generic [ref=e124]: 
+              - generic "Widgets" [ref=e125]
+            - tab " Email" [ref=e126] [cursor=pointer]:
+              - generic [ref=e127]: 
+              - generic "Email" [ref=e128]
+            - tab " Security" [ref=e129] [cursor=pointer]:
+              - generic [ref=e130]: 
+              - generic "Security" [ref=e131]
+          - tabpanel [ref=e132]:
+            - generic [ref=e133]:
+              - generic [ref=e134]:
+                - generic [ref=e135]:
+                  - generic [ref=e136]:
+                    - text: Allowed signature types
+                    - superscript [ref=e138]:
+                      - generic [ref=e139]: "?"
+                  - generic [ref=e140]:
+                    - generic [ref=e141]:
+                      - checkbox "draw" [ref=e142] [cursor=pointer]
+                      - generic "Enabling this allows signers to draw signature" [ref=e143] [cursor=pointer]: draw
+                    - generic [ref=e144]:
+                      - checkbox "type" [checked] [ref=e145] [cursor=pointer]
+                      - generic "Enabling this allows signers to typed signature" [ref=e146] [cursor=pointer]: type
+                    - generic [ref=e147]:
+                      - checkbox "upload" [checked] [ref=e148] [cursor=pointer]
+                      - generic "Enabling this allows signers to upload signature" [ref=e149] [cursor=pointer]: upload
+                    - generic [ref=e150]:
+                      - checkbox "default" [checked] [ref=e151] [cursor=pointer]
+                      - generic "Enabling this allows signers to default signature" [ref=e152] [cursor=pointer]: default
+                - generic [ref=e153]:
+                  - generic [ref=e154]:
+                    - text: Notify on signatures
+                    - superscript [ref=e156]:
+                      - generic [ref=e157]: "?"
+                    - superscript [ref=e159]: Upgrade now
+                  - generic [ref=e160]:
+                    - generic:
+                      - radio "Yes" [checked]
+                      - generic: "Yes"
+                    - generic:
+                      - radio "No"
+                      - generic: "No"
+                - generic [ref=e161]:
+                  - generic [ref=e162]:
+                    - text: Send in order
+                    - superscript [ref=e164]:
+                      - generic [ref=e165]: "?"
+                  - generic [ref=e166]:
+                    - generic [ref=e167]:
+                      - radio "Yes" [checked] [ref=e168] [cursor=pointer]
+                      - generic [ref=e169] [cursor=pointer]: "Yes"
+                    - generic [ref=e170]:
+                      - radio "No" [ref=e171] [cursor=pointer]
+                      - generic [ref=e172] [cursor=pointer]: "No"
+                - generic [ref=e173]:
+                  - generic [ref=e174]:
+                    - text: Allow offline signing
+                    - superscript [ref=e176]:
+                      - generic [ref=e177]: "?"
+                    - superscript [ref=e178]: Upgrade now
+                  - generic:
+                    - generic:
+                      - radio "Yes"
+                      - generic: "Yes"
+                    - generic:
+                      - radio "No" [checked]
+                      - generic: "No"
+                - generic [ref=e179]:
+                  - generic [ref=e180]: Use profile name as sender
+                  - superscript [ref=e182]:
+                    - generic [ref=e183]: "?"
+                  - checkbox "Use profile name as sender" [ref=e185] [cursor=pointer]
+                - generic [ref=e186]:
+                  - generic [ref=e187]:
+                    - text: Enable tour
+                    - superscript [ref=e189]:
+                      - generic [ref=e190]: "?"
+                  - generic [ref=e191]:
+                    - generic [ref=e192]:
+                      - radio "Yes" [checked] [ref=e193] [cursor=pointer]
+                      - generic [ref=e194] [cursor=pointer]: "Yes"
+                    - generic [ref=e195]:
+                      - radio "No" [ref=e196] [cursor=pointer]
+                      - generic [ref=e197] [cursor=pointer]: "No"
+                - generic [ref=e198]:
+                  - heading "Email settings ?" [level=3] [ref=e199]:
+                    - text: Email settings
+                    - superscript [ref=e202]:
+                      - generic [ref=e203]: "?"
+                  - generic [ref=e205]:
+                    - generic [ref=e206]:
+                      - button "" [disabled]
+                    - generic [ref=e207]:
+                      - button "" [disabled]
+                    - generic [ref=e208]:
+                      - checkbox [checked]
+                      - button "OpenSign™ default SMTP" [disabled] [ref=e209] [cursor=pointer]
+              - generic [ref=e210]:
+                - generic [ref=e212]:
+                  - heading "Timezone" [level=1] [ref=e213]
+                  - generic [ref=e214]:
+                    - log [ref=e216]: 43 results available.Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.
+                    - generic [ref=e218]:
+                      - generic [ref=e219]: Select...
+                      - combobox [expanded] [active] [ref=e221]
+                    - listbox [ref=e228]:
+                      - option "(GMT-11:00) Midway Island, Samoa" [ref=e229]
+                      - option "(GMT-10:00) Hawaii" [ref=e230]
+                      - option "(GMT-9:00) Alaska" [ref=e231]
+                      - option "(GMT-8:00) Pacific Time" [ref=e232]
+                      - option "(GMT-7:00) Mountain Time" [ref=e233]
+                      - option "(GMT-7:00) Dawson, Yukon" [ref=e234]
+                      - option "(GMT-6:00) Chihuahua, La Paz, Mazatlan" [ref=e235]
+                      - option "(GMT-6:00) Central Time" [ref=e236]
+                      - option "(GMT-5:00) Eastern Time" [ref=e237]
+                      - option "(GMT-5:00) Bogota, Lima, Quito" [ref=e238]
+                      - option "(GMT-4:00) Caracas, La Paz" [ref=e239]
+                      - option "(GMT-3:30) Newfoundland and Labrador" [ref=e240]
+                      - option "(GMT-3:00) Santiago" [ref=e241]
+                      - option "(GMT-3:00) Brasilia" [ref=e242]
+                      - option "(GMT-2:00) Greenland" [ref=e243]
+                      - option "(GMT-1:00) Azores" [ref=e244]
+                      - option "(GMT-1:00) Cape Verde Islands" [ref=e245]
+                      - option "(GMT+0:00) UTC" [ref=e246]
+                      - option "(GMT+0:00) Edinburgh, London" [ref=e247]
+                      - option "(GMT+1:00) Casablanca, Monrovia" [ref=e248]
+                      - option "(GMT+1:00) West Central Africa" [ref=e249]
+                      - option "(GMT+2:00) Bucharest" [ref=e250]
+                      - option "(GMT+2:00) Harare, Pretoria" [ref=e251]
+                      - option "(GMT+3:00) Istanbul, Minsk, Moscow, St. Petersburg, Volgograd" [ref=e252]
+                      - option "(GMT+3:30) Tehran" [ref=e253]
+                      - option "(GMT+4:00) Abu Dhabi, Muscat" [ref=e254]
+                      - option "(GMT+4:30) Kabul" [ref=e255]
+                      - option "(GMT+5:00) Ekaterinburg" [ref=e256]
+                      - option "(GMT+5:30) Chennai, Kolkata, Mumbai, New Delhi" [ref=e257]
+                      - option "(GMT+5:45) Kathmandu" [ref=e258]
+                      - option "(GMT+6:00) Astana, Dhaka" [ref=e259]
+                      - option "(GMT+6:30) Yangon Rangoon" [ref=e260]
+                      - option "(GMT+7:00) Bangkok, Hanoi, Jakarta" [ref=e261]
+                      - option "(GMT+8:00) Beijing, Chongqing, Hong Kong SAR, Urumqi" [ref=e262]
+                      - option "(GMT+9:00) Seoul" [ref=e263]
+                      - option "(GMT+9:30) Darwin" [ref=e264]
+                      - option "(GMT+10:00) Brisbane" [ref=e265]
+                      - option "(GMT+10:30) Adelaide" [ref=e266]
+                      - option "(GMT+11:00) Canberra, Melbourne, Sydney" [ref=e267]
+                      - option "(GMT+11:00) Magadan, Solomon Islands, New Caledonia" [ref=e268]
+                      - option "(GMT+12:00) Kamchatka, Marshall Islands" [ref=e269]
+                      - option "(GMT+13:00) Auckland, Wellington" [ref=e270]
+                      - option "(GMT+13:00) Nuku'alofa" [ref=e271]
+                - generic [ref=e273]:
+                  - generic [ref=e274]: Date format
+                  - combobox [ref=e275] [cursor=pointer]:
+                    - option "MM/DD/YYYY" [selected]
+                    - option "MM-DD-YYYY"
+                    - option "MM.DD.YYYY"
+                    - option "DD/MM/YYYY"
+                    - option "DD-MM-YYYY"
+                    - option "DD.MM.YYYY"
+                    - option "YYYY-MM-DD"
+                    - option "MMM DD, YYYY"
+                    - option "MMMM DD, YYYY"
+                    - option "DD MMM, YYYY"
+                    - option "DD MMMM, YYYY"
+                    - option "DD-MMM-YYYY"
+                  - generic [ref=e276]:
+                    - generic [ref=e277]:
+                      - radio [ref=e278] [cursor=pointer]
+                      - generic [ref=e279]: 12 hr
+                    - generic [ref=e280]:
+                      - radio [checked] [ref=e281] [cursor=pointer]
+                      - generic [ref=e282]: 24 hr
+                  - paragraph [ref=e283]:
+                    - strong [ref=e284]: 11/18/2026, 18:38:38 GMT Z
+                - generic [ref=e285]:
+                  - generic [ref=e286]:
+                    - text: Qualified Signatures
+                    - superscript [ref=e288]:
+                      - generic [ref=e289]: "?"
+                    - superscript [ref=e291]: Upgrade now
+                  - generic [ref=e292]:
+                    - generic [ref=e293]: Not set
+                    - button "" [disabled] [ref=e294]
+                - generic [ref=e297]:
+                  - generic [ref=e298]:
+                    - text: Document download filename format
+                    - link "?" [ref=e300]:
+                      - /url: /
+                      - superscript [ref=e301]:
+                        - generic [ref=e302]: "?"
+                  - combobox [ref=e303] [cursor=pointer]:
+                    - option "document Name.pdf" [selected]
+                    - option "document Name - Signed.pdf"
+                    - option "document Name - name@domain.com.pdf"
+                    - option "document Name - name@domain.com - date.pdf"
+                  - generic [ref=e304]: "Preview: Agreement.pdf"
+                - generic [ref=e305]:
+                  - generic [ref=e306]:
+                    - text: Merge Certificate to PDF
+                    - superscript [ref=e308]:
+                      - generic [ref=e309]: "?"
+                    - superscript [ref=e311]: Upgrade now
+                  - generic [ref=e312]:
+                    - generic:
+                      - radio "Yes"
+                      - generic: "Yes"
+                    - generic:
+                      - radio "No" [checked]
+                      - generic: "No"
+              - button "Save" [ref=e314] [cursor=pointer]
+        - generic [ref=e315]:
+          - complementary [ref=e317]:
+            - paragraph [ref=e318]:
+              - text: All rights reserved © 2026
+              - 'link "OpenSign™ ( version: v3.1.1)" [ref=e319] [cursor=pointer]':
+                - /url: https://github.com/OpenSignLabs/OpenSign/releases/tag/v3.1.1
+          - text: 
+```
+
+# Test source
+
+```ts
+  1  | const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+  2  | const { test, expect } = require('@playwright/test');
+  3  | const CommonSteps = require('../utils/CommonSteps');
+  4  | 
+  5  | test('Verify that a new free user cannot save email preferences is prompted to upgrade', async ({ page }) => {
+  6  |   const commonSteps = new CommonSteps(page);
+  7  |   await commonSteps.navigateToBaseUrl();
+  8  |   await commonSteps.NewUserlogin();
+  9  |   await commonSteps.closeTourIfVisible();
+  10 |   await commonSteps.openSettingsMenuItem('Preferences');
+  11 | 
+  12 |   const title = await page.title();
+  13 |   if (title === 'OpenSign™ Preferences') {
+  14 |     console.log('Page title is correct: OpenSign™ Preferences');
+  15 |   } else {
+  16 |     console.error(`Page title is incorrect. Expected: "OpenSign™ Preferences", Got: "${title}"`);
+  17 |   }
+  18 | 
+  19 |   await expect(page.getByRole('heading', { name: 'OpenSign™ Preferences' })).toBeVisible();
+  20 |   await page.getByText('General').click();
+  21 |   await expect(page.getByText('Allowed signature types')).toBeVisible();
+  22 |   await page.getByText('draw').click();
+  23 |   await expect(page.locator('//label[@title="Enabling this allows signers to draw signature" and text()="draw"]')).toBeVisible();
+  24 |   await expect(page.locator('//label[@title="Enabling this allows signers to typed signature" and text()="type"]', { exact: true })).toBeVisible();
+  25 |   await expect(page.locator('//label[@title="Enabling this allows signers to upload signature" and text()="upload"]')).toBeVisible();
+  26 |   await expect(page.locator('//label[@title="Enabling this allows signers to default signature" and text()="default"]')).toBeVisible();
+  27 |   await expect(page.getByText('Notify on signaturesUpgrade')).toBeVisible();
+  28 |   await expect(page.locator('//label[contains(., "Notify on signatures")]//span[normalize-space(.)="Upgrade now"]').getByText('Upgrade now')).toBeVisible();
+  29 |   await expect(page.getByRole('heading', { name: 'Timezone' })).toBeVisible();
+  30 |   await page.locator('.css-n9qnu9').click();
+> 31 |   await page.locator('//div[text()="(GMT+10:00) Canberra, Melbourne, Sydney"]').click();
+     |                                                                                 ^ Error: locator.click: Test timeout of 120000ms exceeded.
+  32 |   await page.locator('#renderList div').filter({ hasText: 'Allowed signature' }).nth(2).click();
+  33 |   await page.locator('.css-n9qnu9').click();
+  34 |   await page.locator('#renderList div').filter({ hasText: 'Allowed signature' }).nth(2).click();
+  35 |   await page.locator("//label[text()='Date format']/following-sibling::select").selectOption({ label: 'MM/DD/YYYY' });
+  36 |   await page.locator("//label[text()='Document download filename format']/following-sibling::select").selectOption({ label: 'document Name - name@domain.com.pdf' });
+  37 |   await page.getByRole('button', { name: 'Save' }).click();
+  38 |   await expect(page.getByText('Saved successfully.')).toBeVisible();
+  39 | });
+  40 | 
+```

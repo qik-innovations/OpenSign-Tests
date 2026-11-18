@@ -1,0 +1,477 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/Dashboard.spec.js >> Dashboard >> Verify that the Need Your Signature count on the card increases when a new document is created and the owner is added as a signer.
+- Location: tests/MainAppPages/Dashboard.spec.js:55:3
+
+# Error details
+
+```
+TypeError: commonSteps.dragAndDropSignatureWidget is not a function
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - text: "New Feature: Qualified Electronics Signatures now available —"
+        - button "Try it now." [ref=e8] [cursor=pointer]
+      - button "Close" [ref=e10] [cursor=pointer]:
+        - generic [ref=e14]: 
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - button "Open navigation" [ref=e19] [cursor=pointer]:
+          - generic [ref=e20]: 
+        - button [ref=e22] [cursor=pointer]:
+          - img "logo" [ref=e23]
+      - generic [ref=e24]:
+        - button "Billing" [ref=e25] [cursor=pointer]:
+          - generic [ref=e26]: TEAM
+        - button "Open app drawer" [ref=e29] [cursor=pointer]:
+          - generic [ref=e30]: 
+        - button "Profile" [ref=e31] [cursor=pointer]:
+          - img "img" [ref=e32]
+        - button "Open profile menu" [ref=e33] [cursor=pointer]: Pravin Testing account
+        - generic [ref=e34]:
+          - button "Open profile menu" [ref=e35] [cursor=pointer]:
+            - generic [ref=e36]: 
+          - text:        
+  - generic [ref=e37]:
+    - complementary [ref=e38]:
+      - generic [ref=e39]:
+        - button "Profile" [ref=e40] [cursor=pointer]:
+          - img "Profile" [ref=e41]
+        - generic:
+          - button "Pravin Testing account" [ref=e42] [cursor=pointer]
+          - button "OpenSign pvt ltd" [ref=e43] [cursor=pointer]
+      - menubar "OpenSign Sidebar Navigation" [ref=e44]:
+        - list [ref=e45]:
+          - menuitem "Dashboard" [ref=e46]:
+            - generic [ref=e47]: 
+          - menuitem "Sign yourself" [ref=e50]:
+            - generic [ref=e51]: 
+          - menuitem "Request signatures" [ref=e54]:
+            - generic [ref=e55]: 
+          - button " Templates" [ref=e58] [cursor=pointer]:
+            - generic [ref=e59]: 
+            - generic [ref=e61]:
+              - generic [ref=e62]: Templates
+              - generic [ref=e63]: 
+          - menuitem "OpenSign™ Drive" [ref=e64]:
+            - generic [ref=e65]: 
+          - button " Documents" [ref=e68] [cursor=pointer]:
+            - generic [ref=e69]: 
+            - generic [ref=e71]:
+              - generic [ref=e72]: Documents
+              - generic [ref=e73]: 
+          - menuitem "Contactbook" [ref=e74]:
+            - generic [ref=e75]: 
+          - button " Settings" [ref=e78] [cursor=pointer]:
+            - generic [ref=e79]: 
+            - generic [ref=e81]:
+              - generic [ref=e82]: Settings
+              - generic [ref=e83]: 
+      - generic:
+        - link "OpenSign's Github" [ref=e84]:
+          - /url: https://github.com/opensignlabs/opensign
+          - generic [ref=e85]: 
+        - link "OpenSign's LinkedIn" [ref=e87]:
+          - /url: https://www.linkedin.com/company/opensign%E2%84%A2/
+          - generic [ref=e88]: 
+        - link "OpenSign's Twitter" [ref=e90]:
+          - /url: https://www.twitter.com/opensignlabs
+          - generic [ref=e91]: 
+        - link "OpenSign's Discord" [ref=e93]:
+          - /url: https://discord.com/invite/xe9TDuyAyj
+          - generic [ref=e94]: 
+    - main [ref=e96]:
+      - generic [ref=e97]:
+        - generic [ref=e99]:
+          - generic [ref=e100]:
+            - generic [ref=e101]: Pages
+            - button "+ Add pages" [ref=e107] [cursor=pointer]:
+              - generic [ref=e108]: +
+              - generic [ref=e109]: Add pages
+          - generic [ref=e110]:
+            - generic [ref=e111]:
+              - button "Add pages" [ref=e112] [cursor=pointer]:
+                - generic [ref=e113]: +
+              - button "Delete page" [ref=e114] [cursor=pointer]:
+                - generic [ref=e115]: 
+              - button "Reorder pages" [ref=e116] [cursor=pointer]:
+                - generic [ref=e117]: 
+              - button "Zoom in" [ref=e118] [cursor=pointer]:
+                - generic [ref=e119]: 
+              - button "Rotate right" [ref=e120] [cursor=pointer]:
+                - generic [ref=e121]: 
+              - button "Rotate left" [ref=e122] [cursor=pointer]:
+                - generic [ref=e123]: 
+              - button "Zoom out" [ref=e124] [cursor=pointer]:
+                - generic [ref=e125]: 
+            - generic [ref=e128]:
+              - generic [ref=e129]:
+                - generic [ref=e130]:
+                  - button [disabled]:
+                    - generic: 
+                  - generic [ref=e131]: 1 of 1
+                  - button [disabled]:
+                    - generic: 
+                - text:  
+              - generic [ref=e132]:
+                - button "Edit" [ref=e133] [cursor=pointer]:
+                  - generic [ref=e134]: 
+                - button "Back" [ref=e135] [cursor=pointer]
+                - button "Next" [ref=e136] [cursor=pointer]
+          - generic [ref=e147]:
+            - generic [ref=e148]:
+              - generic [ref=e150]:
+                - text: Recipients
+                - button "Recipients more" [disabled] [ref=e151] [cursor=pointer]:
+                  - generic [ref=e152]: "?"
+              - generic [ref=e153]:
+                - button " Prefill by owner" [disabled] [ref=e154] [cursor=pointer]:
+                  - generic [ref=e155]: 
+                  - generic [ref=e157]: Prefill by owner
+                - button "P Pravin Testing account pravin+testaccount@nxglabs.in Signer  " [disabled] [pressed] [ref=e158]:
+                  - generic [ref=e159]:
+                    - generic [ref=e160]: P
+                    - generic [ref=e162]:
+                      - generic [ref=e163]: Pravin Testing account
+                      - generic [ref=e164]: pravin+testaccount@nxglabs.in
+                  - combobox "Signer must sign. Approver approves without signing. Viewer only views." [disabled] [ref=e165] [cursor=pointer]:
+                    - option "Signer" [disabled] [selected]
+                    - option "Viewer" [disabled]
+                    - option "Approver" [disabled]
+                  - generic "Add access code" [ref=e166] [cursor=pointer]: 
+                  - generic [ref=e168] [cursor=pointer]: 
+                  - separator [disabled]
+              - button "+ Add recipients" [disabled] [ref=e171] [cursor=pointer]:
+                - generic [ref=e172]: +
+                - text: Add recipients
+            - generic [ref=e174]:
+              - generic [ref=e175]: Widgets
+              - list "Add widgets" [ref=e176]:
+                - button "signature" [disabled] [ref=e178]:
+                  - generic "signature" [ref=e179] [cursor=pointer]:
+                    - generic [ref=e180]:
+                      - generic [ref=e181]:
+                        - generic [ref=e182]: 
+                        - generic [ref=e183]: signature
+                      - generic [ref=e184]: 
+                - button "stamp" [disabled] [ref=e187]:
+                  - generic "stamp" [ref=e188] [cursor=pointer]:
+                    - generic [ref=e189]:
+                      - generic [ref=e190]:
+                        - generic [ref=e191]: 
+                        - generic [ref=e192]: stamp
+                      - generic [ref=e193]: 
+                - button "initials" [disabled] [ref=e196]:
+                  - generic "initials" [ref=e197] [cursor=pointer]:
+                    - generic [ref=e198]:
+                      - generic [ref=e199]:
+                        - generic [ref=e200]: 
+                        - generic [ref=e201]: initials
+                      - generic [ref=e202]: 
+                - button "text input" [disabled] [ref=e205]:
+                  - generic "text input" [ref=e206] [cursor=pointer]:
+                    - generic [ref=e207]:
+                      - generic [ref=e208]:
+                        - generic [ref=e209]: 
+                        - generic [ref=e210]: text input
+                      - generic [ref=e211]: 
+                - button "number" [disabled] [ref=e214]:
+                  - generic "number" [ref=e215] [cursor=pointer]:
+                    - generic [ref=e216]:
+                      - generic [ref=e217]:
+                        - generic [ref=e218]: 
+                        - generic [ref=e219]: number
+                      - generic [ref=e220]: "#"
+                - button "name" [disabled] [ref=e223]:
+                  - generic "name" [ref=e224] [cursor=pointer]:
+                    - generic [ref=e225]:
+                      - generic [ref=e226]:
+                        - generic [ref=e227]: 
+                        - generic [ref=e228]: name
+                      - generic [ref=e229]: 
+                - button "job title" [disabled] [ref=e232]:
+                  - generic "job title" [ref=e233] [cursor=pointer]:
+                    - generic [ref=e234]:
+                      - generic [ref=e235]:
+                        - generic [ref=e236]: 
+                        - generic [ref=e237]: job title
+                      - generic [ref=e238]: 
+                - button "company" [disabled] [ref=e241]:
+                  - generic "company" [ref=e242] [cursor=pointer]:
+                    - generic [ref=e243]:
+                      - generic [ref=e244]:
+                        - generic [ref=e245]: 
+                        - generic [ref=e246]: company
+                      - generic [ref=e247]: 
+                - button "email" [disabled] [ref=e250]:
+                  - generic "email" [ref=e251] [cursor=pointer]:
+                    - generic [ref=e252]:
+                      - generic [ref=e253]:
+                        - generic [ref=e254]: 
+                        - generic [ref=e255]: email
+                      - generic [ref=e256]: 
+                - button "date" [disabled] [ref=e259]:
+                  - generic "date" [ref=e260] [cursor=pointer]:
+                    - generic [ref=e261]:
+                      - generic [ref=e262]:
+                        - generic [ref=e263]: 
+                        - generic [ref=e264]: date
+                      - generic [ref=e265]: 
+                - button "cells" [disabled] [ref=e268]:
+                  - generic "cells" [ref=e269] [cursor=pointer]:
+                    - generic [ref=e270]:
+                      - generic [ref=e271]:
+                        - generic [ref=e272]: 
+                        - generic [ref=e273]: cells
+                      - generic [ref=e274]: 
+                - button "checkbox" [disabled] [ref=e277]:
+                  - generic "checkbox" [ref=e278] [cursor=pointer]:
+                    - generic [ref=e279]:
+                      - generic [ref=e280]:
+                        - generic [ref=e281]: 
+                        - generic [ref=e282]: checkbox
+                      - generic [ref=e283]: 
+                - button "dropdown" [disabled] [ref=e286]:
+                  - generic "dropdown" [ref=e287] [cursor=pointer]:
+                    - generic [ref=e288]:
+                      - generic [ref=e289]:
+                        - generic [ref=e290]: 
+                        - generic [ref=e291]: dropdown
+                      - generic [ref=e292]: 
+                - button "radio button" [disabled] [ref=e295]:
+                  - generic "radio button" [ref=e296] [cursor=pointer]:
+                    - generic [ref=e297]:
+                      - generic [ref=e298]:
+                        - generic [ref=e299]: 
+                        - generic [ref=e300]: radio button
+                      - generic [ref=e301]: 
+                - button "image" [disabled] [ref=e304]:
+                  - generic "image" [ref=e305] [cursor=pointer]:
+                    - generic [ref=e306]:
+                      - generic [ref=e307]:
+                        - generic [ref=e308]: 
+                        - generic [ref=e309]: image
+                      - generic [ref=e310]: 
+                - button "attachments" [disabled] [ref=e313]:
+                  - generic "attachments" [ref=e314] [cursor=pointer]:
+                    - generic [ref=e315]:
+                      - generic [ref=e316]:
+                        - generic [ref=e317]: 
+                        - generic [ref=e318]: attachments
+                      - generic [ref=e319]: 
+                - button "QES" [disabled] [ref=e322]:
+                  - generic "QES" [ref=e323] [cursor=pointer]:
+                    - generic [ref=e324]:
+                      - generic [ref=e325]:
+                        - generic [ref=e326]: 
+                        - generic [ref=e327]: QES
+                      - generic [ref=e328]: 
+        - generic [ref=e330]:
+          - complementary [ref=e332]:
+            - paragraph [ref=e333]:
+              - text: All rights reserved © 2026
+              - 'link "OpenSign™ ( version: v3.1.1)" [ref=e334] [cursor=pointer]':
+                - /url: https://github.com/OpenSignLabs/OpenSign/releases/tag/v3.1.1
+          - text: 
+```
+
+# Test source
+
+```ts
+  1   | const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+  2   | const { test, expect } = require('@playwright/test');
+  3   | const path = require('path');
+  4   | const CommonSteps = require('../utils/CommonSteps');
+  5   | test.describe('Dashboard', () => {
+  6   | test('Verify that the Sign yourself card click functions correctly and redirects the user to the Signyourself page from the dashboard.', async ({ page }) => {
+  7   |     const commonSteps = new CommonSteps(page);
+  8   |     // Step 1: Navigate to Base URL and log in
+  9   |     await commonSteps.navigateToBaseUrl();
+  10  |     await commonSteps.login();
+  11  |     await expect(page.locator('//div[text()="Sign yourself"]//parent::div[@class="text-gray-500 text-xs mt-1"]'))
+  12  |   .toBeVisible({ timeout: 120000 });
+  13  | await expect(page.locator('//div[text()="Sign yourself"]//parent::div[@class="text-gray-500 text-xs mt-1"]'))
+  14  |   .toContainText('Use this option to sign the document yourself without adding others');
+  15  |     await page.getByText('Sign yourselfUse this option').click();
+  16  |     await expect(page.getByRole('heading')).toContainText('Sign yourself');
+  17  |     await expect(page.locator('//div[@class="mb-[11px]"]//div[@class="text-gray-500 text-xs mt-1"]')).toContainText('Use this form to sign the document yourself without adding others');
+  18  |   });
+  19  |   test('Verify that the Request signature card click functions correctly and redirects the user to the Request signature page from the dashboard.', async ({ page }) => {
+  20  |     const commonSteps = new CommonSteps(page);
+  21  |     // Step 1: Navigate to Base URL and log in
+  22  |     await commonSteps.navigateToBaseUrl();
+  23  |     await commonSteps.login();
+  24  |     await expect(page.locator('//div[text()="Request signatures"]//parent::div[@class="text-gray-500 text-xs mt-1"]'))
+  25  |   .toBeVisible({ timeout: 120000 });
+  26  | await expect(page.locator('//div[text()="Request signatures"]//parent::div[@class="text-gray-500 text-xs mt-1"]'))
+  27  |   .toContainText('Use this option to request signatures from others and yourself together.');
+  28  |     await page.getByText('Request signaturesUse this').click();
+  29  |     await expect(page.getByRole('heading')).toContainText('Request signatures');
+  30  |     await expect(page.locator('//div[@class="mb-[11px]"]//div[@class="text-gray-500 text-xs mt-1"]')).toContainText('Use this form to request signatures from others and yourself together.');
+  31  |   });
+  32  |   test('Verify that the Need your signature card click functions correctly and redirects the user to the Need your sign report from the dashboard.', async ({ page }) => {
+  33  |     const commonSteps = new CommonSteps(page);
+  34  |     // Step 1: Navigate to Base URL and log in
+  35  |     await commonSteps.navigateToBaseUrl();
+  36  |     await commonSteps.login();
+  37  |     await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
+  38  |     await expect(page.locator('#renderList')).toContainText('Need your signature');
+  39  |     await page.locator("//div[@class='text-base lg:text-lg' and text()='Need your signature']").click();
+  40  |     await expect(page.locator('//div[@class="font-light" and text()="Need your sign"]')).toBeVisible({ timeout: 120000 });
+  41  |     await expect(page.locator('//div[@class="font-light" and text()="Need your sign"]')).toContainText('Need your sign');
+  42  |     
+  43  |   });
+  44  |   test('Verify that clicking the Out for Signatures card functions correctly and redirects the user to the In-Progress report from the dashboard.', async ({ page }) => {
+  45  |     const commonSteps = new CommonSteps(page);
+  46  |     // Step 1: Navigate to Base URL and log in
+  47  |     await commonSteps.navigateToBaseUrl();
+  48  |     await commonSteps.login();
+  49  |     await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
+  50  |     await expect(page.locator('#renderList')).toContainText('Out for signatures');
+  51  |     await page.locator("//div[@class='text-base lg:text-lg' and text()='Out for signatures']").click();
+  52  |     await expect(page.locator('//div[@class="font-light" and text()="In-progress documents"]')).toContainText('In-progress documents');
+  53  |   });
+  54  | 
+  55  |   test('Verify that the Need Your Signature count on the card increases when a new document is created and the owner is added as a signer.', async ({ page }) => {
+  56  |     const commonSteps = new CommonSteps(page);
+  57  |     // Step 1: Navigate to Base URL and log in
+  58  |     await commonSteps.navigateToBaseUrl();
+  59  |     await commonSteps.login();
+  60  |     await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
+  61  |     await expect(page.locator('#renderList')).toContainText('Need your signature');
+  62  |     //await expect(page.locator('#renderList')).toContainText('Drafts');
+  63  |     await page.waitForLoadState("networkidle");
+  64  |     await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
+  65  |     const countNeedYourSign = await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
+  66  |     console.log("Count need your sign " + countNeedYourSign);
+  67  |     await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  68  |      await page.locator('input[name="Name"]').click();
+  69  |         await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  70  |         await page.locator('input[name="Name"]').press('Tab');
+  71  |         const fileChooserPromise = page.waitForEvent('filechooser');
+  72  |       await page.locator('input[type="file"]').click();
+  73  |       const fileChooser = await fileChooserPromise;
+  74  |       await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  75  |     //  await page.type('//div[@class=\'css-n9qnu9\']', 'Pravin', { delay: 100 });
+  76  |     //  await page.getByRole('option', { name: 'Pravin Testing account <' + loginCredentials.email }).click();
+  77  |     await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  78  |     await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+  79  |     await page.locator('input[name="Name"]').click();
+  80  |     await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  81  |     await page.getByRole('button', { name: 'Next' }).click();
+  82  | await commonSteps.LoadPlaceholder(page);
+> 83  |      await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
+      |                        ^ TypeError: commonSteps.dragAndDropSignatureWidget is not a function
+  84  | await page.getByRole('button', { name: 'Next' }).click();
+  85  | await page.locator('//span[text()="Send to Email"]').click();
+  86  | await page.getByRole('button', { name: 'Send' }).click();
+  87  | await page.locator('//button[@class="op-btn op-btn-ghost text-base-content" and text()="No"]').click();
+  88  | await page.getByRole('menuitem', { name: 'Dashboard' }).click();
+  89  | await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
+  90  | //await expect(page.locator('#renderList')).toContainText('Drafts');
+  91  | await page.waitForLoadState("networkidle");
+  92  | await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
+  93  | const newCountNeedYourSign = await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
+  94  | 
+  95  | // Convert to numbers for comparison
+  96  | const IncrementedCount = Number(countNeedYourSign.trim()) + 1;
+  97  | console.log("Count need your sign incremnt by 1 " + IncrementedCount);
+  98  | const newCount = Number(newCountNeedYourSign);
+  99  | console.log("new count " + newCount);
+  100 | if (IncrementedCount <= newCount) {
+  101 |     console.log("Need Your Signature card count increased by one, which is correct.");
+  102 | } else {
+  103 |     console.log("Need Your Signature card count did not increase. The test case has failed.");
+  104 |     throw new Error("Test case failed: Need Your Signature card count did not match.");
+  105 | }
+  106 |   });
+  107 | 
+  108 |   test('Verify that the Out for signature count on the card increases when a new document sent for request signature.', async ({ page }) => {
+  109 |     const commonSteps = new CommonSteps(page);
+  110 |     // Step 1: Navigate to Base URL and log in
+  111 |     await commonSteps.navigateToBaseUrl();
+  112 |     await commonSteps.login();
+  113 |     await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
+  114 | await expect(page.locator('#renderList')).toContainText('Need your signature');
+  115 |     //await expect(page.locator('#renderList')).toContainText('Drafts');
+  116 |     await page.waitForLoadState("networkidle");
+  117 |     await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
+  118 |     const countOutforSign = await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
+  119 |     console.log('count out for sign old' + countOutforSign);
+  120 |     await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  121 |         await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  122 |         await page.locator('input[name="Note"]').click();
+  123 |         const fileChooserPromise = page.waitForEvent('filechooser');
+  124 |       await page.locator('input[type="file"]').click();
+  125 |       const fileChooser = await fileChooserPromise;
+  126 |       await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  127 |     //  await page.type('//div[@class=\'css-n9qnu9\']', 'Pravin', { delay: 100 });
+  128 |     //  await page.getByRole('option', { name: 'Pravin Testing account <' + loginCredentials.email }).click();
+  129 |     await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  130 |     await page.getByRole('option', { name: 'Andy amaya<andyamaya@nxglabs.' }).click();
+  131 |     await page.locator('input[name="Name"]').click();
+  132 |     await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  133 |     await page.getByRole('button', { name: 'Next' }).click();
+  134 |     await commonSteps.LoadPlaceholder(page);
+  135 |     await commonSteps.dragAndDrop("signature",500,300);
+  136 | await page.getByRole('button', { name: 'Next' }).click();
+  137 | await page.getByRole('button', { name: 'Send' }).click();
+  138 | await page.locator('//dialog//button[@aria-label="Close"]').click();
+  139 | await page.getByRole('menuitem', { name: 'Dashboard' }).click();
+  140 | await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
+  141 | let newCountOutforSign = null;
+  142 | 
+  143 | for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  144 |     newCountOutforSign = await page.locator('//div[@data-tut="tourcard2"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
+  145 |     
+  146 |     if (newCountOutforSign && newCountOutforSign.trim() !== "") {
+  147 |         console.log("Text found:", newCountOutforSign);
+  148 |         break; // Exit loop if text is found
+  149 |     } else {
+  150 |         console.log(`Attempt ${i + 1}: Text is empty, retrying...`);
+  151 |         await page.waitForTimeout(1000); // Wait 1 second before retrying
+  152 |     }
+  153 | 
+  154 |     if (i === 4) {
+  155 |         console.log("Text did not appear after multiple attempts.");
+  156 |     }
+  157 | }
+  158 | 
+  159 | // Convert to numbers for comparison
+  160 | const oldincrementedcount1 = Number(countOutforSign.trim()) + 1;
+  161 | const newCount1 = Number(newCountOutforSign);
+  162 | if (oldincrementedcount1 <= newCount1) {
+  163 |   console.log("✅ Out for signature card count increased by one, which is correct.");
+  164 | } else {
+  165 |   console.error("❌ Out for signature card count did not increase. The test case has failed.");
+  166 | }
+  167 |   });
+  168 | });
+  169 | 
+  170 | 
+  171 | test('Verify that the unfinished SignYourSelf document can be edited from the Dashboard draft document.', async ({ page }) => {
+  172 |   const commonSteps = new CommonSteps(page);
+  173 |   // Step 1: Navigate to Base URL and log in
+  174 |   await commonSteps.navigateToBaseUrl();
+  175 |   await commonSteps.login();
+  176 | await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+  177 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  178 | await page.locator('input[type="file"]').click();
+  179 | const fileChooser = await fileChooserPromise;
+  180 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  181 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  182 | await page.locator('input[name="Name"]').fill('Draft doc rpt Sample offer letter');
+  183 | await page.locator('input[name="Note"]').fill('Note Draft doc rpt');
+```

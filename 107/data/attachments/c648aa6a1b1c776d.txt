@@ -1,0 +1,6 @@
+Browser: chromium, Version: 151.0.7922.34, OS: linux
+Document Title: 2026-11-18T18-46-27-374Z sample draft doc.
+Dragging 'signature'. Attempt 1/5
+Dragging 'signature' from (1031.5625, 213.296875) to (600, 300)
+Dragged and dropped widget 'signature' to (600, 300).
+'signature' widget successfully dropped.

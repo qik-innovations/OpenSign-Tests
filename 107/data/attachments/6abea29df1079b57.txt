@@ -1,0 +1,280 @@
+Browser: chromium, Version: 151.0.7922.34, OS: linux
+Dragging 'signature'. Attempt 1/5
+Dragging 'signature' from (1039.5625, 446.078125) to (600, 300)
+Dragged and dropped widget 'signature' to (600, 300).
+'signature' widget successfully dropped.
+Dragging 'signature'. Attempt 1/5
+Dragging 'signature' from (1039.5625, 500.078125) to (600, 400)
+Dragged and dropped widget 'signature' to (600, 400).
+'signature' widget successfully dropped.
+📩 Waiting for email on: kelvinsjohnson24@gmail.com
+📨 Subject: ✅ Kelvin, finish setting up your Windows with Google
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: You shared some Google Account data with eideasy.com
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Security alert
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Invoice from TestOrg (Invoice#: INV-006420) (This is a sample email generated for testing purposes only)
+📬 To: kelvinsjohnson24+17907785112037a2wzmve@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Invoice from TestOrg (Invoice#: INV-006419) (This is a sample email generated for testing purposes only)
+📬 To: kelvinsjohnson24+1790777709672q32ruc4l@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Invoice from TestOrg (Invoice#: INV-006417) (This is a sample email generated for testing purposes only)
+📬 To: kelvinsjohnson24+1790775151344bmj8inw4@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Invoice from TestOrg (Invoice#: INV-006418) (This is a sample email generated for testing purposes only)
+📬 To: kelvinsjohnson24+1790775480786fnmihpuk@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Invoice from TestOrg (Invoice#: INV-006416) (This is a sample email generated for testing purposes only)
+📬 To: kelvinsjohnson24+1790777821410clr6hq1y@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Invoice from TestOrg (Invoice#: INV-006415) (This is a sample email generated for testing purposes only)
+📬 To: kelvinsjohnson24+1790777529369zv4tubvb@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Invoice from TestOrg (Invoice#: INV-006413) (This is a sample email generated for testing purposes only)
+📬 To: kelvinsjohnson24+1790773857120ivkp56zc@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Invoice from TestOrg (Invoice#: INV-006414) (This is a sample email generated for testing purposes only)
+📬 To: kelvinsjohnson24+1790774069559we6feftv@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Invoice from TestOrg (Invoice#: INV-006412) (This is a sample email generated for testing purposes only)
+📬 To: kelvinsjohnson24+17907735661117a0bf9j9@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Invoice from TestOrg (Invoice#: INV-006411) (This is a sample email generated for testing purposes only)
+📬 To: kelvinsjohnson24+1790773287403sljskuof@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Invoice from TestOrg (Invoice#: INV-006410) (This is a sample email generated for testing purposes only)
+📬 To: kelvinsjohnson24+1790763389451zph2i8d7@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Important updates in Gemini Apps
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Invoice from TestOrg (Invoice#: INV-006404) (This is a sample email generated for testing purposes only)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Failure)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: 4 new image styles to try
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Invoice from TestOrg (Invoice#: INV-006389) (This is a sample email generated for testing purposes only)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Delivery Status Notification (Delay)
+📬 To: kelvinsjohnson24@gmail.com
+⏭ Skipping - not sent to kelvinsjohnson24+drafttempsigner1@gmail.com
+📨 Subject: Pravin Testing account has requested you to sign Sample-joining-letter
+📬 To: kelvinsjohnson24+drafttempsigner1@gmail.com
+Done button in signer modal clicked.
+Finish button in signer modal clicked.
+📩 Waiting for email on: kelvinsjohnson24@gmail.com
+📨 Subject: Pravin Testing account has requested you to sign Sample-joining-letter
+📬 To: kelvinsjohnson24+drafttempsigner2@gmail.com
+Done button in signer modal clicked.
+Finish button in signer modal clicked.
+📩 Waiting for email on: kelvinsjohnson24@gmail.com
+📨 Subject: Document Sample-joining-letter has been signed by all parties
+📬 To: kelvinsjohnson24+drafttempsigner1@gmail.com, kelvinsjohnson24+drafttempsigner2@gmail.com, pravin+testaccount@nxglabs.in

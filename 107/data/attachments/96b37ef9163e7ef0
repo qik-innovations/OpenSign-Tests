@@ -1,0 +1,349 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/ReportNeedYourSign.spec.js >> Need your signature >> Verify that pagination is functioning correctly in the need your signature table.
+- Location: tests/MainAppPages/ReportNeedYourSign.spec.js:238:1
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for getByRole('button', { name: 'Next' })
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - button "Open navigation" [expanded] [ref=e9] [cursor=pointer]:
+          - generic [ref=e10]: 
+        - button [ref=e12] [cursor=pointer]:
+          - img "logo" [ref=e13]
+      - generic [ref=e14]:
+        - button "Billing" [ref=e15] [cursor=pointer]:
+          - generic [ref=e16]: TEAM
+        - button "Open app drawer" [ref=e19] [cursor=pointer]:
+          - generic [ref=e20]: 
+        - button "Profile" [ref=e21] [cursor=pointer]:
+          - img "img" [ref=e22]
+        - button "Open profile menu" [ref=e23] [cursor=pointer]: Pravin Testing account
+        - generic [ref=e24]:
+          - button "Open profile menu" [ref=e25] [cursor=pointer]:
+            - generic [ref=e26]: 
+          - text:        
+  - generic [ref=e27]:
+    - complementary [ref=e28]:
+      - generic [ref=e29]:
+        - button "Profile" [ref=e30] [cursor=pointer]:
+          - img "Profile" [ref=e31]
+        - generic [ref=e32]:
+          - button "Pravin Testing account" [ref=e33] [cursor=pointer]
+          - button "OpenSign pvt ltd" [ref=e34] [cursor=pointer]
+      - menubar "OpenSign Sidebar Navigation" [ref=e35]:
+        - list [ref=e36]:
+          - menuitem "Dashboard" [ref=e37]:
+            - generic [ref=e38]: 
+          - menuitem "Sign yourself" [ref=e41]:
+            - generic [ref=e42]: 
+          - menuitem "Request signatures" [ref=e45]:
+            - generic [ref=e46]: 
+          - button " Templates" [ref=e49] [cursor=pointer]:
+            - generic [ref=e50]: 
+            - generic [ref=e52]:
+              - generic [ref=e53]: Templates
+              - generic [ref=e54]: 
+          - menuitem "OpenSign™ Drive" [ref=e55]:
+            - generic [ref=e56]: 
+          - button " Documents" [expanded] [ref=e59] [cursor=pointer]:
+            - generic [ref=e60]: 
+            - generic [ref=e62]:
+              - generic [ref=e63]: Documents
+              - generic [ref=e64]: 
+          - menu "Documents submenu" [ref=e65]:
+            - menuitem "Need your sign" [active] [ref=e66] [cursor=pointer]:
+              - generic [ref=e67]: 
+            - menuitem "In progress" [ref=e70] [cursor=pointer]:
+              - generic [ref=e71]: 
+            - menuitem "Completed" [ref=e74] [cursor=pointer]:
+              - generic [ref=e75]: 
+            - menuitem "Drafts" [ref=e78] [cursor=pointer]:
+              - generic [ref=e79]: 
+            - menuitem "Declined" [ref=e82] [cursor=pointer]:
+              - generic [ref=e83]: 
+            - menuitem "Expired" [ref=e86] [cursor=pointer]:
+              - generic [ref=e87]: 
+          - menuitem "Contactbook" [ref=e90]:
+            - generic [ref=e91]: 
+          - button " Settings" [ref=e94] [cursor=pointer]:
+            - generic [ref=e95]: 
+            - generic [ref=e97]:
+              - generic [ref=e98]: Settings
+              - generic [ref=e99]: 
+      - generic [ref=e100]:
+        - link "OpenSign's Github" [ref=e101]:
+          - /url: https://github.com/opensignlabs/opensign
+          - generic [ref=e102]: 
+        - link "OpenSign's LinkedIn" [ref=e104]:
+          - /url: https://www.linkedin.com/company/opensign%E2%84%A2/
+          - generic [ref=e105]: 
+        - link "OpenSign's Twitter" [ref=e107]:
+          - /url: https://www.twitter.com/opensignlabs
+          - generic [ref=e108]: 
+        - link "OpenSign's Discord" [ref=e110]:
+          - /url: https://discord.com/invite/xe9TDuyAyj
+          - generic [ref=e111]: 
+    - main [ref=e113]:
+      - generic [ref=e114]:
+        - generic [ref=e117]:
+          - generic [ref=e118]:
+            - generic [ref=e119]:
+              - text: Need your sign
+              - superscript [ref=e122]:
+                - generic [ref=e123]: "?"
+            - generic [ref=e124]:
+              - searchbox "Search documents…" [ref=e126]
+              - button "Columns" [ref=e127] [cursor=pointer]:
+                - generic [ref=e128]: 
+          - region "Documents" [ref=e129]:
+            - table [ref=e130]:
+              - rowgroup [ref=e131]:
+                - row [ref=e132]:
+                  - columnheader "Title" [ref=e133]
+                  - columnheader "Note" [ref=e134]
+                  - columnheader "Folder" [ref=e135]
+                  - columnheader "File" [ref=e136]
+                  - columnheader "Owner" [ref=e137]
+                  - columnheader "Signers" [ref=e138]
+                  - columnheader "Action"
+              - rowgroup [ref=e139]:
+                - row [ref=e140]:
+                  - cell "Sample-joining-letter Expires 03-Dec-2026" [ref=e141]:
+                    - generic "Sample-joining-letter" [ref=e142]
+                    - generic [ref=e143]: Expires 03-Dec-2026
+                  - cell [ref=e144]:
+                    - button "Please review and sign this document" [ref=e145] [cursor=pointer]
+                  - cell "OpenSign™ Drive" [ref=e146]
+                  - cell [ref=e147]:
+                    - button "Download" [ref=e148] [cursor=pointer]
+                  - cell "Pravin Testing account" [ref=e149]
+                  - cell "SENT pravin+testaccount@nxglabs.in" [ref=e150]:
+                    - generic [ref=e151]:
+                      - button "SENT" [ref=e152] [cursor=pointer]
+                      - generic [ref=e153]: pravin+testaccount@nxglabs.in
+                  - cell [ref=e154]:
+                    - button "SIGN" [ref=e156] [cursor=pointer]:
+                      - generic [ref=e157]: 
+                      - generic [ref=e158]: sign
+                - row [ref=e159]:
+                  - cell "Sample-joining-letter Expires 03-Dec-2026" [ref=e160]:
+                    - generic "Sample-joining-letter" [ref=e161]
+                    - generic [ref=e162]: Expires 03-Dec-2026
+                  - cell [ref=e163]:
+                    - button "Please review and sign this document" [ref=e164] [cursor=pointer]
+                  - cell "OpenSign™ Drive" [ref=e165]
+                  - cell [ref=e166]:
+                    - button "Download" [ref=e167] [cursor=pointer]
+                  - cell "Pravin Testing account" [ref=e168]
+                  - cell "SENT pravin+testaccount@nxglabs.in" [ref=e169]:
+                    - generic [ref=e170]:
+                      - button "SENT" [ref=e171] [cursor=pointer]
+                      - generic [ref=e172]: pravin+testaccount@nxglabs.in
+                  - cell [ref=e173]:
+                    - button "SIGN" [ref=e175] [cursor=pointer]:
+                      - generic [ref=e176]: 
+                      - generic [ref=e177]: sign
+                - row [ref=e178]:
+                  - cell "Sample-joining-letter Expires 03-Dec-2026" [ref=e179]:
+                    - generic "Sample-joining-letter" [ref=e180]
+                    - generic [ref=e181]: Expires 03-Dec-2026
+                  - cell [ref=e182]:
+                    - button "Please review and sign this document" [ref=e183] [cursor=pointer]
+                  - cell "OpenSign™ Drive" [ref=e184]
+                  - cell [ref=e185]:
+                    - button "Download" [ref=e186] [cursor=pointer]
+                  - cell "Pravin Testing account" [ref=e187]
+                  - cell "SENT pravin+testaccount@nxglabs.in" [ref=e188]:
+                    - generic [ref=e189]:
+                      - button "SENT" [ref=e190] [cursor=pointer]
+                      - generic [ref=e191]: pravin+testaccount@nxglabs.in
+                  - cell [ref=e192]:
+                    - button "SIGN" [ref=e194] [cursor=pointer]:
+                      - generic [ref=e195]: 
+                      - generic [ref=e196]: sign
+                - row [ref=e197]:
+                  - cell "Sample-joining-letter Expires 28-Nov-2026" [ref=e198]:
+                    - generic "Sample-joining-letter" [ref=e199]
+                    - generic [ref=e200]: Expires 28-Nov-2026
+                  - cell [ref=e201]:
+                    - button "Please review and sign this document" [ref=e202] [cursor=pointer]
+                  - cell "OpenSign™ Drive" [ref=e203]
+                  - cell [ref=e204]:
+                    - button "Download" [ref=e205] [cursor=pointer]
+                  - cell "Pravin Testing account" [ref=e206]
+                  - cell "SENT pravin+testaccount@nxglabs.in" [ref=e207]:
+                    - generic [ref=e208]:
+                      - button "SENT" [ref=e209] [cursor=pointer]
+                      - generic [ref=e210]: pravin+testaccount@nxglabs.in
+                  - cell [ref=e211]:
+                    - button "SIGN" [ref=e213] [cursor=pointer]:
+                      - generic [ref=e214]: 
+                      - generic [ref=e215]: sign
+                - row [ref=e216]:
+                  - cell "Sample-joining-letter Expires 28-Nov-2026" [ref=e217]:
+                    - generic "Sample-joining-letter" [ref=e218]
+                    - generic [ref=e219]: Expires 28-Nov-2026
+                  - cell [ref=e220]:
+                    - button "Please review and sign this document" [ref=e221] [cursor=pointer]
+                  - cell "OpenSign™ Drive" [ref=e222]
+                  - cell [ref=e223]:
+                    - button "Download" [ref=e224] [cursor=pointer]
+                  - cell "Pravin Testing account" [ref=e225]
+                  - cell "SENT pravin+testaccount@nxglabs.in" [ref=e226]:
+                    - generic [ref=e227]:
+                      - button "SENT" [ref=e228] [cursor=pointer]
+                      - generic [ref=e229]: pravin+testaccount@nxglabs.in
+                  - cell [ref=e230]:
+                    - button "SIGN" [ref=e232] [cursor=pointer]:
+                      - generic [ref=e233]: 
+                      - generic [ref=e234]: sign
+          - button "1" [ref=e236] [cursor=pointer]
+        - generic [ref=e237]:
+          - complementary [ref=e239]:
+            - paragraph [ref=e240]:
+              - text: All rights reserved © 2026
+              - 'link "OpenSign™ ( version: v3.1.1)" [ref=e241] [cursor=pointer]':
+                - /url: https://github.com/OpenSignLabs/OpenSign/releases/tag/v3.1.1
+          - text: 
+```
+
+# Test source
+
+```ts
+  162 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  163 |   await page.locator('input[name="Note"]').click();
+  164 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  165 | await page.locator('input[type="file"]').click();
+  166 | const fileChooser = await fileChooserPromise;
+  167 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  168 | await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  169 | await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+  170 | await page.locator('input[name="Name"]').click();
+  171 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  172 | await page.getByRole('button', { name: 'Next' }).click();
+  173 | await page.waitForLoadState("networkidle");
+  174 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  175 | await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  176 | await expect(page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]')).toBeVisible();
+  177 | await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').hover();
+  178 | await page.mouse.down();
+  179 | await page.mouse.move(600, 250)
+  180 | await page.mouse.up();
+  181 | try {
+  182 |  const rowLocator = page.locator('//div[contains(@class,"signYourselfBlock")]//div[contains(@class,"font-medium") and normalize-space(.)="signature-1"]');
+  183 | 
+  184 |   for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  185 |       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  186 |       
+  187 |           console.log("signature widget dragged and dropped");
+  188 |           break; // Exit the loop if successfully clicked
+  189 |       } else {
+  190 |           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  191 |   
+  192 |           await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').hover();
+  193 |           await page.mouse.down();
+  194 |           await page.mouse.move(600, 250);
+  195 |           await page.mouse.up();
+  196 |           
+  197 |           // Wait a bit before checking again
+  198 |           await page.waitForTimeout(1000);
+  199 |       }
+  200 |   
+  201 |       if (i === 5) {
+  202 |           console.log("signature widget did not become visible on the document after multiple attempts.");
+  203 |       }
+  204 |   }
+  205 | } catch (error) {
+  206 |   console.log("Element not found or not interactable, continuing execution.");
+  207 |  
+  208 | }
+  209 | 
+  210 | await page.getByRole('button', { name: 'Next' }).click();
+  211 |    await page.locator("//div[i[contains(@class,'fa-envelope')] and .//span[text()='Send to Email']]").click();
+  212 |   await page.getByRole('button', { name: 'Send' }).click();
+  213 |   await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
+  214 |   await expect(page.locator('#selectSignerModal')).toContainText('Subsequent signers will get email(s) once you sign the document.');
+  215 |   await page.locator("//dialog[@id='selectSignerModal']//button[normalize-space()='No']").click();
+  216 | await page.getByRole('button', { name: ' Documents' }).click();
+  217 | await page.getByRole('menuitem', { name: 'Need your sign' }).click();
+  218 | // Wait up to 90 seconds for the text to appear
+  219 | await page.locator('//div[contains(@class, "font-light") and contains(., "Need your sign")]').waitFor({ state: 'visible', timeout: 90000 });
+  220 | // Now assert the text
+  221 | await expect(page.locator('//div[contains(@class, "font-light") and contains(., "Need your sign")]')).toContainText('Need your sign');
+  222 | await expect(page.locator('thead')).toContainText('Title');
+  223 |   await expect(page.locator('thead')).toContainText('Note');
+  224 |   await expect(page.locator('thead')).toContainText('Folder');
+  225 |   await expect(page.locator('thead')).toContainText('File');
+  226 |   await expect(page.locator('thead')).toContainText('Owner');
+  227 |   await expect(page.locator('thead')).toContainText('Signers');
+  228 |   await expect(page.locator('.p-2 > .font-semibold').first()).toContainText('Sample-joining-letter');
+  229 |  await expect(page.locator('td:nth-child(2)').first()).toContainText('Please review and sign this document');
+  230 |  await expect(page.locator('td:nth-child(3)').first()).toContainText('OpenSign™ Drive'); 
+  231 |  await expect(page.locator('td:nth-child(4)').first()).toContainText('Download');
+  232 |  await expect(page.locator('td:nth-child(5)').first()).toContainText('Pravin Testing account');  
+  233 |  await expect(page.locator('td:nth-child(6)').first()).toContainText('SENT'); 
+  234 |  await expect(page.locator('td:nth-child(6)').first()).toContainText('pravin+testaccount@nxglabs.in'); 
+  235 | 
+  236 | });
+  237 | 
+  238 | test('Verify that pagination is functioning correctly in the need your signature table.', async ({ page }) => {
+  239 |   const commonSteps = new CommonSteps(page);
+  240 |   // Step 1: Navigate to Base URL and log in
+  241 |   await commonSteps.navigateToBaseUrl();
+  242 |   await commonSteps.login();
+  243 |   await page.getByRole('button', { name: ' Documents' }).click();
+  244 |   await page.getByRole('menuitem', { name: 'Need your sign' }).click();
+  245 |   // Wait up to 90 seconds for the text to appear
+  246 |   await page.locator('//div[contains(@class, "font-light") and contains(., "Need your sign")]').waitFor({ state: 'visible', timeout: 90000 });
+  247 |   // Now assert the text
+  248 |   await expect(page.locator('//div[contains(@class, "font-light") and contains(., "Need your sign")]')).toContainText('Need your sign');
+  249 |   const title = await page.title();
+  250 |   if (title === 'Need your sign - OpenSign™') {
+  251 |     console.log('Need your sign - OpenSign™');
+  252 |   } else {
+  253 |     console.error(`Page title is incorrect. Expected: "Need your sign - OpenSign™", Got: "${title}"`);
+  254 |   }
+  255 |  
+  256 |   //Check if Pagination Buttons Exist
+  257 |   const isPaginationVisible = await page.getByRole('button', { name: 'Next' }).isVisible();
+  258 |   //expect(isPaginationVisible).toBeTruthy();
+  259 |   const isPaginationVisiblePrev = await page.getByRole('button', { name: 'Prev' }).isVisible();
+  260 |   //expect(isPaginationVisiblePrev).toBeTruthy();
+  261 |   const page1Data = await page.locator('table tbody tr').allTextContents();
+> 262 |   await page.getByRole('button', { name: 'Next' }).click();
+      |                                                    ^ Error: locator.click: Test timeout of 120000ms exceeded.
+  263 |   await page.waitForLoadState('domcontentloaded');
+  264 |   //const firstPageContent = await page.locator('//button[@class=\'op-btn-active op-join-item op-btn op-btn-sm\' and text()=\'2\']').first().textContent(); // Capture first item
+  265 | const page2Data = await page.locator('table tbody tr').allTextContents();
+  266 | expect(page2Data).not.toEqual(page1Data);// Ensure content changes
+  267 | //Verify 'Previous' and 'Next' Buttons Work
+  268 | await page.getByRole('button', { name: 'Prev' }).click();
+  269 | await page.waitForLoadState('domcontentloaded');
+  270 | const page1DataPrev = await page.locator('table tbody tr').allTextContents();
+  271 | expect(page2Data).not.toEqual(page1DataPrev);// Ensure content changes
+  272 | 
+  273 | });});
+```

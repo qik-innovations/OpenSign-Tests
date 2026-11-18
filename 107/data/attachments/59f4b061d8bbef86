@@ -1,0 +1,398 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/CreateTemplate.spec.js >> Templates >> Verify that a new free user is unable to send the document through bulk send and is prompted to upgrade.
+- Location: tests/MainAppPages/CreateTemplate.spec.js:208:1
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for locator('//button[@aria-label="Close Tour"]')
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - button "Open navigation" [expanded] [ref=e9] [cursor=pointer]:
+          - generic [ref=e10]: 
+        - button [ref=e12] [cursor=pointer]:
+          - img "logo" [ref=e13]
+      - generic [ref=e14]:
+        - button "Upgrade now" [ref=e16] [cursor=pointer]
+        - button "Open app drawer" [ref=e19] [cursor=pointer]:
+          - generic [ref=e20]: 
+        - button "Profile" [ref=e21] [cursor=pointer]:
+          - img "img" [ref=e22]
+        - button "Open profile menu" [ref=e23] [cursor=pointer]: Mathew Wade
+        - generic [ref=e24]:
+          - button "Open profile menu" [ref=e25] [cursor=pointer]:
+            - generic [ref=e26]: 
+          - text:         
+  - generic [ref=e27]:
+    - complementary [ref=e28]:
+      - generic [ref=e29]:
+        - button "Profile" [ref=e30] [cursor=pointer]:
+          - img "Profile" [ref=e31]
+        - generic [ref=e32]:
+          - button "Mathew Wade" [ref=e33] [cursor=pointer]
+          - button "qikAi.com" [ref=e34] [cursor=pointer]
+      - menubar "OpenSign Sidebar Navigation" [ref=e35]:
+        - list [ref=e36]:
+          - menuitem "Dashboard" [ref=e37]:
+            - generic [ref=e38]: 
+          - menuitem "Sign yourself" [ref=e41]:
+            - generic [ref=e42]: 
+          - menuitem "Request signatures" [ref=e45]:
+            - generic [ref=e46]: 
+          - button " Templates" [ref=e49] [cursor=pointer]:
+            - generic [ref=e50]: 
+            - generic [ref=e52]:
+              - generic [ref=e53]: Templates
+              - generic [ref=e54]: 
+          - menuitem "OpenSign™ Drive" [ref=e55]:
+            - generic [ref=e56]: 
+          - button " Documents" [ref=e59] [cursor=pointer]:
+            - generic [ref=e60]: 
+            - generic [ref=e62]:
+              - generic [ref=e63]: Documents
+              - generic [ref=e64]: 
+          - menuitem "Contactbook" [ref=e65]:
+            - generic [ref=e66]: 
+          - button " Settings" [ref=e69] [cursor=pointer]:
+            - generic [ref=e70]: 
+            - generic [ref=e72]:
+              - generic [ref=e73]: Settings
+              - generic [ref=e74]: 
+      - generic [ref=e75]:
+        - link "OpenSign's Github" [ref=e76]:
+          - /url: https://github.com/opensignlabs/opensign
+          - generic [ref=e77]: 
+        - link "OpenSign's LinkedIn" [ref=e79]:
+          - /url: https://www.linkedin.com/company/opensign%E2%84%A2/
+          - generic [ref=e80]: 
+        - link "OpenSign's Twitter" [ref=e82]:
+          - /url: https://www.twitter.com/opensignlabs
+          - generic [ref=e83]: 
+        - link "OpenSign's Discord" [ref=e85]:
+          - /url: https://discord.com/invite/xe9TDuyAyj
+          - generic [ref=e86]: 
+    - main [ref=e88]:
+      - generic [ref=e89]:
+        - generic [ref=e91]:
+          - heading "Dashboard" [level=1] [ref=e92]
+          - generic [ref=e94]:
+            - button "Sign yourself" [ref=e95] [cursor=pointer]:
+              - generic [ref=e96]:
+                - generic [ref=e97]: 
+                - generic [ref=e100]:
+                  - text: Sign yourself
+                  - generic [ref=e101]: Use this option to sign the document yourself without adding others
+            - button "Request signatures" [ref=e102] [cursor=pointer]:
+              - generic [ref=e103]:
+                - generic [ref=e104]: 
+                - generic [ref=e107]:
+                  - text: Request signatures
+                  - generic [ref=e108]: Use this option to request signatures from others and yourself together.
+          - generic [ref=e109]:
+            - button "Need your signature" [ref=e112] [cursor=pointer]:
+              - generic [ref=e113]:
+                - generic [ref=e114]: 
+                - generic [ref=e116]:
+                  - generic [ref=e117]: Need your signature
+                  - generic [ref=e118]: "0"
+              - superscript [ref=e121]:
+                - generic [ref=e122]: "?"
+            - button "Out for signatures" [ref=e125] [cursor=pointer]:
+              - generic [ref=e126]:
+                - generic [ref=e127]: 
+                - generic [ref=e129]:
+                  - generic [ref=e130]: Out for signatures
+                  - generic [ref=e131]: "0"
+              - superscript [ref=e134]:
+                - generic [ref=e135]: "?"
+            - generic [ref=e140]:
+              - generic [ref=e141]:
+                - generic [ref=e142]: Recent signature requests
+                - button "Search" [ref=e144] [cursor=pointer]:
+                  - generic [ref=e145]: 
+              - region "Documents" [ref=e146]:
+                - table [ref=e147]:
+                  - rowgroup [ref=e148]:
+                    - row [ref=e149]:
+                      - columnheader "Title" [ref=e150]
+                      - columnheader "File" [ref=e151]
+                      - columnheader "Owner" [ref=e152]
+                      - columnheader "Signers" [ref=e153]
+                      - columnheader "Action"
+                  - rowgroup
+                - generic [ref=e154]:
+                  - img "No data available" [ref=e156]
+                  - generic [ref=e157]: No data available
+            - generic [ref=e163]:
+              - generic [ref=e164]:
+                - generic [ref=e165]: Recently sent for signatures
+                - button "Search" [ref=e167] [cursor=pointer]:
+                  - generic [ref=e168]: 
+              - region "Documents" [ref=e169]:
+                - table [ref=e170]:
+                  - rowgroup [ref=e171]:
+                    - row [ref=e172]:
+                      - columnheader "Title" [ref=e173]
+                      - columnheader "File" [ref=e174]
+                      - columnheader "Owner" [ref=e175]
+                      - columnheader "Signers" [ref=e176]
+                      - columnheader "Action"
+                  - rowgroup
+                - generic [ref=e177]:
+                  - img "No data available" [ref=e179]
+                  - generic [ref=e180]: No data available
+            - generic [ref=e186]:
+              - generic [ref=e187]:
+                - generic [ref=e188]: Drafts
+                - searchbox "Search documents…" [ref=e191]
+              - region "Documents" [ref=e192]:
+                - table [ref=e193]:
+                  - rowgroup [ref=e194]:
+                    - row [ref=e195]:
+                      - columnheader "Title" [ref=e196]
+                      - columnheader "Note" [ref=e197]
+                      - columnheader "Folder" [ref=e198]
+                      - columnheader "File" [ref=e199]
+                      - columnheader "Owner" [ref=e200]
+                      - columnheader "Signers" [ref=e201]
+                      - columnheader "Action"
+                  - rowgroup
+                - generic [ref=e202]:
+                  - img "No data available" [ref=e204]
+                  - generic [ref=e205]: No data available
+        - generic [ref=e207]:
+          - complementary [ref=e209]:
+            - paragraph [ref=e210]:
+              - text: All rights reserved © 2026
+              - 'link "OpenSign™ ( version: v3.1.1)" [ref=e211] [cursor=pointer]':
+                - /url: https://github.com/OpenSignLabs/OpenSign/releases/tag/v3.1.1
+          - text: 
+```
+
+# Test source
+
+```ts
+  113 |    await commonSteps.LoadPlaceholder(page);
+  114 |   await page.getByRole('button', { name: '+ Add role' }).click();
+  115 |   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
+  116 |   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+  117 | await commonSteps.DragAndDropWidget("signature",600,200);
+  118 | await commonSteps.DragAndDropWidget("stamp", 600, 250);
+  119 | 
+  120 | await commonSteps.DragAndDropWidget("initials", 600, 300);
+  121 | 
+  122 | await commonSteps.DragAndDropWidget("name", 600, 350);
+  123 | 
+  124 | await commonSteps.DragAndDropWidget("job title", 600, 370);
+  125 | 
+  126 | await commonSteps.DragAndDropWidget("company", 600, 400);
+  127 | 
+  128 | await commonSteps.DragAndDropWidget("date", 600, 430);
+  129 | 
+  130 | await commonSteps.DragAndDropWidget("text input", 600, 460);
+  131 | 
+  132 | await commonSteps.dragAndDrop("checkbox", 600, 490);
+  133 | 
+  134 | await page.locator("//button[@type='submit' and text()='Save']").click();
+  135 | 
+  136 | await commonSteps.DragAndDropWidget("image", 600, 530);
+  137 | 
+  138 | await commonSteps.DragAndDropWidget("email", 600, 600);
+  139 | await page.getByRole('button', { name: 'Next' }).click();
+  140 | await page.getByRole('button', { name: 'Use Template' }).click();
+  141 |   await page.locator('.css-n9qnu9').first().click();
+  142 |   await page.locator('#selectSignerModal').getByText('HR').click();
+  143 |   await page.locator('#selectSignerModal div').filter({ hasText: /^HR$/ }).getByRole('button').click();
+  144 |   await page.getByLabel('Add yourself').check();
+  145 |   await page.getByRole('button', { name: 'Submit' }).click();
+  146 |   await page.locator('#selectSignerModal').getByRole('button', { name: 'Next' }).click();
+  147 | await page.getByRole('button', { name: 'Sign now' }).click();
+  148 |     await commonSteps.validateAndAcceptTerms();
+  149 |     await page.waitForLoadState("networkidle");
+  150 |     await page.getByLabel('Don\'t show this again').check();
+  151 |       await page.locator('//button[@aria-label="Close Tour"]').click();
+  152 |     await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  153 |     await page.locator('//div[contains(text(),"signature")]').click();
+  154 |    await commonSteps.drawSignature();
+  155 |    await commonSteps.clickNextButtonInSignerModal();
+  156 |   await commonSteps.uploadStamp();
+  157 |   await commonSteps.clickNextButtonInSignerModal();
+  158 | await commonSteps.drawInitials();
+  159 |   await commonSteps.clickNextButtonInSignerModal();
+  160 |   await commonSteps.fillTextField('name','Mathew Steven');
+  161 |       await commonSteps.clickNextButtonInSignerModal();
+  162 |         await commonSteps.fillTextField('job title','Quality Analyst');
+  163 |       await commonSteps.clickNextButtonInSignerModal();
+  164 |         await commonSteps.fillTextField('company','Opensignlabs pvt. ltd');
+  165 |       await commonSteps.clickNextButtonInSignerModal();
+  166 |       const today = new Date();
+  167 | // Format the date as MM/DD/YYYY
+  168 | const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
+  169 |                       `${today.getDate().toString().padStart(2, '0')}/` + 
+  170 |                       `${today.getFullYear()}`;
+  171 | console.log('Today\'s date:', formattedDate);  // Extract day number as text
+  172 | await commonSteps.clickDateFieldOnTheSignerPad_Without_date();
+  173 | //await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
+  174 | function getDayWithSuffix(day) {
+  175 |   if (day >= 11 && day <= 13) return `${day}th`;
+  176 |   switch (day % 10) {
+  177 |     case 1: return `${day}st`;
+  178 |     case 2: return `${day}nd`;  
+  179 |     case 3: return `${day}rd`;
+  180 |     default: return `${day}th`;
+  181 |   }   
+  182 | }
+  183 | // Calculate the target date (today + 2 days)
+  184 | today.setDate(today.getDate() + 2);
+  185 | const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g., "Friday" 
+  186 | const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
+  187 | const day = today.getDate();                                            // e.g., 2
+  188 | const year = today.getFullYear();                                       // e.g., 2025
+  189 | const dayWithSuffix = getDayWithSuffix(day);
+  190 | const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
+  191 | await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
+  192 |       await commonSteps.clickNextButtonInSignerModal();
+  193 |         await commonSteps.fillTextField('text','120 wood street sanfransisco');
+  194 |       await commonSteps.clickNextButtonInSignerModal();
+  195 |       await commonSteps.selectCheckbox('Option-1');
+  196 |       await commonSteps.clickNextButtonInSignerModal();
+  197 |      await commonSteps.uploadImage();
+  198 |       await commonSteps.clickNextButtonInSignerModal();
+  199 |      await commonSteps.fillEmailField('demo@gmail.com','mathewsteven@opensignlabs.com');
+  200 |     await commonSteps.clickDoneButtonInSignerModal();
+  201 |      await commonSteps.clickFinishButtonInSignerModal();
+  202 |     await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
+  203 |     await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
+  204 |     await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
+  205 |     await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Download' })).toBeVisible();
+  206 |     await page.getByRole('button', { name: 'Close', exact: true }).click();
+  207 | });
+  208 | test('Verify that a new free user is unable to send the document through bulk send and is prompted to upgrade.', async ({ page }) => {
+  209 |   const commonSteps = new CommonSteps(page);
+  210 |     // Step 1: Navigate to Base URL and log in
+  211 |     await commonSteps.navigateToBaseUrl();
+  212 |     await commonSteps.NewUserlogin();
+> 213 |           await page.locator('//button[@aria-label="Close Tour"]').click();
+      |                                                                    ^ Error: locator.click: Test timeout of 120000ms exceeded.
+  214 |   await page.getByRole('button', { name: ' Templates' }).click();
+  215 |   await page.getByRole('menuitem', { name: 'Create template' }).click();
+  216 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  217 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  218 |   await page.locator('input[type="file"]').click();
+  219 |   const fileChooser = await fileChooserPromise;
+  220 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  221 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  222 |   await page.getByRole('button', { name: 'Next' }).click();
+  223 |   await page.waitForLoadState("networkidle");
+  224 |       await page.locator('//button[@aria-label="Close Tour"]').click();
+  225 |   await page.getByRole('button', { name: '+ Add role' }).click();
+  226 |   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
+  227 |   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+  228 | await commonSteps.LoadPlaceholder(page);
+  229 | await commonSteps.DragAndDropWidget("signature",600, 300);
+  230 | await page.getByRole('button', { name: '+ Add role' }).click();
+  231 | await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 2"]').fill('Manager');
+  232 | await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+  233 | await commonSteps.DragAndDropWidget("signature", 700, 300);
+  234 | await page.getByRole('button', { name: 'Next' }).click();
+  235 |   await page.getByRole('button', { name: 'Bulk send' }).click();
+  236 |     await expect(page.getByLabel('Bulk send')).toContainText('Bulk send✕Please verify your email address before sending emails. Go to your profile settings to complete email verification.');
+  237 |   await page.getByRole('link', { name: 'profile settings' }).click();
+  238 |   await page.getByRole('button', { name: 'Verify' }).click();
+  239 | const otpInput = page.locator('//input[@placeholder="Enter verification code received over email"]');
+  240 | 
+  241 | await expect(otpInput).toBeVisible();
+  242 | 
+  243 | const otp = await expectOTPEmail(loginCredentials.FreeplanUsername, 4); // Use 6 for a six-digit template
+  244 | 
+  245 | await otpInput.fill(otp);
+  246 | await page.getByLabel('OTP verification').getByRole('button', { name: 'Verify', exact: true }).click();
+  247 | async function expectOTPEmail(email, digits) {
+  248 |   const otp = await fetchOTP({
+  249 |     ...gmailConfig,
+  250 |     expectedTo: email,
+  251 |     otpRegex: new RegExp(
+  252 |       `Your\\s+OTP\\s+for\\s+OpenSign.*?verification\\s+is:\\s*(\\d{${digits}})`,
+  253 |       'i'
+  254 |     ),
+  255 |   });
+  256 | 
+  257 |   if (!new RegExp(`^\\d{${digits}}$`).test(otp)) {
+  258 |     throw new Error(`Expected a ${digits}-digit OTP but received: ${otp}`);
+  259 |   }
+  260 | 
+  261 |   console.log(`OTP: ${otp}`);
+  262 |   return otp;
+  263 | }
+  264 |  await page.getByRole('menuitem', { name: 'Manage templates' }).click();
+  265 |   await page.locator('//button[@aria-label="Close Tour"]').click();
+  266 |   await page.getByRole('button', { name: 'Bulk send' }).click();
+  267 |   await page.getByRole('textbox', { name: 'Enter Email...' }).first().fill('pravin+677@nxglabs.in');
+  268 | await page.getByRole('textbox', { name: 'Enter Email...' }).nth(1).fill('pravin+689@nxglabs.in');
+  269 |   await page.getByRole('button', { name: ' Send' }).click();
+  270 |   await expect(page.locator('#selectSignerModal')).toContainText('Please upgrade to Professional or Team plan to use bulk send.');
+  271 |   await expect(page.locator('#selectSignerModal')).toContainText('Upgrade now');
+  272 |   await page.locator('#selectSignerModal').getByRole('button', { name: 'Upgrade now' }).click();
+  273 | });
+  274 | test('Verify that an existing Team Plan user can create a template using all advanced fields in the Create New Template form.', async ({ page }) => {
+  275 |   const commonSteps = new CommonSteps(page);
+  276 |     // Step 1: Navigate to Base URL and log in
+  277 |     await commonSteps.navigateToBaseUrl();
+  278 |     await commonSteps.login();
+  279 |  await page.getByRole('button', { name: ' Templates' }).click();
+  280 |   await page.getByRole('menuitem', { name: 'Create template' }).click();
+  281 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  282 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  283 |   await page.locator('input[type="file"]').click();
+  284 |   const fileChooser = await fileChooserPromise;
+  285 |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  286 |   await page.locator("//input[@name='SendinOrder' and @value='false']").click();
+  287 |   await page.getByText('Advanced options').click();
+  288 |   await page.locator('input[name="TimeToCompleteDays"]').fill('2');
+  289 |   await page.locator('.css-n9qnu9').first().click();
+  290 |   await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+  291 |   await page.locator('input[name="IsEnableOTP"]').nth(1).check();
+  292 |  // await page.locator('input[name="IsTourEnabled"]').nth(1).check();
+  293 |   //await page.locator('div').filter({ hasText: /^Notify on signaturesYesNo$/ }).getByRole('radio').nth(1).check();
+  294 |   //await page.locator('div:nth-child(5) > div > div > .mr-\\[2px\\]').first().check();
+  295 |   
+  296 |   await page.locator('input[name="RedirectUrl"]').fill('https://staging-app.opensignlabs.com/');
+  297 |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
+  298 |   await page.getByRole('button', { name: 'Next' }).click();
+  299 |   await page.getByRole('button', { name: 'Edit' }).click();
+  300 |   // The Edit step uses the uploaded PDF's base name; the template is saved
+  301 |   // under the custom name entered on the first step (verified in the list).
+  302 |   await expect(page.locator('input[name="Name"]')).toHaveValue('Sample-joining-letter');
+  303 |   await expect(page.getByLabel('Note')).toHaveValue('Please review and sign this document');
+  304 |  // await expect(page.locator('input[name="SendinOrder"]').nth(1)).toBeChecked();
+  305 |  //await expect(page.locator('input[name="IsEnableOTP"]').first()).toBeChecked();
+  306 |  // await expect(page.locator('input[name="IsTourEnabled"]').first()).not.toBeChecked();
+  307 |   //await expect(page.locator('input[name="IsTourEnabled"]').nth(1)).toBeChecked();
+  308 |  // await page.locator('div').filter({ hasText: /^Notify on signatures YesNo$/ }).getByRole('radio').nth(1).check();
+  309 |   await expect(page.locator('input[name="RedirectUrl"]')).toHaveValue('https://staging-app.opensignlabs.com/');
+  310 |   await expect(page.locator('input[name="TimeToCompleteDays"]')).toHaveValue('2');
+  311 |   await page.getByRole('button', { name: 'Submit' }).click();
+  312 |   await page.getByRole('button', { name: '+ Add role' }).click();
+  313 |   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
+```

@@ -1,0 +1,470 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/ReportInprogress.spec.js >> Inprogress report >> Verify that owner can create the document and sign it from the in-progress report.
+- Location: tests/MainAppPages/ReportInprogress.spec.js:6:1
+
+# Error details
+
+```
+Error: locator.hover: Error: strict mode violation: locator('//span[normalize-space()=\'stamp\']') resolved to 4 elements:
+    1) <span title="stamp" class="os-widget-chip os-widget-tone-stamp op-btn w-fit md:w-[100%] op-btn-outline op-btn-sm ml-[6px] md:ml-0 p-0 overflow-hidden">…</span> aka getByRole('button', { name: 'stamp' })
+    2) <span class="w-full self-stretch flex md:justify-between items-center">…</span> aka getByRole('button', { name: 'stamp' })
+    3) <span class="flex justify-start items-center ml-1 overflow-hidden">…</span> aka getByRole('button', { name: 'stamp' })
+    4) <span class="md:inline-block text-center text-[11px] lg:text-[13px] mx-[3px] truncate font-medium capitalize">stamp</span> aka getByRole('button', { name: 'stamp' })
+
+Call log:
+  - waiting for locator('//span[normalize-space()=\'stamp\']')
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - text: "New Feature: Qualified Electronics Signatures now available —"
+        - button "Try it now." [ref=e8] [cursor=pointer]
+      - button "Close" [ref=e10] [cursor=pointer]:
+        - generic [ref=e14]: 
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - button "Open navigation" [ref=e19] [cursor=pointer]:
+          - generic [ref=e20]: 
+        - button [ref=e22] [cursor=pointer]:
+          - img "logo" [ref=e23]
+      - generic [ref=e24]:
+        - button "Billing" [ref=e25] [cursor=pointer]:
+          - generic [ref=e26]: TEAM
+        - button "Open app drawer" [ref=e29] [cursor=pointer]:
+          - generic [ref=e30]: 
+        - button "Profile" [ref=e31] [cursor=pointer]:
+          - img "img" [ref=e32]
+        - button "Open profile menu" [ref=e33] [cursor=pointer]: Pravin Testing account
+        - generic [ref=e34]:
+          - button "Open profile menu" [ref=e35] [cursor=pointer]:
+            - generic [ref=e36]: 
+          - text:        
+  - generic [ref=e37]:
+    - complementary [ref=e38]:
+      - generic [ref=e39]:
+        - button "Profile" [ref=e40] [cursor=pointer]:
+          - img "Profile" [ref=e41]
+        - generic:
+          - button "Pravin Testing account" [ref=e42] [cursor=pointer]
+          - button "OpenSign pvt ltd" [ref=e43] [cursor=pointer]
+      - menubar "OpenSign Sidebar Navigation" [ref=e44]:
+        - list [ref=e45]:
+          - menuitem "Dashboard" [ref=e46]:
+            - generic [ref=e47]: 
+          - menuitem "Sign yourself" [ref=e50]:
+            - generic [ref=e51]: 
+          - menuitem "Request signatures" [ref=e54]:
+            - generic [ref=e55]: 
+          - button " Templates" [ref=e58] [cursor=pointer]:
+            - generic [ref=e59]: 
+            - generic [ref=e61]:
+              - generic [ref=e62]: Templates
+              - generic [ref=e63]: 
+          - menuitem "OpenSign™ Drive" [ref=e64]:
+            - generic [ref=e65]: 
+          - button " Documents" [ref=e68] [cursor=pointer]:
+            - generic [ref=e69]: 
+            - generic [ref=e71]:
+              - generic [ref=e72]: Documents
+              - generic [ref=e73]: 
+          - menuitem "Contactbook" [ref=e74]:
+            - generic [ref=e75]: 
+          - button " Settings" [ref=e78] [cursor=pointer]:
+            - generic [ref=e79]: 
+            - generic [ref=e81]:
+              - generic [ref=e82]: Settings
+              - generic [ref=e83]: 
+      - generic:
+        - link "OpenSign's Github" [ref=e84]:
+          - /url: https://github.com/opensignlabs/opensign
+          - generic [ref=e85]: 
+        - link "OpenSign's LinkedIn" [ref=e87]:
+          - /url: https://www.linkedin.com/company/opensign%E2%84%A2/
+          - generic [ref=e88]: 
+        - link "OpenSign's Twitter" [ref=e90]:
+          - /url: https://www.twitter.com/opensignlabs
+          - generic [ref=e91]: 
+        - link "OpenSign's Discord" [ref=e93]:
+          - /url: https://discord.com/invite/xe9TDuyAyj
+          - generic [ref=e94]: 
+    - main [ref=e96]:
+      - generic [ref=e97]:
+        - generic [ref=e99]:
+          - generic [ref=e100]:
+            - generic [ref=e101]: Pages
+            - button "+ Add pages" [ref=e107] [cursor=pointer]:
+              - generic [ref=e108]: +
+              - generic [ref=e109]: Add pages
+          - generic [ref=e110]:
+            - generic [ref=e111]:
+              - button "Add pages" [ref=e112] [cursor=pointer]:
+                - generic [ref=e113]: +
+              - button "Delete page" [ref=e114] [cursor=pointer]:
+                - generic [ref=e115]: 
+              - button "Reorder pages" [ref=e116] [cursor=pointer]:
+                - generic [ref=e117]: 
+              - button "Zoom in" [ref=e118] [cursor=pointer]:
+                - generic [ref=e119]: 
+              - button "Rotate right" [ref=e120] [cursor=pointer]:
+                - generic [ref=e121]: 
+              - button "Rotate left" [ref=e122] [cursor=pointer]:
+                - generic [ref=e123]: 
+              - button "Zoom out" [ref=e124] [cursor=pointer]:
+                - generic [ref=e125]: 
+            - generic [ref=e126]:
+              - generic [ref=e128]:
+                - generic [ref=e129]:
+                  - generic [ref=e130]:
+                    - button [disabled]:
+                      - generic: 
+                    - generic [ref=e131]: 1 of 1
+                    - button [disabled]:
+                      - generic: 
+                  - text:  
+                - generic [ref=e132]:
+                  - button "Edit" [ref=e133] [cursor=pointer]:
+                    - generic [ref=e134]: 
+                  - button "Back" [ref=e135] [cursor=pointer]
+                  - button "Next" [ref=e136] [cursor=pointer]
+              - generic [ref=e145]:
+                - generic [ref=e146] [cursor=pointer]: 
+                - generic [ref=e147] [cursor=pointer]: 
+                - generic [ref=e148] [cursor=pointer]: 
+                - generic [ref=e149] [cursor=pointer]: 
+                - generic [ref=e150]: signature-1
+          - generic [ref=e158]:
+            - generic [ref=e159]:
+              - generic [ref=e161]:
+                - text: Recipients
+                - button "Recipients more" [disabled] [ref=e162] [cursor=pointer]:
+                  - generic [ref=e163]: "?"
+              - generic [ref=e164]:
+                - button " Prefill by owner" [disabled] [ref=e165] [cursor=pointer]:
+                  - generic [ref=e166]: 
+                  - generic [ref=e168]: Prefill by owner
+                - button " Pravin Testing account pravin+testaccount@nxglabs.in Signer  " [disabled] [pressed] [ref=e169]:
+                  - generic [ref=e170]:
+                    - generic [ref=e171]: 
+                    - generic [ref=e174]:
+                      - generic [ref=e175]: Pravin Testing account
+                      - generic [ref=e176]: pravin+testaccount@nxglabs.in
+                  - combobox "Signer must sign. Approver approves without signing. Viewer only views." [disabled] [ref=e177] [cursor=pointer]:
+                    - option "Signer" [disabled] [selected]
+                    - option "Viewer" [disabled]
+                    - option "Approver" [disabled]
+                  - generic "Add access code" [ref=e178] [cursor=pointer]: 
+                  - generic [ref=e180] [cursor=pointer]: 
+                  - separator [disabled]
+              - button "+ Add recipients" [disabled] [ref=e183] [cursor=pointer]:
+                - generic [ref=e184]: +
+                - text: Add recipients
+            - generic [ref=e186]:
+              - generic [ref=e187]: Widgets
+              - list "Add widgets" [ref=e188]:
+                - button "signature" [disabled] [active] [ref=e190]:
+                  - generic "signature" [ref=e191] [cursor=pointer]:
+                    - generic [ref=e192]:
+                      - generic [ref=e193]:
+                        - generic [ref=e194]: 
+                        - generic [ref=e195]: signature
+                      - generic [ref=e196]: 
+                - button "stamp" [disabled] [ref=e199]:
+                  - generic "stamp" [ref=e200] [cursor=pointer]:
+                    - generic [ref=e201]:
+                      - generic [ref=e202]:
+                        - generic [ref=e203]: 
+                        - generic [ref=e204]: stamp
+                      - generic [ref=e205]: 
+                - button "initials" [disabled] [ref=e208]:
+                  - generic "initials" [ref=e209] [cursor=pointer]:
+                    - generic [ref=e210]:
+                      - generic [ref=e211]:
+                        - generic [ref=e212]: 
+                        - generic [ref=e213]: initials
+                      - generic [ref=e214]: 
+                - button "text input" [disabled] [ref=e217]:
+                  - generic "text input" [ref=e218] [cursor=pointer]:
+                    - generic [ref=e219]:
+                      - generic [ref=e220]:
+                        - generic [ref=e221]: 
+                        - generic [ref=e222]: text input
+                      - generic [ref=e223]: 
+                - button "number" [disabled] [ref=e226]:
+                  - generic "number" [ref=e227] [cursor=pointer]:
+                    - generic [ref=e228]:
+                      - generic [ref=e229]:
+                        - generic [ref=e230]: 
+                        - generic [ref=e231]: number
+                      - generic [ref=e232]: "#"
+                - button "name" [disabled] [ref=e235]:
+                  - generic "name" [ref=e236] [cursor=pointer]:
+                    - generic [ref=e237]:
+                      - generic [ref=e238]:
+                        - generic [ref=e239]: 
+                        - generic [ref=e240]: name
+                      - generic [ref=e241]: 
+                - button "job title" [disabled] [ref=e244]:
+                  - generic "job title" [ref=e245] [cursor=pointer]:
+                    - generic [ref=e246]:
+                      - generic [ref=e247]:
+                        - generic [ref=e248]: 
+                        - generic [ref=e249]: job title
+                      - generic [ref=e250]: 
+                - button "company" [disabled] [ref=e253]:
+                  - generic "company" [ref=e254] [cursor=pointer]:
+                    - generic [ref=e255]:
+                      - generic [ref=e256]:
+                        - generic [ref=e257]: 
+                        - generic [ref=e258]: company
+                      - generic [ref=e259]: 
+                - button "email" [disabled] [ref=e262]:
+                  - generic "email" [ref=e263] [cursor=pointer]:
+                    - generic [ref=e264]:
+                      - generic [ref=e265]:
+                        - generic [ref=e266]: 
+                        - generic [ref=e267]: email
+                      - generic [ref=e268]: 
+                - button "date" [disabled] [ref=e271]:
+                  - generic "date" [ref=e272] [cursor=pointer]:
+                    - generic [ref=e273]:
+                      - generic [ref=e274]:
+                        - generic [ref=e275]: 
+                        - generic [ref=e276]: date
+                      - generic [ref=e277]: 
+                - button "cells" [disabled] [ref=e280]:
+                  - generic "cells" [ref=e281] [cursor=pointer]:
+                    - generic [ref=e282]:
+                      - generic [ref=e283]:
+                        - generic [ref=e284]: 
+                        - generic [ref=e285]: cells
+                      - generic [ref=e286]: 
+                - button "checkbox" [disabled] [ref=e289]:
+                  - generic "checkbox" [ref=e290] [cursor=pointer]:
+                    - generic [ref=e291]:
+                      - generic [ref=e292]:
+                        - generic [ref=e293]: 
+                        - generic [ref=e294]: checkbox
+                      - generic [ref=e295]: 
+                - button "dropdown" [disabled] [ref=e298]:
+                  - generic "dropdown" [ref=e299] [cursor=pointer]:
+                    - generic [ref=e300]:
+                      - generic [ref=e301]:
+                        - generic [ref=e302]: 
+                        - generic [ref=e303]: dropdown
+                      - generic [ref=e304]: 
+                - button "radio button" [disabled] [ref=e307]:
+                  - generic "radio button" [ref=e308] [cursor=pointer]:
+                    - generic [ref=e309]:
+                      - generic [ref=e310]:
+                        - generic [ref=e311]: 
+                        - generic [ref=e312]: radio button
+                      - generic [ref=e313]: 
+                - button "image" [disabled] [ref=e316]:
+                  - generic "image" [ref=e317] [cursor=pointer]:
+                    - generic [ref=e318]:
+                      - generic [ref=e319]:
+                        - generic [ref=e320]: 
+                        - generic [ref=e321]: image
+                      - generic [ref=e322]: 
+                - button "attachments" [disabled] [ref=e325]:
+                  - generic "attachments" [ref=e326] [cursor=pointer]:
+                    - generic [ref=e327]:
+                      - generic [ref=e328]:
+                        - generic [ref=e329]: 
+                        - generic [ref=e330]: attachments
+                      - generic [ref=e331]: 
+                - button "QES" [disabled] [ref=e334]:
+                  - generic "QES" [ref=e335] [cursor=pointer]:
+                    - generic [ref=e336]:
+                      - generic [ref=e337]:
+                        - generic [ref=e338]: 
+                        - generic [ref=e339]: QES
+                      - generic [ref=e340]: 
+        - generic [ref=e342]:
+          - complementary [ref=e344]:
+            - paragraph [ref=e345]:
+              - text: All rights reserved © 2026
+              - 'link "OpenSign™ ( version: v3.1.1)" [ref=e346] [cursor=pointer]':
+                - /url: https://github.com/OpenSignLabs/OpenSign/releases/tag/v3.1.1
+          - text: 
+```
+
+# Test source
+
+```ts
+  1   | const { test, expect } = require('@playwright/test');
+  2   | const { loginCredentials } = require('../TestData/GlobalVar/global-setup');
+  3   | const CommonSteps = require('../utils/CommonSteps');
+  4   | const path = require('path');
+  5   | test.describe('Inprogress report', () => {
+  6   | test('Verify that owner can create the document and sign it from the in-progress report.', async ({ page }) => {
+  7   |     const commonSteps = new CommonSteps(page);
+  8   |     // Step 1: Navigate to Base URL and log in
+  9   |     await commonSteps.navigateToBaseUrl();
+  10  |     await commonSteps.login();
+  11  |   //const title = await page.title()
+  12  |     //Expects page to have a heading with the name of dashboard.
+  13  |   //expect(title).toBe('Dashboard - OpenSign™');
+  14  |   await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  15  |     await page.locator('input[name="Name"]').click();
+  16  |     await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  17  |     await page.locator('input[name="Note"]').click();
+  18  |     const fileChooserPromise = page.waitForEvent('filechooser');
+  19  |   await page.locator('input[type="file"]').click();
+  20  |   const fileChooser = await fileChooserPromise;
+  21  |   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  22  |   await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  23  |   await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+  24  |   await page.locator('input[name="Name"]').click();
+  25  |   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  26  |   await page.getByRole('button', { name: 'Next' }).click();
+  27  |   await page.waitForLoadState("networkidle");
+  28  |   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  29  |   await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  30  | await expect(page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]')).toBeVisible();
+  31  | await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').hover();
+  32  | await page.mouse.down();
+  33  | await page.mouse.move(600, 300)
+  34  | await page.mouse.up();
+  35  | try {
+  36  |  const rowLocator = page.locator('//div[contains(@class,"signYourselfBlock")]//div[contains(@class,"font-medium") and normalize-space(.)="signature-1"]');
+  37  |   for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  38  |       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  39  |       
+  40  |           console.log("signature widget dragged and dropped");
+  41  |           break; // Exit the loop if successfully clicked
+  42  |       } else {
+  43  |           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  44  |   
+  45  |           await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').hover();
+  46  |           await page.mouse.down();
+  47  |           await page.mouse.move(600, 300);
+  48  |           await page.mouse.up();
+  49  |           // Wait a bit before checking again
+  50  |           await page.waitForTimeout(1000);
+  51  |       }
+  52  |   
+  53  |       if (i === 5) {
+  54  |           console.log("signature widget did not become visible on the document after multiple attempts.");
+  55  |       }
+  56  |   }
+  57  | } catch (error) {
+  58  |   console.log("Element not found or not interactable, continuing execution.");
+  59  |  
+  60  | }
+> 61  | await page.locator('//span[normalize-space()=\'stamp\']').hover();
+      |                                                           ^ Error: locator.hover: Error: strict mode violation: locator('//span[normalize-space()=\'stamp\']') resolved to 4 elements:
+  62  | await page.mouse.down();
+  63  | await page.mouse.move(600, 360)
+  64  | await page.mouse.up();
+  65  | await page.locator('//span[normalize-space()=\'initials\']').hover();
+  66  | await page.mouse.down();
+  67  | await page.mouse.move(600, 420)
+  68  | await page.mouse.up();
+  69  |   await page.getByRole('button', { name: 'Next' }).click();
+  70  |    await page.locator("//div[i[contains(@class,'fa-envelope')] and .//span[text()='Send to Email']]").click();
+  71  |   await page.getByRole('button', { name: 'Send' }).click();
+  72  |   await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
+  73  |   await expect(page.locator('#selectSignerModal')).toContainText('Subsequent signers will get email(s) once you sign the document.');
+  74  |   await page.locator("//dialog[@id='selectSignerModal']//button[normalize-space()='No']").click();
+  75  |   await page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]').waitFor({ state: 'visible', timeout: 90000 });
+  76  | await expect(page.locator('//div[contains(@class, "font-light") and contains(., "In-progress documents")]')).toContainText('In-progress documents');
+  77  |   await page.locator('//div[@role = \'button\' and @class=\'op-btn-secondary op-btn op-btn-sm mr-1\']').first().click();
+  78  | await commonSteps.validateAndAcceptTerms();
+  79  |   await page.waitForLoadState("networkidle");
+  80  |   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  81  |   await page.locator('//div[contains(@class,"select-none-cls")]//div[contains(@class,"font-medium") and normalize-space(.)="signature-1"]').click();
+  82  |   // Optionally save changes
+  83  | await commonSteps.clickNextButtonInSignerModal();
+  84  | await commonSteps.uploadStamp();
+  85  | await commonSteps.clickNextButtonInSignerModal();
+  86  | await commonSteps.clickDoneButtonInSignerModal();
+  87  |   await commonSteps.clickFinishButtonInSignerModal();
+  88  |   /*await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
+  89  |   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
+  90  |   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
+  91  |   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Download' })).toBeVisible();
+  92  |   await page.getByRole('button', { name: 'Close' }).click();*/
+  93  | });
+  94  | 
+  95  | test('Verify the column names and the document details on the inprogress report.', async ({ page }) => {
+  96  |   const commonSteps = new CommonSteps(page);
+  97  |   // Step 1: Navigate to Base URL and log in
+  98  |   await commonSteps.navigateToBaseUrl();
+  99  |   await commonSteps.login();
+  100 | //const title = await page.title()
+  101 |   //Expects page to have a heading with the name of dashboard.
+  102 | //expect(title).toBe('Dashboard - OpenSign™');
+  103 | await page.getByRole('menuitem', { name: 'Request signatures' }).click();
+  104 |   await page.locator('input[name="Name"]').click();
+  105 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  106 |   await page.locator('input[name="Note"]').click();
+  107 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  108 | await page.locator('input[type="file"]').click();
+  109 | const fileChooser = await fileChooserPromise;
+  110 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
+  111 | await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
+  112 | await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
+  113 | await page.locator('input[name="Name"]').click();
+  114 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  115 | await page.getByRole('button', { name: 'Next' }).click();
+  116 | await page.waitForLoadState("networkidle");
+  117 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  118 | await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  119 | await expect(page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]')).toBeVisible();
+  120 | await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').hover();
+  121 | await page.mouse.down();
+  122 | await page.mouse.move(600, 300)
+  123 | await page.mouse.up();
+  124 | try {
+  125 |    const rowLocator = page.locator('//div[contains(@class,"signYourselfBlock")]//div[contains(@class,"font-medium") and normalize-space(.)="signature-1"]');
+  126 | 
+  127 |   for (let i = 0; i < 5; i++) { // Retry up to 5 times
+  128 |       if (await rowLocator.isVisible() && await rowLocator.isEnabled()) {
+  129 |       
+  130 |           console.log("signature widget dragged and dropped");
+  131 |           break; // Exit the loop if successfully clicked
+  132 |       } else {
+  133 |           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
+  134 |   
+  135 |           await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').hover();
+  136 |           await page.mouse.down();
+  137 |           await page.mouse.move(800, 300);
+  138 |           await page.mouse.up();
+  139 |           
+  140 |           // Wait a bit before checking again
+  141 |           await page.waitForTimeout(1000);
+  142 |       }
+  143 |   
+  144 |       if (i === 5) {
+  145 |           console.log("signature widget did not become visible on the document after multiple attempts.");
+  146 |       }
+  147 |   }
+  148 | } catch (error) {
+  149 |   console.log("Element not found or not interactable, continuing execution.");
+  150 |  
+  151 | }
+  152 | await page.locator('//span[normalize-space()=\'stamp\']').hover();
+  153 | await page.mouse.down();
+  154 | await page.mouse.move(600, 360)
+  155 | await page.mouse.up();
+  156 | await page.locator('//span[normalize-space()=\'initials\']').hover();
+  157 | await page.mouse.down();
+  158 | await page.mouse.move(600, 420)
+  159 | await page.mouse.up();
+  160 | await page.locator('//span[normalize-space()=\'name\']').hover();
+  161 | await page.mouse.down();
+```

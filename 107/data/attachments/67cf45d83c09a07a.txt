@@ -1,0 +1,45 @@
+Browser: chromium, Version: 151.0.7922.34, OS: linux
+Dragging 'signature' from (1031.5625, 213.296875) to (600, 200)
+Dragged and dropped widget 'signature' to (600, 200).
+Save button clicked!
+Dragging 'stamp' from (1187.3203125, 213.296875) to (600, 250)
+Dragged and dropped widget 'stamp' to (600, 250).
+Image Path: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/TestData/Images/stamp.jpg
+Stamp image uploaded successfully.
+Save button in signer modal clicked.
+Dragging 'initials' from (1031.5625, 268.296875) to (600, 300)
+Dragged and dropped widget 'initials' to (600, 300).
+Save button in signer modal clicked.
+Dragging 'name' from (1031.5625, 323.296875) to (600, 370)
+Dragged and dropped widget 'name' to (600, 370).
+Save button in signer modal clicked.
+Dragging 'job title' from (1187.3203125, 323.296875) to (600, 390)
+Dragged and dropped widget 'job title' to (600, 390).
+Save button in signer modal clicked.
+Dragging 'company' from (1031.5625, 378.296875) to (600, 430)
+Dragged and dropped widget 'company' to (600, 430).
+Save button in signer modal clicked.
+Dragging 'date' from (1031.5625, 433.296875) to (600, 460)
+Dragged and dropped widget 'date' to (600, 460).
+Today's date: 11/18/2026
+Date field clicked on the signer modal.
+Date with aria-label 'Choose Friday, November 20th, 2026' selected from the calendar.
+Save button in signer modal clicked.
+Dragging 'text' from (1187.3203125, 433.296875) to (600, 490)
+Dragged and dropped widget 'text' to (600, 490).
+Filled 'text' widget with value '20 wood street sanfransisco'.
+Save button in signer modal clicked.
+Dragging 'checkbox' from (1187.3203125, 488.296875) to (600, 540)
+Dragged and dropped widget 'checkbox' to (600, 540).
+Save button in signer modal clicked.
+Checkbox with label 'Option-1' clicked.
+Checkbox with label 'Option-1' selected.
+Save button in signer modal clicked.
+Dragging 'image' from (1031.5625, 543.296875) to (600, 600)
+Dragged and dropped widget 'image' to (600, 600).
+Image uploaded successfully.
+Save button in signer modal clicked.
+Dragging 'email' from (1187.3203125, 378.296875) to (600, 640)
+Dragged and dropped widget 'email' to (600, 640).
+Save button in signer modal clicked.
+Finish button on placeholder clicked.

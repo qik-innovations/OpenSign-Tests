@@ -1,0 +1,7 @@
+Browser: chromium, Version: 151.0.7922.34, OS: linux
+count out for sign old451
+Dragging 'signature' from (1089.2890625, 430.890625) to (500, 300)
+Dragged and dropped widget 'signature' to (500, 300).
+Attempt 1: Text is empty, retrying...
+Text found: 452
+✅ Out for signature card count increased by one, which is correct.

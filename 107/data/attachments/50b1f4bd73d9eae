@@ -1,0 +1,614 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/Login.spec.js >> Login Page Tests >> Positive Login Tests >> Verify that user profile menu is visible after login
+- Location: tests/MainAppPages/Login.spec.js:111:5
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for getByRole('button', { name: '' })
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - button "Open navigation" [expanded] [ref=e9] [cursor=pointer]:
+          - generic [ref=e10]: 
+        - button [ref=e12] [cursor=pointer]:
+          - img "logo" [ref=e13]
+      - generic [ref=e14]:
+        - button "Billing" [ref=e15] [cursor=pointer]:
+          - generic [ref=e16]: TEAM
+        - button "Open app drawer" [ref=e19] [cursor=pointer]:
+          - generic [ref=e20]: 
+        - button "Profile" [ref=e21] [cursor=pointer]:
+          - img "img" [ref=e22]
+        - button "Open profile menu" [ref=e23] [cursor=pointer]: Pravin Testing account
+        - generic [ref=e24]:
+          - button "Open profile menu" [ref=e25] [cursor=pointer]:
+            - generic [ref=e26]: 
+          - text:        
+  - generic [ref=e27]:
+    - complementary [ref=e28]:
+      - generic [ref=e29]:
+        - button "Profile" [ref=e30] [cursor=pointer]:
+          - img "Profile" [ref=e31]
+        - generic [ref=e32]:
+          - button "Pravin Testing account" [ref=e33] [cursor=pointer]
+          - button "OpenSign pvt ltd" [ref=e34] [cursor=pointer]
+      - menubar "OpenSign Sidebar Navigation" [ref=e35]:
+        - list [ref=e36]:
+          - menuitem "Dashboard" [ref=e37]:
+            - generic [ref=e38]: 
+          - menuitem "Sign yourself" [ref=e41]:
+            - generic [ref=e42]: 
+          - menuitem "Request signatures" [ref=e45]:
+            - generic [ref=e46]: 
+          - button " Templates" [ref=e49] [cursor=pointer]:
+            - generic [ref=e50]: 
+            - generic [ref=e52]:
+              - generic [ref=e53]: Templates
+              - generic [ref=e54]: 
+          - menuitem "OpenSign™ Drive" [ref=e55]:
+            - generic [ref=e56]: 
+          - button " Documents" [ref=e59] [cursor=pointer]:
+            - generic [ref=e60]: 
+            - generic [ref=e62]:
+              - generic [ref=e63]: Documents
+              - generic [ref=e64]: 
+          - menuitem "Contactbook" [ref=e65]:
+            - generic [ref=e66]: 
+          - button " Settings" [ref=e69] [cursor=pointer]:
+            - generic [ref=e70]: 
+            - generic [ref=e72]:
+              - generic [ref=e73]: Settings
+              - generic [ref=e74]: 
+      - generic [ref=e75]:
+        - link "OpenSign's Github" [ref=e76]:
+          - /url: https://github.com/opensignlabs/opensign
+          - generic [ref=e77]: 
+        - link "OpenSign's LinkedIn" [ref=e79]:
+          - /url: https://www.linkedin.com/company/opensign%E2%84%A2/
+          - generic [ref=e80]: 
+        - link "OpenSign's Twitter" [ref=e82]:
+          - /url: https://www.twitter.com/opensignlabs
+          - generic [ref=e83]: 
+        - link "OpenSign's Discord" [ref=e85]:
+          - /url: https://discord.com/invite/xe9TDuyAyj
+          - generic [ref=e86]: 
+    - main [ref=e88]:
+      - generic [ref=e89]:
+        - generic [ref=e91]:
+          - heading "Dashboard" [level=1] [ref=e92]
+          - generic [ref=e94]:
+            - button "Sign yourself" [ref=e95] [cursor=pointer]:
+              - generic [ref=e96]:
+                - generic [ref=e97]: 
+                - generic [ref=e100]:
+                  - text: Sign yourself
+                  - generic [ref=e101]: Use this option to sign the document yourself without adding others
+            - button "Request signatures" [ref=e102] [cursor=pointer]:
+              - generic [ref=e103]:
+                - generic [ref=e104]: 
+                - generic [ref=e107]:
+                  - text: Request signatures
+                  - generic [ref=e108]: Use this option to request signatures from others and yourself together.
+          - generic [ref=e109]:
+            - button "Need your signature" [ref=e112] [cursor=pointer]:
+              - generic [ref=e113]:
+                - generic [ref=e114]: 
+                - generic [ref=e116]:
+                  - generic [ref=e117]: Need your signature
+                  - generic [ref=e118]: "3"
+              - superscript [ref=e121]:
+                - generic [ref=e122]: "?"
+            - button "Out for signatures" [ref=e125] [cursor=pointer]:
+              - generic [ref=e126]:
+                - generic [ref=e127]: 
+                - generic [ref=e129]:
+                  - generic [ref=e130]: Out for signatures
+                  - generic [ref=e131]: "455"
+              - superscript [ref=e134]:
+                - generic [ref=e135]: "?"
+            - generic [ref=e140]:
+              - generic [ref=e141]:
+                - generic [ref=e142]: Recent signature requests
+                - button "Search" [ref=e144] [cursor=pointer]:
+                  - generic [ref=e145]: 
+              - region "Documents" [ref=e146]:
+                - table [ref=e147]:
+                  - rowgroup [ref=e148]:
+                    - row [ref=e149]:
+                      - columnheader "Title" [ref=e150]
+                      - columnheader "File" [ref=e151]
+                      - columnheader "Owner" [ref=e152]
+                      - columnheader "Signers" [ref=e153]
+                      - columnheader "Action"
+                  - rowgroup [ref=e154]:
+                    - row [ref=e155]:
+                      - cell "Sample-joining-letter Expires 03-Dec-2026" [ref=e156]:
+                        - generic "Sample-joining-letter" [ref=e157]
+                        - generic [ref=e158]: Expires 03-Dec-2026
+                      - cell [ref=e159]:
+                        - button "Download" [ref=e160] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e161]
+                      - cell [ref=e162]:
+                        - button "View" [ref=e163] [cursor=pointer]
+                      - cell [ref=e164]:
+                        - button "SIGN" [ref=e166] [cursor=pointer]:
+                          - generic [ref=e167]: 
+                          - generic [ref=e168]: sign
+                    - row [ref=e169]:
+                      - cell "Sample-joining-letter Expires 28-Nov-2026" [ref=e170]:
+                        - generic "Sample-joining-letter" [ref=e171]
+                        - generic [ref=e172]: Expires 28-Nov-2026
+                      - cell [ref=e173]:
+                        - button "Download" [ref=e174] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e175]
+                      - cell [ref=e176]:
+                        - button "View" [ref=e177] [cursor=pointer]
+                      - cell [ref=e178]:
+                        - button "SIGN" [ref=e180] [cursor=pointer]:
+                          - generic [ref=e181]: 
+                          - generic [ref=e182]: sign
+                    - row [ref=e183]:
+                      - cell "Sample-joining-letter Expires 28-Nov-2026" [ref=e184]:
+                        - generic "Sample-joining-letter" [ref=e185]
+                        - generic [ref=e186]: Expires 28-Nov-2026
+                      - cell [ref=e187]:
+                        - button "Download" [ref=e188] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e189]
+                      - cell [ref=e190]:
+                        - button "View" [ref=e191] [cursor=pointer]
+                      - cell [ref=e192]:
+                        - button "SIGN" [ref=e194] [cursor=pointer]:
+                          - generic [ref=e195]: 
+                          - generic [ref=e196]: sign
+              - button "1" [ref=e198] [cursor=pointer]
+            - generic [ref=e203]:
+              - generic [ref=e204]:
+                - generic [ref=e205]: Recently sent for signatures
+                - button "Search" [ref=e207] [cursor=pointer]:
+                  - generic [ref=e208]: 
+              - region "Documents" [ref=e209]:
+                - table [ref=e210]:
+                  - rowgroup [ref=e211]:
+                    - row [ref=e212]:
+                      - columnheader "Title" [ref=e213]
+                      - columnheader "File" [ref=e214]
+                      - columnheader "Owner" [ref=e215]
+                      - columnheader "Signers" [ref=e216]
+                      - columnheader "Action"
+                  - rowgroup [ref=e217]:
+                    - row [ref=e218]:
+                      - cell "Sample-joining-letter Expires 03-Dec-2026" [ref=e219]:
+                        - generic "Sample-joining-letter" [ref=e220]
+                        - generic [ref=e221]: Expires 03-Dec-2026
+                      - cell [ref=e222]:
+                        - button "Download" [ref=e223] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e224]
+                      - cell [ref=e225]:
+                        - button "View" [ref=e226] [cursor=pointer]
+                      - cell [ref=e227]:
+                        - generic [ref=e228]:
+                          - button "Share" [ref=e229] [cursor=pointer]:
+                            - generic [ref=e230]: 
+                          - button "View" [ref=e231] [cursor=pointer]:
+                            - generic [ref=e232]: 
+                          - button "Option" [ref=e233] [cursor=pointer]:
+                            - generic [ref=e234]: 
+                    - row [ref=e235]:
+                      - cell "Offer Letter for QA11 Expires 03-Dec-2026" [ref=e236]:
+                        - generic "Offer Letter for QA11" [ref=e237]
+                        - generic [ref=e238]: Expires 03-Dec-2026
+                      - cell [ref=e239]:
+                        - button "Download" [ref=e240] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e241]
+                      - cell [ref=e242]:
+                        - button "View" [ref=e243] [cursor=pointer]
+                      - cell [ref=e244]:
+                        - generic [ref=e245]:
+                          - button "Share" [ref=e246] [cursor=pointer]:
+                            - generic [ref=e247]: 
+                          - button "View" [ref=e248] [cursor=pointer]:
+                            - generic [ref=e249]: 
+                          - button "Option" [ref=e250] [cursor=pointer]:
+                            - generic [ref=e251]: 
+                    - row [ref=e252]:
+                      - cell "Sample-joining-letter Expires 03-Dec-2026" [ref=e253]:
+                        - generic "Sample-joining-letter" [ref=e254]
+                        - generic [ref=e255]: Expires 03-Dec-2026
+                      - cell [ref=e256]:
+                        - button "Download" [ref=e257] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e258]
+                      - cell [ref=e259]:
+                        - button "View" [ref=e260] [cursor=pointer]
+                      - cell [ref=e261]:
+                        - generic [ref=e262]:
+                          - button "Share" [ref=e263] [cursor=pointer]:
+                            - generic [ref=e264]: 
+                          - button "View" [ref=e265] [cursor=pointer]:
+                            - generic [ref=e266]: 
+                          - button "Option" [ref=e267] [cursor=pointer]:
+                            - generic [ref=e268]: 
+                    - row [ref=e269]:
+                      - cell "Sample-joining-letter Expires 03-Dec-2026" [ref=e270]:
+                        - generic "Sample-joining-letter" [ref=e271]
+                        - generic [ref=e272]: Expires 03-Dec-2026
+                      - cell [ref=e273]:
+                        - button "Download" [ref=e274] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e275]
+                      - cell [ref=e276]:
+                        - button "View" [ref=e277] [cursor=pointer]
+                      - cell [ref=e278]:
+                        - generic [ref=e279]:
+                          - button "Share" [ref=e280] [cursor=pointer]:
+                            - generic [ref=e281]: 
+                          - button "View" [ref=e282] [cursor=pointer]:
+                            - generic [ref=e283]: 
+                          - button "Option" [ref=e284] [cursor=pointer]:
+                            - generic [ref=e285]: 
+                    - row [ref=e286]:
+                      - cell "Sample-joining-letter Expires 03-Dec-2026" [ref=e287]:
+                        - generic "Sample-joining-letter" [ref=e288]
+                        - generic [ref=e289]: Expires 03-Dec-2026
+                      - cell [ref=e290]:
+                        - button "Download" [ref=e291] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e292]
+                      - cell [ref=e293]:
+                        - button "View" [ref=e294] [cursor=pointer]
+                      - cell [ref=e295]:
+                        - generic [ref=e296]:
+                          - button "Share" [ref=e297] [cursor=pointer]:
+                            - generic [ref=e298]: 
+                          - button "View" [ref=e299] [cursor=pointer]:
+                            - generic [ref=e300]: 
+                          - button "Option" [ref=e301] [cursor=pointer]:
+                            - generic [ref=e302]: 
+              - generic [ref=e303]:
+                - button "Prev" [ref=e304] [cursor=pointer]
+                - button "1" [ref=e305] [cursor=pointer]
+                - button "2" [ref=e306] [cursor=pointer]
+                - button "3" [ref=e307] [cursor=pointer]
+                - button "4" [ref=e308] [cursor=pointer]
+                - button "Next" [ref=e309] [cursor=pointer]
+            - generic [ref=e314]:
+              - generic [ref=e315]:
+                - generic [ref=e316]: Drafts
+                - searchbox "Search documents…" [ref=e319]
+              - region "Documents" [ref=e320]:
+                - table [ref=e321]:
+                  - rowgroup [ref=e322]:
+                    - row [ref=e323]:
+                      - columnheader "Title" [ref=e324]
+                      - columnheader "Note" [ref=e325]
+                      - columnheader "Folder" [ref=e326]
+                      - columnheader "File" [ref=e327]
+                      - columnheader "Owner" [ref=e328]
+                      - columnheader "Signers" [ref=e329]
+                      - columnheader "Action"
+                  - rowgroup [ref=e330]:
+                    - row [ref=e331]:
+                      - cell "2026-11-18T17-49-55-339Z Revoke document Expires 03-Dec-2026" [ref=e332]:
+                        - generic "2026-11-18T17-49-55-339Z Revoke document" [ref=e333]
+                        - generic [ref=e334]: Expires 03-Dec-2026
+                      - cell [ref=e335]:
+                        - button "Note Offer Letter for QA1144" [ref=e336] [cursor=pointer]
+                      - cell "OpenSign™ Drive" [ref=e337]
+                      - cell [ref=e338]:
+                        - button "Download" [ref=e339] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e340]
+                      - cell "-" [ref=e341]
+                      - cell [ref=e342]:
+                        - generic [ref=e343]:
+                          - button "Edit" [ref=e344] [cursor=pointer]:
+                            - generic [ref=e345]: 
+                          - button "Delete" [ref=e346] [cursor=pointer]:
+                            - generic [ref=e347]: 
+                    - row [ref=e348]:
+                      - cell "2026-11-18T17-49-50-655Z Revoke document Expires 03-Dec-2026" [ref=e349]:
+                        - generic "2026-11-18T17-49-50-655Z Revoke document" [ref=e350]
+                        - generic [ref=e351]: Expires 03-Dec-2026
+                      - cell [ref=e352]:
+                        - button "Note Offer Letter for QA1144" [ref=e353] [cursor=pointer]
+                      - cell "OpenSign™ Drive" [ref=e354]
+                      - cell [ref=e355]:
+                        - button "Download" [ref=e356] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e357]
+                      - cell "-" [ref=e358]
+                      - cell [ref=e359]:
+                        - generic [ref=e360]:
+                          - button "Edit" [ref=e361] [cursor=pointer]:
+                            - generic [ref=e362]: 
+                          - button "Delete" [ref=e363] [cursor=pointer]:
+                            - generic [ref=e364]: 
+                    - row [ref=e365]:
+                      - cell "2026-11-18T17-49-45-882Z Revoke document Expires 03-Dec-2026" [ref=e366]:
+                        - generic "2026-11-18T17-49-45-882Z Revoke document" [ref=e367]
+                        - generic [ref=e368]: Expires 03-Dec-2026
+                      - cell [ref=e369]:
+                        - button "Note Offer Letter for QA1144" [ref=e370] [cursor=pointer]
+                      - cell "OpenSign™ Drive" [ref=e371]
+                      - cell [ref=e372]:
+                        - button "Download" [ref=e373] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e374]
+                      - cell "-" [ref=e375]
+                      - cell [ref=e376]:
+                        - generic [ref=e377]:
+                          - button "Edit" [ref=e378] [cursor=pointer]:
+                            - generic [ref=e379]: 
+                          - button "Delete" [ref=e380] [cursor=pointer]:
+                            - generic [ref=e381]: 
+                    - row [ref=e382]:
+                      - cell "Sample-joining-letter Expires 03-Dec-2026" [ref=e383]:
+                        - generic "Sample-joining-letter" [ref=e384]
+                        - generic [ref=e385]: Expires 03-Dec-2026
+                      - cell [ref=e386]:
+                        - button "Please review and sign this document" [ref=e387] [cursor=pointer]
+                      - cell "OpenSign™ Drive" [ref=e388]
+                      - cell [ref=e389]:
+                        - button "Download" [ref=e390] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e391]
+                      - cell "-" [ref=e392]
+                      - cell [ref=e393]:
+                        - generic [ref=e394]:
+                          - button "Edit" [ref=e395] [cursor=pointer]:
+                            - generic [ref=e396]: 
+                          - button "Delete" [ref=e397] [cursor=pointer]:
+                            - generic [ref=e398]: 
+                    - row [ref=e399]:
+                      - cell "Sample-joining-letter Expires 03-Dec-2026" [ref=e400]:
+                        - generic "Sample-joining-letter" [ref=e401]
+                        - generic [ref=e402]: Expires 03-Dec-2026
+                      - cell [ref=e403]:
+                        - button "Please review and sign this document" [ref=e404] [cursor=pointer]
+                      - cell "OpenSign™ Drive" [ref=e405]
+                      - cell [ref=e406]:
+                        - button "Download" [ref=e407] [cursor=pointer]
+                      - cell "Pravin Testing account" [ref=e408]
+                      - cell "-" [ref=e409]
+                      - cell [ref=e410]:
+                        - generic [ref=e411]:
+                          - button "Edit" [ref=e412] [cursor=pointer]:
+                            - generic [ref=e413]: 
+                          - button "Delete" [ref=e414] [cursor=pointer]:
+                            - generic [ref=e415]: 
+              - generic [ref=e416]:
+                - button "Prev" [ref=e417] [cursor=pointer]
+                - button "1" [ref=e418] [cursor=pointer]
+                - button "2" [ref=e419] [cursor=pointer]
+                - button "3" [ref=e420] [cursor=pointer]
+                - button "4" [ref=e421] [cursor=pointer]
+                - button "Next" [ref=e422] [cursor=pointer]
+        - generic [ref=e423]:
+          - complementary [ref=e425]:
+            - paragraph [ref=e426]:
+              - text: All rights reserved © 2026
+              - 'link "OpenSign™ ( version: v3.1.1)" [ref=e427] [cursor=pointer]':
+                - /url: https://github.com/OpenSignLabs/OpenSign/releases/tag/v3.1.1
+          - text: 
+```
+
+# Test source
+
+```ts
+  20  |     const osPlatform = process.platform;
+  21  |     allure.label("Browser Name", browserName);
+  22  |     console.log("browser name: " + browserName);
+  23  |     allure.label("Browser Version", browserVersion);
+  24  |     console.log("Browser version: " + browserVersion);
+  25  |     allure.label("OS", osPlatform);
+  26  |     console.log("Browser Platform: " + osPlatform);
+  27  |   });
+  28  | 
+  29  |   // ==================== POSITIVE TEST CASES ====================
+  30  |   test.describe('Positive Login Tests', () => {
+  31  |     test('Verify that user can login with valid credentials Teams plan user', async ({ page }) => {
+  32  |       allure.description('Verify successful login with Teams plan user credentials');
+  33  |       await loginPage.navigateToLogin(BASEURL);
+  34  |       await loginPage.verifyLoginPageLoaded();
+  35  |       
+  36  |       await loginPage.fillEmail(loginCredentials.email);
+  37  |       await loginPage.fillPassword(loginCredentials.password);
+  38  |       await loginPage.clickLogin();
+  39  |       
+  40  |       await page.waitForLoadState('networkidle', { timeout: 120000 });
+  41  |       
+  42  |       // Verify dashboard is loaded
+  43  |       const maxRetries = 5;
+  44  |       let retries = 0;
+  45  |       let pageTitle = await loginPage.getPageTitle();
+  46  |       while (!pageTitle.includes('Dashboard') && retries < maxRetries) {
+  47  |         console.log('Page title after login attempt: ' + pageTitle);
+  48  |         await page.waitForTimeout(3000);
+  49  |          pageTitle = await loginPage.getPageTitle();
+  50  |         retries++;
+  51  |       }   
+  52  |         console.log('Final page title after login attempts: ' + pageTitle);     
+  53  |     });
+  54  | 
+  55  |     test('Verify that user can login with valid Pro plan credentials', async ({ page }) => {
+  56  |       allure.description('Verify successful login with Pro plan user credentials');
+  57  |       await loginPage.navigateToLogin(BASEURL);
+  58  |       await loginPage.verifyLoginPageLoaded();
+  59  |       
+  60  |       await loginPage.fillEmail(loginCredentials.ProplanUsername);
+  61  |       await loginPage.fillPassword(loginCredentials.ProPlanpassword);
+  62  |       await loginPage.clickLogin();
+  63  |       
+  64  |       await page.waitForLoadState('networkidle', { timeout: 120000 });
+  65  |       
+  66  |       // Verify dashboard is loaded
+  67  |       const maxRetries = 5;
+  68  |       let retries = 0;
+  69  |       let pageTitle = await loginPage.getPageTitle();
+  70  |       while (!pageTitle.includes('Dashboard') && retries < maxRetries) {
+  71  |         console.log('Page title after login attempt: ' + pageTitle);
+  72  |         await page.waitForTimeout(3000);
+  73  |          pageTitle = await loginPage.getPageTitle();
+  74  |         retries++;
+  75  |       }   
+  76  |         console.log('Final page title after login attempts: ' + pageTitle);  
+  77  |       
+  78  |     });
+  79  | 
+  80  |     test('Verify that login page displays correct page title', async ({ page }) => {
+  81  |       allure.description('Verify login page has correct page title on initial load');
+  82  |       await loginPage.navigateToLogin(BASEURL);
+  83  |       
+  84  |       const pageTitle = await loginPage.getPageTitle();
+  85  |       expect(pageTitle).toBeTruthy();
+  86  |       console.log('Page title on login page: ' + pageTitle);
+  87  |     });
+  88  | 
+  89  |     test('Verify that form submission works with Enter key on password field', async ({ page }) => {
+  90  |       allure.description('Verify login form submission using Enter key on password field');
+  91  |       await loginPage.navigateToLogin(BASEURL);
+  92  |       await loginPage.verifyLoginPageLoaded();
+  93  |       
+  94  |       await loginPage.submitLoginWithEnterKey(loginCredentials.email, loginCredentials.password);
+  95  |    
+  96  |       await page.waitForLoadState('networkidle', { timeout: 120000 });
+  97  |       
+  98  |       // Verify dashboard is loaded
+  99  |       const maxRetries = 5;
+  100 |       let retries = 0;
+  101 |       let pageTitle = await loginPage.getPageTitle();
+  102 |       while (!pageTitle.includes('Dashboard') && retries < maxRetries) {
+  103 |         console.log('Page title after login attempt: ' + pageTitle);
+  104 |         await page.waitForTimeout(3000);
+  105 |          pageTitle = await loginPage.getPageTitle();
+  106 |         retries++;
+  107 |       }   
+  108 |         console.log('Final page title after login attempts: ' + pageTitle);  
+  109 |     });
+  110 | 
+  111 |     test('Verify that user profile menu is visible after login', async ({ page }) => {
+  112 |       allure.description('Verify user profile menu/info is displayed after successful login');
+  113 |       const commonSteps = new CommonSteps(page);
+  114 |       await commonSteps.navigateToBaseUrl();
+  115 |       await commonSteps.login();
+  116 |       
+  117 |       await page.waitForLoadState('networkidle', { timeout: 120000 });
+  118 |       
+  119 |       // Check for profile menu button or user info
+> 120 |         await page.getByRole('button', { name: '' }).click();
+      |                                                       ^ Error: locator.click: Test timeout of 120000ms exceeded.
+  121 |   await page.getByText('Profile').click();
+  122 |   await expect(page.getByRole('list')).toContainText('pravin+testaccount@nxglabs.in');
+  123 | 
+  124 |     });
+  125 | 
+  126 |     test('Verify that user is redirected to dashboard after successful login', async ({ page }) => {
+  127 |       allure.description('Verify user is redirected to dashboard URL after login');
+  128 |       await loginPage.navigateToLogin(BASEURL);
+  129 |       await loginPage.submitLoginForm(loginCredentials.email, loginCredentials.password);
+  130 |       
+  131 |       await page.waitForLoadState('networkidle', { timeout: 120000 });
+  132 |       
+  133 |       const url = page.url();
+  134 |       console.log('URL after login: ' + url);
+  135 |       expect(url).toContain(BASEURL.replace(/\/$/, ''));
+  136 |     });
+  137 |   });
+  138 | 
+  139 |   // ==================== NEGATIVE TEST CASES ====================
+  140 |   test.describe('Negative Login Tests', () => {
+  141 |     test('Verify that login fails with invalid email address', async ({ page }) => {
+  142 |       allure.description('Verify login fails with invalid email format');
+  143 |       await loginPage.navigateToLogin(BASEURL);
+  144 |       await loginPage.verifyLoginPageLoaded();
+  145 |       
+  146 |       await loginPage.fillEmail('invalidemail@fakeemail.com');
+  147 |       await loginPage.fillPassword('SomePassword123');
+  148 |       await loginPage.clickLogin();
+  149 |       
+  150 |       await page.waitForLoadState('networkidle', { timeout: 60000 });
+  151 |       
+  152 |       // Verify user is still on login page (not logged in)
+  153 |       const loginButton = await loginPage.isLoginButtonVisible();
+  154 |       expect(loginButton).toBe(true);
+  155 |     });
+  156 | 
+  157 |     test('Verify that login fails with invalid password', async ({ page }) => {
+  158 |       allure.description('Verify login fails with invalid password for valid email');
+  159 |       await loginPage.navigateToLogin(BASEURL);
+  160 |       await loginPage.verifyLoginPageLoaded();
+  161 |       
+  162 |       await loginPage.fillEmail(loginCredentials.email);
+  163 |       await loginPage.fillPassword('WrongPassword123!@#');
+  164 |       await loginPage.clickLogin();
+  165 |       
+  166 |       await page.waitForLoadState('networkidle', { timeout: 60000 });
+  167 |       
+  168 |       // Verify user is still on login page
+  169 |       const loginButton = await loginPage.isLoginButtonVisible();
+  170 |       expect(loginButton).toBe(true);
+  171 |     });
+  172 | 
+  173 | 
+  174 |     test('Verify that login is not allowed with both email and password empty', async ({ page }) => {
+  175 |       allure.description('Verify login with both fields empty is prevented');
+  176 |       await loginPage.navigateToLogin(BASEURL);
+  177 |       await loginPage.verifyLoginPageLoaded();
+  178 |       
+  179 |       // Try to submit without filling fields
+  180 |       await loginPage.clickLogin();
+  181 |       
+  182 |       // Verify user is still on login page
+  183 |       const emailField = await loginPage.isEmailFieldVisible();
+  184 |       expect(emailField).toBe(true);
+  185 |     });
+  186 | 
+  187 |     test('Verify that user cannot login with email only (no password)', async ({ page }) => {
+  188 |       allure.description('Verify login attempt with email only is prevented');
+  189 |       await loginPage.navigateToLogin(BASEURL);
+  190 |       await loginPage.verifyLoginPageLoaded();
+  191 |       
+  192 |       await loginPage.fillEmail(loginCredentials.email);
+  193 |       await loginPage.clickLogin();
+  194 |       
+  195 |       // Verify still on login page
+  196 |       const loginButton = await loginPage.isLoginButtonVisible();
+  197 |       expect(loginButton).toBe(true);
+  198 |     });
+  199 | 
+  200 |     test('Verify that user cannot login with password only (no email)', async ({ page }) => {
+  201 |       allure.description('Verify login attempt with password only is prevented');
+  202 |       await loginPage.navigateToLogin(BASEURL);
+  203 |       await loginPage.verifyLoginPageLoaded();
+  204 |       
+  205 |       await loginPage.fillPassword(loginCredentials.password);
+  206 |       await loginPage.clickLogin();
+  207 |       
+  208 |       // Verify still on login page
+  209 |       const loginButton = await loginPage.isLoginButtonVisible();
+  210 |       expect(loginButton).toBe(true);
+  211 |     });
+  212 |   });
+  213 | 
+  214 |   // ==================== UI/VALIDATION TEST CASES ====================
+  215 |   test.describe('Login Page UI and Validation Tests', () => {
+  216 |     test('Verify that email and password fields have proper labels', async ({ page }) => {
+  217 |       allure.description('Verify email and password input fields have labels');
+  218 |       await loginPage.navigateToLogin(BASEURL);
+  219 |       const emailLabel = page.locator('label:has-text("Email"), label:has-text("email")').first();
+  220 |       const passwordLabel = page.locator('label:has-text("Password"), label:has-text("password")').first();
+```

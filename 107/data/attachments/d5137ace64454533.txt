@@ -1,0 +1,58 @@
+Browser: chromium, Version: 151.0.7922.34, OS: linux
+Dragging 'signature'. Attempt 1/5
+Dragging 'signature' from (1039.5625, 446.078125) to (600, 200)
+Dragged and dropped widget 'signature' to (600, 200).
+'signature' widget successfully dropped.
+Dragging 'stamp'. Attempt 1/5
+Dragging 'stamp' from (1179.3203125, 446.078125) to (700, 200)
+Dragged and dropped widget 'stamp' to (700, 200).
+'stamp' widget successfully dropped.
+Dragging 'initials'. Attempt 1/5
+Dragging 'initials' from (1039.5625, 501.078125) to (800, 200)
+Dragged and dropped widget 'initials' to (800, 200).
+'initials' widget successfully dropped.
+Dragging 'name'. Attempt 1/5
+Dragging 'name' from (1179.3203125, 556.078125) to (600, 260)
+Dragged and dropped widget 'name' to (600, 260).
+'name' widget successfully dropped.
+Dragging 'job title'. Attempt 1/5
+Dragging 'job title' from (1039.5625, 611.078125) to (700, 260)
+Dragged and dropped widget 'job title' to (700, 260).
+'job title' widget successfully dropped.
+Dragging 'company'. Attempt 1/5
+Dragging 'company' from (1179.3203125, 611.078125) to (800, 260)
+Dragged and dropped widget 'company' to (800, 260).
+'company' widget successfully dropped.
+Dragging 'date' from (1179.3203125, 666.078125) to (600, 290)
+Dragged and dropped widget 'date' to (600, 290).
+Dragging 'text input'. Attempt 1/5
+Dragging 'text input' from (1179.3203125, 501.078125) to (700, 290)
+Dragged and dropped widget 'text input' to (700, 290).
+'text input' widget successfully dropped.
+Dragging 'checkbox' from (1179.3203125, 698.078125) to (800, 290)
+Dragged and dropped widget 'checkbox' to (800, 290).
+Save button in signer modal clicked.
+Dragging 'image'. Attempt 1/5
+Dragging 'image' from (1039.5625, 568.078125) to (600, 500)
+Dragged and dropped widget 'image' to (600, 500).
+'image' widget successfully dropped.
+Dragging 'email'. Attempt 1/5
+Dragging 'email' from (1039.5625, 403.078125) to (700, 700)
+Dragged and dropped widget 'email' to (700, 700).
+'email' was not created. Retrying...
+Dragging 'email'. Attempt 2/5
+Dragging 'email' from (1039.5625, 403.078125) to (700, 700)
+Dragged and dropped widget 'email' to (700, 700).
+'email' was not created. Retrying...
+Dragging 'email'. Attempt 3/5
+Dragging 'email' from (1039.5625, 403.078125) to (700, 700)
+Dragged and dropped widget 'email' to (700, 700).
+'email' was not created. Retrying...
+Dragging 'email'. Attempt 4/5
+Dragging 'email' from (1039.5625, 403.078125) to (700, 700)
+Dragged and dropped widget 'email' to (700, 700).
+'email' was not created. Retrying...
+Dragging 'email'. Attempt 5/5
+Dragging 'email' from (1039.5625, 403.078125) to (700, 700)
+Dragged and dropped widget 'email' to (700, 700).
+'email' was not created. Retrying...

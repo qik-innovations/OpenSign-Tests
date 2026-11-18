@@ -1,0 +1,222 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/Login.spec.js >> Login Page Tests >> Login State and Session Tests >> Verify that session is cleared after failed login attempt
+- Location: tests/MainAppPages/Login.spec.js:361:5
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 120000ms exceeded.
+Call log:
+  - waiting for getByRole('button', { name: 'Login' })
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e5]:
+  - complementary [ref=e6]:
+    - generic [ref=e7]:
+      - heading [level=2] [ref=e8]:
+        - generic [ref=e9]: Sign documents.
+        - generic [ref=e10]: Securely. Simply.
+      - paragraph [ref=e11]: Fast, secure and compliant eSigning for your business.
+    - generic: 
+  - region [ref=e12]:
+    - generic [ref=e13]:
+      - img "applogo" [ref=e15]
+      - generic [ref=e17]:
+        - form "Login Form" [ref=e18]:
+          - heading "Welcome back!" [level=1] [ref=e19]
+          - group "Log in to your account" [ref=e20]:
+            - tablist "Select login region" [ref=e23]:
+              - tab "global" [selected] [ref=e24] [cursor=pointer]
+              - tab "gdpr europe" [ref=e25] [cursor=pointer]:
+                - generic [ref=e26]:
+                  - img "gdpr" [ref=e27]
+                  - generic [ref=e28]: europe
+            - tabpanel "global" [ref=e29]:
+              - generic [ref=e30]: Email
+              - textbox "Email" [ref=e31]: invalid@email.com
+              - separator
+              - generic [ref=e32]: Password
+              - generic [ref=e33]:
+                - textbox "Password" [active] [ref=e34]: InvalidPassword
+                - button "Show or hide password" [ref=e35] [cursor=pointer]:
+                  - generic [ref=e36]: 
+              - link "Forgot password?" [ref=e38] [cursor=pointer]:
+                - /url: /forgetpassword
+              - generic [ref=e39]:
+                - button "Log in" [ref=e40] [cursor=pointer]
+                - button "Create account" [ref=e41] [cursor=pointer]
+          - button "Sign in with passkey" [ref=e43] [cursor=pointer]
+        - generic [ref=e49]: OR
+        - button "Sign in with SSO" [ref=e53] [cursor=pointer]:
+          - generic [ref=e54]: 
+          - text: Sign in with SSO
+    - combobox [ref=e57] [cursor=pointer]:
+      - option "select" [disabled]
+      - option "English" [selected]
+      - option "Española"
+      - option "Français"
+      - option "Italiano"
+      - option "Deutsch"
+      - option "हिन्दी"
+      - option "한국어"
+```
+
+# Test source
+
+```ts
+  1   | const { expect } = require('@playwright/test');
+  2   | 
+  3   | class LoginPage {
+  4   |   constructor(page) {
+  5   |     this.page = page;
+  6   |     
+  7   |     // Locators
+  8   |     this.emailField = '#email';
+  9   |     this.passwordField = '#password';
+  10  |     this.loginButton = 'button:has-text("Login")';
+  11  |     this.createAccountButton = 'button[name="Create account"]';
+  12  |     this.forgotPasswordLink = 'a:has-text("Forgot password?")';
+  13  |     this.errorMessageLocator = '.error, [role="alert"], .alert-danger';
+  14  |     this.pageHeading = 'h1, h2, .login-title';
+  15  |     this.rememberMeCheckbox = 'input[type="checkbox"]';
+  16  |   }
+  17  | 
+  18  |   // Navigation
+  19  |   async navigateToLogin(baseUrl) {
+  20  |     await this.page.goto(baseUrl, { timeout: 120000 });
+  21  |   }
+  22  | 
+  23  |   // Form filling
+  24  |   async fillEmail(email) {
+  25  |     await this.page.locator(this.emailField).fill(email);
+  26  |   }
+  27  | 
+  28  |   async fillPassword(password) {
+  29  |     await this.page.locator(this.passwordField).fill(password);
+  30  |   }
+  31  | 
+  32  |   async fillCredentials(email, password) {
+  33  |     await this.fillEmail(email);
+  34  |     await this.fillPassword(password);
+  35  |   }
+  36  | 
+  37  |   // Form submission
+  38  |   async clickLogin() {
+> 39  |     await this.page.getByRole('button', { name: 'Login' }).click();
+      |                                                            ^ Error: locator.click: Test timeout of 120000ms exceeded.
+  40  |   }
+  41  | 
+  42  |   async submitLoginForm(email, password) {
+  43  |     await this.fillCredentials(email, password);
+  44  |     await this.clickLogin();
+  45  |   }
+  46  | 
+  47  |   async submitLoginWithEnterKey(email, password) {
+  48  |     await this.fillCredentials(email, password);
+  49  |     await this.page.locator(this.passwordField).press('Enter');
+  50  |   }
+  51  | 
+  52  |   // Navigation clicks
+  53  |   async clickCreateAccount() {
+  54  |     await this.page.locator(this.createAccountButton).click();
+  55  |   }
+  56  | 
+  57  |   async clickForgotPassword() {
+  58  |     const forgotLink = this.page.locator('a:has-text("Forgot password?")');
+  59  |     await forgotLink.click();
+  60  |   }
+  61  | 
+  62  |   // Form state checks
+  63  |   async isLoginButtonEnabled() {
+  64  |     return await this.page.getByRole('button', { name: 'Login' }).isEnabled();
+  65  |   }
+  66  | 
+  67  |   async isLoginButtonDisabled() {
+  68  |     return !(await this.isLoginButtonEnabled());
+  69  |   }
+  70  | 
+  71  |   async isPasswordFieldMasked() {
+  72  |     const passwordField = this.page.locator(this.passwordField);
+  73  |     const fieldType = await passwordField.getAttribute('type');
+  74  |     return fieldType === 'password';
+  75  |   }
+  76  | 
+  77  |   async getEmailFieldValue() {
+  78  |     return await this.page.locator(this.emailField).inputValue();
+  79  |   }
+  80  | 
+  81  |   async getPasswordFieldValue() {
+  82  |     return await this.page.locator(this.passwordField).inputValue();
+  83  |   }
+  84  | 
+  85  |   async clearEmailField() {
+  86  |     await this.page.locator(this.emailField).clear();
+  87  |   }
+  88  | 
+  89  |   async clearPasswordField() {
+  90  |     await this.page.locator(this.passwordField).clear();
+  91  |   }
+  92  | 
+  93  |   async clearAllFields() {
+  94  |     await this.clearEmailField();
+  95  |     await this.clearPasswordField();
+  96  |   }
+  97  | 
+  98  |   // Visibility and presence checks
+  99  |   async isEmailFieldVisible() {
+  100 |     return await this.page.locator(this.emailField).isVisible();
+  101 |   }
+  102 | 
+  103 |   async isPasswordFieldVisible() {
+  104 |     return await this.page.locator(this.passwordField).isVisible();
+  105 |   }
+  106 | 
+  107 |   async isLoginButtonVisible() {
+  108 |     return await this.page.getByRole('button', { name: 'Login' }).isVisible();
+  109 |   }
+  110 | 
+  111 |   async isCreateAccountButtonVisible() {
+  112 |     return await this.page.locator(this.createAccountButton).isVisible();
+  113 |   }
+  114 | 
+  115 |   async isForgotPasswordLinkVisible() {
+  116 |     return await this.page.locator('a:has-text("Forgot password?")').isVisible();
+  117 |   }
+  118 | 
+  119 |   async isEmailLabelVisible() {
+  120 |     return await this.page.locator('label:has-text("Email")').isVisible();
+  121 |   }
+  122 | 
+  123 |   async isPasswordLabelVisible() {
+  124 |     return await this.page.locator('label:has-text("Password")').isVisible();
+  125 |   }
+  126 | 
+  127 |   // Error handling
+  128 |   async getErrorMessage() {
+  129 |     try {
+  130 |       const errorElements = await this.page.locator('[role="alert"], .error-message, .invalid-feedback').all();
+  131 |       if (errorElements.length > 0) {
+  132 |         return await errorElements[0].textContent();
+  133 |       }
+  134 |       return null;
+  135 |     } catch (error) {
+  136 |       return null;
+  137 |     }
+  138 |   }
+  139 | 
+```

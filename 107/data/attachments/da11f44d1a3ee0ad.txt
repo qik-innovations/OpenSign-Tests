@@ -1,0 +1,12 @@
+Browser: chromium, Version: 151.0.7922.34, OS: linux
+Dragging 'signature'. Attempt 1/5
+Dragging 'signature' from (1039.5625, 430.890625) to (600, 200)
+Dragged and dropped widget 'signature' to (600, 200).
+'signature' widget successfully dropped.
+Dragging 'stamp' from (1179.3203125, 430.890625) to (600, 360)
+Dragged and dropped widget 'stamp' to (600, 360).
+Dragging 'initials' from (1039.5625, 485.890625) to (600, 420)
+Dragged and dropped widget 'initials' to (600, 420).
+Dragging 'name' from (1179.3203125, 540.890625) to (600, 470)
+Dragged and dropped widget 'name' to (600, 470).
+false

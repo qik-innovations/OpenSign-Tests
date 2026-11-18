@@ -1,0 +1,393 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/SignYourSelf.spec.js >> Sign yourself >> Verify that stamp widgets Copy widget to all pages function correctly in Sign Yourself.
+- Location: tests/MainAppPages/SignYourSelf.spec.js:580:1
+
+# Error details
+
+```
+Error: locator.waitFor: Error: strict mode violation: locator('//span[normalize-space()="signature"]') resolved to 4 elements:
+    1) <span title="signature" class="os-widget-chip os-widget-tone-stamp op-btn w-fit md:w-[100%] op-btn-outline op-btn-sm ml-[6px] md:ml-0 p-0 overflow-hidden">…</span> aka getByRole('button', { name: 'signature' })
+    2) <span class="w-full self-stretch flex md:justify-between items-center">…</span> aka getByRole('button', { name: 'signature' })
+    3) <span class="flex justify-start items-center ml-1 overflow-hidden">…</span> aka getByRole('button', { name: 'signature' })
+    4) <span class="md:inline-block text-center text-[11px] lg:text-[13px] mx-[3px] truncate font-medium capitalize">signature</span> aka getByRole('button', { name: 'signature' })
+
+Call log:
+  - waiting for locator('//span[normalize-space()="signature"]') to be visible
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - text: "New Feature: Qualified Electronics Signatures now available —"
+        - button "Try it now." [ref=e8] [cursor=pointer]
+      - button "Close" [ref=e10] [cursor=pointer]:
+        - generic [ref=e14]: 
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - button "Open navigation" [ref=e19] [cursor=pointer]:
+          - generic [ref=e20]: 
+        - button [ref=e22] [cursor=pointer]:
+          - img "logo" [ref=e23]
+      - generic [ref=e24]:
+        - button "Billing" [ref=e25] [cursor=pointer]:
+          - generic [ref=e26]: TEAM
+        - button "Open app drawer" [ref=e29] [cursor=pointer]:
+          - generic [ref=e30]: 
+        - button "Profile" [ref=e31] [cursor=pointer]:
+          - img "img" [ref=e32]
+        - button "Open profile menu" [ref=e33] [cursor=pointer]: Pravin Testing account
+        - generic [ref=e34]:
+          - button "Open profile menu" [ref=e35] [cursor=pointer]:
+            - generic [ref=e36]: 
+          - text:        
+  - generic [ref=e37]:
+    - complementary [ref=e38]:
+      - generic [ref=e39]:
+        - button "Profile" [ref=e40] [cursor=pointer]:
+          - img "Profile" [ref=e41]
+        - generic:
+          - button "Pravin Testing account" [ref=e42] [cursor=pointer]
+          - button "OpenSign pvt ltd" [ref=e43] [cursor=pointer]
+      - menubar "OpenSign Sidebar Navigation" [ref=e44]:
+        - list [ref=e45]:
+          - menuitem "Dashboard" [ref=e46]:
+            - generic [ref=e47]: 
+          - menuitem "Sign yourself" [ref=e50]:
+            - generic [ref=e51]: 
+          - menuitem "Request signatures" [ref=e54]:
+            - generic [ref=e55]: 
+          - button " Templates" [ref=e58] [cursor=pointer]:
+            - generic [ref=e59]: 
+            - generic [ref=e61]:
+              - generic [ref=e62]: Templates
+              - generic [ref=e63]: 
+          - menuitem "OpenSign™ Drive" [ref=e64]:
+            - generic [ref=e65]: 
+          - button " Documents" [ref=e68] [cursor=pointer]:
+            - generic [ref=e69]: 
+            - generic [ref=e71]:
+              - generic [ref=e72]: Documents
+              - generic [ref=e73]: 
+          - menuitem "Contactbook" [ref=e74]:
+            - generic [ref=e75]: 
+          - button " Settings" [ref=e78] [cursor=pointer]:
+            - generic [ref=e79]: 
+            - generic [ref=e81]:
+              - generic [ref=e82]: Settings
+              - generic [ref=e83]: 
+      - generic:
+        - link "OpenSign's Github" [ref=e84]:
+          - /url: https://github.com/opensignlabs/opensign
+          - generic [ref=e85]: 
+        - link "OpenSign's LinkedIn" [ref=e87]:
+          - /url: https://www.linkedin.com/company/opensign%E2%84%A2/
+          - generic [ref=e88]: 
+        - link "OpenSign's Twitter" [ref=e90]:
+          - /url: https://www.twitter.com/opensignlabs
+          - generic [ref=e91]: 
+        - link "OpenSign's Discord" [ref=e93]:
+          - /url: https://discord.com/invite/xe9TDuyAyj
+          - generic [ref=e94]: 
+    - main [ref=e96]:
+      - generic [ref=e97]:
+        - generic [ref=e100]:
+          - generic [ref=e101]:
+            - generic [ref=e102]: Pages
+            - button "+ Add pages" [ref=e114] [cursor=pointer]:
+              - generic [ref=e115]: +
+              - generic [ref=e116]: Add pages
+          - generic [ref=e117]:
+            - generic [ref=e118]:
+              - button "Add pages" [ref=e119] [cursor=pointer]:
+                - generic [ref=e120]: +
+              - button "Delete page" [ref=e121] [cursor=pointer]:
+                - generic [ref=e122]: 
+              - button "Reorder pages" [ref=e123] [cursor=pointer]:
+                - generic [ref=e124]: 
+              - button "Zoom in" [ref=e125] [cursor=pointer]:
+                - generic [ref=e126]: 
+              - button "Rotate right" [ref=e127] [cursor=pointer]:
+                - generic [ref=e128]: 
+              - button "Rotate left" [ref=e129] [cursor=pointer]:
+                - generic [ref=e130]: 
+              - button "Zoom out" [ref=e131] [cursor=pointer]:
+                - generic [ref=e132]: 
+            - generic [ref=e135]:
+              - generic [ref=e136]:
+                - generic [ref=e137]:
+                  - button [disabled]:
+                    - generic: 
+                  - generic [ref=e138]: 1 of 3
+                  - button [ref=e139] [cursor=pointer]:
+                    - generic [ref=e140]: 
+                - text:  
+              - generic [ref=e142]:
+                - button "Back" [ref=e143] [cursor=pointer]
+                - button "Finish" [ref=e144] [cursor=pointer]
+          - generic [ref=e160]:
+            - generic [ref=e162]:
+              - text: Widgets
+              - superscript [ref=e163]:
+                - generic [ref=e164] [cursor=pointer]: "?"
+            - list "Add widgets" [ref=e165]:
+              - button "signature" [ref=e167]:
+                - generic "signature" [ref=e168] [cursor=pointer]:
+                  - generic [ref=e169]:
+                    - generic [ref=e170]:
+                      - generic [ref=e171]: 
+                      - generic [ref=e172]: signature
+                    - generic [ref=e173]: 
+              - button "stamp" [ref=e176]:
+                - generic "stamp" [ref=e177] [cursor=pointer]:
+                  - generic [ref=e178]:
+                    - generic [ref=e179]:
+                      - generic [ref=e180]: 
+                      - generic [ref=e181]: stamp
+                    - generic [ref=e182]: 
+              - button "initials" [ref=e185]:
+                - generic "initials" [ref=e186] [cursor=pointer]:
+                  - generic [ref=e187]:
+                    - generic [ref=e188]:
+                      - generic [ref=e189]: 
+                      - generic [ref=e190]: initials
+                    - generic [ref=e191]: 
+              - button "number" [ref=e194]:
+                - generic "number" [ref=e195] [cursor=pointer]:
+                  - generic [ref=e196]:
+                    - generic [ref=e197]:
+                      - generic [ref=e198]: 
+                      - generic [ref=e199]: number
+                    - generic [ref=e200]: "#"
+              - button "name" [ref=e203]:
+                - generic "name" [ref=e204] [cursor=pointer]:
+                  - generic [ref=e205]:
+                    - generic [ref=e206]:
+                      - generic [ref=e207]: 
+                      - generic [ref=e208]: name
+                    - generic [ref=e209]: 
+              - button "job title" [ref=e212]:
+                - generic "job title" [ref=e213] [cursor=pointer]:
+                  - generic [ref=e214]:
+                    - generic [ref=e215]:
+                      - generic [ref=e216]: 
+                      - generic [ref=e217]: job title
+                    - generic [ref=e218]: 
+              - button "company" [ref=e221]:
+                - generic "company" [ref=e222] [cursor=pointer]:
+                  - generic [ref=e223]:
+                    - generic [ref=e224]:
+                      - generic [ref=e225]: 
+                      - generic [ref=e226]: company
+                    - generic [ref=e227]: 
+              - button "email" [ref=e230]:
+                - generic "email" [ref=e231] [cursor=pointer]:
+                  - generic [ref=e232]:
+                    - generic [ref=e233]:
+                      - generic [ref=e234]: 
+                      - generic [ref=e235]: email
+                    - generic [ref=e236]: 
+              - button "date" [ref=e239]:
+                - generic "date" [ref=e240] [cursor=pointer]:
+                  - generic [ref=e241]:
+                    - generic [ref=e242]:
+                      - generic [ref=e243]: 
+                      - generic [ref=e244]: date
+                    - generic [ref=e245]: 
+              - button "text" [ref=e248]:
+                - generic "text" [ref=e249] [cursor=pointer]:
+                  - generic [ref=e250]:
+                    - generic [ref=e251]:
+                      - generic [ref=e252]: 
+                      - generic [ref=e253]: text
+                    - generic [ref=e254]: 
+              - button "cells" [ref=e257]:
+                - generic "cells" [ref=e258] [cursor=pointer]:
+                  - generic [ref=e259]:
+                    - generic [ref=e260]:
+                      - generic [ref=e261]: 
+                      - generic [ref=e262]: cells
+                    - generic [ref=e263]: 
+              - button "checkbox" [ref=e266]:
+                - generic "checkbox" [ref=e267] [cursor=pointer]:
+                  - generic [ref=e268]:
+                    - generic [ref=e269]:
+                      - generic [ref=e270]: 
+                      - generic [ref=e271]: checkbox
+                    - generic [ref=e272]: 
+              - button "image" [ref=e275]:
+                - generic "image" [ref=e276] [cursor=pointer]:
+                  - generic [ref=e277]:
+                    - generic [ref=e278]:
+                      - generic [ref=e279]: 
+                      - generic [ref=e280]: image
+                    - generic [ref=e281]: 
+              - button "QES" [ref=e284]:
+                - generic "QES" [ref=e285] [cursor=pointer]:
+                  - generic [ref=e286]:
+                    - generic [ref=e287]:
+                      - generic [ref=e288]: 
+                      - generic [ref=e289]: QES
+                    - generic [ref=e290]: 
+        - generic [ref=e292]:
+          - complementary [ref=e294]:
+            - paragraph [ref=e295]:
+              - text: All rights reserved © 2026
+              - 'link "OpenSign™ ( version: v3.1.1)" [ref=e296] [cursor=pointer]':
+                - /url: https://github.com/OpenSignLabs/OpenSign/releases/tag/v3.1.1
+          - text: 
+```
+
+# Test source
+
+```ts
+  622 |   }
+  623 | 
+  624 |   async fillGenericTextWidget(placeholder, value) {
+  625 |     const page = this.page;
+  626 |     await allure.step(`Fill generic text widget '${placeholder}'`, async () => {
+  627 |       await page.locator(`//div[@class="signYourselfBlock react-draggable" and .//textarea[@placeholder="${placeholder}"]]`).click();
+  628 |       await page.locator(`//span[text()="Text"]/ancestor::div[contains(@class, "p-1")]//input[@type="text" and @placeholder="${placeholder}"]`).fill(value);
+  629 |     });
+  630 |   }
+  631 | 
+  632 |   async clickNextButtonInSignerModal() {
+  633 |     await this.page.getByRole('button', { name: 'Next Field ' }).click();
+  634 |     console.log('Next button in signer modal clicked.');
+  635 |   }
+  636 | 
+  637 |   async clickCloseButtonInSignerModal() {
+  638 |     await this.page.getByRole('button', { name: 'Close' }).click();
+  639 |     console.log('Close button in signer modal clicked.');
+  640 |   }
+  641 |  async clickDoneButtonInSignerModal() {
+  642 |     await this.page.locator('#selectSignerModal').getByRole('button', { name: 'Done' }).click();
+  643 |     console.log('Done button in signer modal clicked.');
+  644 |   }
+  645 |   async clickFinishButtonInSignerModal() {
+  646 |     await this.page.locator('#selectSignerModal').getByRole('button', { name: 'Finish' }).click();
+  647 |     console.log('Finish button in signer modal clicked.');
+  648 |   }
+  649 | 
+  650 |   async clickFinishButtonOnPlaceholder() {
+  651 |     await this.page.getByRole('button', { name: 'Finish' }).click();
+  652 |     console.log('Finish button on placeholder clicked.');
+  653 |   }
+  654 | async ClickSavebuttonSignerModal() {
+  655 |   await this.page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`).click();
+  656 |     console.log('Save button in signer modal clicked.');
+  657 |   }
+  658 | async ClickApplybuttonSignerModal() {
+  659 |   await this.page.locator(`//dialog[@id='selectSignerModal']//button[text()='Apply']`).click();
+  660 |     console.log('Apply button in signer modal clicked.');
+  661 |   }
+  662 |  
+  663 |   async getWidgetIdByLabel(label) {
+  664 |     return await this.page.evaluate((labelText) => {
+  665 |       const xpath = labelText === 'Choose One'
+  666 |         ? `//div[div[text()='${labelText}']]/ancestor::div[contains(@class, 'signYourselfBlock')]`
+  667 |         : `//div[span[text()='${labelText}']]/ancestor::div[contains(@class, 'signYourselfBlock')]`;
+  668 |       const element = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+  669 |       return element ? element.id : null;
+  670 |     }, label);
+  671 |   }
+  672 | 
+  673 |   async getWidgetIdByType(type) {
+  674 |     return await this.page.evaluate((typeText) => {
+  675 |       const element = document.evaluate(
+  676 |         `//input[@type='${typeText}' and contains(@id, '${typeText}-')]/ancestor::div[contains(@class, 'signYourselfBlock')]`,
+  677 |         document,
+  678 |         null,
+  679 |         XPathResult.FIRST_ORDERED_NODE_TYPE,
+  680 |         null
+  681 |       ).singleNodeValue;
+  682 |       return element ? element.id : null;
+  683 |     }, type);
+  684 |   }
+  685 |  async fillCellWidgetsInModal(value) {
+  686 |   const page = this.page;
+  687 | 
+  688 |   await allure.step(`Fill cell widget with value '${value}'`, async () => {
+  689 |     // Fill input inside modal
+  690 |     await page.locator("//dialog[@id='selectSignerModal']//input[@placeholder='cells']").fill(value);
+  691 |   });
+  692 | }
+  693 | 
+  694 |   async ClickCopyOption() {
+  695 |   const page = this.page;
+  696 | 
+  697 |   // Click on the copy icon
+  698 |   await page.locator('//i[contains(@class,"fa-copy") and contains(@class,"icon")]').click();
+  699 | 
+  700 |   // Check if the "Copy widget to" modal is visible
+  701 |   const isVisible = await page
+  702 |     .locator('//h3[text()="Copy widget to"]')
+  703 |     .isVisible()
+  704 |     .catch(() => false);
+  705 | 
+  706 |   if (isVisible) {
+  707 |     console.log('"Copy widget to" is visible. Stopping the loop.');
+  708 |     return true;
+  709 |   }
+  710 | 
+  711 |   // Small delay between attempts (optional)
+  712 | }
+  713 |  async waitAndPlaceSignatureAndClickSave(fieldName, x, y) {
+  714 |   const page = this.page;
+  715 | 
+  716 |   // Wait for PDF document and signature field to load completely
+  717 |   await page.waitForLoadState("networkidle");
+  718 |   await page.waitForSelector('//div[@class="react-pdf__Document"]', { timeout: 90000 });
+  719 | 
+  720 |   await page.waitForLoadState("networkidle");
+  721 |   await page.locator(`//span[normalize-space()="${fieldName}"]`)
+> 722 |             .waitFor({ state: 'visible', timeout: 90000 });
+      |              ^ Error: locator.waitFor: Error: strict mode violation: locator('//span[normalize-space()="signature"]') resolved to 4 elements:
+  723 | 
+  724 |   await page.waitForLoadState("networkidle");
+  725 | 
+  726 |   // Drag and drop the field onto the document
+  727 |   await this.dragAndDrop(fieldName, x, y);
+  728 | 
+  729 |   // Retry clicking Save button inside selectSignerModal
+  730 |   try {
+  731 |     const saveButton = page.locator(`//dialog[@id='selectSignerModal']//button[text()='Save']`);
+  732 | 
+  733 |     for (let i = 0; i < 5; i++) {
+  734 |       if (await saveButton.isVisible() && await saveButton.isEnabled()) {
+  735 |         await saveButton.click();
+  736 |         console.log("Save button clicked successfully!");
+  737 |         break;
+  738 |       } else {
+  739 |         console.log(`Attempt ${i + 1}: Save button not visible, retrying...`);
+  740 | 
+  741 |         // Repeat drag-and-drop to trigger Save button visibility
+  742 |         await this.dragAndDrop(fieldName, x, y);
+  743 | 
+  744 |         await page.waitForTimeout(1000); // small delay
+  745 |       }
+  746 | 
+  747 |       if (i === 4) {
+  748 |         console.log("Save button did not become visible after multiple attempts.");
+  749 |       }
+  750 |     }
+  751 | 
+  752 |   } catch (error) {
+  753 |     console.log("Error clicking Save button, continuing execution.", error);
+  754 |   }
+  755 | }
+  756 | }
+  757 | 
+  758 | module.exports = CommonSteps;
+```

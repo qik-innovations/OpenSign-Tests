@@ -1,0 +1,6 @@
+Browser: chromium, Version: 151.0.7922.34, OS: linux
+Page 1 records: [
+  'Sample-joining-letterExpires 28-Nov-2026DownloadPravin Testing accountViewsign',
+  'Sample-joining-letterExpires 28-Nov-2026DownloadPravin Testing accountViewsign'
+]
+ℹ️ Next button is not visible. There are no additional records/pages.

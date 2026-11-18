@@ -1,0 +1,17 @@
+Browser: chromium, Version: 151.0.7922.34, OS: linux
+Document Title: 2026-11-18T17-47-20-851Z Recent signatures rquest
+Dragging 'signature' from (1039.5625, 430.890625) to (600, 250)
+Dragged and dropped widget 'signature' to (600, 250).
+Dragging 'stamp' from (1179.3203125, 430.890625) to (600, 300)
+Dragged and dropped widget 'stamp' to (600, 300).
+Dragging 'initials' from (1039.5625, 485.890625) to (600, 420)
+Dragged and dropped widget 'initials' to (600, 420).
+Dragging 'name' from (1179.3203125, 540.890625) to (600, 470)
+Dragged and dropped widget 'name' to (600, 470).
+Next button in signer modal clicked.
+Image Path: /home/runner/work/OpenSign-Tests/OpenSign-Tests/tests/TestData/Images/stamp.jpg
+Stamp image uploaded successfully.
+Next button in signer modal clicked.
+Next button in signer modal clicked.
+Done button in signer modal clicked.
+Finish button in signer modal clicked.

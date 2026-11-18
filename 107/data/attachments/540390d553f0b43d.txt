@@ -1,0 +1,7 @@
+Browser: chromium, Version: 151.0.7922.34, OS: linux
+Drag and drop attempt 1
+Dragging 'signature' from (1031.5625, 213.296875) to (600, 300)
+Dragged and dropped widget 'signature' to (600, 300).
+Save button is visible and enabled.
+Save button clicked successfully!
+Document not found in the table, successfully Deleted!

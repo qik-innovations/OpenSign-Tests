@@ -1,0 +1,546 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/SignYourSelf.spec.js >> Sign yourself >> Verify that the rotate page functions correctly in Sign Yourself.
+- Location: tests/MainAppPages/SignYourSelf.spec.js:1596:1
+
+# Error details
+
+```
+Error: expect(locator).toMatchAriaSnapshot(expected) failed
+
+Locator: locator('#renderList')
+Timeout: 5000ms
+- Expected  - 11
++ Received  + 37
+
+- - text: Pages
++ - main:
++   - text: Pages
+- - button "+ Add pages"
++   - button "+ Add pages"
+- - text: +      
+- - button
+- - text: 2 of 3
++   - button "Add pages"
++   - button "Delete page"
++   - button "Reorder pages"
++   - button "Zoom in"
++   - button "Rotate right"
++   - button "Rotate left"
++   - button "Zoom out"
++   - button
++   - text: 2 of 3
+- - button
++   - button
+- - button "Back"
++   - button "Back"
+- - button "Finish"
++   - button "Finish"
+- - text: Widgets
++   - text: Widgets
+- - superscript: "?"
++   - superscript: "?"
+- - list "Add widgets": " signature   stamp   initials   number #  name   job title   company   email   date   text   cells   checkbox   image "
++   - list "Add widgets":
++     - button "signature"
++     - button "stamp"
++     - button "initials"
++     - button "number"
++     - button "name"
++     - button "job title"
++     - button "company"
++     - button "email"
++     - button "date"
++     - button "text"
++     - button "cells"
++     - button "checkbox"
++     - button "image"
++     - button "QES"
++   - complementary:
++     - paragraph:
++       - text: All rights reserved © 2026
++       - 'link "OpenSign™ ( version: v3.1.1)"':
++         - /url: https://github.com/OpenSignLabs/OpenSign/releases/tag/v3.1.1
+
+Call log:
+  - Expect "toMatchAriaSnapshot" with timeout 5000ms
+  - waiting for locator('#renderList')
+    14 × locator resolved to <main id="renderList" class="os-page-scroll flex-1 min-w-0 min-h-0 overflow-auto">…</main>
+       - unexpected value "- main:
+  - text: Pages
+  - button "+ Add pages"
+  - button "Add pages"
+  - button "Delete page"
+  - button "Reorder pages"
+  - button "Zoom in"
+  - button "Rotate right"
+  - button "Rotate left"
+  - button "Zoom out"
+  - button
+  - text: 2 of 3
+  - button
+  - button "Back"
+  - button "Finish"
+  - text: Widgets
+  - superscript: "?"
+  - list "Add widgets":
+    - button "signature"
+    - button "stamp"
+    - button "initials"
+    - button "number"
+    - button "name"
+    - button "job title"
+    - button "company"
+    - button "email"
+    - button "date"
+    - button "text"
+    - button "cells"
+    - button "checkbox"
+    - button "image"
+    - button "QES"
+  - complementary:
+    - paragraph:
+      - text: All rights reserved © 2026
+      - 'link "OpenSign™ ( version: v3.1.1)"':
+        - /url: https://github.com/OpenSignLabs/OpenSign/releases/tag/v3.1.1"
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - text: "New Feature: Qualified Electronics Signatures now available —"
+        - button "Try it now." [ref=e8] [cursor=pointer]
+      - button "Close" [ref=e10] [cursor=pointer]:
+        - generic [ref=e14]: 
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - button "Open navigation" [ref=e19] [cursor=pointer]:
+          - generic [ref=e20]: 
+        - button [ref=e22] [cursor=pointer]:
+          - img "logo" [ref=e23]
+      - generic [ref=e24]:
+        - button "Billing" [ref=e25] [cursor=pointer]:
+          - generic [ref=e26]: TEAM
+        - button "Open app drawer" [ref=e29] [cursor=pointer]:
+          - generic [ref=e30]: 
+        - button "Profile" [ref=e31] [cursor=pointer]:
+          - img "img" [ref=e32]
+        - button "Open profile menu" [ref=e33] [cursor=pointer]: Pravin Testing account
+        - generic [ref=e34]:
+          - button "Open profile menu" [ref=e35] [cursor=pointer]:
+            - generic [ref=e36]: 
+          - text:        
+  - generic [ref=e37]:
+    - complementary [ref=e38]:
+      - generic [ref=e39]:
+        - button "Profile" [ref=e40] [cursor=pointer]:
+          - img "Profile" [ref=e41]
+        - generic:
+          - button "Pravin Testing account" [ref=e42] [cursor=pointer]
+          - button "OpenSign pvt ltd" [ref=e43] [cursor=pointer]
+      - menubar "OpenSign Sidebar Navigation" [ref=e44]:
+        - list [ref=e45]:
+          - menuitem "Dashboard" [ref=e46]:
+            - generic [ref=e47]: 
+          - menuitem "Sign yourself" [ref=e50]:
+            - generic [ref=e51]: 
+          - menuitem "Request signatures" [ref=e54]:
+            - generic [ref=e55]: 
+          - button " Templates" [ref=e58] [cursor=pointer]:
+            - generic [ref=e59]: 
+            - generic [ref=e61]:
+              - generic [ref=e62]: Templates
+              - generic [ref=e63]: 
+          - menuitem "OpenSign™ Drive" [ref=e64]:
+            - generic [ref=e65]: 
+          - button " Documents" [ref=e68] [cursor=pointer]:
+            - generic [ref=e69]: 
+            - generic [ref=e71]:
+              - generic [ref=e72]: Documents
+              - generic [ref=e73]: 
+          - menuitem "Contactbook" [ref=e74]:
+            - generic [ref=e75]: 
+          - button " Settings" [ref=e78] [cursor=pointer]:
+            - generic [ref=e79]: 
+            - generic [ref=e81]:
+              - generic [ref=e82]: Settings
+              - generic [ref=e83]: 
+      - generic:
+        - link "OpenSign's Github" [ref=e84]:
+          - /url: https://github.com/opensignlabs/opensign
+          - generic [ref=e85]: 
+        - link "OpenSign's LinkedIn" [ref=e87]:
+          - /url: https://www.linkedin.com/company/opensign%E2%84%A2/
+          - generic [ref=e88]: 
+        - link "OpenSign's Twitter" [ref=e90]:
+          - /url: https://www.twitter.com/opensignlabs
+          - generic [ref=e91]: 
+        - link "OpenSign's Discord" [ref=e93]:
+          - /url: https://discord.com/invite/xe9TDuyAyj
+          - generic [ref=e94]: 
+    - main [ref=e96]:
+      - generic [ref=e97]:
+        - generic [ref=e100]:
+          - generic [ref=e101]:
+            - generic [ref=e102]: Pages
+            - button "+ Add pages" [ref=e114] [cursor=pointer]:
+              - generic [ref=e115]: +
+              - generic [ref=e116]: Add pages
+          - generic [ref=e117]:
+            - generic [ref=e118]:
+              - button "Add pages" [ref=e119] [cursor=pointer]:
+                - generic [ref=e120]: +
+              - button "Delete page" [ref=e121] [cursor=pointer]:
+                - generic [ref=e122]: 
+              - button "Reorder pages" [ref=e123] [cursor=pointer]:
+                - generic [ref=e124]: 
+              - button "Zoom in" [ref=e125] [cursor=pointer]:
+                - generic [ref=e126]: 
+              - button "Rotate right" [ref=e127] [cursor=pointer]:
+                - generic [ref=e128]: 
+              - button "Rotate left" [ref=e129] [cursor=pointer]:
+                - generic [ref=e130]: 
+              - button "Zoom out" [ref=e131] [cursor=pointer]:
+                - generic [ref=e132]: 
+            - generic [ref=e135]:
+              - generic [ref=e136]:
+                - generic [ref=e137]:
+                  - button [ref=e138] [cursor=pointer]:
+                    - generic [ref=e139]: 
+                  - generic [ref=e141]: 2 of 3
+                  - button [ref=e142] [cursor=pointer]:
+                    - generic [ref=e143]: 
+                - text:  
+              - generic [ref=e145]:
+                - button "Back" [ref=e146] [cursor=pointer]
+                - button "Finish" [ref=e147] [cursor=pointer]
+          - generic [ref=e163]:
+            - generic [ref=e165]:
+              - text: Widgets
+              - superscript [ref=e166]:
+                - generic [ref=e167] [cursor=pointer]: "?"
+            - list "Add widgets" [ref=e168]:
+              - button "signature" [ref=e170]:
+                - generic "signature" [ref=e171] [cursor=pointer]:
+                  - generic [ref=e172]:
+                    - generic [ref=e173]:
+                      - generic [ref=e174]: 
+                      - generic [ref=e175]: signature
+                    - generic [ref=e176]: 
+              - button "stamp" [ref=e179]:
+                - generic "stamp" [ref=e180] [cursor=pointer]:
+                  - generic [ref=e181]:
+                    - generic [ref=e182]:
+                      - generic [ref=e183]: 
+                      - generic [ref=e184]: stamp
+                    - generic [ref=e185]: 
+              - button "initials" [ref=e188]:
+                - generic "initials" [ref=e189] [cursor=pointer]:
+                  - generic [ref=e190]:
+                    - generic [ref=e191]:
+                      - generic [ref=e192]: 
+                      - generic [ref=e193]: initials
+                    - generic [ref=e194]: 
+              - button "number" [ref=e197]:
+                - generic "number" [ref=e198] [cursor=pointer]:
+                  - generic [ref=e199]:
+                    - generic [ref=e200]:
+                      - generic [ref=e201]: 
+                      - generic [ref=e202]: number
+                    - generic [ref=e203]: "#"
+              - button "name" [ref=e206]:
+                - generic "name" [ref=e207] [cursor=pointer]:
+                  - generic [ref=e208]:
+                    - generic [ref=e209]:
+                      - generic [ref=e210]: 
+                      - generic [ref=e211]: name
+                    - generic [ref=e212]: 
+              - button "job title" [ref=e215]:
+                - generic "job title" [ref=e216] [cursor=pointer]:
+                  - generic [ref=e217]:
+                    - generic [ref=e218]:
+                      - generic [ref=e219]: 
+                      - generic [ref=e220]: job title
+                    - generic [ref=e221]: 
+              - button "company" [ref=e224]:
+                - generic "company" [ref=e225] [cursor=pointer]:
+                  - generic [ref=e226]:
+                    - generic [ref=e227]:
+                      - generic [ref=e228]: 
+                      - generic [ref=e229]: company
+                    - generic [ref=e230]: 
+              - button "email" [ref=e233]:
+                - generic "email" [ref=e234] [cursor=pointer]:
+                  - generic [ref=e235]:
+                    - generic [ref=e236]:
+                      - generic [ref=e237]: 
+                      - generic [ref=e238]: email
+                    - generic [ref=e239]: 
+              - button "date" [ref=e242]:
+                - generic "date" [ref=e243] [cursor=pointer]:
+                  - generic [ref=e244]:
+                    - generic [ref=e245]:
+                      - generic [ref=e246]: 
+                      - generic [ref=e247]: date
+                    - generic [ref=e248]: 
+              - button "text" [ref=e251]:
+                - generic "text" [ref=e252] [cursor=pointer]:
+                  - generic [ref=e253]:
+                    - generic [ref=e254]:
+                      - generic [ref=e255]: 
+                      - generic [ref=e256]: text
+                    - generic [ref=e257]: 
+              - button "cells" [ref=e260]:
+                - generic "cells" [ref=e261] [cursor=pointer]:
+                  - generic [ref=e262]:
+                    - generic [ref=e263]:
+                      - generic [ref=e264]: 
+                      - generic [ref=e265]: cells
+                    - generic [ref=e266]: 
+              - button "checkbox" [ref=e269]:
+                - generic "checkbox" [ref=e270] [cursor=pointer]:
+                  - generic [ref=e271]:
+                    - generic [ref=e272]:
+                      - generic [ref=e273]: 
+                      - generic [ref=e274]: checkbox
+                    - generic [ref=e275]: 
+              - button "image" [ref=e278]:
+                - generic "image" [ref=e279] [cursor=pointer]:
+                  - generic [ref=e280]:
+                    - generic [ref=e281]:
+                      - generic [ref=e282]: 
+                      - generic [ref=e283]: image
+                    - generic [ref=e284]: 
+              - button "QES" [ref=e287]:
+                - generic "QES" [ref=e288] [cursor=pointer]:
+                  - generic [ref=e289]:
+                    - generic [ref=e290]:
+                      - generic [ref=e291]: 
+                      - generic [ref=e292]: QES
+                    - generic [ref=e293]: 
+        - generic [ref=e295]:
+          - complementary [ref=e297]:
+            - paragraph [ref=e298]:
+              - text: All rights reserved © 2026
+              - 'link "OpenSign™ ( version: v3.1.1)" [ref=e299] [cursor=pointer]':
+                - /url: https://github.com/OpenSignLabs/OpenSign/releases/tag/v3.1.1
+          - text: 
+```
+
+# Test source
+
+```ts
+  1525 | const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
+  1526 |                       `${today.getDate().toString().padStart(2, '0')}/` + 
+  1527 |                       `${today.getFullYear()}`;
+  1528 | console.log('Today\'s date:', formattedDate);  // Extract day number as text
+  1529 | //await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
+  1530 | await commonSteps.clickDateFieldOnTheSignerPad_Without_date();
+  1531 | // Function to get the day with the appropriate suffix
+  1532 | function getDayWithSuffix(day) {
+  1533 |   if (day >= 11 && day <= 13) return `${day}th`;
+  1534 |   switch (day % 10) {
+  1535 |     case 1: return `${day}st`;
+  1536 | 
+  1537 |     case 2: return `${day}nd`;  
+  1538 |     case 3: return `${day}rd`;
+  1539 |     default: return `${day}th`;
+  1540 |   }   
+  1541 | }
+  1542 | // Calculate the target date (today + 2 days)
+  1543 | today.setDate(today.getDate() + 2);
+  1544 | const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g., "Friday" 
+  1545 | const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
+  1546 | const day = today.getDate();                                            // e.g., 2
+  1547 | const year = today.getFullYear();                                       // e.g., 2025
+  1548 | const dayWithSuffix = getDayWithSuffix(day);
+  1549 | const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
+  1550 | await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
+  1551 | await commonSteps.ClickSavebuttonSignerModal();
+  1552 | await commonSteps.dragAndDrop('checkbox', 600, 530);
+  1553 | await commonSteps.ClickSavebuttonSignerModal();
+  1554 | await commonSteps.dragAndDrop('image', 600, 570);
+  1555 | await commonSteps.uploadImage();
+  1556 | await commonSteps.ClickSavebuttonSignerModal();
+  1557 | await commonSteps.dragAndDrop('email', 600, 620);
+  1558 | await commonSteps.fillEmailField('demo@gmail.com', 'pravin+testaccount@nxglabs.in');
+  1559 | await commonSteps.ClickSavebuttonSignerModal();
+  1560 | await commonSteps.clickFinishButtonOnPlaceholder();
+  1561 | await page.getByText('Successfully signed!').waitFor({ timeout: 90000 });
+  1562 | });
+  1563 | test('Verify that the delete page functions correctly in Sign Yourself.', async ({ page }) => {
+  1564 |   const commonSteps = new CommonSteps(page);
+  1565 |   // Step 1: Navigate to Base URL and log in
+  1566 |   await commonSteps.navigateToBaseUrl();
+  1567 |   await commonSteps.login();
+  1568 | //const title = await page.title()
+  1569 |   //Expects page to have a heading with the name of dashboard.
+  1570 | //expect(title).toBe('Dashboard - OpenSign™');
+  1571 | 
+  1572 | await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+  1573 |   await page.locator('input[name="Name"]').click();
+  1574 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  1575 |   await page.locator('input[name="Name"]').press('Tab');
+  1576 |   await page.locator('input[name="Note"]').click();
+  1577 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  1578 | await page.locator('input[type="file"]').click();
+  1579 | const fileChooser = await fileChooserPromise;
+  1580 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
+  1581 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  1582 | await page.getByRole('button', { name: 'Next' }).click();
+  1583 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  1584 | await page.waitForLoadState("networkidle");
+  1585 | await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  1586 | await page.waitForLoadState("networkidle");
+  1587 | await expect(page.locator('#renderList')).toContainText('1 of 3');
+  1588 |   await page.getByTitle('Delete page').locator('i').click();
+  1589 |   await expect(page.getByRole('heading')).toContainText('Delete page');
+  1590 |   await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to delete this page?');
+  1591 |   await expect(page.locator('#selectSignerModal')).toContainText('Note: Once you delete this page, you cannot undo.');
+  1592 |   await page.getByRole('button', { name: 'Yes' }).click();
+  1593 |   await expect(page.locator('#renderList')).toContainText('1 of 2');
+  1594 | 
+  1595 | });
+  1596 | test('Verify that the rotate page functions correctly in Sign Yourself.', async ({ page }) => {
+  1597 |   const commonSteps = new CommonSteps(page);
+  1598 |   // Step 1: Navigate to Base URL and log in
+  1599 |   await commonSteps.navigateToBaseUrl();
+  1600 |   await commonSteps.login();
+  1601 | //const title = await page.title()
+  1602 |   //Expects page to have a heading with the name of dashboard.
+  1603 | //expect(title).toBe('Dashboard - OpenSign™');
+  1604 | 
+  1605 | await page.getByRole('menuitem', { name: 'Sign yourself' }).click();
+  1606 |   await page.locator('input[name="Name"]').click();
+  1607 |   await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+  1608 |   await page.locator('input[name="Name"]').press('Tab');
+  1609 |   await page.locator('input[name="Note"]').click();
+  1610 |   const fileChooserPromise = page.waitForEvent('filechooser');
+  1611 | await page.locator('input[type="file"]').click();
+  1612 | const fileChooser = await fileChooserPromise;
+  1613 | await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample_Test_doc_line.pdf'));
+  1614 | await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
+  1615 | await page.getByRole('button', { name: 'Next' }).click();
+  1616 | await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
+  1617 | await page.waitForLoadState("networkidle");
+  1618 | await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  1619 | await page.waitForLoadState("networkidle");
+  1620 | await expect(page.locator('#renderList')).toContainText('1 of 3');
+  1621 |    await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
+  1622 |   await expect(page.locator('#renderList')).toContainText('2 of 3');
+  1623 |   await page.getByTitle('Rotate right').locator('i').click();
+  1624 |   await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
+> 1625 |  await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+       |                                            ^ Error: expect(locator).toMatchAriaSnapshot(expected) failed
+  1626 |      - text: Pages
+  1627 |      - button "+ Add pages"
+  1628 |      - text: +      
+  1629 |      - button
+  1630 |      - text: 2 of 3
+  1631 |      - button
+  1632 |      - button "Back"
+  1633 |      - button "Finish"
+  1634 |      - text: Widgets
+  1635 |      - superscript: "?"
+  1636 |      - list "Add widgets": " signature   stamp   initials   number #  name   job title   company   email   date   text   cells   checkbox   image "
+  1637 |      `);
+  1638 |      await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
+  1639 |   await page.getByTitle('Rotate right').locator('i').click();
+  1640 |     await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
+  1641 |   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+  1642 |      - text: Pages
+  1643 |      - button "+ Add pages"
+  1644 |      - text: +      
+  1645 |      - button
+  1646 |      - text: 2 of 3
+  1647 |      - button
+  1648 |      - button "Back"
+  1649 |      - button "Finish"
+  1650 |      - text: Widgets
+  1651 |      - superscript: "?"
+  1652 |      - list "Add widgets": " signature   stamp   initials   number #  name   job title   company   email   date   text   cells   checkbox   image "
+  1653 |      `);
+  1654 |      await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
+  1655 |   await page.getByTitle('Rotate left').locator('i').click();
+  1656 |     await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();
+  1657 |   await expect(page.locator('#renderList')).toMatchAriaSnapshot(`
+  1658 |      - text: Pages
+  1659 |      - button "+ Add pages"
+  1660 |      - text: +      
+  1661 |      - button
+  1662 |      - text: 2 of 3
+  1663 |      - button
+  1664 |      - button "Back"
+  1665 |      - button "Finish"
+  1666 |      - text: Widgets
+  1667 |      - superscript: "?"
+  1668 |      - list "Add widgets": " signature   stamp   initials   number #  name   job title   company   email   date   text   cells   checkbox   image "
+  1669 |      `);
+  1670 | await commonSteps.waitAndPlaceSignatureAndClickSave('signature', 600, 250);
+  1671 | await commonSteps.dragAndDrop('stamp', 600, 300);
+  1672 | await commonSteps.uploadStamp();
+  1673 | await commonSteps.ClickSavebuttonSignerModal();
+  1674 | await commonSteps.dragAndDrop('initials', 600, 350);
+  1675 | await commonSteps.ClickSavebuttonSignerModal();
+  1676 | await commonSteps.dragAndDrop('name', 600, 370);
+  1677 | await commonSteps.fillTextField('please enter text', 'Pravin Testing account');
+  1678 | await commonSteps.ClickSavebuttonSignerModal();
+  1679 | await commonSteps.dragAndDrop('job title', 600, 390);
+  1680 | await commonSteps.fillTextField('please enter text', 'Quality analystAA');
+  1681 | await commonSteps.ClickSavebuttonSignerModal();
+  1682 | await commonSteps.dragAndDrop('company', 600, 400);
+  1683 | await commonSteps.fillTextField('please enter text', 'OpenSign pvt ltd');
+  1684 | await commonSteps.ClickSavebuttonSignerModal();
+  1685 | await commonSteps.dragAndDrop('date', 600, 430);
+  1686 | const today = new Date();
+  1687 | // Format the date as MM/DD/YYYY
+  1688 | const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
+  1689 |                       `${today.getDate().toString().padStart(2, '0')}/` + 
+  1690 |                       `${today.getFullYear()}`;
+  1691 | console.log('Today\'s date:', formattedDate);  // Extract day number as text
+  1692 | //await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
+  1693 | await commonSteps.clickDateFieldOnTheSignerPad_Without_date();
+  1694 | // Function to get the day with the appropriate suffix
+  1695 | function getDayWithSuffix(day) {
+  1696 |   if (day >= 11 && day <= 13) return `${day}th`;
+  1697 |   switch (day % 10) {
+  1698 |     case 1: return `${day}st`;
+  1699 | 
+  1700 |     case 2: return `${day}nd`;  
+  1701 |     case 3: return `${day}rd`;
+  1702 |     default: return `${day}th`;
+  1703 |   }   
+  1704 | }
+  1705 | // Calculate the target date (today + 2 days)
+  1706 | today.setDate(today.getDate() + 2);
+  1707 | const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g., "Friday" 
+  1708 | const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
+  1709 | const day = today.getDate();                                            // e.g., 2
+  1710 | const year = today.getFullYear();                                       // e.g., 2025
+  1711 | const dayWithSuffix = getDayWithSuffix(day);
+  1712 | const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
+  1713 | await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
+  1714 | await commonSteps.ClickSavebuttonSignerModal();
+  1715 | await commonSteps.dragAndDrop('text', 600, 370);
+  1716 | await commonSteps.fillTextField('text', '20 wood street sanfransisco');
+  1717 | await commonSteps.ClickSavebuttonSignerModal();
+  1718 | await commonSteps.dragAndDrop('checkbox', 600, 400);
+  1719 | await commonSteps.ClickSavebuttonSignerModal();
+  1720 | await commonSteps.dragAndDrop('image', 500, 300);
+  1721 | await commonSteps.uploadImage();
+  1722 | await commonSteps.ClickSavebuttonSignerModal();
+  1723 | await commonSteps.dragAndDrop('email', 500, 400);
+  1724 | await commonSteps.fillEmailField('demo@gmail.com', 'pravin+testaccount@nxglabs.in');
+  1725 | await commonSteps.ClickSavebuttonSignerModal();
+```

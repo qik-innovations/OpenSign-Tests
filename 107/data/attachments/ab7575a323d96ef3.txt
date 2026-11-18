@@ -1,0 +1,22 @@
+Browser: chromium, Version: 151.0.7922.34, OS: linux
+Dragging 'signature' from (1031.5625, 213.296875) to (600, 200)
+Dragged and dropped widget 'signature' to (600, 200).
+Save button clicked!
+Dragging 'name' from (1031.5625, 323.296875) to (600, 300)
+Dragged and dropped widget 'name' to (600, 300).
+Save button in signer modal clicked.
+Apply button in signer modal clicked.
+Apply button in signer modal clicked.
+Dragging 'job title' from (1187.3203125, 323.296875) to (600, 350)
+Dragged and dropped widget 'job title' to (600, 350).
+Save button in signer modal clicked.
+Apply button in signer modal clicked.
+Apply button in signer modal clicked.
+Dragging 'company' from (1031.5625, 378.296875) to (600, 400)
+Dragged and dropped widget 'company' to (600, 400).
+Save button in signer modal clicked.
+Apply button in signer modal clicked.
+Apply button in signer modal clicked.
+Dragging 'checkbox' from (1187.3203125, 488.296875) to (600, 450)
+Dragged and dropped widget 'checkbox' to (600, 450).
+Save button in signer modal clicked.

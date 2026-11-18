@@ -1,0 +1,262 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: MainAppPages/Signup.spec.js >> SignupPage >> Reg_TC-05 Verify Professional Monthly signup and subscription invoice email.
+- Location: tests/MainAppPages/Signup.spec.js:710:3
+
+# Error details
+
+```
+Error: expect(locator).toContainText(expected) failed
+
+Locator: locator('li').filter({ hasText: 'Billed Monthly' }).filter({ has: getByRole('heading', { name: 'OPENSIGN™ PROFESSIONAL' }) })
+Expected substring: "₹2,499"
+Received string:    "OPENSIGN™ PROFESSIONAL$29.99Billed MonthlyExclusive Access to advanced features.SubscribeEverything in OpenSign™ freeField validationsRegular expression validationsOrganize docs in OpenSign™ DriveWebhooksZapier integrationAPI AccessUp to 100 API signaturesCustom email templatesConnect your own Gmail or SMTP account for sending emailsAuto remindersBulk send (up to 100 docs)Premium Public profile usernamesEnforce email-based verification to confirm signer identityEmbedded signing"
+Timeout: 5000ms
+
+Call log:
+  - Expect "toContainText" with timeout 5000ms
+  - waiting for locator('li').filter({ hasText: 'Billed Monthly' }).filter({ has: getByRole('heading', { name: 'OPENSIGN™ PROFESSIONAL' }) })
+    14 × locator resolved to <li class="flex flex-col text-center text-base-content border-collapse border-r-[1px] last:border-r-0 border-gray-300 w-full">…</li>
+       - unexpected value "OPENSIGN™ PROFESSIONAL$29.99Billed MonthlyExclusive Access to advanced features.SubscribeEverything in OpenSign™ freeField validationsRegular expression validationsOrganize docs in OpenSign™ DriveWebhooksZapier integrationAPI AccessUp to 100 API signaturesCustom email templatesConnect your own Gmail or SMTP account for sending emailsAuto remindersBulk send (up to 100 docs)Premium Public profile usernamesEnforce email-based verification to confirm signer identityEmbedded signing"
+
+```
+
+```yaml
+- listitem:
+  - heading "OPENSIGN™ PROFESSIONAL" [level=3]
+  - img "img"
+  - text: $29.99
+  - paragraph: Billed Monthly
+  - text: Exclusive Access to advanced features.
+  - button "Subscribe"
+  - separator
+  - list:
+    - listitem: Everything in OpenSign™ free
+    - listitem: Field validations
+    - listitem: Regular expression validations
+    - listitem: Organize docs in OpenSign™ Drive
+    - listitem: Webhooks
+    - listitem: Zapier integration
+    - listitem: API Access
+    - listitem: Up to 100 API signatures
+    - listitem: Custom email templates
+    - listitem: Connect your own Gmail or SMTP account for sending emails
+    - listitem: Auto reminders
+    - listitem: Bulk send (up to 100 docs)
+    - listitem: Premium Public profile usernames
+    - listitem: Enforce email-based verification to confirm signer identity
+    - listitem: Embedded signing
+```
+
+# Test source
+
+```ts
+  120 |       'Teams and Organizations',
+  121 |       'Share Templates with teams',
+  122 |       'Share Templates with individuals',
+  123 |       'BYOC - Store your documents in your own cloud storage',
+  124 |       'Request Payments (coming soon)',
+  125 |       'Mobile app (coming soon)',
+  126 |     ],
+  127 |   },
+  128 | };
+  129 | 
+  130 | const randomToken = () => Math.random().toString(36).slice(2, 10);
+  131 | const uniqueEmail = (prefix = 'kelvinsjohnson24') => `${prefix}+${Date.now()}${randomToken()}@gmail.com`;
+  132 | const uniqueNxgEmail = () => `pravin+${Date.now()}${randomToken()}@nxglabs.in`;
+  133 | 
+  134 | const signupData = (overrides = {}) => ({
+  135 |   name: 'Mathew Wade',
+  136 |   email: uniqueEmail(),
+  137 |   phone: DEFAULT_PHONE,
+  138 |   company: 'qikAi pvt ltd',
+  139 |   jobTitle: 'Hr Executive',
+  140 |   password: DEFAULT_PASSWORD,
+  141 |   ...overrides,
+  142 | });
+  143 | 
+  144 | /**
+  145 |  * @param {import('@playwright/test').Page} page
+  146 |  */
+  147 | async function openSignupPage(page) {
+  148 |   const commonSteps = new CommonSteps(page);
+  149 |   await commonSteps.navigateToBaseUrl();
+  150 |   await page.getByRole('button', { name: 'Create account' }).click();
+  151 |   await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
+  152 | }
+  153 | 
+  154 | /**
+  155 |  * @param {import('@playwright/test').Page} page
+  156 |  * @param {{name: string, email: string, phone: string, company: string, jobTitle: string, password: string, acceptTerms?: boolean}} param1
+  157 |  */
+  158 | async function fillSignupForm(page, { name, email, phone, company, jobTitle, password, acceptTerms = true }) {
+  159 |   await page.locator(locators.nameInput).first().fill(name);
+  160 |   await page.locator(locators.emailInput).fill(email);
+  161 |   await page.locator(locators.phoneInput).fill(phone);
+  162 |   await page.locator(locators.companyInput).fill(company);
+  163 |   await page.locator(locators.jobTitleInput).fill(jobTitle);
+  164 |   await page.locator(locators.passwordInput).fill(password);
+  165 | 
+  166 |   const terms = page.locator(locators.termsCheckbox);
+  167 |   if (acceptTerms && !(await terms.isChecked())) {
+  168 |     await terms.click();
+  169 |   }
+  170 | }
+  171 | 
+  172 | /**
+  173 |  * @param {import('@playwright/test').Page} page
+  174 |  */
+  175 | async function submitRegistration(page) {
+  176 |   await page.locator(locators.registerButton).click();
+  177 | }
+  178 | 
+  179 | /**
+  180 |  * @param {import('@playwright/test').Page} page
+  181 |  * @param {{heading: string, billingText?: string}} plan
+  182 |  * @returns {import('@playwright/test').Locator}
+  183 |  */
+  184 | function planCard(page, plan) {
+  185 |   return page.locator('li', {
+  186 |     has: page.getByRole('heading', { name: plan.heading }),
+  187 |     hasText: plan.billingText,
+  188 |   });
+  189 | }
+  190 | 
+  191 | /**
+  192 |  * @param {import('@playwright/test').Page} page
+  193 |  * @param {{billingText?: string}} plan
+  194 |  */
+  195 | async function chooseBillingCadence(page, plan) {
+  196 |   if (!plan.billingText) return;
+  197 | 
+  198 |   const cadence = plan.billingText.includes('Monthly') ? 'Monthly' : 'Yearly';
+  199 |   const candidates = [
+  200 |     page.getByRole('button', { name: new RegExp(cadence, 'i') }),
+  201 |     page.getByRole('tab', { name: new RegExp(cadence, 'i') }),
+  202 |     page.getByLabel(new RegExp(cadence, 'i')),
+  203 |     page.getByText(new RegExp(`^${cadence}$`, 'i')),
+  204 |   ];
+  205 | 
+  206 |   for (const candidate of candidates) {
+  207 |     if (await candidate.first().isVisible().catch(() => false)) {
+  208 |       await candidate.first().click();
+  209 |       return;
+  210 |     }
+  211 |   }
+  212 | }
+  213 | 
+  214 | /**
+  215 |  * @param {import('@playwright/test').Locator} card
+  216 |  * @param {{priceText?: string, billingText?: string, cardText: string[]}} plan
+  217 |  */
+  218 | async function expectPlanCardDetails(card, plan) {
+  219 |   await expect(card).toBeVisible({ timeout: 120000 });
+> 220 |   if (plan.priceText) await expect(card).toContainText(plan.priceText);
+      |                                          ^ Error: expect(locator).toContainText(expected) failed
+  221 |   if (plan.billingText) await expect(card).toContainText(plan.billingText);
+  222 | 
+  223 |   for (const text of plan.cardText) {
+  224 |     await expect(card).toContainText(text);
+  225 |   }
+  226 | }
+  227 | 
+  228 | /**
+  229 |  * @param {import('@playwright/test').Page} page
+  230 |  */
+  231 | async function selectFreePlan(page) {
+  232 |   await expect(page.getByRole('heading', { name: planDefinitions.free.heading })).toBeVisible({ timeout: 120000 });
+  233 |   for (const text of planDefinitions.free.cardText) {
+  234 |     await expect(page.locator('#root')).toContainText(text);
+  235 |   }
+  236 | 
+  237 |   const freeCard = page.locator('li', {
+  238 |     has: page.getByRole('heading', { name: planDefinitions.free.heading }),
+  239 |   });
+  240 |   await freeCard.getByRole('button').click();
+  241 |   await closeModalIfVisible(page);
+  242 |   await expect(page.locator('//div[@id="profile-menu"]//parent::button[text()="Upgrade now"]')).toBeVisible();
+  243 | }
+  244 | 
+  245 | /**
+  246 |  * @param {import('@playwright/test').Page} page
+  247 |  * @param {{heading: string, billingText?: string, priceText?: string, cardText: string[]}} plan
+  248 |  */
+  249 | async function selectPaidPlan(page, plan) {
+  250 |   await chooseBillingCadence(page, plan);
+  251 |   const card = planCard(page, plan);
+  252 |   await expectPlanCardDetails(card, plan);
+  253 |   await card.getByRole('button', { name: 'Subscribe' }).click();
+  254 |   await page.locator(locators.proceedButton).click();
+  255 | }
+  256 | 
+  257 | /**
+  258 |  * @param {import('@playwright/test').Page} page
+  259 |  * @param {string} email
+  260 |  */
+  261 | async function completeOtpVerification(page, email) {
+  262 |   await page.locator(locators.sendOtpButton).click();
+  263 |   const otp = await fetchOTP({
+  264 |     ...gmailConfig,
+  265 |     otpRegex: /(\d{6})/,
+  266 |     expectedTo: email,
+  267 |   });
+  268 | 
+  269 |   for (let i = 0; i < otp.length; i++) {
+  270 |     await page.locator(`(//input[@type='tel' and @maxlength='1'])[${i + 1}]`).fill(otp[i]);
+  271 |   }
+  272 | 
+  273 |   await page.getByRole('button', { name: 'Proceed' }).click();
+  274 | }
+  275 | 
+  276 | /**
+  277 |  * @param {import('@playwright/test').Page} page
+  278 |  */
+  279 | async function fillBillingAddress(page) {
+  280 |   await page.locator(locators.billingStreet).fill('120 wood street');
+  281 |   await page.selectOption(locators.billingState, { label: 'California' });
+  282 |   await page.locator(locators.billingCity).fill('San Francisco');
+  283 |   await page.locator(locators.billingZip).fill('34554');
+  284 |   await page.getByRole('button', { name: 'Review Order' }).click();
+  285 |   await page.getByRole('button', { name: 'Proceed' }).click();
+  286 | }
+  287 | 
+  288 | /**
+  289 |  * @param {import('@playwright/test').Page} page
+  290 |  */
+  291 | async function payByStripeTestCard(page) {
+  292 |   await page.waitForSelector('iframe');
+  293 | 
+  294 |   const cardNumberFrame = page.frameLocator("iframe[title*='card number']");
+  295 |   await cardNumberFrame.locator("input[name='cardnumber']").fill(TEST_CARD.number);
+  296 | 
+  297 |   const expFrame = page.frameLocator("iframe[title*='expiration']");
+  298 |   await expFrame.locator("input[name='exp-date'], input[name='expdate']").fill(TEST_CARD.expiry);
+  299 | 
+  300 |   const cvcFrame = page.frameLocator("iframe[title*='CVC'], iframe[title*='security']");
+  301 |   await cvcFrame.locator("input[name='cvc']").fill(TEST_CARD.cvc);
+  302 | 
+  303 |   await page.getByRole('button', { name: /Pay/i }).click();
+  304 | }
+  305 | /**
+  306 |  * @param {import('@playwright/test').Page} page
+  307 |  */
+  308 | async function payByStripeTestCardMonthly(page) {
+  309 |   await page.waitForSelector('iframe');
+  310 | 
+  311 |   const cardNumberFrame = page.frameLocator("iframe[title*='card number']");
+  312 |   await cardNumberFrame.locator("input[name='cardnumber']").fill(TEST_CARD.number);
+  313 | 
+  314 |   const expFrame = page.frameLocator("iframe[title*='expiration']");
+  315 |   await expFrame.locator("input[name='exp-date'], input[name='expdate']").fill(TEST_CARD.expiry);
+  316 | 
+  317 |   const cvcFrame = page.frameLocator("iframe[title*='CVC'], iframe[title*='security']");
+  318 |   await cvcFrame.locator("input[name='cvc']").fill(TEST_CARD.cvc);
+  319 |   await page.getByRole('button', { name: 'Pay $' }).click();
+  320 |     //await page.getByRole('button', { name: 'Start Trial' }).click();
+```

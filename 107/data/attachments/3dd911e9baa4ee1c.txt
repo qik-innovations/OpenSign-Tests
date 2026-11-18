@@ -1,0 +1,14 @@
+Browser: chromium, Version: 151.0.7922.34, OS: linux
+Dragging 'signature' from (1031.5625, 213.296875) to (600, 200)
+Dragged and dropped widget 'signature' to (600, 200).
+Save button clicked!
+Dragging 'signature' from (1031.5625, 213.296875) to (600, 250)
+Dragged and dropped widget 'signature' to (600, 250).
+Save button in signer modal clicked.
+Dragging 'signature' from (1031.5625, 213.296875) to (600, 300)
+Dragged and dropped widget 'signature' to (600, 300).
+Save button in signer modal clicked.
+Dragging 'signature' from (1031.5625, 213.296875) to (600, 400)
+Dragged and dropped widget 'signature' to (600, 400).
+Save button in signer modal clicked.
+Finish button on placeholder clicked.
