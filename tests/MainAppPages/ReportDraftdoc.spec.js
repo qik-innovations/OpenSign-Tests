@@ -87,7 +87,7 @@ await expect(page.locator('.p-2 > .font-semibold').first()).toContainText('Draft
  await page.locator('//div[@role="button"and @title="Edit"]').first().click();
 await page.waitForSelector("//div[@class='react-pdf__Document']//div[@id='container']", { timeout: 90000 }); 
   await page.waitForLoadState("networkidle");
-  await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+  await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
   await page.waitForLoadState("networkidle");
 await commonSteps.dragDropSignaturewidgetInSignyourselfPage('signature', 600, 300);
  await commonSteps.dragAndDrop('stamp', 600, 360);

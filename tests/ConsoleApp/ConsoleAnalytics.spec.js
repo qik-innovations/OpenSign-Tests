@@ -20,7 +20,7 @@ test.describe('Console analytics', () => {
     const commonSteps = new CommonSteps(page);
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-    const closeTourButton = page.getByRole('button', { name: 'Close Tour' });
+    const closeTourButton = page.locator('//button[@aria-label="Close Tour"]');
     await closeTourButton.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
     if (await closeTourButton.isVisible()) {
       await closeTourButton.click({ force: true });

@@ -4,14 +4,14 @@ module.exports = {
   closeTourIfShown: async function (page, timeout = timeoutDefault) {
     try {
       // Try common "Close Tour" button by role
-      const closeTourBtn = page.getByRole('button', { name: 'Close Tour' });
+      const closeTourBtn = page.locator('//button[@aria-label="Close Tour"]');
       await closeTourBtn.click({ timeout }).catch(() => {});
       return;
     } catch (e) {
       // fallback: try a close icon by aria-label or alternative labels
       try {
         // common close aria-label
-        const closeIcon = page.getByRole('button', { name: '✕' }).first();
+        const closeIcon = page.getByRole('button', { name: 'Close' }).first();
         await closeIcon.click({ timeout }).catch(() => {});
         return;
       } catch (e2) {

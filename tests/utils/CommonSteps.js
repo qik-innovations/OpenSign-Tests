@@ -64,7 +64,7 @@ export class CommonSteps {
     await this.page.locator('#kc-login').click();*/
     await this.page.locator('#email').fill(loginCredentials.email);
     await this.page.locator('#password').fill(loginCredentials.password);
-  await this.page.getByRole('button', { name: /log in|login/i }).click().catch(() => {});
+  await this.page.locator("//button[normalize-space(.)='Login' or normalize-space(.)='Log in']").click().catch(() => {});
   }
 //This methof is specifically for the user who will test the Profession plan features
   async ProfessionPlanUserlogin() {
@@ -75,7 +75,7 @@ export class CommonSteps {
     */
    await this.page.locator('#email').fill(loginCredentials.ProplanUsername);
     await this.page.locator('#password').fill(loginCredentials.ProPlanpassword);
-  await this.page.getByRole('button', { name: /log in|login/i }).click().catch(() => {});
+  await this.page.locator("//button[normalize-space(.)='Login' or normalize-space(.)='Log in']").click().catch(() => {});
   }
 async LoadPlaceholder(page)
 {
@@ -92,14 +92,14 @@ async LoadPlaceholder(page)
       console.log(`FreeplanUsername exists: ${loginCredentials.FreeplanUsername}`);
       await this.page.locator('#email').fill(loginCredentials.FreeplanUsername);
       await this.page.locator('#password').fill(loginCredentials.FreePlanpassword);
-await this.page.getByRole('button', { name: /log in|login/i }).click().catch(() => {});
+await this.page.locator("//button[normalize-space(.)='Login' or normalize-space(.)='Log in']").click().catch(() => {});
     }
   }
   //This login method is specifically for the user who will test custom storage functionality 
   async loginForCustomStorgeUser() {
     await this.page.locator('#email').fill(loginCredentials.CustomStorageUser_Username);
     await this.page.locator('#password').fill(loginCredentials.CustomStorageUser_Password);
-  await this.page.getByRole('button', { name: /log in|login/i }).click().catch(() => {});
+  await this.page.locator("//button[normalize-space(.)='Login' or normalize-space(.)='Log in']").click().catch(() => {});
   }
   async verifyPageTitle(expectedTitle) {
     const title = await this.page.title();
@@ -130,7 +130,7 @@ await this.page.getByRole('button', { name: /log in|login/i }).click().catch(() 
     await page.locator(locators.registerButton).click();
     await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible({ timeout: 120000 });
     await page.locator(locators.freePlanButton).click();
- const closeTourButton = page.getByRole('button', { name: 'Close Tour' });
+ const closeTourButton = page.locator('//button[@aria-label="Close Tour"]');
     await closeTourButton.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
     if (await closeTourButton.isVisible()) {
       await closeTourButton.click({ force: true });
@@ -227,7 +227,7 @@ await widgetLocator.scrollIntoViewIfNeeded();
 async closeTourIfVisible() {
     const page = this.page;
 
-    const closeButton = page.getByRole('button', { name: /close tour|Close Tour/i }).first();
+    const closeButton = page.locator('//button[@aria-label="Close Tour"]').first();
     if (await closeButton.isVisible({ timeout: 5000 }).catch(() => false)) {
       await closeButton.click().catch(() => {});
     }
@@ -635,7 +635,7 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
   }
 
   async clickCloseButtonInSignerModal() {
-    await this.page.getByRole('button', { name: '✕' }).click();
+    await this.page.getByRole('button', { name: 'Close' }).click();
     console.log('Close button in signer modal clicked.');
   }
  async clickDoneButtonInSignerModal() {

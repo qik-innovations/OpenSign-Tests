@@ -57,7 +57,7 @@ test('Verify admin user can add a team user if user has a Teams plan', async ({ 
   await page.getByRole('button', { name: 'Login' }).click();
 
   // Step 9: Verify successful login
-  await page.getByRole('button', { name: /close tour/i }).click({ force: true }).catch(() => {});
+  await page.locator('//button[@aria-label="Close Tour"]').click({ force: true }).catch(() => {});
   await expect(page.locator("//span[text()='Sign yourself']")).toBeVisible();
 });
 

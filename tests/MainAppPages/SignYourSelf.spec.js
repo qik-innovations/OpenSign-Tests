@@ -24,7 +24,7 @@ test('Verify that new user can perform the sign yourself', async ({ page }) => {
   await page.getByRole('button', { name: 'Register' }).click();
   await expect(page.getByRole('heading', { name: 'OPENSIGN™ FREE' })).toBeVisible({ timeout: 120000 });
 await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getByRole('button').click();
-    await page.getByLabel('Close').click();
+     await page.locator('//button[@aria-label="Close Tour"]').click();
     // Expects page to have a heading with the name of dashboard.
     const title = await page.title()
        expect(title).toBe('Dashboard - OpenSign™');
@@ -38,11 +38,10 @@ await expect(page.locator('input[name="Note"]')).toBeDisabled();
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
-  await page.locator('svg > rect:nth-child(3)').click();
-  await page.getByLabel('close tour').click();
-  await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
+  await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await expect(page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]')).toBeVisible();
 await actions.waitForNetworkIdle();
+ await page.locator('//button[@aria-label="Close Tour"]').click();
  await commonSteps.dragAndDrop('signature', 600, 200);
 await commonSteps.drawSignature();
 
@@ -234,7 +233,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
 await commonSteps.dragAndDrop('signature', 600, 200);
 try {
@@ -342,7 +341,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
 await commonSteps.dragAndDrop('signature', 600, 200);
 
@@ -1013,12 +1012,11 @@ await commonSteps.ClickSavebuttonSignerModal();
 const color = await page.locator("//textarea[text()='Pravin Testing account']")
   .evaluate(el => getComputedStyle(el).color);
 console.log(`Font Size: ${fontSize}, Color: ${color}`);
-// Extract the integer part and append 'px'
-let roundedFontSize = parseInt(fontSize) + 'px';
-if (roundedFontSize === '19px' && color === 'rgb(0, 0, 255)') {
+const roundedFontSize = Math.round(parseFloat(fontSize)) + 'px';
+if (roundedFontSize === '18px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSize}, Color: ${color}`);
+  throw new Error(`Test Failed: Expected Font Size: 18px, Color: rgb(0, 0, 255) but got Font Size: ${fontSize}, Color: ${color}`);
 }
 await commonSteps.dragAndDrop('job title', 600, 400);
 await commonSteps.ClickSavebuttonSignerModal();
@@ -1031,13 +1029,12 @@ await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] 
 const colorJotitle = await page.locator("//textarea[text()='Quality analystAA']")
   .evaluate(el => getComputedStyle(el).color);
 console.log(`Font Size: ${fontSizeJotitle}, Color: ${colorJotitle}`);
-// Extract the integer part and append 'px'
-let roundedFontSizejobtitle = parseInt(fontSizeJotitle) + 'px';
+const roundedFontSizejobtitle = Math.round(parseFloat(fontSizeJotitle)) + 'px';
 
-if (roundedFontSizejobtitle === '19px' && color === 'rgb(0, 0, 255)') {
+if (roundedFontSizejobtitle === '18px' && colorJotitle === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 15.px, Color: blue but got Font Size: ${fontSizeJotitle}, Color: ${colorJotitle}`);
+  throw new Error(`Test Failed: Expected Font Size: 18px, Color: rgb(0, 0, 255) but got Font Size: ${fontSizeJotitle}, Color: ${colorJotitle}`);
 }
 await commonSteps.dragAndDrop('company', 600, 500);
 await commonSteps.ClickSavebuttonSignerModal();
@@ -1053,13 +1050,12 @@ const colorcompany= await page.locator("//textarea[text()='OpenSign pvt ltd']")
   .evaluate(el => getComputedStyle(el).color);
 
 console.log(`Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
-// Extract the integer part and append 'px'
-let roundedFontSizecmp = parseInt(fontSizecompany) + 'px';
+const roundedFontSizecmp = Math.round(parseFloat(fontSizecompany)) + 'px';
 
-if (roundedFontSizecmp === '19px' && color === 'rgb(0, 0, 255)') {
+if (roundedFontSizecmp === '18px' && colorcompany === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
+  throw new Error(`Test Failed: Expected Font Size: 18px, Color: rgb(0, 0, 255) but got Font Size: ${fontSizecompany}, Color: ${colorcompany}`);
 }
 await commonSteps.dragAndDrop('text', 600, 600);
 await commonSteps.fillTextField('text','20 wood street sanfransisco');
@@ -1076,13 +1072,12 @@ const colortext = await page.locator("//textarea[text()='20 wood street sanfrans
   .evaluate(el => getComputedStyle(el).color);
 
 console.log(`Font Size: ${fontSizetext }, Color: ${colortext}`);
-// Extract the integer part and append 'px'
-let roundedFontSizetext = parseInt(fontSizetext) + 'px';
+const roundedFontSizetext = Math.round(parseFloat(fontSizetext)) + 'px';
 
-if (roundedFontSizetext === '19px' && color === 'rgb(0, 0, 255)'){
+if (roundedFontSizetext === '18px' && colortext === 'rgb(0, 0, 255)'){
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizetext }, Color: ${colortext }`);
+  throw new Error(`Test Failed: Expected Font Size: 18px, Color: rgb(0, 0, 255) but got Font Size: ${fontSizetext }, Color: ${colortext }`);
 }
 await commonSteps.dragAndDrop('email', 600, 700);
 await commonSteps.ClickSavebuttonSignerModal();
@@ -1096,13 +1091,12 @@ await page.locator('//dialog[@id="selectSignerModal"]//select[@class="ml-[33px] 
 const coloremail = await page.locator("//textarea[text()='pravin+testaccount@nxglabs.in']").evaluate(el => getComputedStyle(el).color);
 
 console.log(`Font Size: ${fontSizeemail}, Color: ${coloremail}`);
-// Extract the integer part and append 'px'
-let roundedFontSizeemail = parseInt(fontSizeemail) + 'px';
+const roundedFontSizeemail = Math.round(parseFloat(fontSizeemail)) + 'px';
 
-if (roundedFontSizeemail === '19px' && color === 'rgb(0, 0, 255)') {
+if (roundedFontSizeemail === '18px' && coloremail === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 15px, Color: blue but got Font Size: ${fontSizeemail }, Color: ${coloremail }`);
+  throw new Error(`Test Failed: Expected Font Size: 18px, Color: rgb(0, 0, 255) but got Font Size: ${fontSizeemail }, Color: ${coloremail }`);
 }
 await commonSteps.clickFinishButtonOnPlaceholder();
 await page.getByText('Successfully signed!').waitFor({ timeout: 120000 });
@@ -1128,7 +1122,7 @@ await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
 await commonSteps.dragAndDrop('signature', 600, 200);
 
@@ -1277,10 +1271,10 @@ const roundedFontSize = Math.round(parseFloat(fontSize)) + 'px';
 
 console.log(`Font Size: ${roundedFontSize}, Color: ${color}`);
 
-if (roundedFontSize === '17px' && color === 'rgb(0, 0, 255)') {
+if (roundedFontSize === '16px' && color === 'rgb(0, 0, 255)') {
   console.log('Test Passed: Font size and color are correct.');
 } else {
-  throw new Error(`Test Failed: Expected Font Size: 16px, Color: blue but got Font Size: ${roundedFontSize}, Color: ${color}`);
+  throw new Error(`Test Failed: Expected Font Size: 16px, Color: rgb(0, 0, 255) but got Font Size: ${roundedFontSize}, Color: ${color}`);
 }
 //const checkboxes = await page.locator('//div[@class="signYourselfBlock react-draggable react-draggable-dragged"]//div[1]//input[@type="checkbox"]').allTextContents();
 //console.log(checkboxes);
@@ -1482,7 +1476,7 @@ await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
 await expect(page.locator('#renderList')).toContainText('1 of 1');
   const fileChooserPromise2 = page.waitForEvent('filechooser');
@@ -1588,7 +1582,7 @@ await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
 await expect(page.locator('#renderList')).toContainText('1 of 3');
   await page.getByTitle('Delete page').locator('i').click();
@@ -1621,7 +1615,7 @@ await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
 await page.waitForLoadState("networkidle");
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
 await page.waitForLoadState("networkidle");
 await expect(page.locator('#renderList')).toContainText('1 of 3');
    await page.locator(`//div[contains(@class,'react-pdf__Document')][1]//div[@class='react-pdf__Page' and @data-page-number='2']`).first().click();

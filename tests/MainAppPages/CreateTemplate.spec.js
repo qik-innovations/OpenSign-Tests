@@ -29,7 +29,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
     // Expects page to have a heading with the name of dashboard.
     const title = await page.title()
        expect(title).toBe('Dashboard - OpenSign™');
-         await page.getByRole('button', { name: 'Close Tour' }).click();
+         await page.locator('//button[@aria-label="Close Tour"]').click();
  await page.getByRole('button', { name: ' Templates' }).click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
@@ -90,7 +90,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
     // Expects page to have a heading with the name of dashboard.
     const title = await page.title()
        expect(title).toBe('subscription - OpenSign™');
-      await page.getByRole('button', { name: 'Close Tour' }).click();
+      await page.locator('//button[@aria-label="Close Tour"]').click();
   await page.getByRole('button', { name: ' Templates' }).click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
@@ -109,7 +109,7 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
    await expect(page.locator('//div[@class="reactour__popover"]')).toContainText('Click these buttons to add, delete, rearrange, rotate and zoom pages.');
   await page.getByRole('button', { name: 'Go to next step' }).click();
    await expect(page.locator('//div[@class="reactour__popover"]')).toContainText('Clicking \'Next\' will store the current template. After saving, you\'ll be prompted to create a new document from this template if you wish.');
-   await page.getByRole('button', { name: 'Close Tour' }).click();
+   await page.locator('//button[@aria-label="Close Tour"]').click();
    await commonSteps.LoadPlaceholder(page);
   await page.getByRole('button', { name: '+ Add role' }).click();
   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
@@ -148,7 +148,7 @@ await page.getByRole('button', { name: 'Sign now' }).click();
     await commonSteps.validateAndAcceptTerms();
     await page.waitForLoadState("networkidle");
     await page.getByLabel('Don\'t show this again').check();
-      await page.getByRole('button', { name: 'Close Tour' }).click();
+      await page.locator('//button[@aria-label="Close Tour"]').click();
     await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
     await page.locator('//div[contains(text(),"signature")]').click();
    await commonSteps.drawSignature();
@@ -210,7 +210,7 @@ test('Verify that a new free user is unable to send the document through bulk se
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-          await page.getByRole('button', { name: 'Close Tour' }).click();
+          await page.locator('//button[@aria-label="Close Tour"]').click();
   await page.getByRole('button', { name: ' Templates' }).click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
@@ -221,7 +221,7 @@ test('Verify that a new free user is unable to send the document through bulk se
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
-      await page.getByRole('button', { name: 'Close Tour' }).click();
+      await page.locator('//button[@aria-label="Close Tour"]').click();
   await page.getByRole('button', { name: '+ Add role' }).click();
   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
@@ -262,7 +262,7 @@ async function expectOTPEmail(email, digits) {
   return otp;
 }
  await page.getByRole('menuitem', { name: 'Manage templates' }).click();
-  await page.getByRole('button', { name: 'Close Tour' }).click();
+  await page.locator('//button[@aria-label="Close Tour"]').click();
   await page.getByRole('button', { name: 'Bulk send' }).click();
   await page.getByRole('textbox', { name: 'Enter Email...' }).first().fill('pravin+677@nxglabs.in');
 await page.getByRole('textbox', { name: 'Enter Email...' }).nth(1).fill('pravin+689@nxglabs.in');
@@ -319,7 +319,7 @@ await page.getByRole('button', { name: 'Next' }).click();
  await page.locator('#selectSignerModal').getByRole('button', { name: 'Close', exact: true }).click();
  await expect(page.locator('#selectSignerModal')).toBeHidden();
  await page.getByRole('menuitem', { name: 'Manage templates' }).click();
- const closeTour = page.getByRole('button', { name: 'Close Tour' });
+ const closeTour = page.locator('//button[@aria-label="Close Tour"]');
  if (await closeTour.isVisible().catch(() => false)) await closeTour.click();
   await expect(page.locator('tbody')).toContainText('Sample-joining-letter');
   await expect(page.locator('tbody')).toContainText('Download');
@@ -755,7 +755,7 @@ await page.getByRole('button', { name: 'Add', exact: true }).click();
   await page.waitForSelector('//div[@class="react-pdf__Document"]');
 
   await commonSteps.validateAndAcceptTerms();
-  const closeTour = page.getByRole('button', { name: 'Close Tour' });
+  const closeTour = page.locator('//button[@aria-label="Close Tour"]');
   if (await closeTour.isVisible().catch(() => false)) await closeTour.click();
 
   await page.locator('//div[text()="signature-1"]').first().click();

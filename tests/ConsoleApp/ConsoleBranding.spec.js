@@ -16,7 +16,7 @@ test.describe('Console app - Branding Access Validation', () => {
 
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-    const closeTourButton = page.getByRole('button', { name: 'Close Tour' });
+    const closeTourButton = page.locator('//button[@aria-label="Close Tour"]');
     await closeTourButton.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
     if (await closeTourButton.isVisible()) {
       await closeTourButton.click({ force: true });

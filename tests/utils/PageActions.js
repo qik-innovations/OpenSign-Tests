@@ -163,7 +163,7 @@ class PageActions {
     }
 
     async clickCloseButtonInSignerModal() {
-        await this.page.getByRole('button', { name: '✕' }).click();
+        await this.page.locator('#selectSignerModal').getByRole('button', { name: 'Close' }).click();
     }
 
     async clickFinishButtonInSignerModal() {
@@ -175,7 +175,7 @@ class PageActions {
     }
 
     async dragAndDrop(label, x, y) {
-        const locator = this.page.locator(`//div[@data-tut="addWidgets"]//span[normalize-space()="${label}"]`);
+        const locator = this.page.locator(`//div[@data-tut="addWidgets"]//button[@aria-label="${label}"]`);
         await locator.hover();
         await this.page.mouse.down();
         await this.page.mouse.move(x, y);
