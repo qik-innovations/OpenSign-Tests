@@ -330,7 +330,7 @@ async function completePaidCheckout(page, email, plan) {
   await fillBillingAddress(page);
   await payByStripeTestCard(page);
   await closeModalIfVisible(page);
-  await page.getByRole('button', { name: 'Close Tour' }).click();
+  await page.locator('//button[@aria-label="Close Tour"]').click();
   await expect(page.locator(`//div[@id="profile-menu"]//parent::div[text()="${plan.badgeText}"]`)).toBeVisible({
     timeout: 120000,
   });
@@ -346,7 +346,7 @@ async function completePaidCheckoutMonthly(page, email, plan) {
   await fillBillingAddress(page);
   await payByStripeTestCardMonthly(page);
   await closeModalIfVisible(page);
-  await page.getByRole('button', { name: 'Close Tour' }).click();
+  await page.locator('//button[@aria-label="Close Tour"]').click();
 }
 /**
  * @param {import('@playwright/test').Page} page
@@ -655,7 +655,7 @@ test.describe('SignupPage', () => {
     await registerNewUser(page, data);
     await selectFreePlan(page);
     await expect(page).toHaveTitle('Dashboard - OpenSign™');
- await page.getByRole('button', { name: 'Close Tour' }).click();
+ await page.locator('//button[@aria-label="Close Tour"]').click();
     await openProfile(page);
     await expectProfileDetails(page, data);
     const tooShortUsername = 'Testing';
@@ -737,7 +737,7 @@ await page.locator(PROFILE_MENU_BUTTON).click();
     await registerNewUser(page, data);
     await completePaidCheckout(page, data.email, planDefinitions.professionalYearly);
     await expectSubscriptionInvoiceEmail(data.email);
- //await page.getByRole('button', { name: 'Close Tour' }).click();
+ //await page.locator('//button[@aria-label="Close Tour"]').click();
     await openProfile(page);
     await expectProfileDetails(page, data, { shouldShowUpgrade: true });
     const updated = await editProfile(page);

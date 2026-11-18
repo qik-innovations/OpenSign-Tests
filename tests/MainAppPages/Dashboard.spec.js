@@ -538,8 +538,8 @@ await page.getByRole('button', { name: 'Next' }).click();
   await page.locator('//dialog[@id="selectSignerModal"]//button[text()="Bulk send"]').click();
   await page.locator('//dialog[@id="selectSignerModal"]//input[@type="email" and @placeholder="Enter Email..."]').fill("andyamaya@nxglabs.in");
   await page.locator('//dialog[@id="selectSignerModal"]//span[text()="Send"]').click();
-await page.getByRole('button', { name: '✕' }).click();
-  await page.getByRole('button', { name: '✕' }).click();
+await page.getByRole('button', { name: 'Close' }).click();
+ await page.getByRole('button', { name: 'Close' }).click();
   await page.getByRole('menuitem', { name: 'Dashboard' }).click();
   await page.waitForTimeout(2000);
 // Wait up to 90 seconds for the text to appear

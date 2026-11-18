@@ -141,7 +141,7 @@ await page1.getByRole('heading', { name: 'Welcome back!' }).waitFor({ timeout: 1
 await page1.getByRole('textbox', { name: 'Email' }).fill(email);
 await page1.getByRole('textbox', { name: 'Email' }).press('Tab');
 await page1.getByRole('textbox', { name: 'Password' }).fill(password.trim());
-await page1.getByRole('button', { name: 'Login' }).click();
+await page1.locator("//button[normalize-space(.)='Login' or normalize-space(.)='Log in']").click();
   // Wait until dashboard loads
 await expect(page1).toHaveURL(/dashboard/, { timeout: 120000 });
 
@@ -241,7 +241,7 @@ await page1.getByRole('heading', { name: 'Welcome back!' }).waitFor({ timeout: 1
 await page1.getByRole('textbox', { name: 'Email' }).fill(email);
 await page1.getByRole('textbox', { name: 'Email' }).press('Tab');
 await page1.getByRole('textbox', { name: 'Password' }).fill(password.trim());
-await page1.getByRole('button', { name: 'Login' }).click();
+await page1.locator("//button[normalize-space(.)='Login' or normalize-space(.)='Log in']").click();
 await expect(page1.getByRole('region')).toContainText('You don\'t have access, please contact the admin.');
   });
 

@@ -26,9 +26,9 @@ test('Verify that owner can create the document and sign it from the in-progress
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
   await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-  await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
+  await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await expect(page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]')).toBeVisible();
+await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
@@ -42,7 +42,7 @@ try {
       } else {
           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
   
-          await page.locator('//span[normalize-space()="signature"]').hover();
+          await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').hover();
           await page.mouse.down();
           await page.mouse.move(600, 300);
           await page.mouse.up();
@@ -89,7 +89,7 @@ await commonSteps.clickDoneButtonInSignerModal();
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
   await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Download' })).toBeVisible();
-  await page.getByRole('button', { name: '✕' }).click();*/
+  await page.getByRole('button', { name: 'Close' }).click();*/
 });
 
 test('Verify the column names and the document details on the inprogress report.', async ({ page }) => {
@@ -115,9 +115,9 @@ await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
+await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await expect(page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]')).toBeVisible();
+await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
@@ -132,7 +132,7 @@ try {
       } else {
           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
   
-          await page.locator('//span[normalize-space()="signature"]').hover();
+          await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').hover();
           await page.mouse.down();
           await page.mouse.move(800, 300);
           await page.mouse.up();
@@ -282,9 +282,9 @@ await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
+await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await expect(page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]')).toBeVisible();
+await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
@@ -298,7 +298,7 @@ const rowLocator = page.locator('//div[contains(@class,"signYourselfBlock")]//di
       } else {
           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
   
-          await page.locator('//span[normalize-space()="signature"]').hover();
+          await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').hover();
           await page.mouse.down();
           await page.mouse.move(800, 300);
           await page.mouse.up();
@@ -366,9 +366,9 @@ await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
+await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await expect(page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]')).toBeVisible();
+await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
@@ -382,7 +382,7 @@ try {
       } else {
           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
   
-          await page.locator('//span[normalize-space()="signature"]').hover();
+          await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').hover();
           await page.mouse.down();
           await page.mouse.move(800, 300);
           await page.mouse.up();
@@ -440,9 +440,9 @@ await page.locator('input[name="Note"]').fill('Note Offer Letter for QA1144');
 await page.getByRole('button', { name: 'Next' }).click();
 await page.waitForLoadState("networkidle");
 await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-await page.locator('//span[normalize-space()="signature"]').waitFor({ state: 'visible', timeout: 90000 });
-await expect(page.locator('//span[normalize-space()=\'signature\']')).toBeVisible();
-await page.locator('//span[normalize-space()=\'signature\']').hover();
+await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').waitFor({ state: 'visible', timeout: 90000 });
+await expect(page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]')).toBeVisible();
+await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').hover();
 await page.mouse.down();
 await page.mouse.move(600, 300)
 await page.mouse.up();
@@ -457,7 +457,7 @@ const rowLocator = page.locator('//div[contains(@class,"signYourselfBlock")]//di
       } else {
           console.log(`Attempt ${i + 1}: signature widget not visible on the document, performing actions...`);
   
-          await page.locator('//span[normalize-space()="signature"]').hover();
+          await page.locator('//div[@data-tut="addWidgets"]//button[@aria-label="signature"]').hover();
           await page.mouse.down();
           await page.mouse.move(800, 300);
           await page.mouse.up();
