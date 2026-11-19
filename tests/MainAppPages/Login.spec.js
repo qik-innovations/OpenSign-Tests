@@ -398,20 +398,28 @@ test.describe('Login Page Tests', () => {
       
       const emailField = page.locator('#email');
       const passwordField = page.locator('#password');
-      const loginButton = page.getByRole('button', { name: 'Login' });
-      
-      // Try to focus on elements with keyboard
+      const passwordVisibilityButton = page.getByRole('button', { name: 'Show or hide password' });
+      const forgotPasswordLink = page.getByRole('link', { name: 'Forgot password?' });
+      const loginButton = page.locator("//button[normalize-space(.)='Login' or normalize-space(.)='Log in']");
+
       await emailField.focus();
-      let focused = await emailField.evaluate(el => document.activeElement === el).catch(() => false);
-      expect(focused).toBe(true);
-      
-      await passwordField.focus();
-      focused = await passwordField.evaluate(el => document.activeElement === el).catch(() => false);
-      expect(focused).toBe(true);
-      
-      await loginButton.focus();
-      focused = await loginButton.evaluate(el => document.activeElement === el).catch(() => false);
-      expect(focused).toBe(true);
+      await expect(emailField).toBeFocused();
+
+      await emailField.press('Tab');
+      await expect(passwordField).toBeFocused();
+      await passwordField.press('Tab');
+      await expect(passwordVisibilityButton).toBeFocused();
+
+      await expect(passwordField).toHaveAttribute('type', 'password');
+      await passwordVisibilityButton.press('Enter');
+      await expect(passwordField).toHaveAttribute('type', 'text');
+      await passwordVisibilityButton.press('Enter');
+      await expect(passwordField).toHaveAttribute('type', 'password');
+
+      await passwordVisibilityButton.press('Tab');
+      await expect(forgotPasswordLink).toBeFocused();
+      await forgotPasswordLink.press('Tab');
+      await expect(loginButton).toBeFocused();
     });
 
     test('Verify that form does not auto-submit when clicking in field', async ({ page }) => {

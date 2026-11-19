@@ -114,7 +114,6 @@ await expect(page1.locator('#renderList')).toContainText('OrgAdmins');
 
     // Copy password
     password = await page1.locator("//div[@class='break-all']").innerText();
-    console.log('Generated password:', password?.trim());
     await page1.getByRole('button', { name: 'Submit' }).click();
   });
 
@@ -123,19 +122,16 @@ await expect(page1.locator('#renderList')).toContainText('OrgAdmins');
     for (const header of ['Sr.No', 'Name', 'Email', 'Organization']) {
       await expect(page1.locator('thead')).toContainText(header);
     }
-// Locate the row for the specific user
-// Locate the first row in the table
-const row = page1.getByRole('row').nth(1); // nth(0) is usually the header row, so nth(1) = first data row
+const row = page1.locator('tbody tr').filter({ hasText: email });
+await expect(row).toHaveCount(1);
 
-// Assert that row contains the expected values
 await expect(row).toContainText(userName);
 await expect(row).toContainText(email);
 await expect(row).toContainText('OpenSign pvt ltd');
 
-// Assert that the checkbox inside the row is visible
 const checkbox = row.getByRole('checkbox');
 await expect(checkbox).toBeVisible();
- await page1.getByRole('button', { name: '' }).click();
+ await page1.getByRole('button', { name: 'Open profile menu' }).nth(1).click();
   await page1.getByText('Log Out').click();
 await page1.getByRole('heading', { name: 'Welcome back!' }).waitFor({ timeout: 120000 });
 await page1.getByRole('textbox', { name: 'Email' }).fill(email);

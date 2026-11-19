@@ -64,7 +64,7 @@ export class CommonSteps {
     await this.page.locator('#kc-login').click();*/
     await this.page.locator('#email').fill(loginCredentials.email);
     await this.page.locator('#password').fill(loginCredentials.password);
-  await this.page.locator("//button[normalize-space(.)='Login' or normalize-space(.)='Log in']").click().catch(() => {});
+  await this.page.locator("//button[normalize-space(.)='Login' or normalize-space(.)='Log in']").click();
   }
 //This methof is specifically for the user who will test the Profession plan features
   async ProfessionPlanUserlogin() {
@@ -75,7 +75,7 @@ export class CommonSteps {
     */
    await this.page.locator('#email').fill(loginCredentials.ProplanUsername);
     await this.page.locator('#password').fill(loginCredentials.ProPlanpassword);
-  await this.page.locator("//button[normalize-space(.)='Login' or normalize-space(.)='Log in']").click().catch(() => {});
+  await this.page.locator("//button[normalize-space(.)='Login' or normalize-space(.)='Log in']").click();
   }
 async LoadPlaceholder(page)
 {
@@ -92,14 +92,14 @@ async LoadPlaceholder(page)
       console.log(`FreeplanUsername exists: ${loginCredentials.FreeplanUsername}`);
       await this.page.locator('#email').fill(loginCredentials.FreeplanUsername);
       await this.page.locator('#password').fill(loginCredentials.FreePlanpassword);
-await this.page.locator("//button[normalize-space(.)='Login' or normalize-space(.)='Log in']").click().catch(() => {});
+await this.page.locator("//button[normalize-space(.)='Login' or normalize-space(.)='Log in']").click();
     }
   }
   //This login method is specifically for the user who will test custom storage functionality 
   async loginForCustomStorgeUser() {
     await this.page.locator('#email').fill(loginCredentials.CustomStorageUser_Username);
     await this.page.locator('#password').fill(loginCredentials.CustomStorageUser_Password);
-  await this.page.locator("//button[normalize-space(.)='Login' or normalize-space(.)='Log in']").click().catch(() => {});
+  await this.page.locator("//button[normalize-space(.)='Login' or normalize-space(.)='Log in']").click();
   }
   async verifyPageTitle(expectedTitle) {
     const title = await this.page.title();
@@ -136,7 +136,7 @@ await this.page.locator("//button[normalize-space(.)='Login' or normalize-space(
       await closeTourButton.click({ force: true });
       await expect(page.locator('.reactour__mask')).toBeHidden({ timeout: 10000 });
     }
-    await expect(page.locator('//div[@id="profile-menu"]//parent::button[text()="Upgrade now"]')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Upgrade now', exact: true }).first()).toBeVisible();
     const title = await page.title();
     expect(title).toBe('Dashboard - OpenSign™');
     console.log(`✅ Signup successful. User: ${loginCredentials.FreeplanUsername}`);
@@ -228,11 +228,11 @@ async closeTourIfVisible() {
     const page = this.page;
 
     const closeButton = page.locator('//button[@aria-label="Close Tour"]').first();
-    if (await closeButton.isVisible({ timeout: 5000 }).catch(() => false)) {
-      await closeButton.click().catch(() => {});
+  await closeButton.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+  if (await closeButton.isVisible()) {
+    await closeButton.click({ force: true });
+    await expect(page.locator('.reactour__mask')).toBeHidden({ timeout: 10000 });
     }
-
-    await page.waitForTimeout(500).catch(() => {});
   }
 
   async openSettingsMenuItem(menuName) {
@@ -635,7 +635,9 @@ await page.locator('//div[@class="flex justify-center"]//span[ text()="Draw"]').
   }
 
   async clickCloseButtonInSignerModal() {
-    await this.page.getByRole('button', { name: 'Close' }).click();
+    await this.page.locator('#selectSignerModal')
+      .getByRole('button', { name: 'Close', exact: true })
+      .click();
     console.log('Close button in signer modal clicked.');
   }
  async clickDoneButtonInSignerModal() {
@@ -718,8 +720,9 @@ async ClickApplybuttonSignerModal() {
   await page.waitForSelector('//div[@class="react-pdf__Document"]', { timeout: 90000 });
 
   await page.waitForLoadState("networkidle");
-  await page.locator(`//span[normalize-space()="${fieldName}"]`)
-            .waitFor({ state: 'visible', timeout: 90000 });
+  await page.getByRole('list', { name: 'Add widgets' })
+    .getByRole('button', { name: fieldName, exact: true })
+    .waitFor({ state: 'visible', timeout: 90000 });
 
   await page.waitForLoadState("networkidle");
 

@@ -54,7 +54,7 @@ test('Verify admin user can add a team user if user has a Teams plan', async ({ 
   await page.waitForSelector('input[name="email"]');
   await page.locator('input[name="email"]').fill(email);
   await page.locator('input[name="password"]').fill(randomPass);
-  await page.getByRole('button', { name: 'Login' }).click();
+  await page.locator("//button[normalize-space(.)='Login' or normalize-space(.)='Log in']").click();
 
   // Step 9: Verify successful login
   await page.locator('//button[@aria-label="Close Tour"]').click({ force: true }).catch(() => {});
