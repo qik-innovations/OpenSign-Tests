@@ -3,7 +3,7 @@
 const { defineConfig, devices } = require('@playwright/test');
 
 module.exports = defineConfig({
-  timeout: 120000,
+  timeout: 90000,
   testDir: './tests',
 
   globalSetup: './tests/TestData/GlobalVar/global-setup.js',
@@ -20,8 +20,8 @@ module.exports = defineConfig({
   ],
 
   use: {
-    actionTimeout: 120000,
-    navigationTimeout: 120000,
+    actionTimeout: 90000,
+    navigationTimeout: 90000,
     trace: 'retain-on-failure',
   },
 

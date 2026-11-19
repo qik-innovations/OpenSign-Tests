@@ -67,7 +67,7 @@ test('Verify that user cannot add a new contact with an existing email address',
   const commonSteps = new CommonSteps(page);
 
   const contactName = 'Pravin Ssss';
-  const contactEmail = 'pravin+8288@nxglabs.in';
+  const contactEmail = `pravin+duplicate-${Date.now()}@nxglabs.in`;
 
   await commonSteps.navigateToBaseUrl();
   await commonSteps.login();
@@ -79,86 +79,49 @@ test('Verify that user cannot add a new contact with an existing email address',
     "//div[contains(@class,'cursor-pointer') and .//i[contains(@class,'fa-square-plus')]]"
   );
 
-  const closeModalButton = page.locator(
-    "//dialog[@id='selectSignerModal']//button[text()='✕']"
-  );
+  const contactModal = page.locator('#selectSignerModal');
+  const contactRows = page.locator('tbody tr').filter({ hasText: contactEmail });
 
   const deleteContactIfExists = async () => {
-    const maxPages = 5;
+    if (await contactModal.isVisible()) {
+      await contactModal.getByRole('button', { name: 'Close' }).click();
+    }
 
-    for (let i = 0; i < maxPages; i++) {
-      const row = page.getByRole('row').filter({
-        hasText: contactEmail,
-      });
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const rowCount = await contactRows.count();
+      if (rowCount === 0) return;
 
-      if (await row.count()) {
-        await row.first().getByRole('button').nth(1).click();
-        await page.getByRole('button', { name: 'Yes' }).click();
-        await page.waitForLoadState('networkidle');
-        return;
-      }
-
-      const nextButton = page.getByRole('button', { name: 'Next' });
-
-      if (
-        (await nextButton.isVisible().catch(() => false)) &&
-        !(await nextButton.isDisabled())
-      ) {
-        await nextButton.click();
-        await page.waitForLoadState('networkidle');
-      } else {
-        break;
-      }
+      await contactRows.first().getByRole('button').nth(1).click();
+      await page.getByRole('button', { name: 'Yes' }).click();
+      await expect(contactRows).toHaveCount(rowCount - 1);
     }
   };
 
   try {
-    // Cleanup before test
-    await deleteContactIfExists();
-
-    // Create contact
     await addContactButton.click();
-
     await page.getByLabel('Name *').fill(contactName);
     await page.getByLabel('Email *').fill(contactEmail);
-
     await page.getByRole('button', { name: 'Submit' }).click();
-    await page.waitForLoadState('networkidle');
+    await expect(contactRows).toHaveCount(1);
+    await expect(contactRows.first()).toContainText(contactName);
 
-    // Try to create duplicate contact
     await addContactButton.click();
-
     await page.getByLabel('Name *').fill('Andrews Wade');
     await page.getByLabel('Email *').fill(contactEmail);
 
-    // Alert validation is skipped because it is not exposed in Playwright
-    await page.getByRole('button', { name: 'Submit' }).click();
-    await page.waitForLoadState('networkidle');
-
-    // Close modal if it is still open
-    if (await closeModalButton.isVisible().catch(() => false)) {
-      await closeModalButton.click();
-    }
-    await page.waitForLoadState('networkidle');
-    await page.waitForLoadState('networkidle');
-
-    const duplicateRows = page.getByRole('row').filter({
-      hasText: contactEmail,
+    const duplicateDialogPromise = page.waitForEvent('dialog', { timeout: 15000 }).then(async dialog => {
+      const result = { type: dialog.type(), message: dialog.message() };
+      await dialog.accept();
+      return result;
     });
 
-    const rowCount = await duplicateRows.count();
-
-    console.log(`Duplicate contact count: ${rowCount}`);
-
-    if (rowCount === 1) {
-      console.log('Duplicate contact was not created.');
-    } else if (rowCount === 0) {
-      console.log('Contact is not visible in the current table. Skipping duplicate validation.');
-    } else {
-      console.log(`Found ${rowCount} contacts with the same email.`);
-    }
+    await page.getByRole('button', { name: 'Submit' }).click();
+    const duplicateDialog = await duplicateDialogPromise;
+    expect(duplicateDialog.type).toBe('alert');
+    expect(duplicateDialog.message).toMatch(/already|exist|duplicate/i);
+    await expect(contactRows).toHaveCount(1);
+    await expect(contactRows.first()).toContainText(contactName);
   } finally {
-    // Cleanup
     await deleteContactIfExists();
   }
 });
@@ -183,39 +146,39 @@ test('Verify that user can import contacts from an Excel file and delete them ac
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Contactbookready.xlsx'));
 
   // Perform Import
+  let importDialogHandled;
+  page.once('dialog', dialog => {
+    importDialogHandled = dialog.accept();
+  });
   await page.getByRole('button', { name: 'Import' }).click();
-await page.waitForTimeout(5000);
+  if (importDialogHandled) await importDialogHandled;
+  await page.waitForTimeout(5000);
   // Contacts to verify and delete
   const contacts = [
     { name: 'Tony Stark', email: 'tonys@nxglabs.in' },
     { name: 'Steve Head', email: 'stevehead@nxglabs.in' }
   ];
+  const table = page.locator('tbody');
+  const deleteConfirmation = page.locator('#selectSignerModal');
 
   for (const contact of contacts) {
     let contactFound = false;
-    // Loop through pages until contact is found
     while (!contactFound) {
-      const contactCell = page.getByRole('cell', { name: contact.name });
-await page.waitForTimeout(2000);
-      if (await contactCell.isVisible().catch(() => false)) {
-        // Step: Verify contact name is visible
-        await expect(contactCell).toBeVisible({ timeout: 5000 });
-        // Step: Verify contact email is visible
-        await expect(
-          page.getByRole('cell', { name: contact.email })).toBeVisible({ timeout: 5000 });
-
-        // Step: Delete the contact
-        const row = await page.getByRole('row', { name: new RegExp(`${contact.name}.*${contact.email}`)
-        });
+      const row = page.getByRole('row').filter({ hasText: contact.email });
+      if (await row.isVisible().catch(() => false)) {
+        await expect(row).toContainText(contact.name);
+        await expect(row).toContainText(contact.email);
         await row.getByRole('button').nth(1).click();
-        await page.getByRole('button', { name: 'Yes' }).click();
+        await expect(deleteConfirmation).toBeVisible();
+        await deleteConfirmation.getByRole('button', { name: 'Yes', exact: true }).click();
+        await expect(row).toHaveCount(0);
         contactFound = true;
       } else {
-        // Try to go to the next page
         const nextButton = page.locator('//button[@class ="op-join-item op-btn op-btn-sm" and text()="Next"]');
         if (await nextButton.isVisible() && !(await nextButton.isDisabled())) {
+          const currentPageRows = await table.innerText();
           await nextButton.click();
-          await page.waitForLoadState('networkidle');
+          await expect(table).not.toHaveText(currentPageRows);
         } else {
           throw new Error(`Contact "${contact.name}" not found in the contact book.`);
         }

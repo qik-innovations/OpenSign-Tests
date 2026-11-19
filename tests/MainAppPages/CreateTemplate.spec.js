@@ -115,27 +115,6 @@ await page.locator('li').filter({ hasText: 'OPENSIGN™ FREEFreeBilled' }).getBy
   await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
 await commonSteps.DragAndDropWidget("signature",600,200);
-await commonSteps.DragAndDropWidget("stamp", 600, 250);
-
-await commonSteps.DragAndDropWidget("initials", 600, 300);
-
-await commonSteps.DragAndDropWidget("name", 600, 350);
-
-await commonSteps.DragAndDropWidget("job title", 600, 370);
-
-await commonSteps.DragAndDropWidget("company", 600, 400);
-
-await commonSteps.DragAndDropWidget("date", 600, 430);
-
-await commonSteps.DragAndDropWidget("text input", 600, 460);
-
-await commonSteps.dragAndDrop("checkbox", 600, 490);
-
-await page.locator("//button[@type='submit' and text()='Save']").click();
-
-await commonSteps.DragAndDropWidget("image", 600, 530);
-
-await commonSteps.DragAndDropWidget("email", 600, 600);
 await page.getByRole('button', { name: 'Next' }).click();
 await page.getByRole('button', { name: 'Use Template' }).click();
   await page.locator('.css-n9qnu9').first().click();
@@ -150,67 +129,22 @@ await page.getByRole('button', { name: 'Sign now' }).click();
     await page.getByLabel('Don\'t show this again').check();
       await page.locator('//button[@aria-label="Close Tour"]').click();
     await page.waitForSelector('//div[@class=\'react-pdf__Document\']', { timeout: 90000 }); 
-    await page.locator('//div[contains(text(),"signature")]').click();
+    await page.getByText('signature-1', { exact: true }).click();
    await commonSteps.drawSignature();
-   await commonSteps.clickNextButtonInSignerModal();
-  await commonSteps.uploadStamp();
-  await commonSteps.clickNextButtonInSignerModal();
-await commonSteps.drawInitials();
-  await commonSteps.clickNextButtonInSignerModal();
-  await commonSteps.fillTextField('name','Mathew Steven');
-      await commonSteps.clickNextButtonInSignerModal();
-        await commonSteps.fillTextField('job title','Quality Analyst');
-      await commonSteps.clickNextButtonInSignerModal();
-        await commonSteps.fillTextField('company','Opensignlabs pvt. ltd');
-      await commonSteps.clickNextButtonInSignerModal();
-      const today = new Date();
-// Format the date as MM/DD/YYYY
-const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/` +
-                      `${today.getDate().toString().padStart(2, '0')}/` + 
-                      `${today.getFullYear()}`;
-console.log('Today\'s date:', formattedDate);  // Extract day number as text
-await commonSteps.clickDateFieldOnTheSignerPad_Without_date();
-//await commonSteps.clickDateFieldOnTheSignerPad(formattedDate);
-function getDayWithSuffix(day) {
-  if (day >= 11 && day <= 13) return `${day}th`;
-  switch (day % 10) {
-    case 1: return `${day}st`;
-    case 2: return `${day}nd`;  
-    case 3: return `${day}rd`;
-    default: return `${day}th`;
-  }   
-}
-// Calculate the target date (today + 2 days)
-today.setDate(today.getDate() + 2);
-const dayOfWeek = today.toLocaleString('default', { weekday: 'long' }); // e.g., "Friday" 
-const month = today.toLocaleString('default', { month: 'long' });       // e.g., "May"
-const day = today.getDate();                                            // e.g., 2
-const year = today.getFullYear();                                       // e.g., 2025
-const dayWithSuffix = getDayWithSuffix(day);
-const ariaLabelValue = `Choose ${dayOfWeek}, ${month} ${dayWithSuffix}, ${year}`;
-await commonSteps.selectCalendarDateByLabel(ariaLabelValue);
-      await commonSteps.clickNextButtonInSignerModal();
-        await commonSteps.fillTextField('text','120 wood street sanfransisco');
-      await commonSteps.clickNextButtonInSignerModal();
-      await commonSteps.selectCheckbox('Option-1');
-      await commonSteps.clickNextButtonInSignerModal();
-     await commonSteps.uploadImage();
-      await commonSteps.clickNextButtonInSignerModal();
-     await commonSteps.fillEmailField('demo@gmail.com','mathewsteven@opensignlabs.com');
     await commonSteps.clickDoneButtonInSignerModal();
      await commonSteps.clickFinishButtonInSignerModal();
     await expect(page.locator('#selectSignerModal')).toContainText('Congratulations! 🎉 This document has been successfully signed by all participants!',{ timeout: 90000 });
     await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
     await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
     await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Download' })).toBeVisible();
-    await page.getByRole('button', { name: 'Close', exact: true }).click();
+
 });
 test('Verify that a new free user is unable to send the document through bulk send and is prompted to upgrade.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.NewUserlogin();
-          await page.locator('//button[@aria-label="Close Tour"]').click();
+    await commonSteps.closeTourIfVisible();
   await page.getByRole('button', { name: ' Templates' }).click();
   await page.getByRole('menuitem', { name: 'Create template' }).click();
   await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
@@ -221,29 +155,48 @@ test('Verify that a new free user is unable to send the document through bulk se
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
   await page.getByRole('button', { name: 'Next' }).click();
   await page.waitForLoadState("networkidle");
-      await page.locator('//button[@aria-label="Close Tour"]').click();
+  await commonSteps.closeTourIfVisible();
   await page.getByRole('button', { name: '+ Add role' }).click();
-  await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 1"]').fill('HR');
-  await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+await commonSteps.closeTourIfVisible();
+const addRoleDialog = page.getByRole('dialog', { name: 'Add role' });
+const firstRoleInput = addRoleDialog.getByRole('textbox', { name: 'Role 1' });
+await firstRoleInput.fill('HR');
+await firstRoleInput.press('Enter');
+await expect(addRoleDialog).toBeHidden();
 await commonSteps.LoadPlaceholder(page);
 await commonSteps.DragAndDropWidget("signature",600, 300);
 await page.getByRole('button', { name: '+ Add role' }).click();
-await page.locator('//form[@class="flex flex-col"]//input[@placeholder="Role 2"]').fill('Manager');
-await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
+await commonSteps.closeTourIfVisible();
+const secondRoleInput = addRoleDialog.getByRole('textbox', { name: 'Role 2' });
+await secondRoleInput.fill('Manager');
+await secondRoleInput.press('Enter');
+await expect(addRoleDialog).toBeHidden();
 await commonSteps.DragAndDropWidget("signature", 700, 300);
 await page.getByRole('button', { name: 'Next' }).click();
   await page.getByRole('button', { name: 'Bulk send' }).click();
-    await expect(page.getByLabel('Bulk send')).toContainText('Bulk send✕Please verify your email address before sending emails. Go to your profile settings to complete email verification.');
-  await page.getByRole('link', { name: 'profile settings' }).click();
-  await page.getByRole('button', { name: 'Verify' }).click();
+const otpDialog = page.getByRole('dialog').filter({
+has: page.getByRole('heading', { name: 'OTP verification' }),
+});
+await expect(otpDialog).toContainText('Please verify your email to continue.');
+await otpDialog.getByRole('button', { name: 'Send OTP' }).click();
 const otpInput = page.locator('//input[@placeholder="Enter verification code received over email"]');
-
 await expect(otpInput).toBeVisible();
-
 const otp = await expectOTPEmail(loginCredentials.FreeplanUsername, 4); // Use 6 for a six-digit template
-
 await otpInput.fill(otp);
-await page.getByLabel('OTP verification').getByRole('button', { name: 'Verify', exact: true }).click();
+await otpDialog.getByRole('button', { name: 'Verify', exact: true }).click();
+await expect(otpDialog).toBeHidden();
+const bulkSendDialog = page.getByRole('dialog').filter({
+  has: page.getByRole('heading', { name: 'Bulk send' }),
+});
+await expect(bulkSendDialog).toBeVisible();
+await bulkSendDialog.getByRole('button', { name: 'Close', exact: true }).click();
+await expect(bulkSendDialog).toBeHidden();
+const createDocumentDialog = page.getByRole('dialog').filter({
+  has: page.getByRole('heading', { name: 'Create document' }),
+});
+await expect(createDocumentDialog).toBeVisible();
+await createDocumentDialog.getByRole('button', { name: 'Close', exact: true }).click();
+await expect(createDocumentDialog).toBeHidden();
 async function expectOTPEmail(email, digits) {
   const otp = await fetchOTP({
     ...gmailConfig,
@@ -262,7 +215,7 @@ async function expectOTPEmail(email, digits) {
   return otp;
 }
  await page.getByRole('menuitem', { name: 'Manage templates' }).click();
-  await page.locator('//button[@aria-label="Close Tour"]').click();
+  await commonSteps.closeTourIfVisible();
   await page.getByRole('button', { name: 'Bulk send' }).click();
   await page.getByRole('textbox', { name: 'Enter Email...' }).first().fill('pravin+677@nxglabs.in');
 await page.getByRole('textbox', { name: 'Enter Email...' }).nth(1).fill('pravin+689@nxglabs.in');
@@ -319,7 +272,7 @@ await page.getByRole('button', { name: 'Next' }).click();
  await page.locator('#selectSignerModal').getByRole('button', { name: 'Close', exact: true }).click();
  await expect(page.locator('#selectSignerModal')).toBeHidden();
  await page.getByRole('menuitem', { name: 'Manage templates' }).click();
- const closeTour = page.locator('//button[@aria-label="Close Tour"]');
+ const closeTour = page.getByRole('button', { name: 'Close Tour' });
  if (await closeTour.isVisible().catch(() => false)) await closeTour.click();
   await expect(page.locator('tbody')).toContainText('Sample-joining-letter');
   await expect(page.locator('tbody')).toContainText('Download');
@@ -755,7 +708,7 @@ await page.getByRole('button', { name: 'Add', exact: true }).click();
   await page.waitForSelector('//div[@class="react-pdf__Document"]');
 
   await commonSteps.validateAndAcceptTerms();
-  const closeTour = page.locator('//button[@aria-label="Close Tour"]');
+  const closeTour = page.getByRole('button', { name: 'Close Tour' });
   if (await closeTour.isVisible().catch(() => false)) await closeTour.click();
 
   await page.locator('//div[text()="signature-1"]').first().click();

@@ -7,7 +7,7 @@ class LoginPage {
     // Locators
     this.emailField = '#email';
     this.passwordField = '#password';
-    this.loginButton = 'button:has-text("Login")';
+    this.loginButton = "//button[normalize-space(.)='Login' or normalize-space(.)='Log in']";
     this.createAccountButton = 'button[name="Create account"]';
     this.forgotPasswordLink = 'a:has-text("Forgot password?")';
     this.errorMessageLocator = '.error, [role="alert"], .alert-danger';
@@ -36,7 +36,7 @@ class LoginPage {
 
   // Form submission
   async clickLogin() {
-    await this.page.getByRole('button', { name: 'Login' }).click();
+    await this.page.locator(this.loginButton).click();
   }
 
   async submitLoginForm(email, password) {
@@ -61,7 +61,7 @@ class LoginPage {
 
   // Form state checks
   async isLoginButtonEnabled() {
-    return await this.page.getByRole('button', { name: 'Login' }).isEnabled();
+    return await this.page.locator(this.loginButton).isEnabled();
   }
 
   async isLoginButtonDisabled() {
@@ -105,7 +105,7 @@ class LoginPage {
   }
 
   async isLoginButtonVisible() {
-    return await this.page.getByRole('button', { name: 'Login' }).isVisible();
+    return await this.page.locator(this.loginButton).isVisible();
   }
 
   async isCreateAccountButtonVisible() {
@@ -154,7 +154,7 @@ class LoginPage {
   async verifyLoginPageLoaded() {
     await expect(this.page.locator(this.emailField)).toBeVisible();
     await expect(this.page.locator(this.passwordField)).toBeVisible();
-    await expect(this.page.getByRole('button', { name: 'Login' })).toBeVisible();
+    await expect(this.page.locator(this.loginButton)).toBeVisible();
   }
 
   async verifyAllLoginElementsPresent() {

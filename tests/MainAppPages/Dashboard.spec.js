@@ -61,12 +61,13 @@ await expect(page.locator('//div[text()="Request signatures"]//parent::div[@clas
     await expect(page.locator('#renderList')).toContainText('Need your signature');
     //await expect(page.locator('#renderList')).toContainText('Drafts');
     await page.waitForLoadState("networkidle");
-    await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
-    const countNeedYourSign = await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
-    console.log("Count need your sign " + countNeedYourSign);
+    const needYourSignatureCount = page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]');
+    await expect(needYourSignatureCount).toHaveText(/^\d+$/, { timeout: 180000 });
+    const initialCount = Number(await needYourSignatureCount.textContent());
+    console.log("Count need your sign " + initialCount);
     await page.getByRole('menuitem', { name: 'Request signatures' }).click();
      await page.locator('input[name="Name"]').click();
-        await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
+        await page.locator('input[name="Name"]').fill(await commonSteps.fillDocumentTitleWithTimestamp('Need signature count check'));
         await page.locator('input[name="Name"]').press('Tab');
         const fileChooserPromise = page.waitForEvent('filechooser');
       await page.locator('input[type="file"]').click();
@@ -80,29 +81,17 @@ await expect(page.locator('//div[text()="Request signatures"]//parent::div[@clas
     await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
     await page.getByRole('button', { name: 'Next' }).click();
 await commonSteps.LoadPlaceholder(page);
-     await commonSteps.dragAndDropSignatureWidget('signature', 600, 300);
+        await commonSteps.DragAndDropWidget('signature', 600, 300);
 await page.getByRole('button', { name: 'Next' }).click();
 await page.locator('//span[text()="Send to Email"]').click();
 await page.getByRole('button', { name: 'Send' }).click();
 await page.locator('//button[@class="op-btn op-btn-ghost text-base-content" and text()="No"]').click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 await expect(page.locator('#renderList')).toBeVisible({ timeout: 120000 });
-//await expect(page.locator('#renderList')).toContainText('Drafts');
-await page.waitForLoadState("networkidle");
-await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').waitFor({  state: 'visible', timeout: 180000 });
-const newCountNeedYourSign = await page.locator('//div[@data-tut="tourcard1"]//div[contains(@class, "font-medium")]/div[@class="text-2xl font-light"]').textContent();
-
-// Convert to numbers for comparison
-const IncrementedCount = Number(countNeedYourSign.trim()) + 1;
-console.log("Count need your sign incremnt by 1 " + IncrementedCount);
-const newCount = Number(newCountNeedYourSign);
-console.log("new count " + newCount);
-if (IncrementedCount <= newCount) {
-    console.log("Need Your Signature card count increased by one, which is correct.");
-} else {
-    console.log("Need Your Signature card count did not increase. The test case has failed.");
-    throw new Error("Test case failed: Need Your Signature card count did not match.");
-}
+await expect.poll(async () => Number(await needYourSignatureCount.textContent()), {
+  message: 'Need Your Signature count should increase after sending a document to the owner',
+  timeout: 30000,
+}).toBeGreaterThan(initialCount);
   });
 
   test('Verify that the Out for signature count on the card increases when a new document sent for request signature.', async ({ page }) => {
@@ -246,6 +235,7 @@ test('Verify that pagination is functioning correctly in the dashboard drafts do
   });
 
 test('Verify that owner can create the document and sign it from the dashboard recent signature requests.', async ({ page }) => {
+  test.setTimeout(120000);
   const commonSteps = new CommonSteps(page);
   // Step 1: Navigate to Base URL and log in
   await commonSteps.navigateToBaseUrl();
@@ -296,7 +286,12 @@ await page.mouse.up();
 await commonSteps.clickNextButtonInSignerModal();
     await commonSteps.uploadStamp();
 await commonSteps.clickNextButtonInSignerModal();
-await commonSteps.drawInitials();
+const numberField = page.getByRole('spinbutton', { name: 'Enter number' });
+if (await numberField.isVisible().catch(() => false)) {
+  await numberField.fill('123');
+} else {
+  await commonSteps.drawInitials();
+}
 await commonSteps.clickNextButtonInSignerModal();
 await commonSteps.clickDoneButtonInSignerModal();
 await commonSteps.clickFinishButtonInSignerModal();
@@ -304,7 +299,6 @@ await expect(page.locator('#selectSignerModal')).toContainText('Congratulations!
 await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Print' })).toBeVisible();
 await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Certificate' })).toBeVisible();
 await expect(page.locator('#selectSignerModal').getByRole('button', { name: 'Download' })).toBeVisible();
- await page.getByRole('button', { name: 'Close' }).click();
 });
 test('Verify that pagination is functioning correctly in the dashboard recent signature requests.', async ({ page }) => {
 
@@ -533,7 +527,7 @@ await commonSteps.LoadPlaceholder(page);
   await page.getByRole('button', { name: '+ Add role' }).click();
   await page.getByPlaceholder('Role 1').fill('HR');
   await page.locator('//button[@type="submit" and @class="op-btn op-btn-primary" and text()="Add"]').click();
-    await commonSteps.dragAndDropSignatureWidget('signature',600,200);
+    await commonSteps.DragAndDropWidget('signature',600,200);
 await page.getByRole('button', { name: 'Next' }).click();
   await page.locator('//dialog[@id="selectSignerModal"]//button[text()="Bulk send"]').click();
   await page.locator('//dialog[@id="selectSignerModal"]//input[@type="email" and @placeholder="Enter Email..."]').fill("andyamaya@nxglabs.in");
@@ -580,6 +574,7 @@ await commonSteps.DragAndDropWidget('signature',600,300);
 await page.getByRole('button', { name: 'Next' }).click();
 await page.locator('#selectSignerModal div').filter({ hasText: 'Send to Email' }).nth(4).click();
 await page.getByRole('button', { name: 'Send' }).click();
+await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
 await expect(page.locator('#selectSignerModal')).toContainText('Subsequent signers will get email(s) once you sign the document.');
 await page.getByRole('button', { name: 'No', exact: true }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
@@ -661,38 +656,32 @@ const fileChooser = await fileChooserPromise;
 await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
 await page.locator('div').filter({ hasText: /^Signers\*Select\.\.\.$/ }).locator('svg').click();
 await page.getByRole('option', { name: 'Pravin Testing account<pravin' }).click();
-await page.locator('input[name="Name"]').click();
 await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); // Wait up to 90s
-await page.locator('input[name="Name"]').fill('Offer Letter for QA1144');
-//// Generate random title starting with current date-time
 const documentTitle = await commonSteps.fillDocumentTitleWithTimestamp('Revoke document');
- await page.locator('input[name="Name"]').fill(documentTitle);
+await page.locator('input[name="Name"]').fill(documentTitle);
 await page.locator('input[name="Note"]').fill('Note Offer Letter for QA1144');
 await page.getByRole('button', { name: 'Next' }).click();
-await commonSteps.LoadPlaceholder();
+await commonSteps.LoadPlaceholder(page);
 await commonSteps.DragAndDropWidget('signature',600,300);
 await page.getByRole('button', { name: 'Next' }).click();
  await page.locator('#selectSignerModal div').filter({ hasText: 'Send to Email' }).nth(4).click();
 await page.getByRole('button', { name: 'Send' }).click();
-await expect(page.locator('#selectSignerModal canvas')).toBeVisible();
 await expect(page.locator('#selectSignerModal')).toContainText('Subsequent signers will get email(s) once you sign the document.');
 await expect(page.locator('#selectSignerModal')).toContainText('How was your experience with OpenSign™?😡0-3😐4-6😊7-8😍9-10Submit');
 await page.getByRole('button', { name: 'No', exact: true }).click();
 await page.getByRole('menuitem', { name: 'Dashboard' }).click();
 // Wait up to 90 seconds for the text to appear
 await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
-await page.locator('//div[@data-tut="tourreport2"]//i[@class="fa-light fa-ellipsis-vertical fa-lg"]').first().click();
+const documentRow = page.locator('//div[@data-tut="tourreport2"]//tr').filter({ hasText: documentTitle });
+await expect(documentRow).toBeVisible({ timeout: 90000 });
+await documentRow.locator('i.fa-light.fa-ellipsis-vertical.fa-lg').click();
 await page.locator('//span[contains(text(),"Revoke")]').click();
-await expect(page.getByRole('heading')).toContainText('Revoke document');
-  await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to revoke this document?');
-  await page.getByPlaceholder('Reason (optional)').fill('Invalid document');
-  await page.getByRole('button', { name: 'Yes' }).click();
-  await expect(page.locator('#renderList')).toContainText('Record revoked successfully!');
-  try {
-    await expect(page.locator('tbody')).toContainText(documentTitle);
-} catch (error) {
-    console.log("Document not found in the table, successfully deleted!");
-}
+await expect(page.locator('#selectSignerModal').getByRole('heading', { name: 'Revoke document' })).toBeVisible();
+await expect(page.locator('#selectSignerModal')).toContainText('Are you sure you want to revoke this document?');
+await page.getByPlaceholder('Reason (optional)').fill('Invalid document');
+await page.getByRole('button', { name: 'Yes' }).click();
+await expect(page.locator('#renderList')).toContainText('Record revoked successfully!');
+await expect(documentRow).toHaveCount(0, { timeout: 30000 });
 });
 test('Verify that pagination is functioning correctly in the dashboard Recently sent for signatures.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);

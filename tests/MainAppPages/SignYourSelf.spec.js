@@ -1160,14 +1160,14 @@ await commonSteps.dragAndDrop('name', 600, 300);
     expect(nameElements).toBeGreaterThan(1);
  await commonSteps.dragAndDrop('job title', 600, 350);
  await commonSteps.ClickSavebuttonSignerModal();
-await expect(page.locator("//textarea[text()='Quality analystAA']")).toBeVisible();
+ const jobTitleWidgets = page.locator("//textarea[text()='Quality analystAA']");
+ await expect(jobTitleWidgets.first()).toBeVisible({ timeout: 90000 });
   await page.locator('//i[contains(@class, "fa-copy") and contains(@class, "icon")]').dblclick();
   await page.locator(`//dialog[@id='selectSignerModal']//label[normalize-space()='Next to current widget']//input[@type='radio']`).click();
   await commonSteps.ClickApplybuttonSignerModal();
   console.log('Apply button in signer modal clicked.');
     // Verify that there are now two matching elements
-    const JobTitleElements = await page.locator("//textarea[text()='Quality analystAA']").count();
-    expect(JobTitleElements).toBeGreaterThan(1);
+   await expect(jobTitleWidgets).toHaveCount(2);
 await commonSteps.dragAndDrop('company', 600, 400);
 await commonSteps.ClickSavebuttonSignerModal();
  await expect(page.locator("//textarea[text()='OpenSign pvt ltd']")).toBeVisible();
