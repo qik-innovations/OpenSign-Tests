@@ -511,6 +511,7 @@ await expect(page.getByText('andyamaya@nxglabs.in')).toBeVisible({
 });
 test('Verify that the document created from a template bulksend appears in the Recently Sent for Signatures section on the dashboard.', async ({ page }) => {
   const commonSteps = new CommonSteps(page);
+  const documentTitle = `Offer Letter for QA11 ${Date.now()}`;
     // Step 1: Navigate to Base URL and log in
     await commonSteps.navigateToBaseUrl();
     await commonSteps.login();
@@ -521,7 +522,7 @@ test('Verify that the document created from a template bulksend appears in the R
   const fileChooser = await fileChooserPromise;
   await fileChooser.setFiles(path.join(__dirname, '../TestData/Samplepdfs/Sample-Joining-Letter.pdf'));
   await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled({ timeout: 90000 }); 
-  await page.locator('input[name="Name"]').fill('Offer Letter for QA11');
+  await page.locator('input[name="Name"]').fill(documentTitle);
   await page.getByRole('button', { name: 'Next' }).click();
 await commonSteps.LoadPlaceholder(page);
   await page.getByRole('button', { name: '+ Add role' }).click();
@@ -532,18 +533,19 @@ await page.getByRole('button', { name: 'Next' }).click();
   await page.locator('//dialog[@id="selectSignerModal"]//button[text()="Bulk send"]').click();
   await page.locator('//dialog[@id="selectSignerModal"]//input[@type="email" and @placeholder="Enter Email..."]').fill("andyamaya@nxglabs.in");
   await page.locator('//dialog[@id="selectSignerModal"]//span[text()="Send"]').click();
-await page.getByRole('button', { name: 'Close' }).click();
- await page.getByRole('button', { name: 'Close' }).click();
+ await page.locator('#selectSignerModal').getByRole('button', { name: 'Close' }).click();
+ await page.locator('#selectSignerModal').getByRole('button', { name: 'Close' }).click();
+ await expect(page.locator('#selectSignerModal')).toBeHidden();
   await page.getByRole('menuitem', { name: 'Dashboard' }).click();
-  await page.waitForTimeout(2000);
-// Wait up to 90 seconds for the text to appear
-await page.locator('#renderList').waitFor({ state: 'visible', timeout: 90000 });
-// Now assert the text
-await expect(page.locator('//div[@data-tut="tourreport2"]//div[text()="Recently sent for signatures"]')).toBeVisible({ timeout: 12000 });
-await expect(page.locator('//div[@data-tut="tourreport2"]//div[@class="font-semibold break-words"]').first()).toContainText('Offer Letter for QA11');
-await expect(page.locator('//div[@data-tut="tourreport2"]//td[2]').first()).toContainText('Download');
-await expect(page.locator('//div[@data-tut="tourreport2"]//td[3]').first()).toContainText('Pravin Testing account');  
-await page.locator('//div[@data-tut="tourreport2"]//div[@role="button"and @title="Share"]').first().click();
+ await expect(page.locator('#renderList')).toBeVisible({ timeout: 90000 });
+ const recentlySentSection = page.locator('//div[@data-tut="tourreport2"]');
+ await expect(recentlySentSection.getByText('Recently sent for signatures', { exact: true })).toBeVisible({ timeout: 12000 });
+ const documentRow = recentlySentSection.locator('tr').filter({ hasText: documentTitle });
+ await expect(documentRow).toHaveCount(1);
+ await expect(documentRow.locator('.font-semibold.break-words')).toContainText(documentTitle);
+ await expect(documentRow.locator('td:nth-child(2)')).toContainText('Download');
+ await expect(documentRow.locator('td:nth-child(3)')).toContainText('Pravin Testing account');
+ await documentRow.locator('[role="button"][title="Share"]').click();
 await expect(page.locator('//div[@class="m-[20px]"]//div[1]//span[1]')).toContainText('andyamaya@nxglabs.in');
 
 });
