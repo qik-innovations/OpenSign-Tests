@@ -1,21 +1,39 @@
 {
   "name": "play_wright",
   "version": "1.0.0",
-  "description": "",
+  "description": "OpenSign automation test cases",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.49.0",
+    "@playwright/test": "^1.62.1",
     "@types/node": "^20.12.11",
-    "allure-commandline": "^2.29.0",
+    "allure-commandline": "^2.43.0",
     "allure-playwright": "^2.15.1"
   },
   "dependencies": {
     "axios": "^1.7.0",
+    "clipboardy": "^4.0.0",
+    "dotenv": "^16.6.1",
     "google-auth-library": "^9.10.0",
-    "play_wright": "file:"
-  }
+    "imap-simple": "^5.1.0",
+    "mailosaur": "^10.0.0",
+    "mailparser": "^3.9.3",
+    "pdf-parse": "^2.4.5"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qik-innovations/OpenSign-Tests.git"
+  },
+  "bugs": {
+    "url": "https://github.com/qik-innovations/OpenSign-Tests/issues"
+  },
+  "homepage": "https://github.com/qik-innovations/OpenSign-Tests#readme"
 }

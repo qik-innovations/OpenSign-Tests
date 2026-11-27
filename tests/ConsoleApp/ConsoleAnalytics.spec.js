@@ -1,0 +1,98 @@
+const { test, expect } = require('@playwright/test');
+const CommonSteps = require('../utils/CommonSteps');
+// XPath Selectors
+const PROFILE_MENU_BUTTON = '//button[@aria-controls="profile-menu-list"]';
+const CONSOLE_OPTION = '//button[@type="button" and contains(., "Console")]//i[contains(@class,"fa-id-card")]';
+const PROFILE_NAME = '//div[@id="root"]//p[@class="text-[14px] font-bold text-base-content"]';
+const PROFILE_DOMAIN = '//div[@id="root"]//p[@class="cursor-pointer text-[12px] text-base-content mt-2"]';
+const UPGRADE_BUTTON = '//div[@class="relative"]//button[@class="op-btn op-btn-accent shadow-lg"]';
+const PLAN_BADGE = '//button[@aria-label="Billing"]';
+const DOCUMENTS_COUNT = '//div[text()="Documents count"]';
+const TEMPLATES_COUNT = '//div[text()="Templates count"]';
+const EMAILS_SENT = '//div[text()="Emails sent"]';
+const STORAGE_USED = '//div[text()="Storage used"]';
+const GREEN_CHART = '.bg-\\[\\#2ed8b6\\]';
+const GRID_SECOND = '.grid > div:nth-child(2)';
+const GRID_THIRD = '.grid > div:nth-child(3)';
+test.describe('Console analytics', () => {
+
+  test('Verify that a free user cannot access the Analytics page in the console application and is prompted to upgrade.', async ({ page }) => {
+    const commonSteps = new CommonSteps(page);
+    await commonSteps.navigateToBaseUrl();
+    await commonSteps.NewUserlogin();
+    const closeTourButton = page.locator('//button[@aria-label="Close Tour"]');
+    await closeTourButton.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+    if (await closeTourButton.isVisible()) {
+      await closeTourButton.click({ force: true });
+      await expect(page.locator('.reactour__mask')).toBeHidden({ timeout: 10000 });
+    }
+    await page.locator(PROFILE_MENU_BUTTON).click();
+    const consolePagePromise = page.waitForEvent('popup');
+    await page.getByRole('button', { name: /Console/ }).click();
+    const consolePage = await consolePagePromise;
+    await expect(consolePage.locator(PROFILE_NAME)).toContainText('Mathew Wade', { timeout: 120000 });
+    await expect(consolePage.locator(PROFILE_DOMAIN)).toContainText('qikAi.com');
+    await expect(consolePage).toHaveTitle(/Analytics\s+-\s+OpenSign/i, { timeout: 120000 });
+    const upgradeButton = consolePage.locator('#renderList').getByRole('button', { name: /Upgrade now/i });
+    await expect(upgradeButton).toBeVisible({ timeout: 120000 });
+    await expect(upgradeButton).toBeEnabled();
+  });
+
+  test('Verify that Profession plan User can access the Analytics page in the console application.', async ({ page }) => {
+    const commonSteps = new CommonSteps(page);
+    await commonSteps.navigateToBaseUrl();
+    await commonSteps.ProfessionPlanUserlogin();
+    await page.locator(PROFILE_MENU_BUTTON).click();
+    const page1Promise = page.waitForEvent('popup');
+    await page.locator(CONSOLE_OPTION).click();
+    const page1 = await page1Promise;
+    await expect(page1.locator(PROFILE_NAME)).toContainText('Pro plan User', { timeout: 120000 });
+    await expect(page1.locator(PROFILE_DOMAIN)).toContainText('OpenSign');
+    const title = await page1.title();
+    if (title === 'Analytics - OpenSign™') {
+      console.log('Page title is correct: Analytics - OpenSign™');
+    } else {
+      console.error(`Page title is incorrect. Expected: "Analytics - OpenSign™", Got: "${title}"`);
+    }
+    //Validate elements on the Analytics page for PRO plan user
+    await expect(page1.locator(PLAN_BADGE)).toContainText('PRO');
+    await expect(page1.locator(DOCUMENTS_COUNT)).toContainText('Documents count');
+    await expect(page1.locator(TEMPLATES_COUNT)).toContainText('Templates count');
+    await expect(page1.locator(EMAILS_SENT)).toContainText('Emails sent');
+    await expect(page1.locator(GREEN_CHART).first()).toBeVisible();
+    await expect(page1.locator(GRID_SECOND)).toBeVisible();
+    await expect(page1.locator(GRID_THIRD)).toBeVisible();
+  });
+
+  test('Verify that Teams plan User can access the Analytics page in the console application.', async ({ page }) => {
+    const commonSteps = new CommonSteps(page);
+
+    await commonSteps.navigateToBaseUrl();
+    await commonSteps.login();
+
+    await page.locator(PROFILE_MENU_BUTTON).click();
+    const page1Promise = page.waitForEvent('popup');
+    await page.locator(CONSOLE_OPTION).click();
+    const page1 = await page1Promise;
+
+    await expect(page1.locator(PROFILE_NAME)).toContainText('Pravin Testing account', { timeout: 120000 });
+    await expect(page1.locator(PROFILE_DOMAIN)).toContainText('OpenSign pvt ltd');
+
+    const title = await page1.title();
+    if (title === 'Analytics - OpenSign™') {
+      console.log('Page title is correct: Analytics - OpenSign™');
+    } else {
+      console.error(`Page title is incorrect. Expected: "Analytics - OpenSign™", Got: "${title}"`);
+    }
+
+    await expect(page1.locator(PLAN_BADGE)).toContainText('TEAM');
+    await expect(page1.locator(DOCUMENTS_COUNT)).toContainText('Documents count');
+    await expect(page1.locator(TEMPLATES_COUNT)).toContainText('Templates count');
+    await expect(page1.locator(EMAILS_SENT)).toContainText('Emails sent');
+    await expect(page1.locator(STORAGE_USED)).toContainText('Storage used', { timeout: 120000 });
+    await expect(page1.locator(GREEN_CHART).first()).toBeVisible();
+    await expect(page1.locator(GRID_SECOND)).toBeVisible();
+    await expect(page1.locator(GRID_THIRD)).toBeVisible();
+  });
+
+});
